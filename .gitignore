@@ -1,6 +1,8 @@
 # Compiled class file
 *.class
-.target
+*.target
+.target/classes/**
+
 
 # Log file
 *.log
@@ -28,3 +30,8 @@ replay_pid*
 .vscode
 .idea
 .intellij
+./target
+./target/classes/com/spacca/secondary.fxml
+./target/classes/com/spacca/primary.fxml
+target/*
+
