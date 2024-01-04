@@ -1,6 +1,9 @@
-package com.spacca;
+package com.spacca.controller;
 
 import java.io.IOException;
+
+import com.spacca.App;
+
 import javafx.fxml.FXML;
 
 public class SecondaryController {

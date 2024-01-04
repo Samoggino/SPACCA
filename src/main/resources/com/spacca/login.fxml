@@ -11,7 +11,7 @@
     styleClass="body"
     xmlns="http://javafx.com/javafx/17.0.1"
     xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="com.spacca.LoginController"
+    fx:controller="com.spacca.controller.LoginController"
     alignment="center" hgap="10" vgap="10"
 >
     <children>

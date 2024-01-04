@@ -6,10 +6,10 @@
 <?import javafx.geometry.Insets?>
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.PrimaryController">
+   xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.PrimaryController">
    <children>
       <Label text="Primary View" />
-      <Button fx:id="primaryButton" text="Switch to Secondary View" onAction="#switchToSecondary" />
+      <Button fx:id="primaryButton" text="Mostra le carte" onAction="#provaConCarte" />
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

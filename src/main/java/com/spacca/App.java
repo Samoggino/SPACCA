@@ -1,7 +1,6 @@
 package com.spacca;
 
 import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +16,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("login"), 500, 500);
+        scene = new Scene(loadFXML("primary"), 500, 500);
         try {
 
             /**
@@ -28,23 +27,24 @@ public class App extends Application {
              * Contro gli
              * Avversari?
              */
+            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/img/logo.png"));
+            stage.getIcons().add(icon);
+
+            // titolo della finestra
+            stage.setTitle("SPACCA");
+            // imposta la scena nello stage
+            stage.setScene(scene);
+            // mosta la finestra
+            stage.show();
 
         } catch (Exception e) {
             System.err.println("ERRORE:\t\t " + e.getMessage());
         }
         // aggiunge un'icona alla finestra
-        Image icon = new Image(getClass().getResourceAsStream("/com/spacca/img/logo.png"));
-        stage.getIcons().add(icon);
 
-        // titolo della finestra
-        stage.setTitle("SPACCA");
-        // imposta la scena nello stage
-        stage.setScene(scene);
-        // mosta la finestra
-        stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
+    public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 

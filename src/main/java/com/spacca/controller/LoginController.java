@@ -1,4 +1,4 @@
-package com.spacca;
+package com.spacca.controller;
 
 // import java.io.IOException;
 import java.net.URL;
@@ -54,4 +54,5 @@ public class LoginController implements Initializable {
             System.err.println("Error: " + e.getMessage() + "initialize");
         }
     }
+    
 }

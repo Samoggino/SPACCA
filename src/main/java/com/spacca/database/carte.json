@@ -1,0 +1,162 @@
+[
+    {
+        "seme": "BASTONI",
+        "valore": "Asso"
+    },
+    {
+        "seme": "BASTONI",
+        "valore": "Due"
+    },
+    {
+        "seme": "BASTONI",
+        "valore": "Tre"
+    },
+    {
+        "seme": "BASTONI",
+        "valore": "Quattro"
+    },
+    {
+        "seme": "BASTONI",
+        "valore": "Cinque"
+    },
+    {
+        "seme": "BASTONI",
+        "valore": "Sei"
+    },
+    {
+        "seme": "BASTONI",
+        "valore": "Sette"
+    },
+    {
+        "seme": "BASTONI",
+        "valore": "Fante"
+    },
+    {
+        "seme": "BASTONI",
+        "valore": "Cavallo"
+    },
+    {
+        "seme": "BASTONI",
+        "valore": "Re"
+    },
+    {
+        "seme": "COPPE",
+        "valore": "Asso"
+    },
+    {
+        "seme": "COPPE",
+        "valore": "Due"
+    },
+    {
+        "seme": "COPPE",
+        "valore": "Tre"
+    },
+    {
+        "seme": "COPPE",
+        "valore": "Quattro"
+    },
+    {
+        "seme": "COPPE",
+        "valore": "Cinque"
+    },
+    {
+        "seme": "COPPE",
+        "valore": "Sei"
+    },
+    {
+        "seme": "COPPE",
+        "valore": "Sette"
+    },
+    {
+        "seme": "COPPE",
+        "valore": "Fante"
+    },
+    {
+        "seme": "COPPE",
+        "valore": "Cavallo"
+    },
+    {
+        "seme": "COPPE",
+        "valore": "Re"
+    },
+    {
+        "seme": "DENARI",
+        "valore": "Asso"
+    },
+    {
+        "seme": "DENARI",
+        "valore": "Due"
+    },
+    {
+        "seme": "DENARI",
+        "valore": "Tre"
+    },
+    {
+        "seme": "DENARI",
+        "valore": "Quattro"
+    },
+    {
+        "seme": "DENARI",
+        "valore": "Cinque"
+    },
+    {
+        "seme": "DENARI",
+        "valore": "Sei"
+    },
+    {
+        "seme": "DENARI",
+        "valore": "Sette"
+    },
+    {
+        "seme": "DENARI",
+        "valore": "Fante"
+    },
+    {
+        "seme": "DENARI",
+        "valore": "Cavallo"
+    },
+    {
+        "seme": "DENARI",
+        "valore": "Re"
+    },
+    {
+        "seme": "SPADE",
+        "valore": "Asso"
+    },
+    {
+        "seme": "SPADE",
+        "valore": "Due"
+    },
+    {
+        "seme": "SPADE",
+        "valore": "Tre"
+    },
+    {
+        "seme": "SPADE",
+        "valore": "Quattro"
+    },
+    {
+        "seme": "SPADE",
+        "valore": "Cinque"
+    },
+    {
+        "seme": "SPADE",
+        "valore": "Sei"
+    },
+    {
+        "seme": "SPADE",
+        "valore": "Sette"
+    },
+    {
+        "seme": "SPADE",
+        "valore": "Fante"
+    },
+    {
+        "seme": "SPADE",
+        "valore": "Cavallo"
+    },
+    {
+        "seme": "SPADE",
+        "valore": "Re"
+    }
+]
