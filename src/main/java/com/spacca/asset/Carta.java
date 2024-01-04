@@ -1,9 +1,19 @@
 package com.spacca.asset;
 
-import com.spacca.asset.carte.Seme;
 import com.spacca.asset.carte.Nome;
+import com.spacca.asset.carte.Seme;
 
 public class Carta {
+
+    /**
+     * Punteggi delle carte che volendo potrebbero essere modificati
+     * dall'amministratore, ma per ora sono fissi
+     */
+    final static int PUNTI_ASSO = 15;
+    final static int PUNTI_FIGURA = 10;
+    final static int PUNTI_CARTA = 5;
+    final static int PUNTI_MATTA = 0;
+
     public Seme seme;
     public Nome nome;
     public String numero;
@@ -41,16 +51,32 @@ public class Carta {
 
     public int setPunti(Nome nome) {
         int punteggioCarta = 0;
-        if (nome == Nome.ASSO) {
-            punteggioCarta = 15;
-        } else if (nome == Nome.FANTE || nome == Nome.CAVALLO || nome == Nome.RE) {
-            punteggioCarta = 10;
-        } else if (nome == Nome.DUE || nome == Nome.TRE || nome == Nome.QUATTRO || nome == Nome.CINQUE
-                || nome == Nome.SEI || nome == Nome.SETTE) {
-            punteggioCarta = 5;
-        } else if (nome == Nome.MATTA) {
-            punteggioCarta = 0;
+
+        switch (nome) {
+            case ASSO:
+                punteggioCarta = PUNTI_ASSO;
+                break;
+            case FANTE:
+            case CAVALLO:
+            case RE:
+                punteggioCarta = PUNTI_FIGURA;
+                break;
+            case DUE:
+            case TRE:
+            case QUATTRO:
+            case CINQUE:
+            case SEI:
+            case SETTE:
+                punteggioCarta = PUNTI_CARTA;
+                break;
+            case MATTA:
+                punteggioCarta = PUNTI_MATTA;
+                break;
+            default:
+                System.err.println("ERRORE: Nessun caso corrispondente");
+                break;
         }
         return punteggioCarta;
     }
+
 }

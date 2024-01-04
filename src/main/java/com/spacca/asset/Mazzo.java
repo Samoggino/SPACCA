@@ -1,9 +1,11 @@
 package com.spacca.asset;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import com.spacca.asset.carte.Seme;
 import com.spacca.asset.carte.Nome;
+import com.spacca.asset.carte.Seme;
 
 public class Mazzo {
     private List<Carta> carte;

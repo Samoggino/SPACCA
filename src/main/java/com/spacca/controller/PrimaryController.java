@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import com.google.gson.Gson;
 import com.spacca.asset.Carta;
-import com.spacca.asset.carte.Seme;
 import com.spacca.asset.carte.Nome;
+import com.spacca.asset.carte.Seme;
 
 import javafx.fxml.FXML;
 
@@ -19,7 +19,7 @@ public class PrimaryController {
     @FXML
     void provaConCarte() {
         // Esempio di utilizzo
-        Carta carta = new Carta(Seme.BASTONI, Nome.ASSO);
+        Carta carta = new Carta(Seme.BASTONI, Nome.FANTE);
         carta.stampa();
 
         // Serializzazione in JSON usando GSON
