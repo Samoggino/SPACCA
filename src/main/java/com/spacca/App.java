@@ -1,13 +1,13 @@
 package com.spacca;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.*;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.stage.*;
-
-import java.io.File;
-import java.io.IOException;
+import javafx.stage.Stage;
 
 /**
  * JavaFX App

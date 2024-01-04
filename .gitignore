@@ -34,4 +34,9 @@ replay_pid*
 ./target/classes/com/spacca/secondary.fxml
 ./target/classes/com/spacca/primary.fxml
 target/*
+.project
+.classpath
+.settings
+.metadata
 
+/target/

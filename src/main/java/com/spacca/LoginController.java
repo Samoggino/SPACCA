@@ -1,13 +1,14 @@
 package com.spacca;
 
-import java.io.File;
 // import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 public class LoginController implements Initializable {
@@ -28,9 +29,6 @@ public class LoginController implements Initializable {
         System.out.println("Controller del login");
         try {
 
-            // File css = new
-            // File("/home/samoggino/VSC/SPACCA/src/main/resources/com/spacca/style/login.css");
-            // Carica lo stile CSS nella scena
             String username = usernameField.getText();
             String password = passwordField.getText();
 
