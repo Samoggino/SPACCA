@@ -17,6 +17,7 @@
 		- 5 per le carte tra il 2 e il 7
 		- 10 per per le figure
 		- 15 per l'asso
+		- 20 jolly 
 	- Numero complessivo delle carte del singolo giocatore
 ## Regole per multiplayer:
 	- si contano i punti precedenti (quindi un punto per il numero delle carte e un punto per i punti)
