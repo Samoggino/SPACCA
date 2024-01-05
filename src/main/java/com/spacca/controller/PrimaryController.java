@@ -1,60 +1,37 @@
 package com.spacca.controller;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
-import com.spacca.asset.carte.Carta;
-import com.spacca.asset.carte.Mazzo;
+import com.spacca.asset.match.Partita;
+import com.spacca.asset.utente.Amministratore;
+import com.spacca.asset.utente.giocatore.Giocatore;
+import com.spacca.asset.utente.giocatore.GiocatoreInterface;
+import com.spacca.database.Database;
 
 import javafx.fxml.FXML;
 
 public class PrimaryController {
 
     @FXML
-    private void switchToSecondary() throws IOException {
-        // App.setRoot("secondary");
+    void provaConCarte() {
+        Database db = new Database();
+        db.stampaCarteFromJson();
     }
 
     @FXML
-    void provaConCarte() {
-        try {
-            // leggo il file JSON
-            Reader fileReader = new FileReader("src/main/java/com/spacca/database/carte.json");
-            Gson gson = new Gson();
-            // gson prende il fileReader e lo converte in un array di carte
-            Carta[] carte = gson.fromJson(fileReader, Carta[].class);
+    void provaConPartita() {
+        Amministratore amministratore = new Amministratore();
 
-            // Converti l'array di carte in un ArrayList di carte
-            List<Carta> listaCarte = new ArrayList<>(Arrays.asList(carte));
+        List<GiocatoreInterface> giocatori = new ArrayList<>(); // Inizializzazione della lista
 
-            // Ora puoi utilizzare l'ArrayList di Carta come desideri
-            Mazzo mazzo = new Mazzo(listaCarte);
+        giocatori.add(new Giocatore("piero", "1234")); // Primo oggetto Giocatore
+        giocatori.add(new Giocatore("mario", "1234")); // Secondo oggetto Giocatore
 
-            System.out.println(mazzo);
+        Partita partita = amministratore.creaPartita(giocatori);
 
-            // chiudo il fileReader
-            fileReader.close();
-
-        } catch (JsonIOException e) {
-            System.err.println("ERRORE: Errore durante la lettura del file JSON");
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            System.err.println("ERRORE: File non trovato");
-            e.printStackTrace();
-        } catch (IOException e) {
-            System.err.println("ERRORE: Errore durante la lettura del file JSON");
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("ERRORE: Errore generico in" + this.getClass().getName());
-            e.printStackTrace();
-        }
+        System.out.println(partita);
 
     }
+
 }

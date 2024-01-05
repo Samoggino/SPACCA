@@ -1,8 +1,14 @@
 package com.spacca.asset.utente.giocatore;
 
-import com.spacca.asset.utente.GiocatoreInterface;
-
 public class Giocatore implements GiocatoreInterface {
+
+    String nickname;
+    String password;
+
+    public Giocatore(String nickname, String password) {
+        this.nickname = nickname;
+        this.password = password;
+    }
 
     @Override
     public void gioca() {
@@ -38,6 +44,23 @@ public class Giocatore implements GiocatoreInterface {
     public void scarta() {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

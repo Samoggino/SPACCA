@@ -7,6 +7,7 @@ module com.spacca {
     opens com.spacca.controller to javafx.fxml;
     opens com.spacca.asset.carte to com.google.gson;
     opens com.spacca.asset.utente.giocatore to com.google.gson;
+    opens com.spacca.asset.match to com.google.gson;
 
     exports com.spacca;
 
@@ -14,5 +15,10 @@ module com.spacca {
     exports com.spacca.database;
 
     exports com.spacca.asset.carte;
+
+    exports com.spacca.asset.utente;
     exports com.spacca.asset.utente.giocatore;
+
+    exports com.spacca.asset.match;
+
 }

@@ -38,4 +38,16 @@ public class SmartCPU extends AbstractCPU {
         throw new UnsupportedOperationException("Unimplemented method 'mostraLeaderboard'");
     }
 
+    @Override
+    public void setNickname(String string) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setNickname'");
+    }
+
+    @Override
+    public String getNickname() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getNickname'");
+    }
+
 }

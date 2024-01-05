@@ -1,9 +1,12 @@
 package com.spacca.asset.utente;
 
+import java.util.List;
 import java.util.Random;
 
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.match.Torneo;
+import com.spacca.asset.utente.giocatore.GiocatoreInterface;
+import com.spacca.database.Database;
 
 /**
  * AmministratoreI
@@ -50,18 +53,20 @@ public class Amministratore {
     }
 
     public Torneo creaNuovoTorneo() {
-        return new Torneo(generaNumeroCasuale());
+        return new Torneo("T" + generaNumeroCasuale());
     }
 
     protected static int generaNumeroCasuale() {
+        // FIXME: non deve generare numeri uguali
         Random random = new Random();
-        // Genera un numero casuale compreso tra 10000 e 99999
-        int numero = random.nextInt(90000) + 10000;
+        // Genera un numero casuale compreso tra 1000 e 9999
+        int numero = random.nextInt(9000) + 1000;
         return numero;
     }
 
-    public Partita creaNuovaPartita() {
-        return new Partita(generaNumeroCasuale());
+    public Partita creaPartita(List<GiocatoreInterface> giocatori) {
+        Database db = new Database();
+        return db.creaPartita("P" + generaNumeroCasuale(), giocatori);
     }
 
 }

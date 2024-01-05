@@ -4,18 +4,16 @@ import java.util.List;
 
 public class Torneo {
 
-    int codice;
+    String codice;
     List<Partita> partite;
 
-    public Torneo(int codice) {
+    public Torneo(String codice) {
         this.codice = codice;
     }
 
     public List<Partita> getPartite() {
         return partite;
     }
-
-    
 
     // risultato partite
     public String getLeaderboard() {
@@ -31,11 +29,11 @@ public class Torneo {
         return leaderboard;
     }
 
-    public int getCodice() {
+    public String getCodice() {
         return codice;
     }
 
-    public void setCodice(int codice) {
+    public void setCodice(String codice) {
         this.codice = codice;
     }
 
@@ -44,8 +42,8 @@ public class Torneo {
         throw new UnsupportedOperationException("Unimplemented method 'creaPartita'");
     }
 
-    void accediPartita(int codicePartita) {
-        if (codicePartita == this.codice) {
+    void accediPartita(String codicePartita) {
+        if (codicePartita.equals(this.codice)) {
             // TODO: accedi alla partita
         } else {
             // TODO: mostra pagina che dice che il codice è sbagliato

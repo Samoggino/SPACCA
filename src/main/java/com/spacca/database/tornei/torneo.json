@@ -1,0 +1,21 @@
+{
+    "codiceTorneo": "T2345",
+    "partite": [
+        {
+            "risultato": "2-1",
+            "codice": "P2518",
+            "giocatori": [
+                "../utenti/Giocatore1.json",
+                "../utenti/Giocatore2.json"
+            ]
+        },
+        {
+            "risultato": "3-0",
+            "codice": "P1513",
+            "giocatori": [
+                "../utenti/Giocatore1.json",
+                "../utenti/Giocatore2.json"
+            ]
+        }
+    ]
+}
