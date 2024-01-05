@@ -1,11 +1,8 @@
-package com.spacca.asset;
+package com.spacca.asset.carte;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.spacca.asset.carte.Nome;
-import com.spacca.asset.carte.Seme;
 
 public class Mazzo {
     private List<Carta> carte;
@@ -31,11 +28,20 @@ public class Mazzo {
         return mazzo;
     }
 
-    // public void aggiungiCarta(Carta carta) {
-    // carte.add(carta);
-    // }
-
     public List<Carta> getMazzo() {
         return carte;
+    }
+
+    public String stampa() {
+        String stampa = "";
+        for (Carta carta : carte) {
+            stampa += carta.stampa() + "\n";
+        }
+        return stampa;
+    }
+
+    @Override
+    public String toString() {
+        return "Mazzo di carte:\n" + stampa() + "";
     }
 }

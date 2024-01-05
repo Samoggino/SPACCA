@@ -1,6 +1,6 @@
-package com.spacca.asset.giocatore;
+package com.spacca.asset.utente.giocatore;
 
-import com.spacca.asset.GiocatoreInterface;
+import com.spacca.asset.utente.GiocatoreInterface;
 
 public class Giocatore implements GiocatoreInterface {
 

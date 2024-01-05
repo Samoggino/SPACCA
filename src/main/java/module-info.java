@@ -5,13 +5,14 @@ module com.spacca {
     requires com.google.gson;
 
     opens com.spacca.controller to javafx.fxml;
+    opens com.spacca.asset.carte to com.google.gson;
+    opens com.spacca.asset.utente.giocatore to com.google.gson;
 
     exports com.spacca;
 
     exports com.spacca.controller;
     exports com.spacca.database;
 
-    exports com.spacca.asset;
     exports com.spacca.asset.carte;
-    exports com.spacca.asset.giocatore;
+    exports com.spacca.asset.utente.giocatore;
 }

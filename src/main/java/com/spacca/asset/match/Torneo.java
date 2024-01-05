@@ -1,4 +1,4 @@
-package com.spacca.asset;
+package com.spacca.asset.match;
 
 import java.util.List;
 

@@ -1,7 +1,6 @@
-package com.spacca.asset;
+package com.spacca.asset.carte;
 
-import com.spacca.asset.carte.Nome;
-import com.spacca.asset.carte.Seme;
+import com.google.gson.annotations.SerializedName;
 
 public class Carta {
 
@@ -13,12 +12,27 @@ public class Carta {
     final static int PUNTI_FIGURA = 10;
     final static int PUNTI_CARTA = 5;
     final static int PUNTI_MATTA = PUNTI_CARTA;
+    // per ora una matta vale come una carta normale, ma potrebbe essere modificato
 
-    public Seme seme;
-    public Nome nome;
-    public String numero;
-    public int punti;
-    public ImmagineCarta immagine;
+    @SerializedName("seme")
+    private Seme seme;
+
+    @SerializedName("nome")
+    private Nome nome;
+
+    @SerializedName("punti")
+    private int punti;
+
+    @SerializedName("immagine")
+    private ImmagineCarta immagine;
+
+    public ImmagineCarta getImmagine() {
+        return immagine;
+    }
+
+    public void setImmagine(ImmagineCarta immagine) {
+        this.immagine = immagine;
+    }
 
     public Carta(Seme seme, Nome nome) {
         this.seme = seme;
@@ -49,7 +63,8 @@ public class Carta {
     }
 
     public String stampa() {
-        return "Carta: " + this.nome + " di " + this.seme + " - " + this.punti + " punti" + " - " + this.immagine;
+        return "Carta: " + this.nome + " di " + this.seme + " - " + this.punti + " punti" + " - "
+                + this.immagine.getUrl();
     }
 
     public int getPunti() {

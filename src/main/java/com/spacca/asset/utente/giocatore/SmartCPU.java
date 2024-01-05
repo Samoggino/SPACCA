@@ -1,4 +1,4 @@
-package com.spacca.asset.giocatore;
+package com.spacca.asset.utente.giocatore;
 
 public class SmartCPU extends AbstractCPU {
 

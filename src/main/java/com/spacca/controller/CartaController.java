@@ -1,6 +1,6 @@
 package com.spacca.controller;
 
-import com.spacca.asset.Carta;
+import com.spacca.asset.carte.Carta;
 
 import javafx.fxml.FXML;
 

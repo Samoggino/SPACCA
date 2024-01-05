@@ -1,4 +1,4 @@
-package com.spacca.asset;
+package com.spacca.asset.utente;
 
 public interface GiocatoreInterface {
     void gioca();

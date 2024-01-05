@@ -1,6 +1,9 @@
-package com.spacca.asset;
+package com.spacca.asset.utente;
 
 import java.util.Random;
+
+import com.spacca.asset.match.Partita;
+import com.spacca.asset.match.Torneo;
 
 /**
  * AmministratoreI
