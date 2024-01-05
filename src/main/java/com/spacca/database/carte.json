@@ -520,29 +520,29 @@
         "Effetto":"Nessun effetto "
     },
     {
-        "ID":"JR",
-        "Nome": "Jolly Rosso",
-        "Seme": "JOLLY",
-        "Valore": "Jolly",
-        "Punteggio":20,
+        "ID":"MR",
+        "Nome": "Matta Rossa",
+        "Seme": "MATTA",
+        "Valore": "Matta",
+        "Punteggio":0,
         "Immagine":{
             "Url" :"/src/main/resources/com/spacca/images/JollyRosso.jpeg",
-            "Alt":"JollyRosso"
+            "Alt":"MattaRossa"
         },
-        "Descrizione":"Il JollyRosso è una carta speciale",
-        "Effetto":"Il JollyRosso ti da la possibilità di rubare metà mazzo del tuo avversario "
+        "Descrizione":"La Matta Rossa è una carta speciale",
+        "Effetto":"La Matta Rossa ti da la possibilità di rubare metà mazzo del tuo avversario "
     },
     {
-        "ID":"JN",
-        "Nome": "Jolly NERO",
-        "Seme": "JOLLY",
-        "Valore": "Jolly",
-        "Punteggio":20,
+        "ID":"MN",
+        "Nome": "Matta Nera",
+        "Seme": "MATTA",
+        "Valore": "Matta",
+        "Punteggio":0,
         "Immagine":{
             "Url" :"/src/main/resources/com/spacca/images/JollyNero.jpeg",
-            "Alt":"JollyNero"
+            "Alt":"MattaNero"
         },
-        "Descrizione":"Il JollyNero è una carta speciale",
-        "Effetto":"Il JollyNero ti da la possibilità di rubare tutto il mazzo del tuo avversario "
+        "Descrizione":"La Matta Nera è una carta speciale",
+        "Effetto":"La Matta Nera ti da la possibilità di rubare tutto il mazzo del tuo avversario "
     }    
 ]
