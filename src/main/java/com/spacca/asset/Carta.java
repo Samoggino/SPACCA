@@ -12,17 +12,24 @@ public class Carta {
     final static int PUNTI_ASSO = 15;
     final static int PUNTI_FIGURA = 10;
     final static int PUNTI_CARTA = 5;
-    final static int PUNTI_MATTA = 0;
+    final static int PUNTI_MATTA = PUNTI_CARTA;
 
     public Seme seme;
     public Nome nome;
     public String numero;
     public int punti;
+    public ImmagineCarta immagine;
 
     public Carta(Seme seme, Nome nome) {
         this.seme = seme;
         this.nome = nome;
         this.punti = setPunti(nome);
+    }
+
+    public Carta(String seme, String nome) {
+        this.seme = Seme.valueOf(seme);
+        this.nome = Nome.valueOf(nome);
+        this.punti = setPunti(this.nome);
     }
 
     public Seme getSeme() {
@@ -41,8 +48,8 @@ public class Carta {
         this.nome = valore;
     }
 
-    public void stampa() {
-        System.out.println("Carta: " + nome + " di " + seme + " - " + punti + " punti");
+    public String stampa() {
+        return "Carta: " + this.nome + " di " + this.seme + " - " + this.punti + " punti" + " - " + this.immagine;
     }
 
     public int getPunti() {
@@ -66,10 +73,9 @@ public class Carta {
             case QUATTRO:
             case CINQUE:
             case SEI:
-            case SETTE:
                 punteggioCarta = PUNTI_CARTA;
                 break;
-            case MATTA:
+            case SETTE:
                 punteggioCarta = PUNTI_MATTA;
                 break;
             default:
@@ -77,6 +83,11 @@ public class Carta {
                 break;
         }
         return punteggioCarta;
+    }
+
+    @Override
+    public String toString() {
+        return stampa();
     }
 
 }

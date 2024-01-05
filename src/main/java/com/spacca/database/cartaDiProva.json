@@ -1,0 +1,11 @@
+{
+    "ID": "1B",
+    "seme": "BASTONI",
+    "nome": "ASSO",
+    "descrizione": "Asso di Bastoni",
+    "punti": "15",
+    "immagine": {
+        "url": "/src/main/resources/com/spacca/images/carte/bastoni/AssoBastone.jpeg",
+        "alt": "AssoBastone"
+    }
+}

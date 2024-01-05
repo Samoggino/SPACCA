@@ -1,548 +1,442 @@
 [
     {
-        "ID":"1B",
-        "Nome": "Asso di Bastoni",
-        "Seme": "BASTONI",
-        "Valore": "Asso",
-        "Punteggio":15,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/AssoBastone.jpeg",
-            "Alt":"AssoBastone"
-        },
-        "Descrizione":"L'Asso di Bastoni è la carta più alta del seme di Bastoni",
-        "Effetto":"L'Asso di Bastoni prende tutte le carte presenti sul banco"
+        "ID": "1B",
+        "seme": "BASTONI",
+        "nome": "ASSO",
+        "descrizione": "Asso di Bastoni",
+        "punti": 15,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/bastoni/AssoBastoni.jpeg",
+            "alt": "AssoBastoni"
+        }
     },
     {
-        "ID":"2B",
-        "Nome": "Due di Bastoni",
-        "Seme": "BASTONI",
-        "Valore": "Due",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/DueBastone.jpeg",
-            "Alt":"DueBastone"
-        },
-        "Descrizione":"Il Due di Bastoni è la seconda carta del seme di Bastoni",
-        "Effetto":"Nessun effetto "
+        "ID": "2B",
+        "seme": "BASTONI",
+        "nome": "DUE",
+        "descrizione": "Due di Bastoni",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/bastoni/DueBastoni.jpeg",
+            "alt": "DueBastoni"
+        }
     },
     {
-        "ID":"3B",
-        "Nome": "Tre di Bastoni",
-        "Seme": "BASTONI",
-        "Valore": "Tre",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/TreBastone.jpeg",
-            "Alt":"TreBastone"
-        },
-        "Descrizione":"Il Tre di Bastoni è la terza carta del seme di Bastoni",
-        "Effetto":"Nessun effetto "
+        "ID": "3B",
+        "seme": "BASTONI",
+        "nome": "TRE",
+        "descrizione": "Tre di Bastoni",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/bastoni/TreBastoni.jpeg",
+            "alt": "TreBastoni"
+        }
     },
     {
-        "ID":"4B",
-        "Nome": "Quattro di Bastoni",
-        "Seme": "BASTONI",
-        "Valore": "Quattro",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/QuattroBastone.jpeg",
-            "Alt":"QuattroBastone"
-        },
-        "Descrizione":"Il Quattro di Bastoni è la quarta carta del seme di Bastoni",
-        "Effetto":"Nessun effetto "
+        "ID": "4B",
+        "seme": "BASTONI",
+        "nome": "QUATTRO",
+        "descrizione": "Quattro di Bastoni",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/bastoni/QuattroBastoni.jpeg",
+            "alt": "QuattroBastoni"
+        }
     },
     {
-        "ID":"5B",
-        "Nome": "Cinque di Bastoni",
-        "Seme": "BASTONI",
-        "Valore": "Cinque",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/CinqueBastone.jpeg",
-            "Alt":"CinqueBastone"
-        },
-        "Descrizione":"Il Cinque di Bastoni è la quinta carta del seme di Bastoni",
-        "Effetto":"Nessun effetto "
+        "ID": "5B",
+        "seme": "BASTONI",
+        "nome": "CINQUE",
+        "descrizione": "Cinque di Bastoni",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/bastoni/CinqueBastoni.jpeg",
+            "alt": "CinqueBastoni"
+        }
     },
     {
-        "ID":"6B",
-        "Nome": "Sei di Bastoni",
-        "Seme": "BASTONI",
-        "Valore": "Sei",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/SeiBastone.jpeg",
-            "Alt":"SeiBastone"
-        },
-        "Descrizione":"Il Sei di Bastoni è la sesta carta del seme di Bastoni",
-        "Effetto":"Nessun effetto "
+        "ID": "6B",
+        "seme": "BASTONI",
+        "nome": "SEI",
+        "descrizione": "Sei di Bastoni",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/bastoni/SeiBastoni.jpeg",
+            "alt": "SeiBastoni"
+        }
     },
     {
-        "ID":"7B",
-        "Nome": "Sette di Bastoni",
-        "Seme": "BASTONI",
-        "Valore": "Sette",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/SetteBastone.jpeg",
-            "Alt":"SetteBastone"
-        },
-        "Descrizione":"Il Sette di Bastoni è la settima carta del seme di Bastoni",
-        "Effetto":"Nessun effetto "
+        "ID": "7B",
+        "seme": "BASTONI",
+        "nome": "SETTE",
+        "descrizione": "Sette di Bastoni",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/bastoni/SetteBastoni.jpeg",
+            "alt": "SetteBastoni"
+        }
     },
     {
-        "ID":"8B",
-        "Nome": "Fante di Bastoni",
-        "Seme": "BASTONI",
-        "Valore": "Fante",
-        "Punteggio":10,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/FanteBastone.jpeg",
-            "Alt":"FanteBastone"
-        },
-        "Descrizione":"Il Fante di Bastoni è l'ottava carta del seme di Bastoni",
-        "Effetto":"Nessun effetto "
+        "ID": "8B",
+        "seme": "BASTONI",
+        "nome": "FANTE",
+        "descrizione": "Fante di Bastoni",
+        "punti": 10,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/bastoni/FanteBastoni.jpeg",
+            "alt": "FanteBastoni"
+        }
     },
     {
-        "ID":"9B",
-        "Nome": "Cavallo di Bastoni",
-        "Seme": "BASTONI",
-        "Valore": "Cavallo",
-        "Punteggio":10,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/CavalloBastone.jpeg",
-            "Alt":"CavalloBastone"
-        },
-        "Descrizione":"Il Cavallo di Bastoni è la nona carta del seme di Bastoni",
-        "Effetto":"Nessun effetto "
+        "ID": "9B",
+        "seme": "BASTONI",
+        "nome": "CAVALLO",
+        "descrizione": "Cavallo di Bastoni",
+        "punti": 10,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/bastoni/CavalloBastoni.jpeg",
+            "alt": "CavalloBastoni"
+        }
     },
     {
-        "ID":"10B",
-        "Nome": "Re di Bastoni",
-        "Seme": "BASTONI",
-        "Valore": "Re",
-        "Punteggio":10,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/ReBastone.jpeg",
-            "Alt":"ReBastone"
-        },
-        "Descrizione":"Il Re di Bastoni è la decima carta del seme di Bastoni",
-        "Effetto":"Nessun effetto "
+        "ID": "10B",
+        "seme": "BASTONI",
+        "nome": "RE",
+        "descrizione": "Re di Bastoni",
+        "punti": 10,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/bastoni/ReBastoni.jpeg",
+            "alt": "ReBastoni"
+        }
     },
     {
-        "ID":"1C",
-        "Nome": "Asso di Coppe",
-        "Seme": "COPPE",
-        "Valore": "Asso",
-        "Punteggio":15,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/AssoCoppe.jpeg",
-            "Alt":"AssoCoppe"
-        },
-        "Descrizione":"L'Asso di Coppe è la carta più alta del seme di Coppe",
-        "Effetto":"L'Asso di Coppe prende tutte le carte presenti sul banco"
+        "ID": "1C",
+        "seme": "COPPE",
+        "nome": "ASSO",
+        "descrizione": "Asso di Coppe",
+        "punti": 15,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/coppe/AssoCoppe.jpeg",
+            "alt": "AssoCoppe"
+        }
     },
     {
-        "ID":"2C",
-        "Nome": "Due di Coppe",
-        "Seme": "COPPE",
-        "Valore": "Due",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/DueCoppe.jpeg",
-            "Alt":"DueCoppe"
-        },
-        "Descrizione":"Il Due di Coppe è la seconda carta del seme di Coppe",
-        "Effetto":"Nessun effetto "
+        "ID": "2C",
+        "seme": "COPPE",
+        "nome": "DUE",
+        "descrizione": "Due di Coppe",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/coppe/DueCoppe.jpeg",
+            "alt": "DueCoppe"
+        }
     },
     {
-        "ID":"3C",
-        "Nome": "Tre di Coppe",
-        "Seme": "COPPE",
-        "Valore": "Tre",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/TreCoppe.jpeg",
-            "Alt":"TreCoppe"
-        },
-        "Descrizione":"Il Tre di Coppe è la terza carta del seme di Coppe",
-        "Effetto":"Nessun effetto "
+        "ID": "3C",
+        "seme": "COPPE",
+        "nome": "TRE",
+        "descrizione": "Tre di Coppe",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/coppe/TreCoppe.jpeg",
+            "alt": "TreCoppe"
+        }
     },
     {
-        "ID":"4C",
-        "Nome": "Quattro di Coppe",
-        "Seme": "COPPE",
-        "Valore": "Quattro",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/QuattroCoppe.jpeg",
-            "Alt":"QuattroCoppe"
-        },
-        "Descrizione":"Il Quattro di Coppe è la quarta carta del seme di Coppe",
-        "Effetto":"Nessun effetto "
+        "ID": "4C",
+        "seme": "COPPE",
+        "nome": "QUATTRO",
+        "descrizione": "Quattro di Coppe",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/coppe/QuattroCoppe.jpeg",
+            "alt": "QuattroCoppe"
+        }
     },
     {
-        "ID":"5C",
-        "Nome": "Cinque di Coppe",
-        "Seme": "COPPE",
-        "Valore": "Cinque",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/CinqueCoppe.jpeg",
-            "Alt":"CinqueCoppe"
-        },
-        "Descrizione":"Il Cinque di Coppe è la quinta carta del seme di Coppe",
-        "Effetto":"Nessun effetto "
+        "ID": "5C",
+        "seme": "COPPE",
+        "nome": "CINQUE",
+        "descrizione": "Cinque di Coppe",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/coppe/CinqueCoppe.jpeg",
+            "alt": "CinqueCoppe"
+        }
     },
     {
-        "ID":"6C",
-        "Nome": "Sei di Coppe",
-        "Seme": "COPPE",
-        "Valore": "Sei",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/SeiCoppe.jpeg",
-            "Alt":"SeiCoppe"
-        },
-        "Descrizione":"Il Sei di Coppe è la sesta carta del seme di Coppe",
-        "Effetto":"Nessun effetto "
+        "ID": "6C",
+        "seme": "COPPE",
+        "nome": "SEI",
+        "descrizione": "Sei di Coppe",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/coppe/SeiCoppe.jpeg",
+            "alt": "SeiCoppe"
+        }
     },
     {
-        "ID":"7C",
-        "Nome": "Sette di Coppe",
-        "Seme": "COPPE",
-        "Valore": "Sette",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/SetteCoppe.jpeg",
-            "Alt":"SetteCoppe"
-        },
-        "Descrizione":"Il Sette di Coppe è la settima carta del seme di Coppe",
-        "Effetto":"Nessun effetto "
+        "ID": "7C",
+        "seme": "COPPE",
+        "nome": "SETTE",
+        "descrizione": "Sette di Coppe",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/coppe/SetteCoppe.jpeg",
+            "alt": "SetteCoppe"
+        }
     },
     {
-        "ID":"8C",
-        "Nome": "Fante di Coppe",
-        "Seme": "COPPE",
-        "Valore": "Fante",
-        "Punteggio":10,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/FanteCoppe.jpeg",
-            "Alt":"FanteCoppe"
-        },
-        "Descrizione":"Il Fante di Coppe è l'ottava carta del seme di Coppe",
-        "Effetto":"Nessun effetto "
+        "ID": "8C",
+        "seme": "COPPE",
+        "nome": "FANTE",
+        "descrizione": "Fante di Coppe",
+        "punti": 10,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/coppe/FanteCoppe.jpeg",
+            "alt": "FanteCoppe"
+        }
     },
     {
-        "ID":"9C",
-        "Nome": "Cavallo di Coppe",
-        "Seme": "COPPE",
-        "Valore": "Cavallo",
-        "Punteggio":10,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/CavalloCoppe.jpeg",
-            "Alt":"CavalloCoppe"
-        },
-        "Descrizione":"Il Cavallo di Coppe è la nona carta del seme di Coppe",
-        "Effetto":"Nessun effetto "
+        "ID": "9C",
+        "seme": "COPPE",
+        "nome": "CAVALLO",
+        "descrizione": "Cavallo di Coppe",
+        "punti": 10,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/coppe/CavalloCoppe.jpeg",
+            "alt": "CavalloCoppe"
+        }
     },
     {
-        "ID":"10C",
-        "Nome": "Re di Coppe",
-        "Seme": "COPPE",
-        "Valore": "Re",
-        "Punteggio":10,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/ReCoppe.jpeg",
-            "Alt":"ReCoppe"
-        },
-        "Descrizione":"Il Re di Coppe è la decima carta del seme di Coppe",
-        "Effetto":"Nessun effetto "
+        "ID": "10C",
+        "seme": "COPPE",
+        "nome": "RE",
+        "descrizione": "Re di Coppe",
+        "punti": 10,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/coppe/ReCoppe.jpeg",
+            "alt": "ReCoppe"
+        }
     },
     {
-        "ID":"1D",
-        "Nome": "Asso di Denara",
-        "Seme": "DENARI",
-        "Valore": "Asso",
-        "Punteggio":15,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/AssoDenara.jpeg",
-            "Alt":"AssoDenara"
-        },
-        "Descrizione":"L'Asso di Denara è la carta più alta del seme di Denara",
-        "Effetto":"L'Asso di Denara prende tutte le carte presenti sul banco"
+        "ID": "1D",
+        "seme": "DENARA",
+        "nome": "ASSO",
+        "descrizione": "Asso di Denara",
+        "punti": 15,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/denara/AssoDenara.jpeg",
+            "alt": "AssoDenara"
+        }
     },
     {
-        "ID":"2D",
-        "Nome": "Due di Denara",
-        "Seme": "DENARI",
-        "Valore": "Due",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/DueDenara.jpeg",
-            "Alt":"DueDenara"
-        },
-        "Descrizione":"Il Due di Denara è la seconda carta del seme di Denara",
-        "Effetto":"Nessun effetto "
+        "ID": "2D",
+        "seme": "DENARA",
+        "nome": "DUE",
+        "descrizione": "Due di Denara",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/denara/DueDenara.jpeg",
+            "alt": "DueDenara"
+        }
     },
     {
-        "ID":"3D",
-        "Nome": "Tre di Denara",
-        "Seme": "DENARI",
-        "Valore": "Tre",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/TreDenara.jpeg",
-            "Alt":"TreDenara"
-        },
-        "Descrizione":"Il Tre di Denara è la terza carta del seme di Denara",
-        "Effetto":"Nessun effetto "
+        "ID": "3D",
+        "seme": "DENARA",
+        "nome": "TRE",
+        "descrizione": "Tre di Denara",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/denara/TreDenara.jpeg",
+            "alt": "TreDenara"
+        }
     },
     {
-        "ID":"4D",
-        "Nome": "Quattro di Denara",
-        "Seme": "DENARI",
-        "Valore": "Quattro",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/QuattroDenara.jpeg",
-            "Alt":"QuattroDenara"
-        },
-        "Descrizione":"Il Quattro di Denara è la quarta carta del seme di Denara",
-        "Effetto":"Nessun effetto "
+        "ID": "4D",
+        "seme": "DENARA",
+        "nome": "QUATTRO",
+        "descrizione": "Quattro di Denara",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/denara/QuattroDenara.jpeg",
+            "alt": "QuattroDenara"
+        }
     },
     {
-        "ID":"5D",
-        "Nome": "Cinque di Denara",
-        "Seme": "DENARI",
-        "Valore": "Cinque",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/CinqueDenara.jpeg",
-            "Alt":"CinqueDenara"
-        },
-        "Descrizione":"Il Cinque di Denara è la quinta carta del seme di Denara",
-        "Effetto":"Nessun effetto "
+        "ID": "5D",
+        "seme": "DENARA",
+        "nome": "CINQUE",
+        "descrizione": "Cinque di Denara",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/denara/CinqueDenara.jpeg",
+            "alt": "CinqueDenara"
+        }
     },
     {
-        "ID":"6D",
-        "Nome": "Sei di Denara",
-        "Seme": "DENARI",
-        "Valore": "Sei",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/SeiDenara.jpeg",
-            "Alt":"SeiDenara"
-        },
-        "Descrizione":"Il Sei di Denara è la sesta carta del seme di Denara",
-        "Effetto":"Nessun effetto "
+        "ID": "6D",
+        "seme": "DENARA",
+        "nome": "SEI",
+        "descrizione": "Sei di Denara",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/denara/SeiDenara.jpeg",
+            "alt": "SeiDenara"
+        }
     },
     {
-        "ID":"7D",
-        "Nome": "Sette di Denara",
-        "Seme": "DENARI",
-        "Valore": "Sette",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/SetteDenara.jpeg",
-            "Alt":"SetteDenara"
-        },
-        "Descrizione":"Il Sette di Denara è la settima carta del seme di Denara",
-        "Effetto":"Nessun effetto "
+        "ID": "7D",
+        "seme": "DENARA",
+        "nome": "SETTE",
+        "descrizione": "Sette di Denara",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/denara/SetteDenara.jpeg",
+            "alt": "SetteDenara"
+        }
     },
     {
-        "ID":"8D",
-        "Nome": "Fante di Denara",
-        "Seme": "DENARI",
-        "Valore": "Fante",
-        "Punteggio":10,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/FanteDenara.jpeg",
-            "Alt":"FanteDenara"
-        },
-        "Descrizione":"Il Fante di Denara è l'ottava carta del seme di Denara",
-        "Effetto":"Nessun effetto "
+        "ID": "8D",
+        "seme": "DENARA",
+        "nome": "FANTE",
+        "descrizione": "Fante di Denara",
+        "punti": 10,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/denara/FanteDenara.jpeg",
+            "alt": "FanteDenara"
+        }
     },
     {
-        "ID":"9D",
-        "Nome": "Cavallo di Denara",
-        "Seme": "DENARI",
-        "Valore": "Cavallo",
-        "Punteggio":10,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/CavalloDenara.jpeg",
-            "Alt":"CavalloDenara"
-        },
-        "Descrizione":"Il Cavallo di Denara è la nona carta del seme di Denara",
-        "Effetto":"Nessun effetto "
+        "ID": "9D",
+        "seme": "DENARA",
+        "nome": "CAVALLO",
+        "descrizione": "Cavallo di Denara",
+        "punti": 10,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/denara/CavalloDenara.jpeg",
+            "alt": "CavalloDenara"
+        }
     },
     {
-        "ID":"10D",
-        "Nome": "Re di Denara",
-        "Seme": "DENARI",
-        "Valore": "Re",
-        "Punteggio":10,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/ReDenara.jpeg",
-            "Alt":"ReDenara"
-        },
-        "Descrizione":"Il Re di Denara è la decima carta del seme di Denara",
-        "Effetto":"Nessun effetto "
+        "ID": "10D",
+        "seme": "DENARA",
+        "nome": "RE",
+        "descrizione": "Re di Denara",
+        "punti": 10,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/denara/ReDenara.jpeg",
+            "alt": "ReDenara"
+        }
     },
     {
-        "ID":"1S",
-        "Nome": "Asso di Spade",
-        "Seme": "SPADE",
-        "Valore": "Asso",
-        "Punteggio":15,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/AssoSpade.jpeg",
-            "Alt":"AssoSpade"
-        },
-        "Descrizione":"L'Asso di Spade è la carta più alta del seme di Spade",
-        "Effetto":"L'Asso di Spade prende tutte le carte presenti sul banco"
+        "ID": "1S",
+        "seme": "SPADE",
+        "nome": "ASSO",
+        "descrizione": "Asso di Spade",
+        "punti": 15,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/spade/AssoSpade.jpeg",
+            "alt": "AssoSpade"
+        }
     },
     {
-        "ID":"2S",
-        "Nome": "Due di Spade",
-        "Seme": "SPADE",
-        "Valore": "Due",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/DueSpade.jpeg",
-            "Alt":"DueSpade"
-        },
-        "Descrizione":"Il Due di Spade è la seconda carta del seme di Spade",
-        "Effetto":"Nessun effetto "
+        "ID": "2S",
+        "seme": "SPADE",
+        "nome": "DUE",
+        "descrizione": "Due di Spade",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/spade/DueSpade.jpeg",
+            "alt": "DueSpade"
+        }
     },
     {
-        "ID":"3S",
-        "Nome": "Tre di Spade",
-        "Seme": "SPADE",
-        "Valore": "Tre",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/TreSpade.jpeg",
-            "Alt":"TreSpade"
-        },
-        "Descrizione":"Il Tre di Spade è la terza carta del seme di Spade",
-        "Effetto":"Nessun effetto "
+        "ID": "3S",
+        "seme": "SPADE",
+        "nome": "TRE",
+        "descrizione": "Tre di Spade",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/spade/TreSpade.jpeg",
+            "alt": "TreSpade"
+        }
     },
     {
-        "ID":"4S",
-        "Nome": "Quattro di Spade",
-        "Seme": "SPADE",
-        "Valore": "Quattro",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/QuattroSpade.jpeg",
-            "Alt":"QuattroSpade"
-        },
-        "Descrizione":"Il Quattro di Spade è la quarta carta del seme di Spade",
-        "Effetto":"Nessun effetto "
+        "ID": "4S",
+        "seme": "SPADE",
+        "nome": "QUATTRO",
+        "descrizione": "Quattro di Spade",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/spade/QuattroSpade.jpeg",
+            "alt": "QuattroSpade"
+        }
     },
     {
-        "ID":"5S",
-        "Nome": "Cinque di Spade",
-        "Seme": "SPADE",
-        "Valore": "Cinque",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/CinqueSpade.jpeg",
-            "Alt":"CinqueSpade"
-        },
-        "Descrizione":"Il Cinque di Spade è la quinta carta del seme di Spade",
-        "Effetto":"Nessun effetto "
+        "ID": "5S",
+        "seme": "SPADE",
+        "nome": "CINQUE",
+        "descrizione": "Cinque di Spade",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/spade/CinqueSpade.jpeg",
+            "alt": "CinqueSpade"
+        }
     },
     {
-        "ID":"6S",
-        "Nome": "Sei di Spade",
-        "Seme": "SPADE",
-        "Valore": "Sei",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/SeiSpade.jpeg",
-            "Alt":"SeiSpade"
-        },
-        "Descrizione":"Il Sei di Spade è la sesta carta del seme di Spade",
-        "Effetto":"Nessun effetto "
+        "ID": "6S",
+        "seme": "SPADE",
+        "nome": "SEI",
+        "descrizione": "Sei di Spade",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/spade/SeiSpade.jpeg",
+            "alt": "SeiSpade"
+        }
     },
     {
-        "ID":"7S",
-        "Nome": "Sette di Spade",
-        "Seme": "SPADE",
-        "Valore": "Sette",
-        "Punteggio":5,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/SetteSpade.jpeg",
-            "Alt":"SetteSpade"
-        },
-        "Descrizione":"Il Sette di Spade è la settima carta del seme di Spade",
-        "Effetto":"Nessun effetto "
+        "ID": "7S",
+        "seme": "SPADE",
+        "nome": "SETTE",
+        "descrizione": "Sette di Spade",
+        "punti": 5,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/spade/SetteSpade.jpeg",
+            "alt": "SetteSpade"
+        }
     },
     {
-        "ID":"8S",
-        "Nome": "Fante di Spade",
-        "Seme": "SPADE",
-        "Valore": "Fante",
-        "Punteggio":10,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/FanteSpade.jpeg",
-            "Alt":"FanteSpade"
-        },
-        "Descrizione":"Il Fante di Spade è l'ottava carta del seme di Spade",
-        "Effetto":"Nessun effetto "
+        "ID": "8S",
+        "seme": "SPADE",
+        "nome": "FANTE",
+        "descrizione": "Fante di Spade",
+        "punti": 10,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/spade/FanteSpade.jpeg",
+            "alt": "FanteSpade"
+        }
     },
     {
-        "ID":"9S",
-        "Nome": "Cavallo di Spade",
-        "Seme": "SPADE",
-        "Valore": "Cavallo",
-        "Punteggio":10,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/CavalloSpade.jpeg",
-            "Alt":"CavalloSpade"
-        },
-        "Descrizione":"Il Cavallo di Spade è la nona carta del seme di Spade",
-        "Effetto":"Nessun effetto "
+        "ID": "9S",
+        "seme": "SPADE",
+        "nome": "CAVALLO",
+        "descrizione": "Cavallo di Spade",
+        "punti": 10,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/spade/CavalloSpade.jpeg",
+            "alt": "CavalloSpade"
+        }
     },
     {
-        "ID":"10D",
-        "Nome": "Re di Spade",
-        "Seme": "SPADE",
-        "Valore": "Re",
-        "Punteggio":10,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/ReSpade.jpeg",
-            "Alt":"ReSpade"
-        },
-        "Descrizione":"Il Re di Spade è la decima carta del seme di Spade",
-        "Effetto":"Nessun effetto "
-    },
-    {
-        "ID":"MR",
-        "Nome": "Matta Rossa",
-        "Seme": "MATTA",
-        "Valore": "Matta",
-        "Punteggio":0,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/JollyRosso.jpeg",
-            "Alt":"MattaRossa"
-        },
-        "Descrizione":"La Matta Rossa è una carta speciale",
-        "Effetto":"La Matta Rossa ti da la possibilità di rubare metà mazzo del tuo avversario "
-    },
-    {
-        "ID":"MN",
-        "Nome": "Matta Nera",
-        "Seme": "MATTA",
-        "Valore": "Matta",
-        "Punteggio":0,
-        "Immagine":{
-            "Url" :"/src/main/resources/com/spacca/images/JollyNero.jpeg",
-            "Alt":"MattaNero"
-        },
-        "Descrizione":"La Matta Nera è una carta speciale",
-        "Effetto":"La Matta Nera ti da la possibilità di rubare tutto il mazzo del tuo avversario "
-    }    
+        "ID": "10D",
+        "seme": "SPADE",
+        "nome": "RE",
+        "descrizione": "Re di Spade",
+        "punti": 10,
+        "immagine": {
+            "url": "/src/main/resources/com/spacca/images/carte/spade/ReSpade.jpeg",
+            "alt": "ReSpade"
+        }
+    }
 ]

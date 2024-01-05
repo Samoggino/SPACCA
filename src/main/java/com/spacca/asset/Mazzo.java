@@ -10,40 +10,32 @@ import com.spacca.asset.carte.Seme;
 public class Mazzo {
     private List<Carta> carte;
 
+    public Mazzo() {
+        this.carte = creaMazzo();
+    }
+
+    public Mazzo(List<Carta> mazzoUtente) {
+        this.carte = mazzoUtente;
+    }
+
     private List<Carta> creaMazzo() {
-        return creaMazzo(4);
-    }
-
-    public Mazzo(int numeroDiMatte) {
-        carte = creaMazzo();
-    }
-
-    private List<Carta> creaMazzo(int numeroDiMatte) {
         // Aggiungi carte normali
         List<Carta> mazzo = new ArrayList<>();
         for (Seme seme : Seme.values()) {
             for (Nome nome : Nome.values()) {
-                if (nome != Nome.MATTA) {
-                    Carta carta = new Carta(seme, nome);
-                    mazzo.add(carta);
-                }
+                Carta carta = new Carta(seme, nome);
+                mazzo.add(carta);
             }
         }
-
-        for (int i = 0; i < 4; i++) {
-            mazzo.add(new Carta(Seme.MATTA, Nome.MATTA));
-        }
-
         Collections.shuffle(mazzo);
-
         return mazzo;
     }
 
-    public void aggiungiCarta(Carta carta) {
-        carte.add(carta);
-    }
+    // public void aggiungiCarta(Carta carta) {
+    // carte.add(carta);
+    // }
 
-    public List<Carta> getCarte() {
+    public List<Carta> getMazzo() {
         return carte;
     }
 }

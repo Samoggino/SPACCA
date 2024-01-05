@@ -28,7 +28,7 @@ public class App extends Application {
              * Contro gli
              * Avversari?
              */
-            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/img/logo.png"));
+            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
             stage.getIcons().add(icon);
 
             // titolo della finestra
