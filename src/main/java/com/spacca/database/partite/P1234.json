@@ -1,0 +1,15 @@
+{
+    "giocatori": [
+        {
+            "nickname": "Mario",
+            "listaCodiciPartite": [
+                "P1234"
+            ]
+        },
+        {
+            "nickname": "Luigi"
+        }
+    ],
+    "risultato": "1-0",
+    "codice": "P1234"
+}

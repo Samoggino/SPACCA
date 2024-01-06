@@ -1,58 +1,19 @@
 package com.spacca.asset.utente.giocatore;
 
-public class Giocatore implements GiocatoreInterface {
+import com.google.gson.annotations.SerializedName;
 
-    String nickname;
+public class Giocatore extends AbstractGiocatore {
+
+    @SerializedName("password")
     String password;
 
     public Giocatore(String nickname, String password) {
-        this.nickname = nickname;
+        super(nickname);
         this.password = password;
     }
 
-    @Override
-    public void gioca() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void mostraLeaderboard() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void pesca() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void prendi() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void prendiTutto() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void scarta() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+        // TODO: mostra la leaderboard della partita
     }
 
     public String getPassword() {
@@ -63,4 +24,7 @@ public class Giocatore implements GiocatoreInterface {
         this.password = password;
     }
 
+    public void mostraPartite() {
+        System.out.println("Partite di " + this.getNickname() + ":" + this.listaCodiciPartite);
+    }
 }

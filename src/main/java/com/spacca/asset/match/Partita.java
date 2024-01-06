@@ -2,21 +2,32 @@ package com.spacca.asset.match;
 
 import java.util.List;
 
-import com.spacca.asset.utente.giocatore.GiocatoreInterface;
+import com.google.gson.annotations.SerializedName;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.database.Database;
 
 public class Partita {
+    
+    @SerializedName("giocatori")
+    List<AbstractGiocatore> giocatori;
 
-    String risultato;
-    String codice;
-    List<GiocatoreInterface> giocatori;
+    @SerializedName("risultato")
+    String risultato = "risultato default";
 
-    public Partita(String codice, List<GiocatoreInterface> giocatori) {
-        this.codice = codice;
-        this.giocatori = giocatori;
+    public void setRisultato(String risultato) {
+        this.risultato = risultato;
     }
 
-    public Partita(String codice, List<GiocatoreInterface> giocatori, String risultato) {
+    @SerializedName("codice")
+    String codice = "codice default";
+
+    public Partita(String codice, List<AbstractGiocatore> giocatori) {
+        this.codice = codice;
+        this.giocatori = giocatori;
+        this.risultato = "Ancora da giocare";
+    }
+
+    public Partita(String codice, List<AbstractGiocatore> giocatori, String risultato) {
         this.codice = codice;
         this.giocatori = giocatori;
         this.risultato = risultato;
@@ -53,14 +64,14 @@ public class Partita {
         String stampa = "\nPartita: \n";
 
         int i = 0;
-        for (GiocatoreInterface giocatore : giocatori) {
+        for (AbstractGiocatore giocatore : giocatori) {
             if (i == 1) {
                 stampa += "\tvs\t";
             }
             stampa += giocatore.getNickname();
             i++;
         }
-        stampa += "\nCodice" + this.codice + "\nRisultato: " + this.risultato + "\n";
+        stampa += "\nCodice " + this.codice + "\nRisultato: " + this.risultato + "\n";
 
         return stampa;
     }
@@ -68,6 +79,14 @@ public class Partita {
     @Override
     public String toString() {
         return stampa();
+    }
+
+    public List<AbstractGiocatore> getGiocatori() {
+        return giocatori;
+    }
+
+    public void setGiocatori(List<AbstractGiocatore> giocatori) {
+        this.giocatori = giocatori;
     }
 
 }

@@ -5,7 +5,7 @@ import java.util.Random;
 
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.match.Torneo;
-import com.spacca.asset.utente.giocatore.GiocatoreInterface;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.database.Database;
 
 /**
@@ -64,7 +64,7 @@ public class Amministratore {
         return numero;
     }
 
-    public Partita creaPartita(List<GiocatoreInterface> giocatori) {
+    public Partita creaPartita(List<AbstractGiocatore> giocatori) {
         Database db = new Database();
         return db.creaPartita("P" + generaNumeroCasuale(), giocatori);
     }

@@ -1,53 +1,13 @@
 package com.spacca.asset.utente.giocatore;
 
-public class StupidCPU extends AbstractCPU {
+public class StupidCPU extends AbstractGiocatore {
+
+    public StupidCPU(String nickname) {
+        super(nickname);
+    }
 
     @Override
     public void gioca() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'gioca'");
+        // TODO: gioca in modo stupido
     }
-
-    @Override
-    public void pesca() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'pesca'");
-    }
-
-    @Override
-    public void scarta() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'scarta'");
-    }
-
-    @Override
-    public void prendi() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'prendi'");
-    }
-
-    @Override
-    public void prendiTutto() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'prendiTutto'");
-    }
-
-    @Override
-    public void mostraLeaderboard() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mostraLeaderboard'");
-    }
-
-    @Override
-    public void setNickname(String string) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setNickname'");
-    }
-
-    @Override
-    public String getNickname() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getNickname'");
-    }
-
 }

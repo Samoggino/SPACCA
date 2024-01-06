@@ -12,9 +12,5 @@ public interface GiocatoreInterface {
 
     void prendiTutto();
 
-    void mostraLeaderboard();
-
-    void setNickname(String string);
-
     String getNickname();
 }
