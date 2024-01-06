@@ -17,7 +17,7 @@ import com.spacca.asset.carte.Mazzo;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 
-public class Database {
+public class FileHandler {
 
     /**
      * crea una partita con un codice e una lista di giocatori
@@ -29,7 +29,7 @@ public class Database {
     public Partita creaPartita(String codice, List<AbstractGiocatore> giocatori) {
         Partita partita = null;
         try {
-            partita = new Partita("P1234", giocatori, "2-1");
+            partita = new Partita(codice, giocatori);
             salvaPartita(partita, codice);
         } catch (Exception e) {
             System.err.println("ERRORE: Errore generico in" + this.getClass().getName());
@@ -47,7 +47,7 @@ public class Database {
      */
     public void salvaPartita(Partita partita, String codicePartita) {
 
-        codicePartita = "src/main/java/com/spacca/database/partite/" + codicePartita + ".json";
+        codicePartita = "src/main/resources/com/spacca/database/partite/" + codicePartita + ".json";
 
         Gson gson = new Gson();
         String json = gson.toJson(partita);
@@ -77,12 +77,13 @@ public class Database {
         Partita partita = null;
 
         try {
-            Reader fileReader = new FileReader("src/main/java/com/spacca/database/partite/" + codicePartita + ".json");
+            Reader fileReader = new FileReader(
+                    "src/main/resources/com/spacca/database/partite/" + codicePartita + ".json");
             Gson gson = new Gson();
 
             partita = gson.fromJson(fileReader, Partita.class);
             System.out.println(gson.toJson(partita));
-            
+
             fileReader.close();
         } catch (JsonIOException e) {
             System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" + this.getClass().getName());
@@ -171,7 +172,7 @@ public class Database {
     public void stampaCarteFromJson() {
         try {
             // leggo il file JSON
-            Reader fileReader = new FileReader("src/main/java/com/spacca/database/carte.json");
+            Reader fileReader = new FileReader("src/main/resources/com/spacca/database/carte.json");
             Gson gson = new Gson();
 
             // gson prende il fileReader e lo converte in un array di carte

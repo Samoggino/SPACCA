@@ -49,4 +49,13 @@ public class AbstractGiocatore implements GiocatoreInterface {
         return nickname;
     }
 
+    String stampa() {
+        return "Giocatore: " + this.nickname;
+    }
+
+    @Override
+    public String toString() {
+        return stampa();
+    }
+
 }

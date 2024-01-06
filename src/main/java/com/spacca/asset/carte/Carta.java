@@ -14,11 +14,11 @@ public class Carta {
     final static int PUNTI_MATTA = PUNTI_CARTA;
     // per ora una matta vale come una carta normale, ma potrebbe essere modificato
 
-    @SerializedName("seme")
-    private Seme seme;
-
     @SerializedName("nome")
     private Nome nome;
+
+    @SerializedName("seme")
+    private Seme seme;
 
     @SerializedName("punti")
     private int punti;

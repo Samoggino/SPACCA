@@ -4,15 +4,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Mazzo {
-    private List<Carta> carte;
+
+    @SerializedName("carte nel mazzo")
+    private List<Carta> carteNelMazzo;
 
     public Mazzo() {
-        this.carte = creaMazzo();
+        this.carteNelMazzo = creaMazzo();
     }
 
     public Mazzo(List<Carta> mazzoUtente) {
-        this.carte = mazzoUtente;
+        this.carteNelMazzo = mazzoUtente;
     }
 
     private List<Carta> creaMazzo() {
@@ -29,12 +33,12 @@ public class Mazzo {
     }
 
     public List<Carta> getMazzo() {
-        return carte;
+        return carteNelMazzo;
     }
 
     public String stampa() {
         String stampa = "";
-        for (Carta carta : carte) {
+        for (Carta carta : carteNelMazzo) {
             stampa += carta.stampa() + "\n";
         }
         return stampa;
@@ -43,5 +47,18 @@ public class Mazzo {
     @Override
     public String toString() {
         return "Mazzo di carte:\n" + stampa() + "";
+    }
+
+    public List<Carta> getCarteNelMazzo() {
+        return carteNelMazzo;
+    }
+
+    public void setCarteNelMazzo(List<Carta> carte) {
+        this.carteNelMazzo = carte;
+    }
+
+    public Mazzo aggiungiCartaAlMazzo(Carta carta) {
+        this.carteNelMazzo.add(carta);
+        return this;
     }
 }

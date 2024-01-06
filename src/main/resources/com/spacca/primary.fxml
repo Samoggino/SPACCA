@@ -10,8 +10,10 @@
    <children>
       <Label text="Primary View" />
       <Button fx:id="primaryButton" text="Mostra le carte" onAction="#provaConCarte" />
-      <Button fx:id="primaryButton" text="Nuova partita" onAction="#nuovaPartita"/>
-      <Button fx:id="primaryButton" text="Continua partita" onAction="#continuaPartita"/>
+      <Button fx:id="primaryButton" text="Nuova partita" onAction="#nuovaPartita" />
+      <Button fx:id="primaryButton" text="Continua partita" onAction="#continuaPartita" />
+      <Button fx:id="primaryButton" text="Continua una partita che hai appena creato"
+         onAction="#comboCreaContinuaPartita" />
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

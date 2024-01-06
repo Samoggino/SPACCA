@@ -27,4 +27,9 @@ public class Giocatore extends AbstractGiocatore {
     public void mostraPartite() {
         System.out.println("Partite di " + this.getNickname() + ":" + this.listaCodiciPartite);
     }
+
+    @Override
+    String stampa() {
+        return super.stampa() + " con password: " + this.password;
+    }
 }

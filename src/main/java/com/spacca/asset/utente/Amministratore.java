@@ -6,7 +6,7 @@ import java.util.Random;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.match.Torneo;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.database.Database;
+import com.spacca.database.FileHandler;
 
 /**
  * AmministratoreI
@@ -65,8 +65,13 @@ public class Amministratore {
     }
 
     public Partita creaPartita(List<AbstractGiocatore> giocatori) {
-        Database db = new Database();
-        return db.creaPartita("P" + generaNumeroCasuale(), giocatori);
+        FileHandler fileHanlder = new FileHandler();
+        return fileHanlder.creaPartita("P" + generaNumeroCasuale(), giocatori);
+    }
+
+    public Partita caricaPartita(String string) {
+        FileHandler fileHanlder = new FileHandler();
+        return fileHanlder.caricaPartita(string);
     }
 
 }
