@@ -7,7 +7,7 @@ public class StupidCPU extends AbstractGiocatore {
     }
 
     @Override
-    public void gioca() {
+    public void scarta() {
         // TODO: gioca in modo stupido
     }
 }

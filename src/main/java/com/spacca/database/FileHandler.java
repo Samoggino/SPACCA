@@ -6,14 +6,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.spacca.asset.carte.Carta;
-import com.spacca.asset.carte.Mazzo;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 
@@ -32,8 +29,8 @@ public class FileHandler {
             partita = new Partita(codice, giocatori);
             salvaPartita(partita, codice);
         } catch (Exception e) {
-            System.err.println("ERRORE: Errore generico in" + this.getClass().getName());
             e.printStackTrace();
+            // System.err.println("ERRORE: Errore generico in" + this.getClass().getName());
         }
         return partita;
     }
@@ -56,14 +53,20 @@ public class FileHandler {
             writer.write(json);
 
         } catch (JsonIOException e) {
-            System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" + this.getClass().getName());
+            // System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +
+            // this.getClass().getName());
+            e.printStackTrace();
         } catch (FileNotFoundException e) {
-            System.err.println("ERRORE: File non trovato in\n" + this.getClass().getName());
+            // System.err.println("ERRORE: File non trovato in\n" +
+            // this.getClass().getName());
+            e.printStackTrace();
         } catch (IOException e) {
-            System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" + this.getClass().getName());
+            // System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +
+            // this.getClass().getName());
             e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("ERRORE: Errore generico in\n" + this.getClass().getName());
+            // System.err.println("ERRORE: Errore generico in\n" +
+            // this.getClass().getName());
             e.printStackTrace();
         }
     }
@@ -86,13 +89,16 @@ public class FileHandler {
 
             fileReader.close();
         } catch (JsonIOException e) {
-            System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" + this.getClass().getName());
+            // System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" + this.getClass().getName());
+            e.printStackTrace();
         } catch (FileNotFoundException e) {
-            System.err.println("ERRORE: File non trovato in\n" + this.getClass().getName());
+            // System.err.println("ERRORE: File non trovato in\n" + this.getClass().getName());
+            e.printStackTrace();
         } catch (IOException e) {
-            System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" + this.getClass().getName());
+            // System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" + this.getClass().getName());
+            e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("ERRORE: Errore generico in\n" + this.getClass().getName());
+            // System.err.println("ERRORE: Errore generico in\n" + this.getClass().getName());
             e.printStackTrace();
         }
 
@@ -169,38 +175,39 @@ public class FileHandler {
     /**
      * Metodo che stampa le carte dal file JSON
      */
-    public void stampaCarteFromJson() {
+    public Carta[] prendiLeCarteDalJson() {
+        Carta[] carte = null;
         try {
             // leggo il file JSON
             Reader fileReader = new FileReader("src/main/resources/com/spacca/database/carte.json");
             Gson gson = new Gson();
 
             // gson prende il fileReader e lo converte in un array di carte
-            Carta[] carte = gson.fromJson(fileReader, Carta[].class);
-
-            // Converti l'array di carte in un ArrayList di carte e inseriscilo in un
-            // oggetto Mazzo
-            Mazzo mazzo = new Mazzo(new ArrayList<>(Arrays.asList(carte)));
-
-            System.out.println(mazzo);
+            carte = gson.fromJson(fileReader, Carta[].class);
 
             // chiudo il fileReader
             fileReader.close();
 
         } catch (JsonIOException e) {
-            System.err.println("ERRORE: Errore durante la lettura del file JSON");
+            // System.err.println("ERRORE: Errore durante la lettura del file JSON");
             e.printStackTrace();
         } catch (FileNotFoundException e) {
-            System.err.println("ERRORE: File non trovato");
+            // System.err.println("ERRORE: File non trovato");
             e.printStackTrace();
         } catch (IOException e) {
-            System.err.println("ERRORE: Errore durante la lettura del file JSON");
+            // System.err.println("ERRORE: Errore durante la lettura del file JSON");
             e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("ERRORE: Errore generico in" + this.getClass().getName());
+            // System.err.println("ERRORE: Errore generico in" + this.getClass().getName());
             e.printStackTrace();
         }
 
+        return carte;
+
+    }
+
+    public void eliminaPartita(String codice) {
+        // TODO
     }
 
 }

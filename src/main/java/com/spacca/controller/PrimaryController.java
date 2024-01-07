@@ -3,6 +3,9 @@ package com.spacca.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.spacca.asset.carte.Carta;
+import com.spacca.asset.carte.Nome;
+import com.spacca.asset.carte.Seme;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
@@ -16,13 +19,7 @@ public class PrimaryController {
     Amministratore amministratore = new Amministratore();
 
     @FXML
-    void provaConCarte() {
-        fileHandler.stampaCarteFromJson();
-    }
-
-    @FXML
     void continuaPartita() {
-
         Partita partita = amministratore.caricaPartita("P3456");
         System.out.println(partita);
     }

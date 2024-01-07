@@ -24,19 +24,16 @@ public class Carta {
     private int punti;
 
     @SerializedName("immagine")
-    private ImmagineCarta immagine;
+    private String immagine;
 
-    public ImmagineCarta getImmagine() {
-        return immagine;
-    }
-
-    public void setImmagine(ImmagineCarta immagine) {
+    public void setImmagine(String immagine) {
         this.immagine = immagine;
     }
 
-    public Carta(Seme seme, Nome nome) {
+    public Carta(Seme seme, Nome nome, String immagine) {
         this.seme = seme;
         this.nome = nome;
+        this.immagine = immagine;
         this.punti = setPunti(nome);
     }
 
@@ -48,6 +45,10 @@ public class Carta {
 
     public Seme getSeme() {
         return seme;
+    }
+
+    public String getImmagine() {
+        return immagine;
     }
 
     public void setSeme(Seme seme) {
@@ -63,8 +64,10 @@ public class Carta {
     }
 
     public String stampa() {
+        // FIXME: l'immagine dà problemi perchè non viene presa e viene sollenzata una
+        // NullPointerException
         return "Carta: " + this.nome + " di " + this.seme + " - " + this.punti + " punti" + " - "
-                + this.immagine.getUrl();
+                + this.immagine;
     }
 
     public int getPunti() {

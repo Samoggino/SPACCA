@@ -1,10 +1,12 @@
 package com.spacca.asset.carte;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
+import com.spacca.database.FileHandler;
 
 public class Mazzo {
 
@@ -12,24 +14,25 @@ public class Mazzo {
     private List<Carta> carteNelMazzo;
 
     public Mazzo() {
-        this.carteNelMazzo = creaMazzo();
     }
 
     public Mazzo(List<Carta> mazzoUtente) {
         this.carteNelMazzo = mazzoUtente;
     }
 
-    private List<Carta> creaMazzo() {
-        // Aggiungi carte normali
-        List<Carta> mazzo = new ArrayList<>();
-        for (Seme seme : Seme.values()) {
-            for (Nome nome : Nome.values()) {
-                Carta carta = new Carta(seme, nome);
-                mazzo.add(carta);
-            }
+    public Mazzo creaMazzoDiPartenza() {
+        try {
+            FileHandler fileHandler = new FileHandler();
+            this.carteNelMazzo = new ArrayList<>(Arrays.asList(fileHandler.prendiLeCarteDalJson()));
+
+            Collections.shuffle(this.carteNelMazzo);
+            System.out.println("Mazzo iniziale creato con successo!");
+        } catch (NullPointerException e) {
+            System.out.println("Errore nel creare il mazzo di partenza\n\n" + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Errore generico nel creare il mazzo di partenza\n\n" + e.getMessage());
         }
-        Collections.shuffle(mazzo);
-        return mazzo;
+        return this;
     }
 
     public List<Carta> getMazzo() {
@@ -38,15 +41,19 @@ public class Mazzo {
 
     public String stampa() {
         String stampa = "";
+        if (carteNelMazzo == null) {
+            return "Nessuna carta nel mazzo.";
+        }
+
         for (Carta carta : carteNelMazzo) {
             stampa += carta.stampa() + "\n";
         }
-        return stampa;
+        return "Mazzo di carte:\n" + stampa;
     }
 
     @Override
     public String toString() {
-        return "Mazzo di carte:\n" + stampa() + "";
+        return stampa();
     }
 
     public List<Carta> getCarteNelMazzo() {
@@ -57,7 +64,8 @@ public class Mazzo {
         this.carteNelMazzo = carte;
     }
 
-    public Mazzo aggiungiCartaAlMazzo(Carta carta) {
+    public Mazzo aggiungiCartaAlMazzo(Carta carta, List<Carta> mazzo) {
+        this.carteNelMazzo = mazzo;
         this.carteNelMazzo.add(carta);
         return this;
     }

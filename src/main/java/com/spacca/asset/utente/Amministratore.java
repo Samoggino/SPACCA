@@ -12,6 +12,8 @@ import com.spacca.database.FileHandler;
  * AmministratoreI
  */
 public class Amministratore {
+    FileHandler fileHandler = new FileHandler();
+
     void creaPartita() {
         // TODO
     }
@@ -65,13 +67,17 @@ public class Amministratore {
     }
 
     public Partita creaPartita(List<AbstractGiocatore> giocatori) {
-        FileHandler fileHanlder = new FileHandler();
-        return fileHanlder.creaPartita("P" + generaNumeroCasuale(), giocatori);
+        String codicePartita = "P" + generaNumeroCasuale();
+
+        for (AbstractGiocatore abstractGiocatore : giocatori) {
+            abstractGiocatore.addCodicePartita(codicePartita);
+        }
+
+        return fileHandler.creaPartita(codicePartita, giocatori);
     }
 
     public Partita caricaPartita(String string) {
-        FileHandler fileHanlder = new FileHandler();
-        return fileHanlder.caricaPartita(string);
+        return fileHandler.caricaPartita(string);
     }
 
 }

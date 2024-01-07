@@ -7,7 +7,7 @@ public class SmartCPU extends AbstractGiocatore {
     }
 
     @Override
-    public void gioca() {
+    public void scarta() {
         // TODO: gioca in modo intelligente
     }
 }

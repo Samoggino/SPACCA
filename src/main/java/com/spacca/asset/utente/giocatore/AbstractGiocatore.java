@@ -1,5 +1,8 @@
 package com.spacca.asset.utente.giocatore;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
 
 public class AbstractGiocatore implements GiocatoreInterface {
@@ -8,28 +11,16 @@ public class AbstractGiocatore implements GiocatoreInterface {
     String nickname;
 
     @SerializedName("listaCodiciPartite")
-    String[] listaCodiciPartite = new String[0];
+    List<String> listaCodiciPartite = new ArrayList<>();
 
     public AbstractGiocatore(String nickname) {
         this.nickname = nickname;
     }
 
     @Override
-    public void gioca() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'gioca'");
-    }
-
-    @Override
-    public void pesca() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'pesca'");
-    }
-
-    @Override
     public void scarta() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'scarta'");
+        throw new UnsupportedOperationException("Unimplemented method 'gioca'");
     }
 
     @Override
@@ -39,12 +30,11 @@ public class AbstractGiocatore implements GiocatoreInterface {
     }
 
     @Override
-    public void prendiTutto() {
+    public void prendiTuttoIlTavolo() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'prendiTutto'");
     }
 
-    @Override
     public String getNickname() {
         return nickname;
     }
@@ -56,6 +46,34 @@ public class AbstractGiocatore implements GiocatoreInterface {
     @Override
     public String toString() {
         return stampa();
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public List<String> getListaCodiciPartite() {
+        return listaCodiciPartite;
+    }
+
+    public void setListaCodiciPartite(List<String> listaCodiciPartite) {
+        this.listaCodiciPartite = listaCodiciPartite;
+    }
+
+    public void addCodicePartita(String codicePartita) {
+        this.listaCodiciPartite.add(codicePartita);
+    }
+
+    @Override
+    public void prendiTuttoIlMazzoDiUnAltroUtente(AbstractGiocatore giocatore) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'prendiTuttoIlMazzoDiUnAltroUtente'");
+    }
+
+    @Override
+    public void prendiMezzoMazzoDiUnAltroUtente(AbstractGiocatore giocatore) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'prendiMezzoMazzoDiUnAltroUtente'");
     }
 
 }
