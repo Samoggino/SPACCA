@@ -9,7 +9,6 @@
    xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.PrimaryController">
    <children>
       <Label text="Primary View" />
-      <Button fx:id="primaryButton" text="Mostra le carte" onAction="#provaConCarte" />
       <Button fx:id="primaryButton" text="Nuova partita" onAction="#nuovaPartita" />
       <Button fx:id="primaryButton" text="Continua partita" onAction="#continuaPartita" />
       <Button fx:id="primaryButton" text="Continua una partita che hai appena creato"

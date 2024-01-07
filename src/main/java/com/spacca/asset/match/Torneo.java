@@ -1,11 +1,15 @@
 package com.spacca.asset.match;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 
 public class Torneo {
 
     String codice;
     List<Partita> partite;
+    List<AbstractGiocatore> classifica;
 
     public Torneo(String codice) {
         this.codice = codice;
@@ -16,15 +20,15 @@ public class Torneo {
     }
 
     // risultato partite
-    public String getLeaderboard() {
+    public List<AbstractGiocatore> getLeaderboard() {
 
         /**
          * //FIXME: probabilmente la leaderboard non è una stringa, ma un oggetto
          * che contiene i risultati delle partite e i giocatori che hanno partecipato
          */
-        String leaderboard = "";
+        List<AbstractGiocatore> leaderboard = new ArrayList<>();
         for (Partita partita : partite) {
-            leaderboard = partita.getRisultato() + "\n";
+            leaderboard.addAll(partita.getListaDeiGiocatori());
         }
         return leaderboard;
     }
@@ -48,5 +52,9 @@ public class Torneo {
         } else {
             // TODO: mostra pagina che dice che il codice è sbagliato
         }
+    }
+
+    public void setPartite(List<Partita> partite) {
+        this.partite = partite;
     }
 }
