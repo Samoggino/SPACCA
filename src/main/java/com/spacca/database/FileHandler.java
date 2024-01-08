@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -26,7 +27,12 @@ public class FileHandler {
     public Partita creaPartita(String codice, List<AbstractGiocatore> giocatori) {
         Partita partita = null;
         try {
-            partita = new Partita(codice, giocatori);
+            // TODO: controllo per il login
+            List<String> listaDeiGiocatori = new ArrayList<>(giocatori.size());
+            for (AbstractGiocatore abstractGiocatore : giocatori) {
+                listaDeiGiocatori.add(abstractGiocatore.getNickname());
+            }
+            partita = new Partita(codice, listaDeiGiocatori);
             salvaPartita(partita, codice);
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,20 +59,12 @@ public class FileHandler {
             writer.write(json);
 
         } catch (JsonIOException e) {
-            // System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +
-            // this.getClass().getName());
             e.printStackTrace();
         } catch (FileNotFoundException e) {
-            // System.err.println("ERRORE: File non trovato in\n" +
-            // this.getClass().getName());
             e.printStackTrace();
         } catch (IOException e) {
-            // System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +
-            // this.getClass().getName());
             e.printStackTrace();
         } catch (Exception e) {
-            // System.err.println("ERRORE: Errore generico in\n" +
-            // this.getClass().getName());
             e.printStackTrace();
         }
     }
@@ -89,16 +87,20 @@ public class FileHandler {
 
             fileReader.close();
         } catch (JsonIOException e) {
-            // System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" + this.getClass().getName());
+            // System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" +
+            // this.getClass().getName());
             e.printStackTrace();
         } catch (FileNotFoundException e) {
-            // System.err.println("ERRORE: File non trovato in\n" + this.getClass().getName());
+            // System.err.println("ERRORE: File non trovato in\n" +
+            // this.getClass().getName());
             e.printStackTrace();
         } catch (IOException e) {
-            // System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" + this.getClass().getName());
+            // System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" +
+            // this.getClass().getName());
             e.printStackTrace();
         } catch (Exception e) {
-            // System.err.println("ERRORE: Errore generico in\n" + this.getClass().getName());
+            // System.err.println("ERRORE: Errore generico in\n" +
+            // this.getClass().getName());
             e.printStackTrace();
         }
 

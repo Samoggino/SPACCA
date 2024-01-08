@@ -14,6 +14,7 @@ public class Mazzo {
     private List<Carta> carteNelMazzo;
 
     public Mazzo() {
+        this.carteNelMazzo = new ArrayList<>(); // Initialize the list in the default constructor
     }
 
     public Mazzo(List<Carta> mazzoUtente) {
@@ -35,18 +36,16 @@ public class Mazzo {
         return this;
     }
 
-    public List<Carta> getMazzo() {
-        return carteNelMazzo;
-    }
-
     public String stampa() {
         String stampa = "";
         if (carteNelMazzo == null) {
             return "Nessuna carta nel mazzo.";
         }
 
+        int i = 0; // contatore per vedere se stampa tutte le 40 carte
         for (Carta carta : carteNelMazzo) {
-            stampa += carta.stampa() + "\n";
+            i++;
+            stampa += i + ": " + carta.stampa() + "\n";
         }
         return "Mazzo di carte:\n" + stampa;
     }
@@ -64,9 +63,26 @@ public class Mazzo {
         this.carteNelMazzo = carte;
     }
 
-    public Mazzo aggiungiCartaAlMazzo(Carta carta, List<Carta> mazzo) {
-        this.carteNelMazzo = mazzo;
+    public void aggiungiCartaAlMazzo(Carta carta) {
+        if (this.carteNelMazzo == null) {
+            this.carteNelMazzo = new ArrayList<>(); // Initialize the list if null
+            this.carteNelMazzo.add(carta);
+        }
         this.carteNelMazzo.add(carta);
-        return this;
+    }
+
+    public void aggiungiManoAlMazzo(List<Carta> mano) {
+        if (this.carteNelMazzo == null) {
+            this.carteNelMazzo = new ArrayList<>(); // Initialize the list if null
+            this.carteNelMazzo.addAll(mano);
+        }
+        this.carteNelMazzo.addAll(mano);
+    }
+
+    public Carta rimuoviCartaDalMazzo(int posizioneDellaCarta) throws IndexOutOfBoundsException {
+        if (posizioneDellaCarta < 0 || posizioneDellaCarta > this.carteNelMazzo.size()) {
+            throw new IndexOutOfBoundsException("La posizione della carta non è valida");
+        }
+        return this.carteNelMazzo.remove(posizioneDellaCarta);
     }
 }

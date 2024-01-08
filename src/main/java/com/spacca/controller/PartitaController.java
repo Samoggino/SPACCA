@@ -14,25 +14,48 @@ import javafx.fxml.FXML;
 public class PartitaController {
     FileHandler fileHandler = new FileHandler();
     Amministratore amministratore = new Amministratore();
+    Partita partita;
+    AbstractGiocatore giocatore1 = new Giocatore("Yoshi", "");
+    AbstractGiocatore giocatore2 = new Giocatore("Mario", "");
+    AbstractGiocatore giocatore3 = new Giocatore("Peach", "");
+    AbstractGiocatore giocatore4 = new Giocatore("Luigi", "");
+    AbstractGiocatore giocatore5 = new Giocatore("Toad", "");
+    AbstractGiocatore giocatore6 = new Giocatore("Bowser", "");
+    List<AbstractGiocatore> giocatoriDellaPartita = new ArrayList<>(); // Inizializzazione della lista
 
     @FXML
     void nuovaPartita() {
-        List<AbstractGiocatore> giocatoriDellaPartita = new ArrayList<>(); // Inizializzazione della lista
 
-        AbstractGiocatore giocatore1 = new Giocatore("pierpaolo", "cicciogamer89"); // Primo oggetto Giocatore
-        AbstractGiocatore giocatore2 = new Giocatore("bernardo", "cicciogamer89"); // Secondo oggetto Giocatore
+        giocatoriDellaPartita.add(giocatore1);
+        giocatoriDellaPartita.add(giocatore2);
+        giocatoriDellaPartita.add(giocatore3);
+        giocatoriDellaPartita.add(giocatore4);
+        giocatoriDellaPartita.add(giocatore5);
+        giocatoriDellaPartita.add(giocatore6);
 
-        giocatoriDellaPartita.add(giocatore1); // Aggiunta del primo giocatore alla lista
-        giocatoriDellaPartita.add(giocatore2); // Aggiunta del secondo giocatore alla lista
+        partita = amministratore.creaPartita(giocatoriDellaPartita);
 
-        Partita partita = amministratore.creaPartita(giocatoriDellaPartita);
+        System.out.println("Mazzo di gioco prima di giocare" + partita.getMazzoDiGioco());
 
-        System.out.println(partita);
+        partita.nuovoTurno(1);
 
-        partita.pesca(giocatore1.getNickname());
-        partita.pesca(giocatore2.getNickname());
+        System.out.println(partita.getMazzoDiGioco());
+        System.out.println(partita.stampaManoDeiGiocatori());
+        System.out.println(partita.getCarteSulTavolo());
+        System.out.println("Codice:\t" + partita.getCodice());
 
-        System.out.println(partita);
+    }
+
+    @FXML
+    void gioca() {
+        // partita.gioca(giocatore1, 2);
+        System.out.println("Carte di " + giocatore1.getNickname() + "\n" + partita.getMano(giocatore1.getNickname()));
+        System.out.println("Carte di " + giocatore2.getNickname() + "\n" + partita.getMano(giocatore2.getNickname()));
+        System.out.println("Carte di " + giocatore3.getNickname() + "\n" + partita.getMano(giocatore3.getNickname()));
+        System.out.println("Carte di " + giocatore4.getNickname() + "\n" + partita.getMano(giocatore4.getNickname()));
+        System.out.println("Carte di " + giocatore5.getNickname() + "\n" + partita.getMano(giocatore5.getNickname()));
+        System.out.println("Carte di " + giocatore6.getNickname() + "\n" + partita.getMano(giocatore6.getNickname()));
+        System.out.println(partita.getRisultato());
     }
 
 }
