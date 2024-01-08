@@ -3,7 +3,6 @@ package com.spacca.asset.match;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.gson.annotations.SerializedName;
 import com.spacca.asset.carte.Carta;
@@ -108,21 +107,39 @@ public class Partita {
         fileHandler.eliminaPartita(this.codice);
     }
 
+    // public String getRisultato() {
+    // StringBuilder risultatoBuilder = new StringBuilder();
+
+    // getManoDeiGiocatori().forEach((username, mazzo) -> {
+    // AtomicInteger punti = new AtomicInteger(0); // Utilizzo di AtomicInteger come
+    // wrapper
+
+    // getMano(username).getCarteNelMazzo().forEach(carta -> {
+    // punti.addAndGet(carta.getPunti()); // Incremento in modo sicuro dei punti
+    // usando AtomicInteger
+    // });
+
+    // risultatoBuilder
+    // .append(username)
+    // .append(": ")
+    // .append(punti)
+    // .append("\n");
+    // });
+
+    // return risultatoBuilder.toString();
+    // }
+
     public String getRisultato() {
         StringBuilder risultatoBuilder = new StringBuilder();
 
-        getManoDeiGiocatori().forEach((nickname, mazzo) -> {
-            AtomicInteger punti = new AtomicInteger(0); // Utilizzo di AtomicInteger come wrapper
+        getManoDeiGiocatori().forEach((username, mazzo) -> {
+            int punti = mazzo
+                    .getCarteNelMazzo()
+                    .stream()
+                    .mapToInt(Carta::getPunti)
+                    .sum();
 
-            getMano(nickname).getCarteNelMazzo().forEach(carta -> {
-                punti.addAndGet(carta.getPunti()); // Incremento in modo sicuro dei punti usando AtomicInteger
-            });
-
-            risultatoBuilder
-                    .append(nickname)
-                    .append(": ")
-                    .append(punti)
-                    .append("\n");
+            risultatoBuilder.append(String.format("%s: %d\n", username, punti));
         });
 
         return risultatoBuilder.toString();
@@ -131,8 +148,8 @@ public class Partita {
     public String stampaManoDeiGiocatori() {
         String stampa = "\n";
         int i = 0;
-        for (String nickname : this.manoDeiGiocatori.keySet()) {
-            stampa += "Mano di " + nickname + ": " + this.manoDeiGiocatori.get(nickname);
+        for (String username : this.manoDeiGiocatori.keySet()) {
+            stampa += "Mano di " + username + ": " + this.manoDeiGiocatori.get(username);
             if (i < getListaDeiGiocatori().size()) {
                 // mette a capo tra un giocatore e l'altro
                 stampa += "\n";
@@ -181,8 +198,8 @@ public class Partita {
         salvaPartita();
     }
 
-    public Mazzo getMano(String nickname) {
-        return this.manoDeiGiocatori.get(nickname);
+    public Mazzo getMano(String username) {
+        return this.manoDeiGiocatori.get(username);
     }
 
     public void setManoDeiGiocatori(Map<String, Mazzo> manoDelGiocatore) {
@@ -246,8 +263,8 @@ public class Partita {
         int numeroCartePerGiocatore = 3;
         // distribuisce le carte ai giocatori
         for (int i = 0; i < numeroCartePerGiocatore; i++) {
-            for (String nickname : this.manoDeiGiocatori.keySet()) {
-                Mazzo mazzoGiocatore = this.manoDeiGiocatori.get(nickname);
+            for (String username : this.manoDeiGiocatori.keySet()) {
+                Mazzo mazzoGiocatore = this.manoDeiGiocatori.get(username);
                 if (mazzoGiocatore != null && this.mazzoDiGioco != null
                         && !this.mazzoDiGioco.getCarteNelMazzo().isEmpty()) {
 
@@ -256,7 +273,7 @@ public class Partita {
                             .remove(lunghezzaMazzoDiGiocoCorrente() - 1);
                     // meno uno tolto da qua sopra
                     mazzoGiocatore.aggiungiCartaAlMazzo(cartaDaDare);
-                    this.manoDeiGiocatori.put(nickname, mazzoGiocatore);
+                    this.manoDeiGiocatori.put(username, mazzoGiocatore);
                 } else {
                     System.out.println(
                             "Errore: Il mazzo di gioco è vuoto o non è stato inizializzato correttamente.");
@@ -271,8 +288,8 @@ public class Partita {
 
     private void distribuisciLeCarteAiGiocatoriDi3In3() {
         // distribuisce le carte ai giocatori
-        for (String nickname : this.manoDeiGiocatori.keySet()) {
-            Mazzo mazzoGiocatore = this.manoDeiGiocatori.get(nickname);
+        for (String username : this.manoDeiGiocatori.keySet()) {
+            Mazzo mazzoGiocatore = this.manoDeiGiocatori.get(username);
             if (mazzoGiocatore != null && this.mazzoDiGioco != null
                     && !this.mazzoDiGioco.getCarteNelMazzo().isEmpty()) {
 
@@ -320,9 +337,9 @@ public class Partita {
         }
     }
 
-    public void aggiungiCartaAlMazzoDellUtente(String nickname, Carta carta) {
+    public void aggiungiCartaAlMazzoDellUtente(String username, Carta carta) {
 
-        this.manoDeiGiocatori.put(nickname, carteSulTavolo);
+        this.manoDeiGiocatori.put(username, carteSulTavolo);
         salvaPartita();
         try {
         } catch (NullPointerException e) {
@@ -337,7 +354,7 @@ public class Partita {
         try {
             Carta cartaGiocata;
             cartaGiocata = this.manoDeiGiocatori
-                    .get(giocatore1.getNickname())
+                    .get(giocatore1.getUsername())
                     .rimuoviCartaDalMazzo(posizioneCartaDaGiocare);
             this.carteSulTavolo.aggiungiCartaAlMazzo(cartaGiocata);
         } catch (IndexOutOfBoundsException e) {

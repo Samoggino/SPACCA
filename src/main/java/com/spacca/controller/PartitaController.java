@@ -49,12 +49,12 @@ public class PartitaController {
     @FXML
     void gioca() {
         // partita.gioca(giocatore1, 2);
-        System.out.println("Carte di " + giocatore1.getNickname() + "\n" + partita.getMano(giocatore1.getNickname()));
-        System.out.println("Carte di " + giocatore2.getNickname() + "\n" + partita.getMano(giocatore2.getNickname()));
-        System.out.println("Carte di " + giocatore3.getNickname() + "\n" + partita.getMano(giocatore3.getNickname()));
-        System.out.println("Carte di " + giocatore4.getNickname() + "\n" + partita.getMano(giocatore4.getNickname()));
-        System.out.println("Carte di " + giocatore5.getNickname() + "\n" + partita.getMano(giocatore5.getNickname()));
-        System.out.println("Carte di " + giocatore6.getNickname() + "\n" + partita.getMano(giocatore6.getNickname()));
+        System.out.println("Carte di " + giocatore1.getUsername() + "\n" + partita.getMano(giocatore1.getUsername()));
+        System.out.println("Carte di " + giocatore2.getUsername() + "\n" + partita.getMano(giocatore2.getUsername()));
+        System.out.println("Carte di " + giocatore3.getUsername() + "\n" + partita.getMano(giocatore3.getUsername()));
+        System.out.println("Carte di " + giocatore4.getUsername() + "\n" + partita.getMano(giocatore4.getUsername()));
+        System.out.println("Carte di " + giocatore5.getUsername() + "\n" + partita.getMano(giocatore5.getUsername()));
+        System.out.println("Carte di " + giocatore6.getUsername() + "\n" + partita.getMano(giocatore6.getUsername()));
         System.out.println(partita.getRisultato());
     }
 

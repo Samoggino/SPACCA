@@ -30,7 +30,7 @@ public class FileHandler {
             // TODO: controllo per il login
             List<String> listaDeiGiocatori = new ArrayList<>(giocatori.size());
             for (AbstractGiocatore abstractGiocatore : giocatori) {
-                listaDeiGiocatori.add(abstractGiocatore.getNickname());
+                listaDeiGiocatori.add(abstractGiocatore.getUsername());
             }
             partita = new Partita(codice, listaDeiGiocatori);
             salvaPartita(partita, codice);
