@@ -76,44 +76,33 @@ public class FileHandler {
      */
     public Partita caricaPartita(String codicePartita) {
         Partita partita = null;
-
         try {
+            codicePartita = codicePartita.toUpperCase();
             Reader fileReader = new FileReader(
                     "src/main/resources/com/spacca/database/partite/" + codicePartita + ".json");
             Gson gson = new Gson();
 
             partita = gson.fromJson(fileReader, Partita.class);
-            System.out.println(gson.toJson(partita));
+            System.out.println(partita);
 
             fileReader.close();
         } catch (JsonIOException e) {
-            // System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" +
-            // this.getClass().getName());
-            e.printStackTrace();
+            System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" +
+                    this.getClass().getName() + e.getMessage());
+            // e.printStackTrace();
         } catch (FileNotFoundException e) {
-            // System.err.println("ERRORE: File non trovato in\n" +
-            // this.getClass().getName());
-            e.printStackTrace();
+            System.err.println("ERRORE: File non trovato in\n" + this.getClass() + "\n" + e.getMessage());
         } catch (IOException e) {
-            // System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" +
-            // this.getClass().getName());
-            e.printStackTrace();
+            System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" +
+                    this.getClass().getName() + "\n" + e.getMessage());
         } catch (Exception e) {
-            // System.err.println("ERRORE: Errore generico in\n" +
-            // this.getClass().getName());
-            e.printStackTrace();
+            System.err.println("ERRORE: Errore generico in\n" + this.getClass().getName() + "\n" + e.getMessage());
         }
 
         return partita;
     }
 
     /*
-     * public void eliminaPartita() {
-     * // TODO Auto-generated method stub
-     * throw new
-     * UnsupportedOperationException("Unimplemented method 'eliminaPartita'");
-     * }
-     * 
      * public void creaTorneo() {
      * // TODO Auto-generated method stub
      * throw new UnsupportedOperationException("Unimplemented method 'creaTorneo'");

@@ -10,7 +10,7 @@ import com.spacca.database.FileHandler;
 
 public class Mazzo {
 
-    @SerializedName("carte nel mazzo")
+    @SerializedName("carte:")
     private List<Carta> carteNelMazzo;
 
     public Mazzo() {
@@ -56,7 +56,7 @@ public class Mazzo {
     }
 
     public List<Carta> getCarteNelMazzo() {
-        return carteNelMazzo;
+        return this.carteNelMazzo;
     }
 
     public void setCarteNelMazzo(List<Carta> carte) {
@@ -71,7 +71,7 @@ public class Mazzo {
         this.carteNelMazzo.add(carta);
     }
 
-    public void aggiungiManoAlMazzo(List<Carta> mano) {
+    public void aggiungiListaCarteAdAltroMazzo(List<Carta> mano) {
         if (this.carteNelMazzo == null) {
             this.carteNelMazzo = new ArrayList<>(); // Initialize the list if null
             this.carteNelMazzo.addAll(mano);
@@ -84,5 +84,9 @@ public class Mazzo {
             throw new IndexOutOfBoundsException("La posizione della carta non è valida");
         }
         return this.carteNelMazzo.remove(posizioneDellaCarta);
+    }
+
+    public int size() {
+        return this.carteNelMazzo.size();
     }
 }
