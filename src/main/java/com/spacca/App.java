@@ -37,21 +37,8 @@ public class App extends Application {
             Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/icone/logo.jpg"));
             stage.getIcons().add(icon);
 
-            /*
-             * Image icon = new
-             * Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
-             * stage.getIcons().add(icon);
-             * 
-             * // titolo della finestra
-             * stage.setTitle("SPACCA");
-             * // imposta la scena nello stage
-             * stage.setScene(scene);
-             * // mosta la finestra
-             * stage.show();
-             */
-
         } catch (Exception e) {
-            System.err.println("ERRORE:\t\t " + e.getMessage());
+            System.err.println("ERRORE (app):\t\t " + e.getMessage());
         }
         // aggiunge un'icona alla finestra
 

@@ -29,8 +29,8 @@ public class PartitaController {
 
         System.out.println(partita);
 
-        partita.pesca(giocatore1.getNickname());
-        partita.pesca(giocatore2.getNickname());
+        partita.pesca(giocatore1.getUsername());
+        partita.pesca(giocatore2.getUsername());
 
         System.out.println(partita);
     }

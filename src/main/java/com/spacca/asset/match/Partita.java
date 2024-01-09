@@ -71,8 +71,8 @@ public class Partita {
 
         // setup degli utenti
         for (AbstractGiocatore giocatore : giocatori) {
-            this.manoDelGiocatore.put(giocatore.getNickname(), new Mazzo());
-            this.cartePreseDiOgniGiocatore.put(giocatore.getNickname(), new Mazzo());
+            this.manoDelGiocatore.put(giocatore.getUsername(), new Mazzo());
+            this.cartePreseDiOgniGiocatore.put(giocatore.getUsername(), new Mazzo());
         }
 
     }
@@ -120,7 +120,7 @@ public class Partita {
             if (i == 1) {
                 stampa += "\tvs\t";
             }
-            stampa += giocatore.getNickname();
+            stampa += giocatore.getUsername();
             i++;
         }
         stampa += "\nCodice " + this.codice + "\nRisultato: " + this.risultato + "\n";

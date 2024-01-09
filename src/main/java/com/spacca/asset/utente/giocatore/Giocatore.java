@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class Giocatore extends AbstractGiocatore {
 
-    @SerializedName("password")
+    @SerializedName("Password")
     String password;
 
-    public Giocatore(String nickname, String password) {
-        super(nickname);
+    public Giocatore(String username, String password) {
+        super(username);
         this.password = password;
     }
 
@@ -25,11 +25,15 @@ public class Giocatore extends AbstractGiocatore {
     }
 
     public void mostraPartite() {
-        System.out.println("Partite di " + this.getNickname() + ":" + this.listaCodiciPartite);
+        System.out.println("Partite di " + this.getUsername() + ":" + this.listaCodiciPartite);
     }
 
     @Override
     String stampa() {
         return super.stampa() + " con password: " + this.password;
+    }
+
+    public String getUsername() {
+        return this.username;
     }
 }
