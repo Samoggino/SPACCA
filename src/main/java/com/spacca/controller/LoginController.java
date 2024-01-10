@@ -61,16 +61,22 @@ public class LoginController implements Initializable {
     @FXML
     private void handleLogin() {
         try {
+            statusLabel.setTextFill(Color.BLACK);
+            usernameField.setStyle("-fx-border-color:whitegrey");
+            passwordField.setStyle("-fx-border-color:whitegrey");
+
             String username = usernameField.getText();
             String password = passwordField.getText();
 
             if (username.trim().isEmpty()) {
                 statusLabel.setText("Inserisci tutt i dati obbligatori, non ha inserito lo username!");
-                statusLabel.setTextFill(Color.RED);
+                usernameField.setStyle("-fx-border-color:darkorange");
+                statusLabel.setTextFill(Color.DARKORANGE);
                 return;
             } else if (password.trim().isEmpty()) {
                 statusLabel.setText("Inserisci tutt i dati obbligatori, non ha inserito la password!");
-                statusLabel.setTextFill(Color.RED);
+                passwordField.setStyle("-fx-border-color:darkorange");
+                statusLabel.setTextFill(Color.DARKORANGE);
                 return;
             }
 
@@ -79,6 +85,12 @@ public class LoginController implements Initializable {
             String folderPath = "src/main/resources/com/spacca/database/giocatori/";
 
             File userFile = new File(folderPath + fileName);
+            /*
+             * if(usernameField.getText().equals("ila") &&
+             * passwordField.getText().equals("ila")){
+             * App.setRoot("partita");
+             * }
+             */
 
             // Verifica se il file esiste
             if (userFile.exists() && userFile.isFile()) {
@@ -106,6 +118,17 @@ public class LoginController implements Initializable {
         } catch (Exception e) {
             System.out.println("Errore (Login controller): \n" + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleRegistrazione() {
+        try {
+            App.setRoot("registrazioneUtente");
+        } catch (IOException e) {
+            e.getStackTrace();
+        } catch (Exception e) {
+            e.getStackTrace();
         }
     }
 
