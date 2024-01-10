@@ -118,19 +118,41 @@ public class Partita {
                     .stream()
                     .mapToInt(Carta::getPunti)
                     .sum();
-
             risultatoBuilder.append(String.format("%s: %d\n", username, punti));
         });
 
+        this.risultato = risultatoBuilder.toString();
         salvaPartita();
-        return risultatoBuilder.toString();
+        return this.risultato;
     }
+
+    /*
+     * public String getRisultato() {
+     * StringBuilder risultatoBuilder = new StringBuilder();
+     * * this.preseDeiGiocatori.forEach((username, mazzo) -> {
+     * AtomicInteger punti = new AtomicInteger(0); // Utilizzo di AtomicInteger come
+     * wrapper
+     * * getPrese(username).getCarteNelMazzo().forEach(carta -> {
+     * punti.addAndGet(carta.getPunti()); // Incremento in modo sicuro dei punti
+     * usando AtomicInteger
+     * });
+     * * risultatoBuilder
+     * .append(username)
+     * .append(": ")
+     * .append(punti)
+     * .append("\n");
+     * });
+     * * this.risultato = risultatoBuilder.toString();
+     * salvaPartita();
+     * return this.risultato;
+     * }
+     */
 
     public Map<String, Mazzo> getManoDeiGiocatori() {
         return this.manoDeiGiocatori;
     }
 
-    public String stampa() {
+    private String stampa() {
         String stampa = "\nPartita: \n";
 
         int i = 0;
@@ -165,8 +187,12 @@ public class Partita {
         salvaPartita();
     }
 
-    public Mazzo getMano(String username) {
+    public Mazzo getManoDellUtente(String username) {
         return this.manoDeiGiocatori.get(username);
+    }
+
+    public Mazzo getPreseDellUtente(String username) {
+        return this.preseDeiGiocatori.get(username);
     }
 
     public void setManoDeiGiocatori(Map<String, Mazzo> manoDelGiocatore) {

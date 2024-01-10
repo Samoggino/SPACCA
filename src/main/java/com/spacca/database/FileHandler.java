@@ -91,7 +91,7 @@ public class FileHandler {
                     this.getClass().getName() + e.getMessage());
             // e.printStackTrace();
         } catch (FileNotFoundException e) {
-            System.err.println("ERRORE: File non trovato in\n" + this.getClass() + "\n" + e.getMessage());
+            System.err.println("ERRORE: Questo codice partita non è valido." + e.getMessage());
         } catch (IOException e) {
             System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" +
                     this.getClass().getName() + "\n" + e.getMessage());

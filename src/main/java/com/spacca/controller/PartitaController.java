@@ -52,8 +52,8 @@ public class PartitaController {
     @FXML
     void risultatoPartita() {
         // partita.gioca(giocatore1, 2);
-        System.out.println("Carte di " + giocatore1.getUsername() + "\n" + partita.getMano(giocatore1.getUsername()));
-        System.out.println("Carte di " + giocatore2.getUsername() + "\n" + partita.getMano(giocatore2.getUsername()));
+        System.out.println("Carte di " + giocatore1.getUsername() + "\n" + partita.getManoDellUtente(giocatore1.getUsername()));
+        System.out.println("Carte di " + giocatore2.getUsername() + "\n" + partita.getManoDellUtente(giocatore2.getUsername()));
         System.out.println(partita.getCarteSulTavolo());
         System.out.println(partita.getRisultato());
     }
@@ -70,6 +70,5 @@ public class PartitaController {
 
     private void caricaPartita(String codicePartita) {
         partita = amministratore.caricaPartita(codicePartita);
-        System.out.println(partita);
     }
 }
