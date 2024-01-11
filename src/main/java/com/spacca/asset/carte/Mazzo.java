@@ -29,14 +29,14 @@ public class Mazzo {
             Collections.shuffle(this.carteNelMazzo);
             System.out.println("Mazzo iniziale creato con successo!");
         } catch (NullPointerException e) {
-            System.out.println("Errore nel creare il mazzo di partenza\n\n" + e.getMessage());
+            System.err.println("Errore nel creare il mazzo di partenza\n\n" + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Errore generico nel creare il mazzo di partenza\n\n" + e.getMessage());
+            System.err.println("Errore generico nel creare il mazzo di partenza\n\n" + e.getMessage());
         }
         return this;
     }
 
-    public String stampa() {
+    private String stampa() {
         String stampa = "";
         if (carteNelMazzo == null) {
             return "Nessuna carta nel mazzo.";
@@ -47,7 +47,7 @@ public class Mazzo {
             i++;
             stampa += i + ": " + carta.stampa() + "\n";
         }
-        return "Mazzo di carte:\n" + stampa;
+        return stampa;
     }
 
     @Override
@@ -80,9 +80,6 @@ public class Mazzo {
     }
 
     public Carta rimuoviCartaDalMazzo(int posizioneDellaCarta) throws IndexOutOfBoundsException {
-        if (posizioneDellaCarta < 0 || posizioneDellaCarta > this.carteNelMazzo.size()) {
-            throw new IndexOutOfBoundsException("La posizione della carta non è valida");
-        }
         return this.carteNelMazzo.remove(posizioneDellaCarta);
     }
 

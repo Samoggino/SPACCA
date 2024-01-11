@@ -1,6 +1,5 @@
 package com.spacca.database;
 
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -11,6 +10,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
+import com.google.gson.stream.JsonWriter;
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
@@ -52,20 +52,21 @@ public class FileHandler {
 
         codicePartita = "src/main/resources/com/spacca/database/partite/" + codicePartita + ".json";
 
-        Gson gson = new Gson();
-        String json = gson.toJson(partita);
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(codicePartita))) {
-            writer.write(json);
+        try (JsonWriter writer = new JsonWriter(new FileWriter(codicePartita))) {
+            Gson gson = new Gson();
+            gson.toJson(partita, Partita.class, writer);
+            System.out.println("Partita salvata correttamente in formato JSON.");
 
         } catch (JsonIOException e) {
-            e.printStackTrace();
+            System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +
+                    this.getClass().getName() + "\n" + e.getMessage());
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.err.println("ERRORE: File non trovato in\n" + this.getClass().getName() + "\n" + e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +
+                    this.getClass().getName() + "\n" + e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("ERRORE: Errore generico in\n" + this.getClass().getName() + "\n" + e.getMessage());
         }
     }
 

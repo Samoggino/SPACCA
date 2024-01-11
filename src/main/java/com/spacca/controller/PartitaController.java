@@ -16,8 +16,8 @@ public class PartitaController {
     FileHandler fileHandler = new FileHandler();
     Amministratore amministratore = new Amministratore();
     Partita partita;
-    AbstractGiocatore giocatore1 = new Giocatore("Yoshi", "");
-    AbstractGiocatore giocatore2 = new Giocatore("Mario", "");
+    AbstractGiocatore YOSHI = new Giocatore("Yoshi", "");
+    AbstractGiocatore MARIO = new Giocatore("Mario", "");
     List<AbstractGiocatore> giocatoriDellaPartita = new ArrayList<>(); // Inizializzazione della lista
 
     @FXML
@@ -26,18 +26,13 @@ public class PartitaController {
     @FXML
     void nuovaPartita() {
 
-        giocatoriDellaPartita.add(giocatore1);
-        giocatoriDellaPartita.add(giocatore2);
+        giocatoriDellaPartita.add(YOSHI);
+        giocatoriDellaPartita.add(MARIO);
 
         partita = amministratore.creaPartita(giocatoriDellaPartita);
 
-        // System.out.println("Mazzo di gioco prima di giocare" +
-        // partita.getMazzoDiGioco());
+        partita.nuovoTurno();
 
-        partita.nuovoTurno(1);
-
-        // System.out.println(partita.getMazzoDiGioco());
-        // System.out.println(partita.stampaManoDeiGiocatori());
         System.out.println("Codice:\t" + partita.getCodice());
 
     }
@@ -52,20 +47,44 @@ public class PartitaController {
     @FXML
     void risultatoPartita() {
         // partita.gioca(giocatore1, 2);
-        System.out.println("Carte di " + giocatore1.getUsername() + "\n" + partita.getManoDellUtente(giocatore1.getUsername()));
-        System.out.println("Carte di " + giocatore2.getUsername() + "\n" + partita.getManoDellUtente(giocatore2.getUsername()));
+        System.out.println(
+                "Carte di " + YOSHI.getUsername() + "\n" + partita.getManoDellUtente(YOSHI.getUsername()));
+        System.out.println(
+                "Carte di " + MARIO.getUsername() + "\n" + partita.getManoDellUtente(MARIO.getUsername()));
         System.out.println(partita.getCarteSulTavolo());
         System.out.println(partita.getRisultato());
     }
 
     @FXML
     void rubaUnMazzo() {
-        partita.rubaUnMazzo(giocatore1, giocatore2);
+        partita.rubaUnMazzo(MARIO, YOSHI);
     }
 
     @FXML
-    void prendiUnaCartaDalTavolo() {
-        partita.prendiCartaDaTavolo(giocatore1);
+    void rubaMezzoMazzo() {
+        partita.rubaMezzoMazzo(MARIO, YOSHI);
+    }
+
+    @FXML
+    void prendiUnaCartaDalTavoloYoshi() {
+        try {
+            partita.prendiCartaDaTavolo(YOSHI);
+            // partita.salvaPartita();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void prendiUnaCartaDalTavoloMario() {
+        try {
+            partita.prendiCartaDaTavolo(MARIO);
+            // partita.salvaPartita();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     private void caricaPartita(String codicePartita) {

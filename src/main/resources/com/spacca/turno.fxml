@@ -25,10 +25,9 @@
             <children>
                 <Button fx:id="primaryButton" onAction="#nuovaPartita" text="Crea una partita" />
                 <Button fx:id="primaryButton" onAction="#rubaUnMazzo" text="Ruba un mazzo" />
-                <Button fx:id="primaryButton" onAction="#rubaMezzoMazzo" text="Ruba mezzo mazzo" />
                 <Button fx:id="primaryButton" onAction="#risultatoPartita"
                     text="Mostra il risultato" />
-                <Button fx:id="primaryButton" onAction="#prendiUnaCartaDalTavoloYoshi"
+                <Button fx:id="primaryButton" onAction="#prendiUnaCartaDalTavolo"
                     text="Prendi una carta dal tavolo" />
             </children>
             <padding>
