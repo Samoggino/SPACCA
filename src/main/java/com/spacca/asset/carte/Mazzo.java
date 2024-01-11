@@ -1,12 +1,17 @@
 package com.spacca.asset.carte;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 import com.google.gson.annotations.SerializedName;
-import com.spacca.database.FileHandler;
 
 public class Mazzo {
 
@@ -23,8 +28,7 @@ public class Mazzo {
 
     public Mazzo creaMazzoDiPartenza() {
         try {
-            FileHandler fileHandler = new FileHandler();
-            this.carteNelMazzo = new ArrayList<>(Arrays.asList(fileHandler.prendiLeCarteDalJson()));
+            this.carteNelMazzo = new ArrayList<>(Arrays.asList(prendiLeCarteDalJson()));
 
             Collections.shuffle(this.carteNelMazzo);
             System.out.println("Mazzo iniziale creato con successo!");
@@ -85,5 +89,39 @@ public class Mazzo {
 
     public int size() {
         return this.carteNelMazzo.size();
+    }
+
+
+    /**
+     * Metodo che stampa le carte dal file JSON
+     */
+    public Carta[] prendiLeCarteDalJson() {
+        Carta[] carte = null;
+        try {
+            // leggo il file JSON
+            Reader fileReader = new FileReader("src/main/resources/com/spacca/database/carte.json");
+            Gson gson = new Gson();
+
+            // gson prende il fileReader e lo converte in un array di carte
+            carte = gson.fromJson(fileReader, Carta[].class);
+
+            // chiudo il fileReader
+            fileReader.close();
+
+        } catch (JsonIOException e) {
+            // System.err.println("ERRORE: Errore durante la lettura del file JSON");
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            // System.err.println("ERRORE: File non trovato");
+            e.printStackTrace();
+        } catch (IOException e) {
+            // System.err.println("ERRORE: Errore durante la lettura del file JSON");
+            e.printStackTrace();
+        } catch (Exception e) {
+            // System.err.println("ERRORE: Errore generico in" + this.getClass().getName());
+            e.printStackTrace();
+        }
+
+        return carte;
     }
 }

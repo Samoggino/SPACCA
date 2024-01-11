@@ -9,14 +9,14 @@ import com.google.gson.annotations.SerializedName;
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Mazzo;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.database.FileHandler;
+import com.spacca.database.PartitaHandler;
 
 /**
  * La classe <strong>Partita</strong> rappresenta un'istanza di una partita.
  * Contiene informazioni sui giocatori coinvolti, le carte in mano ai giocatori,
  * le carte prese dai giocatori, il mazzo di gioco e il risultato della partita.
  */
-public class Partita {
+public class Partita extends Object {
 
     // // lista dei giocatori
     // @SerializedName("lista dei giocatori")
@@ -45,7 +45,7 @@ public class Partita {
     @SerializedName("codice")
     private String codice = "codice default";
 
-    private FileHandler fileHandler = new FileHandler();
+    private PartitaHandler fileHandler = new PartitaHandler();
 
     public Partita(String codice, List<String> giocatori) {
 
@@ -85,14 +85,14 @@ public class Partita {
     public void salvaPartita() {
         try {
             calcolaRisultato();
-            this.fileHandler.salvaPartita(this, this.codice);
+            this.fileHandler.salva(this, this.codice);
         } catch (Exception e) {
             System.err.println("Errore nel salvare la partita" + e.getMessage());
         }
     }
 
     public void eliminaPartita() {
-        this.fileHandler.eliminaPartita(this.codice);
+        this.fileHandler.elimina(this.codice);
     }
 
     public String getRisultato() {
@@ -281,7 +281,7 @@ public class Partita {
                         .getCarteNelMazzo()
                         .subList(0, metaMazzo)
                         .clear();
-                        
+
                 salvaPartita();
             } else {
                 System.out.println("L'utente non ha carte da rubare!");

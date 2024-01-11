@@ -7,12 +7,10 @@ import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
-import com.spacca.database.FileHandler;
 
 import javafx.fxml.FXML;
 
 public class PrimaryController {
-    FileHandler fileHandler = new FileHandler();
     Amministratore amministratore = new Amministratore();
 
     @FXML
