@@ -251,7 +251,7 @@ public class FileHandler {
         AbstractGiocatore utente = null;
         try {
             utente = new Giocatore(username, password);
-            salvaUtente(utente, username);
+            salvaUtente(utente);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -260,9 +260,9 @@ public class FileHandler {
         return utente;
     }
 
-    public void salvaUtente(AbstractGiocatore utente, String username) {
+    public void salvaUtente(AbstractGiocatore utente) {
 
-        String CredenzialiUtente = "src/main/resources/com/spacca/database/giocatori/" + username + ".json";
+        String CredenzialiUtente = "src/main/resources/com/spacca/database/giocatori/" + utente.getUsername() + ".json";
 
         Gson gson = new Gson();
         String json = gson.toJson(utente);

@@ -68,26 +68,18 @@ public class LoginController implements Initializable {
             String username = usernameField.getText();
             String password = passwordField.getText();
 
-            if (username.trim().isEmpty()) {
-                statusLabel.setText("Inserisci tutt i dati obbligatori, non ha inserito lo username!");
-                usernameField.setStyle("-fx-border-color:darkorange");
-                statusLabel.setTextFill(Color.DARKORANGE);
-                return;
-            } else if (password.trim().isEmpty()) {
-                statusLabel.setText("Inserisci tutt i dati obbligatori, non ha inserito la password!");
-                passwordField.setStyle("-fx-border-color:darkorange");
-                statusLabel.setTextFill(Color.DARKORANGE);
-                return;
-            }
+            controllaUsername(username);
+            controllaPassword(password);
 
             String fileName = username + ".json";
 
             String folderPath = "src/main/resources/com/spacca/database/giocatori/";
 
             File userFile = new File(folderPath + fileName);
+
             /*
-             * if(usernameField.getText().equals("ila") &&
-             * passwordField.getText().equals("ila")){
+             * if (usernameField.getText().equals("ila") &&
+             * passwordField.getText().equals("ila")) {
              * App.setRoot("partita");
              * }
              */
@@ -100,7 +92,7 @@ public class LoginController implements Initializable {
                 if (utente.getUsername().equals(username) && utente.getPassword().equals(password)) {
                     System.out.println("Utente registrato " + userFile.getAbsolutePath());
                     statusLabel.setText("Accesso effettuato con successo!");
-                    App.setRoot("partita");
+                    App.setRoot("benvenuto");
                 } else if (utente.getUsername().equals(username)) {
                     // password Errata
                     statusLabel.setText("Password errato, riprova!");
@@ -118,6 +110,25 @@ public class LoginController implements Initializable {
         } catch (Exception e) {
             System.out.println("Errore (Login controller): \n" + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    private void controllaPassword(String password) {
+        if (password.trim().isEmpty()) {
+            statusLabel.setText("Inserisci tutt i dati obbligatori, non ha inserito la password!");
+            passwordField.setStyle("-fx-border-color:darkorange");
+            statusLabel.setTextFill(Color.DARKORANGE);
+            return;
+        }
+
+    }
+
+    private void controllaUsername(String username) {
+        if (username.trim().isEmpty()) {
+            statusLabel.setText("Inserisci tutt i dati obbligatori, non ha inserito lo username!");
+            usernameField.setStyle("-fx-border-color:darkorange");
+            statusLabel.setTextFill(Color.DARKORANGE);
+            return;
         }
     }
 

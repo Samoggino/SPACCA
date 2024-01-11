@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="177.0" fitWidth="361.0" layoutX="28.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/icone/logo.jpg" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="4.0" layoutY="207.0" prefHeight="38.0" prefWidth="593.0" text="Sei Pronto A ">
+         <font>
+            <Font size="26.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#ffb603" />
+                  <Stop color="#ffb603" offset="0.010677937091019158" />
+                  <Stop color="#eba609" offset="0.5031928480204342" />
+                  <Stop color="#281700" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label alignment="CENTER" layoutX="3.0" layoutY="252.0" prefHeight="38.0" prefWidth="593.0" text="Combattere Contro ">
+         <font>
+            <Font size="26.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#ffb603" />
+                  <Stop color="#ffb603" offset="0.010677937091019158" />
+                  <Stop color="#eba609" offset="0.5031928480204342" />
+                  <Stop color="#281700" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label alignment="CENTER" layoutX="3.0" layoutY="290.0" prefHeight="38.0" prefWidth="593.0" text="I tuoi Avversari">
+         <font>
+            <Font size="26.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#ffb603" />
+                  <Stop color="#ffb603" offset="0.010677937091019158" />
+                  <Stop color="#eba609" offset="0.5031928480204342" />
+                  <Stop color="#281700" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label alignment="CENTER" layoutX="61.0" layoutY="45.0" prefHeight="76.0" prefWidth="525.0" text="! Benvenuto !">
+         <font>
+            <Font size="48.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#ffb603" />
+                  <Stop color="#ffb603" offset="0.010677937091019158" />
+                  <Stop color="#eba609" offset="0.5031928480204342" />
+                  <Stop color="#281700" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label alignment="CENTER" layoutX="4.0" layoutY="328.0" prefHeight="38.0" prefWidth="593.0" text="?">
+         <font>
+            <Font size="26.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#ffb603" />
+                  <Stop color="#ffb603" offset="0.010677937091019158" />
+                  <Stop color="#eba609" offset="0.5031928480204342" />
+                  <Stop color="#281700" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+   </children>
+</Pane>
