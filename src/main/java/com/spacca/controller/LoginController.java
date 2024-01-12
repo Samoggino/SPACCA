@@ -38,24 +38,10 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         try {
-            // Disabilita il pulsante di login all'inizio
-            loginButton.setDisable(true);
-
-            // Aggiungi i listener ai campi username e password
-            usernameField.textProperty().addListener((observable, oldValue, newValue) -> updateLoginButton());
-            passwordField.textProperty().addListener((observable, oldValue, newValue) -> updateLoginButton());
 
         } catch (Exception e) {
             System.err.println("Error initialize: " + e.getMessage() + "initialize");
         }
-    }
-
-    private void updateLoginButton() {
-        // Abilita il pulsante di login solo se sia username che password sono presenti
-        boolean isUsernameEmpty = usernameField.getText().trim().isEmpty();
-        boolean isPasswordEmpty = passwordField.getText().trim().isEmpty();
-
-        loginButton.setDisable(isUsernameEmpty || isPasswordEmpty);
     }
 
     @FXML
@@ -68,8 +54,7 @@ public class LoginController implements Initializable {
             String username = usernameField.getText();
             String password = passwordField.getText();
 
-            controllaUsername(username);
-            controllaPassword(password);
+            statusLabel.setTextFill(Color.DARKORANGE);
 
             String fileName = username + ".json";
 
@@ -77,58 +62,37 @@ public class LoginController implements Initializable {
 
             File userFile = new File(folderPath + fileName);
 
-            /*
-             * if (usernameField.getText().equals("ila") &&
-             * passwordField.getText().equals("ila")) {
-             * App.setRoot("partita");
-             * }
-             */
-
-            // Verifica se il file esiste
-            if (userFile.exists() && userFile.isFile()) {
+            if (password.trim().isEmpty() && username.trim().isEmpty()) {
+                statusLabel.setText("Non hai compilato i campi!");
+            } else if (password.trim().isEmpty()) {
+                statusLabel.setText("Non hai inserito la password!");
+                passwordField.setStyle("-fx-border-color:darkorange");
+            } else if (username.trim().isEmpty()) {
+                statusLabel.setText("Non hai inserito il nome utente!");
+                usernameField.setStyle("-fx-border-color:darkorange");
+            } else if (userFile.exists() && userFile.isFile()) { // Verifica se il file esiste
                 FileHandler file = new FileHandler();
-                Giocatore utente = (Giocatore) file.leggiUtente(userFile);
+                Giocatore utente = file.leggiUtente(userFile);
 
                 if (utente.getUsername().equals(username) && utente.getPassword().equals(password)) {
-                    System.out.println("Utente registrato " + userFile.getAbsolutePath());
-                    statusLabel.setText("Accesso effettuato con successo!");
+                    // System.out.println("Utente registrato " + userFile.getAbsolutePath());
                     App.setRoot("benvenuto");
                 } else if (utente.getUsername().equals(username)) {
                     // password Errata
                     statusLabel.setText("Password errato, riprova!");
+                    statusLabel.setTextFill(Color.DARKORANGE);
                 } else if (utente.getPassword().equals(password)) {
                     // username errato
                     statusLabel.setText("Username errato, riprova!");
                 }
-
             } else {
-                statusLabel.setText("Sei sicuro di essere registrato ? ");
+                statusLabel.setText("Sei sicuro di esser registrato ?");
             }
-
         } catch (IOException e) {
             System.out.println("Errore IOException: \n" + e.getMessage());
         } catch (Exception e) {
             System.out.println("Errore (Login controller): \n" + e.getMessage());
             e.printStackTrace();
-        }
-    }
-
-    private void controllaPassword(String password) {
-        if (password.trim().isEmpty()) {
-            statusLabel.setText("Inserisci tutt i dati obbligatori, non ha inserito la password!");
-            passwordField.setStyle("-fx-border-color:darkorange");
-            statusLabel.setTextFill(Color.DARKORANGE);
-            return;
-        }
-
-    }
-
-    private void controllaUsername(String username) {
-        if (username.trim().isEmpty()) {
-            statusLabel.setText("Inserisci tutt i dati obbligatori, non ha inserito lo username!");
-            usernameField.setStyle("-fx-border-color:darkorange");
-            statusLabel.setTextFill(Color.DARKORANGE);
-            return;
         }
     }
 

@@ -216,15 +216,15 @@ public class FileHandler {
         // TODO
     }
 
-    public AbstractGiocatore leggiUtente(File userFile) {
-        AbstractGiocatore utente = null;
+    public Giocatore leggiUtente(File userFile) {
+        Giocatore utente = null;
         try {
             // leggo il file JSON
             Reader fileReader = new FileReader(userFile);
             Gson gson = new Gson();
 
-            // gson prende il fileReader e lo converte un abstractgiocatore
-            utente = gson.fromJson(fileReader, AbstractGiocatore.class);
+            // gson prende il fileReader e lo converte in abstractgiocatore
+            utente = gson.fromJson(fileReader, Giocatore.class);
 
             // chiudo il fileReader
             fileReader.close();
@@ -245,19 +245,6 @@ public class FileHandler {
 
         return utente;
 
-    }
-
-    public AbstractGiocatore registrazioneGiocatore(String username, String password) {
-        AbstractGiocatore utente = null;
-        try {
-            utente = new Giocatore(username, password);
-            salvaUtente(utente);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            // System.err.println("ERRORE: Errore generico in" + this.getClass().getName());
-        }
-        return utente;
     }
 
     public void salvaUtente(AbstractGiocatore utente) {

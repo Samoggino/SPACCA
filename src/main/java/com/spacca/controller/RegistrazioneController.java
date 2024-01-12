@@ -50,15 +50,6 @@ public class RegistrazioneController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         try {
-
-        } catch (Exception e) {
-            System.err.println("Error initialize: " + e.getMessage() + "initialize");
-        }
-    }
-
-    @FXML
-    private void handleLogin() {
-        try {
             usernameField.setStyle("-fx-border-color:whitegrey");
             passwordField.setStyle("-fx-border-color:whitegrey");
             emailField.setStyle("-fx-border-color:whitegrey");
@@ -70,20 +61,38 @@ public class RegistrazioneController implements Initializable {
             labelPassword.setText("");
             labelUsername.setText("");
 
+        } catch (Exception e) {
+            System.err.println("Error initialize: " + e.getMessage() + "initialize");
+        }
+    }
+
+    @FXML
+    private void handleLogin() {
+        try {
             String username = usernameField.getText();
             String password = passwordField.getText();
             String email = emailField.getText();
             LocalDate annoNascita = data.getValue();
 
-            controllaInserimentoUsername(username);
-            controllaInserimentoPassword(password);
-            controllaInserimentoEmail(email);
-            controllaData(annoNascita);
+            Boolean controlloPassword = controllaInserimentoPassword(password);
+            Boolean controlloEmail = controllaInserimentoEmail(email);
+            Boolean controlloData = controllaData(annoNascita);
+            Boolean controlloUsername = controllaInserimentoUsername(username);
 
-            Giocatore utente = new Giocatore(username, password);
+            System.out.println("controlloPassword" + controlloPassword);
+            System.out.println("controlloEmail" + controlloEmail);
+            System.out.println("controlloData" + controlloData);
+            System.out.println("controlloUsername" + controlloUsername);
+
+            Giocatore utente = new Giocatore(username, password, email);
 
             FileHandler fileHandler = new FileHandler();
-            fileHandler.salvaUtente(utente);
+
+            // Fai qualcosa se tutte le condizioni sono vere
+            if (controlloData & controlloEmail & controlloPassword & controlloUsername) {
+                fileHandler.salvaUtente(utente);
+                App.setRoot("benvenuto");
+            }
 
         } catch (Exception e) {
             System.out.println("Errore (Login controller): \n" + e.getMessage());
@@ -91,46 +100,49 @@ public class RegistrazioneController implements Initializable {
         }
     }
 
-    private void controllaData(LocalDate annoNascita) {
+    private boolean controllaData(LocalDate annoNascita) {
         if (annoNascita == null) {
+            // Modifica lo stile dell'elemento UI 'data' in caso di data mancante
+            // e mostra un messaggio di errore
             data.setStyle("-fx-border-color: darkorange");
             labelData.setText("Data non inserita");
             labelData.setTextFill(Color.DARKORANGE);
-            return;
+            return false;
         } else {
             LocalDate now = LocalDate.now();
             int eta = Period.between(annoNascita, now).getYears();
 
             if (eta >= 18) {
+                // Modifica lo stile dell'elemento UI 'data' in caso di successo
                 data.setStyle("-fx-border-color: whitegrey");
                 labelData.setText("");
+                return true;
             } else {
+                // Mostra un avviso e passa alla schermata di login in caso di età insufficiente
                 showAlert("Non hai diciotto anni, non puoi registrarti");
                 try {
+                    // Assicurati che il metodo setRoot sia implementato correttamente in App
                     App.setRoot("login");
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 labelData.setText("");
+                return false;
             }
         }
     }
 
-    private void showAlert(String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Errore");
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
+    public boolean controllaInserimentoUsername(String username) {
+        labelUsername.setText("");
+        labelUsername.setTextFill(Color.DARKORANGE);
+        usernameField.setStyle("-fx-border-color:whitegrey");
 
-    public void controllaInserimentoUsername(String username) {
+        Boolean controllo = true;
+
         if (username.trim().isEmpty()) {
             labelUsername.setText("Non ha inserito lo username!");
             usernameField.setStyle("-fx-border-color:darkorange");
-            labelUsername.setTextFill(Color.DARKORANGE);
-            return;
+            controllo = false;
         } else {
             try {
                 String fileName = username + ".json";
@@ -142,73 +154,78 @@ public class RegistrazioneController implements Initializable {
                 // Verifica se il file esiste
                 if (userFile.exists() && userFile.isFile()) {
                     FileHandler file = new FileHandler();
-                    Giocatore utente = (Giocatore) file.leggiUtente(userFile);
-
-                    System.out.println("Sono dentro al file ovvero file esiste");
+                    Giocatore utente = file.leggiUtente(userFile);
 
                     if (utente.getUsername().equals(username)) {
                         labelUsername.setText("Username già in utilizzo! ");
                         usernameField.setStyle("-fx-border-color:darkorange");
-                        labelUsername.setTextFill(Color.DARKORANGE);
-                        return;
+                        controllo = false;
                     } else {
                         labelUsername.setText("Username corretto! ");
                         labelUsername.setTextFill(Color.BLACK);
+                        controllo = true;
                     }
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
-
+        return controllo;
     }
 
-    public void controllaInserimentoPassword(String password) {
+    public boolean controllaInserimentoPassword(String password) {
+        labelConfermaPassword.setTextFill(Color.DARKORANGE);
+        labelPassword.setTextFill(Color.DARKORANGE);
         String confermaPassword = confermaPasswordField.getText();
+
         if (password.trim().isEmpty() && confermaPassword.trim().isEmpty()) {
             labelPassword.setText("Non hai inserito la password!");
             passwordField.setStyle("-fx-border-color:darkorange");
-            labelPassword.setTextFill(Color.DARKORANGE);
+
             labelConfermaPassword.setText("Non hai inserito la conferma!");
             confermaPasswordField.setStyle("-fx-border-color:darkorange");
-            labelConfermaPassword.setTextFill(Color.DARKORANGE);
-            return;
+            return false;
         } else if (confermaPassword.trim().isEmpty()) {
+            labelPassword.setText("");
+            passwordField.setStyle("-fx-border-color:whitegrey");
             labelConfermaPassword.setText("Non hai inserito la conferma!");
             confermaPasswordField.setStyle("-fx-border-color:darkorange");
-            labelConfermaPassword.setTextFill(Color.DARKORANGE);
-            return;
+            return false;
         } else if (password.trim().isEmpty()) {
+            labelConfermaPassword.setText("");
+            confermaPasswordField.setStyle("-fx-border-color:whitegrey");
             labelPassword.setText("Non hai inserito la password!");
             passwordField.setStyle("-fx-border-color:darkorange");
-            labelPassword.setTextFill(Color.DARKORANGE);
-            return;
+            return false;
         } else if (password.equals(confermaPassword)) {
             labelConfermaPassword.setText("Password di conferma corretta!");
             confermaPasswordField.setStyle("-fx-border-color:whitegrey");
             labelConfermaPassword.setTextFill(Color.BLACK);
+            return true;
         } else {
             labelPassword.setText("");
             labelConfermaPassword.setText("Password errata, reinseriscila!");
-            return;
+            return false;
         }
     }
 
-    public void controllaInserimentoEmail(String email) {
+    public boolean controllaInserimentoEmail(String email) {
         labelEmail.setText("");
         if (email.trim().isEmpty()) {
             labelEmail.setText("Non ha inserito l'indirizzo mail!");
             emailField.setStyle("-fx-border-color:darkorange");
             labelEmail.setTextFill(Color.DARKORANGE);
-            return;
+            return false;
         } else if (email.contains("@")) {
             labelEmail.setText("");
             emailField.setStyle("-fx-border-color:whitegrey");
+            return true;
         } else {
             labelEmail.setText("Email non valida, reinseriscila!");
             emailField.setStyle("-fx-border-color:darkorange");
             labelEmail.setTextFill(Color.DARKORANGE);
+            return false;
         }
 
     }
@@ -222,4 +239,11 @@ public class RegistrazioneController implements Initializable {
         }
     }
 
+    private void showAlert(String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Errore");
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

@@ -22,15 +22,6 @@ public class App extends Application {
         // scene = new Scene(loadFXML("primary"), 500, 500);
 
         try {
-
-            /**
-             * Sei
-             * Pronto
-             * A
-             * Combattere
-             * Contro gli
-             * Avversari?
-             */
             stage.setTitle("Login APP");
             stage.setScene(scene);
             stage.show();
