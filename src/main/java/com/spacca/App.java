@@ -18,20 +18,19 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        scene = new Scene(loadFXML("login"), 600, 500);
-        // scene = new Scene(loadFXML("primary"), 500, 500);
-
         try {
+            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
+            scene = new Scene(loadFXML("login"), 600, 500);
+
             stage.setTitle("Login APP");
+            stage.getIcons().add(icon);
+
             stage.setScene(scene);
             stage.show();
-            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/icone/logo.jpg"));
-            stage.getIcons().add(icon);
 
         } catch (Exception e) {
             System.err.println("ERRORE (app):\t\t " + e.getMessage());
         }
-        // aggiunge un'icona alla finestra
 
     }
 
@@ -40,7 +39,7 @@ public class App extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/spacca/fxml/" + fxml + ".fxml"));
         return fxmlLoader.load();
     }
 
