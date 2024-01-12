@@ -18,40 +18,18 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        scene = new Scene(loadFXML("login"), 500, 500);
+        scene = new Scene(loadFXML("login"), 600, 500);
         // scene = new Scene(loadFXML("primary"), 500, 500);
 
         try {
-
-            /**
-             * Sei
-             * Pronto
-             * A
-             * Combattere
-             * Contro gli
-             * Avversari?
-             */
             stage.setTitle("Login APP");
             stage.setScene(scene);
             stage.show();
             Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/icone/logo.jpg"));
             stage.getIcons().add(icon);
 
-            /*
-             * Image icon = new
-             * Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
-             * stage.getIcons().add(icon);
-             * 
-             * // titolo della finestra
-             * stage.setTitle("SPACCA");
-             * // imposta la scena nello stage
-             * stage.setScene(scene);
-             * // mosta la finestra
-             * stage.show();
-             */
-
         } catch (Exception e) {
-            System.err.println("ERRORE:\t\t " + e.getMessage());
+            System.err.println("ERRORE (app):\t\t " + e.getMessage());
         }
         // aggiunge un'icona alla finestra
 

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AbstractGiocatore implements GiocatoreInterface {
+public class AbstractGiocatore extends Object implements GiocatoreInterface {
 
     @SerializedName("username")
     String username;

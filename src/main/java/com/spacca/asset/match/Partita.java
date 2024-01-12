@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Mazzo;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.database.Handler;
 import com.spacca.database.PartitaHandler;
 
 /**
@@ -45,14 +46,12 @@ public class Partita extends Object {
     @SerializedName("codice")
     private String codice = "codice default";
 
-    private PartitaHandler fileHandler = new PartitaHandler();
+    private Handler handler = new PartitaHandler();
 
     public Partita(String codice, List<String> giocatori) {
 
         this.codice = codice;
         this.risultato = "Ancora da giocare";
-
-        // creaPartita(giocatori);
 
         // Crea il mazzo di gioco
         this.mazzoDiGioco = new Mazzo().creaMazzoDiPartenza();
@@ -70,10 +69,6 @@ public class Partita extends Object {
 
     }
 
-    // private void creaPartita(List<String> giocatori) {
-
-    // }
-
     public String getCodice() {
         return this.codice;
     }
@@ -85,14 +80,14 @@ public class Partita extends Object {
     public void salvaPartita() {
         try {
             calcolaRisultato();
-            this.fileHandler.salva(this, this.codice);
+            this.handler.salva(this, this.codice);
         } catch (Exception e) {
             System.err.println("Errore nel salvare la partita" + e.getMessage());
         }
     }
 
     public void eliminaPartita() {
-        this.fileHandler.elimina(this.codice);
+        this.handler.elimina(this.codice);
     }
 
     public String getRisultato() {

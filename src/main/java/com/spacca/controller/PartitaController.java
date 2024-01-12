@@ -17,8 +17,8 @@ import javafx.scene.layout.VBox;
 public class PartitaController {
     Amministratore amministratore = new Amministratore();
     Partita partita;
-    AbstractGiocatore YOSHI = new Giocatore("Yoshi", "");
-    AbstractGiocatore MARIO = new Giocatore("Mario", "");
+    AbstractGiocatore YOSHI = new Giocatore("Yoshi", "", "");
+    AbstractGiocatore MARIO = new Giocatore("Mario", "", "");
     List<AbstractGiocatore> giocatoriDellaPartita = new ArrayList<>(); // Inizializzazione della lista
     AbstractGiocatore giocatoreCorrente;
 
