@@ -20,13 +20,13 @@ public class Torneo {
     }
 
     // risultato partite
-    public List<AbstractGiocatore> getLeaderboard() {
+    public List<String> getLeaderboard() {
 
         /**
          * //FIXME: probabilmente la leaderboard non è una stringa, ma un oggetto
          * che contiene i risultati delle partite e i giocatori che hanno partecipato
          */
-        List<AbstractGiocatore> leaderboard = new ArrayList<>();
+        List<String> leaderboard = new ArrayList<>();
         for (Partita partita : partite) {
             leaderboard.addAll(partita.getListaDeiGiocatori());
         }

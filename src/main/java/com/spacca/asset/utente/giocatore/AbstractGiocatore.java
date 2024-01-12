@@ -7,14 +7,14 @@ import com.google.gson.annotations.SerializedName;
 
 public class AbstractGiocatore implements GiocatoreInterface {
 
-    @SerializedName("nickname")
-    String nickname;
+    @SerializedName("username")
+    String username;
 
     @SerializedName("listaCodiciPartite")
     List<String> listaCodiciPartite = new ArrayList<>();
 
-    public AbstractGiocatore(String nickname) {
-        this.nickname = nickname;
+    public AbstractGiocatore(String username) {
+        this.username = username;
     }
 
     @Override
@@ -35,12 +35,12 @@ public class AbstractGiocatore implements GiocatoreInterface {
         throw new UnsupportedOperationException("Unimplemented method 'prendiTutto'");
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getUsername() {
+        return username;
     }
 
     String stampa() {
-        return "Giocatore: " + this.nickname;
+        return "Giocatore: " + this.username;
     }
 
     @Override
@@ -48,8 +48,8 @@ public class AbstractGiocatore implements GiocatoreInterface {
         return stampa();
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public List<String> getListaCodiciPartite() {
