@@ -10,10 +10,6 @@
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21"
     xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.PartitaController">
     <children>
-
-        <VBox xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:id="buttonContainer" />
         <Group>
             <children>
                 <Label layoutX="14.0" layoutY="5.0" prefHeight="18.0" prefWidth="138.0"
@@ -29,10 +25,9 @@
             <children>
                 <Button fx:id="primaryButton" onAction="#nuovaPartita" text="Crea una partita" />
                 <Button fx:id="primaryButton" onAction="#rubaUnMazzo" text="Ruba un mazzo" />
-                <Button fx:id="primaryButton" onAction="#rubaMezzoMazzo" text="Ruba mezzo mazzo" />
                 <Button fx:id="primaryButton" onAction="#risultatoPartita"
                     text="Mostra il risultato" />
-                <Button fx:id="primaryButton" onAction="#prendiUnaCartaDalTavoloYoshi"
+                <Button fx:id="primaryButton" onAction="#prendiUnaCartaDalTavolo"
                     text="Prendi una carta dal tavolo" />
             </children>
             <padding>

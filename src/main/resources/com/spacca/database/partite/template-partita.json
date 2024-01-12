@@ -2,12 +2,12 @@
     "giocatori": [
         {
             "password": "cicciogamer89",
-            "nickname": "Yoshi",
+            "username": "Yoshi",
             "listaCodiciPartite": []
         },
         {
             "password": "cicciogamer89",
-            "nickname": "Mario",
+            "username": "Mario",
             "listaCodiciPartite": []
         }
     ],

@@ -3,19 +3,14 @@ package com.spacca.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.spacca.asset.carte.Carta;
-import com.spacca.asset.carte.Nome;
-import com.spacca.asset.carte.Seme;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
-import com.spacca.database.FileHandler;
 
 import javafx.fxml.FXML;
 
 public class PrimaryController {
-    FileHandler fileHandler = new FileHandler();
     Amministratore amministratore = new Amministratore();
 
     @FXML

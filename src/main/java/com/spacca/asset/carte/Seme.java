@@ -3,7 +3,7 @@ package com.spacca.asset.carte;
 public enum Seme {
     BASTONI, COPPE, DENARA, SPADE;
 
-    public static Seme caseInsensitiveValueOf(String value) {
+    public static Seme caseInsensitiveValueOf(String value) throws IllegalArgumentException {
 
         /**
          * Itera su tutti i valori dell'enumerazione

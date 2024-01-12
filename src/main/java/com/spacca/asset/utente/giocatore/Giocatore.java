@@ -7,8 +7,8 @@ public class Giocatore extends AbstractGiocatore {
     @SerializedName("password")
     String password;
 
-    public Giocatore(String nickname, String password) {
-        super(nickname);
+    public Giocatore(String username, String password) {
+        super(username);
         this.password = password;
     }
 
@@ -25,7 +25,7 @@ public class Giocatore extends AbstractGiocatore {
     }
 
     public void mostraPartite() {
-        System.out.println("Partite di " + this.getNickname() + ":" + this.listaCodiciPartite);
+        System.out.println("Partite di " + this.getUsername() + ":" + this.listaCodiciPartite);
     }
 
     @Override
