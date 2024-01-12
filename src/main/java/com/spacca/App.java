@@ -42,7 +42,7 @@ public class App extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/spacca/pages/" + fxml + ".fxml"));
         return fxmlLoader.load();
     }
-  
+
     public static void main(String[] args) {
         launch();
     }
