@@ -10,6 +10,10 @@
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21"
     xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.PartitaController">
     <children>
+
+        <VBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:id="buttonContainer" />
         <Group>
             <children>
                 <Label layoutX="14.0" layoutY="5.0" prefHeight="18.0" prefWidth="138.0"

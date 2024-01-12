@@ -236,12 +236,12 @@ public class Partita extends Object {
             if (mazzoScammato.size() > 0) {
                 mazzoLadro.aggiungiListaCarteAdAltroMazzo(mazzoScammato.getCarteNelMazzo());
                 mazzoScammato.getCarteNelMazzo().clear();
+                salvaPartita();
             } else {
-                System.out.println(
-                        "Errore: Il giocatore non ha carte da rubare o non è stato inizializzato correttamente.");
+                System.out.println("L'utente non ha carte da rubare!");
+
             }
 
-            salvaPartita();
         } catch (Exception e) {
             e.printStackTrace();
         }
