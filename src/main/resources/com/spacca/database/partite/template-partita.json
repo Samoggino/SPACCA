@@ -1,18 +1,9 @@
 {
     "giocatori": [
-        {
-            "password": "cicciogamer89",
-            "username": "Yoshi",
-            "listaCodiciPartite": []
-        },
-        {
-            "password": "cicciogamer89",
-            "username": "Mario",
-            "listaCodiciPartite": []
-        }
+        "utente1",
+        "utente2"
     ],
     "mazzo": [],
     "risultato": "Ancora da giocare",
-    "codice": "P9894",
-    "fileHandler": {}
+    "codice": "P9894"
 }

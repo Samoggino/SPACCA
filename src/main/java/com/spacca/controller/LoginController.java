@@ -50,17 +50,13 @@ public class LoginController implements Initializable {
             statusLabel.setTextFill(Color.BLACK);
             usernameField.setStyle("-fx-border-color:whitegrey");
             passwordField.setStyle("-fx-border-color:whitegrey");
+            statusLabel.setTextFill(Color.DARKORANGE);
 
             String username = usernameField.getText();
             String password = passwordField.getText();
 
-            statusLabel.setTextFill(Color.DARKORANGE);
-
-            String fileName = username + ".json";
-
-            String folderPath = "src/main/resources/com/spacca/database/giocatori/";
-
-            File userFile = new File(folderPath + fileName);
+            String pathString = "src/main/resources/com/spacca/database/giocatori/" + username + ".json";
+            File userFile = new File(pathString);
 
             if (password.trim().isEmpty() && username.trim().isEmpty()) {
                 statusLabel.setText("Non hai compilato i campi!");
@@ -71,8 +67,10 @@ public class LoginController implements Initializable {
                 statusLabel.setText("Non hai inserito il nome utente!");
                 usernameField.setStyle("-fx-border-color:darkorange");
             } else if (userFile.exists() && userFile.isFile()) { // Verifica se il file esiste
+
                 GiocatoreHandler file = new GiocatoreHandler();
-                Giocatore utente = file.leggiUtente(userFile);
+                Giocatore utente = (Giocatore) file.carica(pathString);
+                // System.out.println(utente);
 
                 if (utente.getUsername().equals(username) && utente.getPassword().equals(password)) {
                     // System.out.println("Utente registrato " + userFile.getAbsolutePath());
@@ -89,9 +87,9 @@ public class LoginController implements Initializable {
                 statusLabel.setText("Sei sicuro di esser registrato ?");
             }
         } catch (IOException e) {
-            System.out.println("Errore IOException: \n" + e.getMessage());
+            System.err.println("Errore IOException: \n" + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Errore (Login controller): \n" + e.getMessage());
+            System.err.println("Errore (Login controller): \n" + e.getMessage());
             e.printStackTrace();
         }
     }

@@ -38,12 +38,12 @@ public class PartitaHandler implements Handler {
             System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +
                     this.getClass().getName() + "\n" + e.getMessage());
         } catch (FileNotFoundException e) {
-            System.err.println("ERRORE: File non trovato in\n" + this.getClass().getName() + "\n" + e.getMessage());
+            System.err.println("ERRORE: File non trovato in\n" + "\n" + e.getMessage());
         } catch (IOException e) {
             System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +
                     this.getClass().getName() + "\n" + e.getMessage());
         } catch (Exception e) {
-            System.err.println("ERRORE: Errore generico in\n" + this.getClass().getName() + "\n" + e.getMessage());
+            System.err.println("ERRORE: Errore generico in\n" + "\n" + e.getMessage());
         }
     }
 
