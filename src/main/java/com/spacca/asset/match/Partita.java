@@ -9,7 +9,6 @@ import com.google.gson.annotations.SerializedName;
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Mazzo;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.database.Handler;
 import com.spacca.database.PartitaHandler;
 
 /**
@@ -42,11 +41,23 @@ public class Partita extends Object {
     @SerializedName("risultato")
     private String risultato;
 
+    @SerializedName("è il turno di")
+    private String tokenTurno = "nessuno";
+
+    public String getTokenTurno() {
+        return this.tokenTurno;
+    }
+
+    public void setTokenTurno(String tokenTurno) {
+        this.tokenTurno = tokenTurno;
+        salvaPartita();
+    }
+
     // codice della partita
     @SerializedName("codice")
     private String codice = "codice default";
 
-    private Handler handler = new PartitaHandler();
+    private PartitaHandler handlerPartita = new PartitaHandler();
 
     public Partita(String codice, List<String> giocatori) {
 
@@ -80,14 +91,14 @@ public class Partita extends Object {
     public void salvaPartita() {
         try {
             calcolaRisultato();
-            this.handler.salva(this, this.codice);
+            this.handlerPartita.salva(this, this.codice);
         } catch (Exception e) {
             System.err.println("Errore nel salvare la partita" + e.getMessage());
         }
     }
 
     public void eliminaPartita() {
-        this.handler.elimina(this.codice);
+        this.handlerPartita.elimina(this.codice);
     }
 
     public String getRisultato() {
