@@ -66,10 +66,10 @@ public class LoginController implements Initializable {
                 statusLabel.setText("Non hai compilato i campi!");
             } else if (password.trim().isEmpty()) {
                 statusLabel.setText("Non hai inserito la password!");
-                passwordField.setStyle("-fx-border-color:darkorange");
+                passwordField.setStyle("-fx-border-color:#eba400");
             } else if (username.trim().isEmpty()) {
                 statusLabel.setText("Non hai inserito il nome utente!");
-                usernameField.setStyle("-fx-border-color:darkorange");
+                usernameField.setStyle("-fx-border-color:#eba400");
             } else if (userFile.exists() && userFile.isFile()) { // Verifica se il file esiste
                 FileHandler file = new FileHandler();
                 Giocatore utente = file.leggiUtente(userFile);

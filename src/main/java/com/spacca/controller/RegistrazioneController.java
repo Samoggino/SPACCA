@@ -104,7 +104,7 @@ public class RegistrazioneController implements Initializable {
         if (annoNascita == null) {
             // Modifica lo stile dell'elemento UI 'data' in caso di data mancante
             // e mostra un messaggio di errore
-            data.setStyle("-fx-border-color: darkorange");
+            data.setStyle("-fx-border-color: #eba400");
             labelData.setText("Data non inserita");
             labelData.setTextFill(Color.DARKORANGE);
             return false;
@@ -141,7 +141,7 @@ public class RegistrazioneController implements Initializable {
 
         if (username.trim().isEmpty()) {
             labelUsername.setText("Non ha inserito lo username!");
-            usernameField.setStyle("-fx-border-color:darkorange");
+            usernameField.setStyle("-fx-border-color:#eba400");
             controllo = false;
         } else {
             try {
@@ -181,22 +181,22 @@ public class RegistrazioneController implements Initializable {
 
         if (password.trim().isEmpty() && confermaPassword.trim().isEmpty()) {
             labelPassword.setText("Non hai inserito la password!");
-            passwordField.setStyle("-fx-border-color:darkorange");
+            passwordField.setStyle("-fx-border-color:#eba400");
 
             labelConfermaPassword.setText("Non hai inserito la conferma!");
-            confermaPasswordField.setStyle("-fx-border-color:darkorange");
+            confermaPasswordField.setStyle("-fx-border-color:#eba400");
             return false;
         } else if (confermaPassword.trim().isEmpty()) {
             labelPassword.setText("");
             passwordField.setStyle("-fx-border-color:whitegrey");
             labelConfermaPassword.setText("Non hai inserito la conferma!");
-            confermaPasswordField.setStyle("-fx-border-color:darkorange");
+            confermaPasswordField.setStyle("-fx-border-color:#eba400");
             return false;
         } else if (password.trim().isEmpty()) {
             labelConfermaPassword.setText("");
             confermaPasswordField.setStyle("-fx-border-color:whitegrey");
             labelPassword.setText("Non hai inserito la password!");
-            passwordField.setStyle("-fx-border-color:darkorange");
+            passwordField.setStyle("-fx-border-color:#eba400");
             return false;
         } else if (password.equals(confermaPassword)) {
             labelConfermaPassword.setText("Password di conferma corretta!");
@@ -214,7 +214,7 @@ public class RegistrazioneController implements Initializable {
         labelEmail.setText("");
         if (email.trim().isEmpty()) {
             labelEmail.setText("Non ha inserito l'indirizzo mail!");
-            emailField.setStyle("-fx-border-color:darkorange");
+            emailField.setStyle("-fx-border-color:#eba400");
             labelEmail.setTextFill(Color.DARKORANGE);
             return false;
         } else if (email.contains("@")) {
@@ -223,7 +223,7 @@ public class RegistrazioneController implements Initializable {
             return true;
         } else {
             labelEmail.setText("Email non valida, reinseriscila!");
-            emailField.setStyle("-fx-border-color:darkorange");
+            emailField.setStyle("-fx-border-color:#eba400");
             labelEmail.setTextFill(Color.DARKORANGE);
             return false;
         }
