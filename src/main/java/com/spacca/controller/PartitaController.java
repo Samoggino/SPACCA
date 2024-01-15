@@ -1,9 +1,11 @@
 package com.spacca.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.spacca.App;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
@@ -18,26 +20,28 @@ public class PartitaController implements Initializable {
     @FXML
     private TextField codeTextField;
 
-    Amministratore amministratore = new Amministratore();
+    @FXML
+    private VBox partitaControllerVBox;
+
     Partita partita;
+    Amministratore amministratore = new Amministratore();
     // AbstractGiocatore YOSHI = new Giocatore("Yoshi", "", "");
     // AbstractGiocatore MARIO = new Giocatore("Mario", "", "");
     List<AbstractGiocatore> giocatoriDellaPartita;
     AbstractGiocatore giocatoreCorrente;
 
     public PartitaController() {
-        // TODO Auto-generated constructor stub
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
     }
 
     public void initController(AbstractGiocatore giocatoreCorrente, List<AbstractGiocatore> giocatoriDellaPartita) {
         this.giocatoreCorrente = giocatoreCorrente;
         this.giocatoriDellaPartita = giocatoriDellaPartita;
-        partita = amministratore.creaPartita(giocatoriDellaPartita); // oppure carica la partita
-        partita.setTokenTurno(giocatoreCorrente.getUsername());
-    }
 
-    @FXML
-    private VBox partitaControllerVBox;
+    }
 
     public void setVBox(VBox vBox) {
         this.partitaControllerVBox = vBox;
@@ -49,9 +53,17 @@ public class PartitaController implements Initializable {
 
     @FXML
     void nuovaPartita() {
-
+        partita = amministratore.creaPartita(giocatoriDellaPartita); // oppure carica la partita
+        partita.setTokenTurno(giocatoreCorrente.getUsername());
         partita.nuovoTurno();
         System.out.println(partita);
+
+        try {
+            App.setRoot("tavolo");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
 
@@ -64,12 +76,6 @@ public class PartitaController implements Initializable {
     @FXML
     void risultatoPartita() {
 
-        // System.out.println(
-        // "Carte di " + YOSHI.getUsername() + "\n" +
-        // partita.getManoDellUtente(YOSHI.getUsername()));
-        // System.out.println(
-        // "Carte di " + MARIO.getUsername() + "\n" +
-        // partita.getManoDellUtente(MARIO.getUsername()));
         System.out.println(partita.getCarteSulTavolo());
         System.out.println(partita.getRisultato());
     }
@@ -89,8 +95,7 @@ public class PartitaController implements Initializable {
         try {
             partita.prendiCartaDaTavolo(this.giocatoreCorrente);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.err.println("ERRORE (prendiUnaCartaDalTavoloYoshi):\t\t " + e.getMessage());
         }
     }
 
@@ -99,18 +104,12 @@ public class PartitaController implements Initializable {
         try {
             partita.prendiCartaDaTavolo(this.giocatoreCorrente);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.err.println("ERRORE (prendiUnaCartaDalTavoloMario):\t\t " + e.getMessage());
         }
     }
 
     private void caricaPartita(String codicePartita) {
         partita = amministratore.caricaPartita(codicePartita);
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // TODO Auto-generated method stub
     }
 
 }

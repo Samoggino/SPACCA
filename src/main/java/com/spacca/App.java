@@ -20,7 +20,7 @@ public class App extends Application {
 
         try {
             Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
-            scene = new Scene(loadFXML("prepartita"), 600, 500);
+            scene = new Scene(loadFXML("login"), 600, 500);
 
             stage.setTitle("Login APP");
             stage.getIcons().add(icon);
@@ -36,6 +36,10 @@ public class App extends Application {
 
     public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
+    }
+
+    public static Scene getScene() {
+        return scene;
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
