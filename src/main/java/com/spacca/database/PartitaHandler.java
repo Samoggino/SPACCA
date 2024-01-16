@@ -32,7 +32,6 @@ public class PartitaHandler implements Handler {
         try (JsonWriter writer = new JsonWriter(new FileWriter(codicePartita))) {
             Gson gson = new Gson();
             gson.toJson(partita, Partita.class, writer);
-            System.out.println("Partita salvata correttamente in formato JSON.");
 
         } catch (JsonIOException e) {
             System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +

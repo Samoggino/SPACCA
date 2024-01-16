@@ -10,13 +10,17 @@ import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.database.GiocatoreHandler;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class LoginController implements Initializable {
 
@@ -55,7 +59,7 @@ public class LoginController implements Initializable {
             String username = usernameField.getText();
             String password = passwordField.getText();
 
-            String pathString = "src/main/resources/com/spacca/database/giocatori/" + username + ".json";
+            String pathString = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
             File userFile = new File(pathString);
 
             if (password.trim().isEmpty() && username.trim().isEmpty()) {
@@ -70,11 +74,15 @@ public class LoginController implements Initializable {
 
                 GiocatoreHandler file = new GiocatoreHandler();
                 Giocatore utente = (Giocatore) file.carica(pathString);
-                // System.out.println(utente);
 
                 if (utente.getUsername().equals(username) && utente.getPassword().equals(password)) {
-                    // System.out.println("Utente registrato " + userFile.getAbsolutePath());
-                    App.setRoot("benvenuto");
+
+                    // App.setRoot("benvenuto");
+                    changeScene("/com/spacca/pages/prepartita.fxml", utente);
+
+                    System.out.println("Benvenuto " + utente.getUsername());
+                    statusLabel.setText("Benvenuto " + username);
+
                 } else if (utente.getUsername().equals(username)) {
                     // password Errata
                     statusLabel.setText("Password errato, riprova!");
@@ -86,8 +94,8 @@ public class LoginController implements Initializable {
             } else {
                 statusLabel.setText("Sei sicuro di esser registrato ?");
             }
-        } catch (IOException e) {
-            System.err.println("Errore IOException: \n" + e.getMessage());
+            // } catch (IOException e) {
+            // System.err.println("Errore IOException: \n" + e.getMessage());
         } catch (Exception e) {
             System.err.println("Errore (Login controller): \n" + e.getMessage());
             e.printStackTrace();
@@ -103,6 +111,26 @@ public class LoginController implements Initializable {
         } catch (Exception e) {
             e.getStackTrace();
         }
+    }
+
+    public static void changeScene(String fxmlPath, Object controllerData) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
+            Parent root = loader.load();
+            // Logica per inizializzare il controller se necessario
+            PrePartitaController prePartita = loader.getController();
+            loader.setController(prePartita);
+
+            prePartita.initController((Giocatore) controllerData);
+
+            Stage currentStage = (Stage) App.getScene().getWindow();
+
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+        } catch (IOException e) {
+            System.err.println("Errore (changeScene): \n" + e.getMessage());
+        }
+
     }
 
 }
