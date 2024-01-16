@@ -56,7 +56,7 @@ public class PrePartitaController implements Initializable {
                 }
             }
 
-            paginaPartita(sourceButton);
+            changeScene(sourceButton);
 
         } catch (IOException e) {
             System.err.println("ERRORE (partita):\t\t " + e.getMessage());
@@ -64,16 +64,14 @@ public class PrePartitaController implements Initializable {
         }
     }
 
-    private void paginaPartita(Button sourceButton) throws IOException {
+    private void changeScene(Button sourceButton) throws IOException {
         // Carica il nuovo layout FXML per il PartitaController
         FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/partita.fxml"));
-
-        // Ottieni il controller dalla nuova finestra di scena
-        partitaController = new PartitaController();
-        loader.setController(partitaController);
         Parent root = loader.load();
-
-        partitaController.initController(this.giocatoreCorrente, this.giocatoriDellaPartita);
+        // Logica per inizializzare il controller se necessario
+        PartitaController partitaController = loader.getController();
+        loader.setController(partitaController);
+        partitaController.initController(giocatoreCorrente, giocatoriDellaPartita);
 
         // Ottieni la scena corrente
         Scene currentScene = sourceButton.getScene();
@@ -91,6 +89,8 @@ public class PrePartitaController implements Initializable {
             this.giocatoreCorrente = giocatoreCorrente;
             this.giocatoriDellaPartita.add(this.giocatoreCorrente);
             this.giocatoriDellaPartita.add(MARIO);
+            // this.giocatoriDellaPartita.add(LUIGI);
+            // this.giocatoriDellaPartita.add(PEACH);
 
             // this.giocatoreCorrente = YOSHI;
 

@@ -31,7 +31,7 @@ public class CalcolatoreRisultatoPartita {
             risultatoBuilder.append(String.format("%s: %d\n", username, punti));
         });
 
-        return risultatoBuilder.toString();
+        return "\n" + risultatoBuilder.toString();
     }
 
 }

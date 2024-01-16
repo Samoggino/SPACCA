@@ -8,7 +8,6 @@ import java.util.Map;
 import com.google.gson.annotations.SerializedName;
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Mazzo;
-import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.database.PartitaHandler;
 
 /**
@@ -42,14 +41,14 @@ public class Partita extends Object {
     private String risultato;
 
     @SerializedName("è il turno di")
-    private String tokenTurno = "nessuno";
+    private String giocatoreCorrente = "nessuno";
 
-    public String getTokenTurno() {
-        return this.tokenTurno;
+    public String getGiocatoreCorrente() {
+        return this.giocatoreCorrente;
     }
 
-    public void setTokenTurno(String tokenTurno) {
-        this.tokenTurno = tokenTurno;
+    public void setGiocatoreCorrente(String giocatoreCorrente) {
+        this.giocatoreCorrente = giocatoreCorrente;
         salvaPartita();
     }
 
@@ -212,12 +211,11 @@ public class Partita extends Object {
         }
     }
 
-    public void giocaUnaCarta(AbstractGiocatore giocatore1, int posizioneCartaDaGiocare) {
+    public void giocaUnaCarta(String giocatore, int posizioneCartaDaGiocare) {
 
-        String username = giocatore1.getUsername();
         try {
             Carta cartaGiocata;
-            cartaGiocata = getManoDellUtente(username).rimuoviCartaDalMazzo(posizioneCartaDaGiocare);
+            cartaGiocata = getManoDellUtente(giocatore).rimuoviCartaDalMazzo(posizioneCartaDaGiocare);
             getCarteSulTavolo().aggiungiCartaAlMazzo(cartaGiocata);
         } catch (IndexOutOfBoundsException e) {
             System.out.println(
@@ -225,10 +223,7 @@ public class Partita extends Object {
         }
     }
 
-    public void rubaUnMazzo(AbstractGiocatore ladro, AbstractGiocatore scammato) {
-
-        String usernameLadro = ladro.getUsername();
-        String usernameScammato = scammato.getUsername();
+    public void rubaUnMazzo(String ladro, String scammato) {
 
         if (true) {
             // TODO: controllo se l'utente ha una carta che è lo stesso numero della carta
@@ -236,8 +231,8 @@ public class Partita extends Object {
         }
 
         try {
-            Mazzo mazzoLadro = getPreseDellUtente(usernameLadro);
-            Mazzo mazzoScammato = getPreseDellUtente(usernameScammato);
+            Mazzo mazzoLadro = getPreseDellUtente(ladro);
+            Mazzo mazzoScammato = getPreseDellUtente(scammato);
 
             if (mazzoScammato.size() > 0) {
                 mazzoLadro.aggiungiListaCarteAdAltroMazzo(mazzoScammato.getCarteNelMazzo());
@@ -253,10 +248,7 @@ public class Partita extends Object {
         }
     }
 
-    public void rubaMezzoMazzo(AbstractGiocatore ladro, AbstractGiocatore scammato) {
-
-        String usernameLadro = ladro.getUsername();
-        String usernameScammato = scammato.getUsername();
+    public void rubaMezzoMazzo(String ladro, String scammato) {
 
         if (true) {
             // TODO: controllo se l'utente ha una carta che è lo stesso numero della carta
@@ -265,11 +257,11 @@ public class Partita extends Object {
 
         // Aggiungi il controllo solo se il mazzo dello scammato ha un numero dispari di
         // carte
-        boolean arrotondaPerDifetto = getPreseDellUtente(usernameScammato).size() % 2 != 0;
+        boolean arrotondaPerDifetto = getPreseDellUtente(scammato).size() % 2 != 0;
 
         try {
-            Mazzo mazzoLadro = getPreseDellUtente(usernameLadro);
-            Mazzo mazzoScammato = getPreseDellUtente(usernameScammato);
+            Mazzo mazzoLadro = getPreseDellUtente(ladro);
+            Mazzo mazzoScammato = getPreseDellUtente(scammato);
 
             if (mazzoScammato.size() > 0) {
                 int metaMazzo = mazzoScammato.size() / 2;
@@ -312,8 +304,7 @@ public class Partita extends Object {
         return stampa;
     }
 
-    public void prendiCartaDaTavolo(AbstractGiocatore giocatore) {
-        String username = giocatore.getUsername();
+    public void prendiCartaDaTavolo(String giocatore) {
 
         if (true) {
             // controlla che il giocatore abbia una carta che è lo stesso numero della carta
@@ -327,10 +318,10 @@ public class Partita extends Object {
             }
             cartaGiocata = this.carteSulTavolo
                     .rimuoviCartaDalMazzo(posizioneCartaDaGiocare);
-            getPreseDellUtente(username).aggiungiCartaAlMazzo(cartaGiocata);
+            getPreseDellUtente(giocatore).aggiungiCartaAlMazzo(cartaGiocata);
             salvaPartita();
             System.out.println(
-                    username + " ha preso un " + cartaGiocata.getNome() + " di " + cartaGiocata.getSeme()
+                    giocatore + " ha preso un " + cartaGiocata.getNome() + " di " + cartaGiocata.getSeme()
                             + " dal tavolo");
 
         } catch (IndexOutOfBoundsException e) {

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/21"
-    xmlns:fx="http://javafx.com/fxml/1">
+    xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.PartitaController">
     <children>
         <Group>
             <children>
@@ -23,12 +23,12 @@
         </Group>
         <VBox fx:id="partitaControllerVBox" alignment="CENTER" spacing="20.0">
             <children>
-                <Button fx:id="primaryButton" onAction="#nuovaPartita" text="Crea una partita" />
-                <Button fx:id="primaryButton" onAction="#rubaUnMazzo" text="Ruba un mazzo" />
-                <Button fx:id="primaryButton" onAction="#rubaMezzoMazzo" text="Ruba mezzo mazzo" />
-                <Button fx:id="primaryButton" onAction="#risultatoPartita"
+                <Button onAction="#nuovaPartita" text="Crea una partita" />
+                <Button onAction="#rubaUnMazzo" text="Ruba un mazzo" />
+                <Button onAction="#rubaMezzoMazzo" text="Ruba mezzo mazzo" />
+                <Button onAction="#risultatoPartita"
                     text="Mostra il risultato" />
-                <Button fx:id="primaryButton" onAction="#prendiUnaCartaDalTavoloYoshi"
+                <Button onAction="#prendiUnaCartaDalTavoloYoshi"
                     text="Prendi una carta dal tavolo" />
             </children>
             <padding>

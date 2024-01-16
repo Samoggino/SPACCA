@@ -1,6 +1,5 @@
 package com.spacca.controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -11,9 +10,13 @@ import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class PartitaController implements Initializable {
 
@@ -25,8 +28,6 @@ public class PartitaController implements Initializable {
 
     Partita partita;
     Amministratore amministratore = new Amministratore();
-    // AbstractGiocatore YOSHI = new Giocatore("Yoshi", "", "");
-    // AbstractGiocatore MARIO = new Giocatore("Mario", "", "");
     List<AbstractGiocatore> giocatoriDellaPartita;
     AbstractGiocatore giocatoreCorrente;
 
@@ -40,11 +41,6 @@ public class PartitaController implements Initializable {
     public void initController(AbstractGiocatore giocatoreCorrente, List<AbstractGiocatore> giocatoriDellaPartita) {
         this.giocatoreCorrente = giocatoreCorrente;
         this.giocatoriDellaPartita = giocatoriDellaPartita;
-
-    }
-
-    public void setVBox(VBox vBox) {
-        this.partitaControllerVBox = vBox;
     }
 
     public void setGiocatoreCorrente(AbstractGiocatore giocatoreCorrente) {
@@ -54,21 +50,14 @@ public class PartitaController implements Initializable {
     @FXML
     void nuovaPartita() {
         partita = amministratore.creaPartita(giocatoriDellaPartita); // oppure carica la partita
-        partita.setTokenTurno(giocatoreCorrente.getUsername());
+        partita.setGiocatoreCorrente(giocatoreCorrente.getUsername());
         partita.nuovoTurno();
         System.out.println(partita);
-
-        try {
-            App.setRoot("tavolo");
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+        changeScene();
     }
 
     @FXML
-    private void inviaCodice() {
+    void inviaCodice() {
         String codice = codeTextField.getText();
         caricaPartita(codice);
     }
@@ -93,7 +82,7 @@ public class PartitaController implements Initializable {
     @FXML
     void prendiUnaCartaDalTavoloYoshi() {
         try {
-            partita.prendiCartaDaTavolo(this.giocatoreCorrente);
+            partita.prendiCartaDaTavolo(this.giocatoreCorrente.getUsername());
         } catch (Exception e) {
             System.err.println("ERRORE (prendiUnaCartaDalTavoloYoshi):\t\t " + e.getMessage());
         }
@@ -102,7 +91,7 @@ public class PartitaController implements Initializable {
     @FXML
     void prendiUnaCartaDalTavoloMario() {
         try {
-            partita.prendiCartaDaTavolo(this.giocatoreCorrente);
+            partita.prendiCartaDaTavolo(this.giocatoreCorrente.getUsername());
         } catch (Exception e) {
             System.err.println("ERRORE (prendiUnaCartaDalTavoloMario):\t\t " + e.getMessage());
         }
@@ -110,6 +99,28 @@ public class PartitaController implements Initializable {
 
     private void caricaPartita(String codicePartita) {
         partita = amministratore.caricaPartita(codicePartita);
+        changeScene();
+    }
+
+    private void changeScene() {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
+            Parent root = loader.load();
+            // Logica per inizializzare il controller se necessario
+            TavoloController tavolo = loader.getController();
+            loader.setController(tavolo);
+
+            tavolo.initController(partita);
+
+            Stage currentStage = (Stage) partitaControllerVBox.getScene().getWindow();
+
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+
+        } catch (Exception e) {
+            System.err.println("ERRORE (lanciaPartita):\t\t " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
 }
