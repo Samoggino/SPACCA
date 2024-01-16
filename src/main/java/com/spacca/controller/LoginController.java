@@ -118,7 +118,7 @@ public class LoginController implements Initializable {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
             Parent root = loader.load();
             // Logica per inizializzare il controller se necessario
-            PrePartitaController prePartita = new PrePartitaController();
+            PrePartitaController prePartita = loader.getController();
             loader.setController(prePartita);
 
             prePartita.initController((Giocatore) controllerData);
