@@ -358,4 +358,10 @@ public class Partita extends Object {
         }
 
     }
+
+    Carta getCartaInCima() {
+        return this.carteSulTavolo
+                .getCarteNelMazzo()
+                .get(this.carteSulTavolo.size() - 1);
+    }
 }
