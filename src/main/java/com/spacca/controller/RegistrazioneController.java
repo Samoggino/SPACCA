@@ -91,7 +91,7 @@ public class RegistrazioneController implements Initializable {
             // Fai qualcosa se tutte le condizioni sono vere
             if (controlloData & controlloEmail & controlloPassword & controlloUsername) {
                 fileHandler.salvaUtente(utente);
-                App.setRoot("benvenuto");
+                App.setRoot("benvenutoUtente");
             }
 
         } catch (Exception e) {

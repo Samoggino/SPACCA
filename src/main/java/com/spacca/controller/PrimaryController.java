@@ -26,8 +26,8 @@ public class PrimaryController {
 
         List<AbstractGiocatore> giocatori = new ArrayList<>(); // Inizializzazione della lista
 
-        giocatori.add(new Giocatore("pierpaolo", "cicciogamer89")); // Primo oggetto Giocatore
-        giocatori.add(new Giocatore("bernardo", "cicciogamer89")); // Secondo oggetto Giocatore
+        giocatori.add(new Giocatore("pierpaolo", "cicciogamer89", "cicciox@")); // Primo oggetto Giocatore
+        giocatori.add(new Giocatore("bernardo", "cicciogamer89", "cicciogamer8@s")); // Secondo oggetto Giocatore
 
         Partita partita = amministratore.creaPartita(giocatori);
 
@@ -41,8 +41,8 @@ public class PrimaryController {
     void comboCreaContinuaPartita() {
 
         List<AbstractGiocatore> giocatori = new ArrayList<>(); // Inizializzazione della lista
-        giocatori.add(new Giocatore("Yoshi", "cicciogamer89")); // Primo oggetto Giocatore
-        giocatori.add(new Giocatore("Mario", "cicciogamer89")); // Secondo oggetto Giocatore
+        giocatori.add(new Giocatore("Yoshi", "cicciogamer89", "cicciox@")); // Primo oggetto Giocatore
+        giocatori.add(new Giocatore("Mario", "cicciogamer89", "cicciogamer8@s")); // Secondo oggetto Giocatore
 
         for (AbstractGiocatore abstractGiocatore : giocatori) {
             System.out.println(abstractGiocatore);

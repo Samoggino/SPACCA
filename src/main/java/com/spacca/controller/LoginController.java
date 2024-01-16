@@ -76,7 +76,12 @@ public class LoginController implements Initializable {
 
                 if (utente.getUsername().equals(username) && utente.getPassword().equals(password)) {
                     // System.out.println("Utente registrato " + userFile.getAbsolutePath());
-                    App.setRoot("benvenuto");
+                    if (utente.getUsername().equals("admin")) {
+                        App.setRoot("benvenutoAdmin");
+                    } else {
+                        App.setRoot("benvenutoUtente");
+                    }
+
                 } else if (utente.getUsername().equals(username)) {
                     // password Errata
                     statusLabel.setText("Password errato, riprova!");
