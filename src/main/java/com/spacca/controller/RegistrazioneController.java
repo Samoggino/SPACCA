@@ -137,6 +137,7 @@ public class RegistrazioneController implements Initializable {
                         e.printStackTrace();
                     }
                     labelData.setText("");
+                    return false;
                 }
             }
         } catch (Exception e) {
