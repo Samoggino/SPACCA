@@ -25,7 +25,6 @@ public class TavoloController implements Initializable {
     private List<String> giocatori;
     private String giocatoreCorrente;
     private List<Pane> posizione = new ArrayList<>();
-    private List<ImageView> immagini = new ArrayList<>();
 
     @FXML
     public Pane currentPlayerPane;
@@ -53,21 +52,22 @@ public class TavoloController implements Initializable {
     }
 
     void initController(Partita partita) {
-
-        this.partita = partita;
-        this.partita = partita;
-        this.giocatori = partita.getListaDeiGiocatori();
-        this.giocatoreCorrente = partita.getGiocatoreCorrente();
         try {
+
+            this.partita = partita;
+            this.partita = partita;
+            this.giocatori = partita.getListaDeiGiocatori();
+            this.giocatoreCorrente = partita.getGiocatoreCorrente();
+
             this.posizione.add(currentPlayerPane);
 
             this.posizione.add(playerOnTopPane);
             this.posizione.add(playerOnRightPane);
             this.posizione.add(playerOnLeftPane);
 
-            this.immagini.add(playerOnTopImage);
-            this.immagini.add(playerOnRightImage);
-            this.immagini.add(playerOnLeftImage);
+            for (String string : giocatori) {
+                System.out.println(string);
+            }
 
             buildView();
         } catch (Exception e) {
@@ -80,19 +80,20 @@ public class TavoloController implements Initializable {
 
         // se il numero di giocatori è inferiore a 4, il posto di sinistra non è
         // disponibile
-        if (giocatori.size() <= 4) {
+        if (giocatori.size() < 4) {
             playerOnLeftPane.setVisible(false);
             posizione.remove(playerOnLeftPane);
         }
 
         // se il numero di giocatori è inferiore a 3, il posto a sinistra e il posto a
         // destra non sono disponibili
-        if (giocatori.size() <= 2) {
+        if (giocatori.size() < 3) {
             playerOnRightPane.setVisible(false);
             posizione.remove(playerOnRightPane);
         }
 
-        for (int i = 0; i < posizione.size(); i++) {
+        for (int i = 0; i < giocatori.size(); i++) {
+
             if (giocatori.get(i).equals(giocatoreCorrente)) {
                 showMyDeckHandler(giocatoreCorrente, currentPlayerPane);
             } else {
@@ -174,11 +175,10 @@ public class TavoloController implements Initializable {
 
         containerPane.getChildren().add(text);
 
-        if (!giocatore.equals(giocatoreCorrente)) {
-            Button myDeckButton = new Button("Ruba a " + giocatore);
-            myDeckButton.setOnAction(event -> partita.getManoDellUtente(giocatore));
-            containerPane.getChildren().add(myDeckButton);
-        }
+        Button myDeckButton = new Button("Ruba a " + giocatore);
+        myDeckButton.setOnAction(event -> partita.getManoDellUtente(giocatore));
+        containerPane.getChildren().add(myDeckButton);
+
     }
 
     public Button rubaUnMazzoHandler(String playerName, Pane containerPane) {

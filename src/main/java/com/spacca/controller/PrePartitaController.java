@@ -36,9 +36,6 @@ public class PrePartitaController implements Initializable {
     @FXML
     private VBox buttonContainer;
 
-    // Lista degli utenti
-    private List<String> userList = new ArrayList<>();
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -93,11 +90,7 @@ public class PrePartitaController implements Initializable {
             this.giocatoriDellaPartita.add(PEACH);
 
             for (AbstractGiocatore giocatore : giocatoriDellaPartita) {
-                userList.add(giocatore.getUsername());
-            }
-
-            for (String username : userList) {
-                Button button = new Button(username);
+                Button button = new Button(giocatore.getUsername());
                 button.setOnAction(this::handleButtonAction);
                 buttonContainer.getChildren().add(button);
             }

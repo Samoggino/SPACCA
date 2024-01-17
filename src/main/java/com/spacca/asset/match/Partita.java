@@ -1,6 +1,5 @@
 package com.spacca.asset.match;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +17,8 @@ import com.spacca.database.PartitaHandler;
 public class Partita extends Object {
 
     // // lista dei giocatori
-    // @SerializedName("lista dei giocatori")
-    // private List<String> listaDeiGiocatori;
+    @SerializedName("lista dei giocatori")
+    private List<String> listaDeiGiocatori;
 
     // carte in mano ai giocatori
     @SerializedName("mano del giocatore")
@@ -61,6 +60,7 @@ public class Partita extends Object {
     public Partita(String codice, List<String> giocatori) {
 
         this.codice = codice;
+        this.listaDeiGiocatori = giocatori;
         this.risultato = "Ancora da giocare";
 
         // Crea il mazzo di gioco
@@ -113,7 +113,7 @@ public class Partita extends Object {
 
         int i = 0;
         for (String giocatore : getListaDeiGiocatori()) {
-            if (i == 1) {
+            if (i < getListaDeiGiocatori().size() && i > 0) {
                 stampa += "\tvs\t";
             }
             stampa += giocatore;
@@ -131,12 +131,7 @@ public class Partita extends Object {
 
     public List<String> getListaDeiGiocatori() {
 
-        List<String> listaDeiGiocatori = new ArrayList<>();
-
-        // prendi la lista dei giocatori con un foreach dalle mappe
-        getManoDeiGiocatori().forEach((utente, mano) -> listaDeiGiocatori.add(utente));
-
-        return listaDeiGiocatori;
+        return this.listaDeiGiocatori;
     }
 
     public void calcolaRisultato() {
