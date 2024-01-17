@@ -1,7 +1,6 @@
 [
     {
         "ID": "1B",
-        "numero": 1,
         "seme": "BASTONI",
         "nome": "ASSO",
         "descrizione": "Asso di Bastoni",
@@ -10,7 +9,6 @@
     },
     {
         "ID": "2B",
-        "numero": 2,
         "seme": "BASTONI",
         "nome": "DUE",
         "descrizione": "Due di Bastoni",
@@ -19,7 +17,6 @@
     },
     {
         "ID": "3B",
-        "numero": 3,
         "seme": "BASTONI",
         "nome": "TRE",
         "descrizione": "Tre di Bastoni",
@@ -28,7 +25,6 @@
     },
     {
         "ID": "4B",
-        "numero": 4,
         "seme": "BASTONI",
         "nome": "QUATTRO",
         "descrizione": "Quattro di Bastoni",
@@ -37,7 +33,6 @@
     },
     {
         "ID": "5B",
-        "numero": 5,
         "seme": "BASTONI",
         "nome": "CINQUE",
         "descrizione": "Cinque di Bastoni",
@@ -46,7 +41,6 @@
     },
     {
         "ID": "6B",
-        "numero": 6,
         "seme": "BASTONI",
         "nome": "SEI",
         "descrizione": "Sei di Bastoni",
@@ -55,7 +49,6 @@
     },
     {
         "ID": "7B",
-        "numero": 7,
         "seme": "BASTONI",
         "nome": "SETTE",
         "descrizione": "Sette di Bastoni",
@@ -64,7 +57,6 @@
     },
     {
         "ID": "8B",
-        "numero": 8,
         "seme": "BASTONI",
         "nome": "FANTE",
         "descrizione": "Fante di Bastoni",
@@ -73,7 +65,6 @@
     },
     {
         "ID": "9B",
-        "numero": 9,
         "seme": "BASTONI",
         "nome": "CAVALLO",
         "descrizione": "Cavallo di Bastoni",
@@ -82,7 +73,6 @@
     },
     {
         "ID": "10B",
-        "numero": 10,
         "seme": "BASTONI",
         "nome": "RE",
         "descrizione": "Re di Bastoni",
@@ -91,7 +81,6 @@
     },
     {
         "ID": "1C",
-        "numero": 1,
         "seme": "COPPE",
         "nome": "ASSO",
         "descrizione": "Asso di Coppe",
@@ -100,7 +89,6 @@
     },
     {
         "ID": "2C",
-        "numero": 2,
         "seme": "COPPE",
         "nome": "DUE",
         "descrizione": "Due di Coppe",
@@ -109,7 +97,6 @@
     },
     {
         "ID": "3C",
-        "numero": 3,
         "seme": "COPPE",
         "nome": "TRE",
         "descrizione": "Tre di Coppe",
@@ -118,7 +105,6 @@
     },
     {
         "ID": "4C",
-        "numero": 4,
         "seme": "COPPE",
         "nome": "QUATTRO",
         "descrizione": "Quattro di Coppe",
@@ -127,7 +113,6 @@
     },
     {
         "ID": "5C",
-        "numero": 5,
         "seme": "COPPE",
         "nome": "CINQUE",
         "descrizione": "Cinque di Coppe",
@@ -136,7 +121,6 @@
     },
     {
         "ID": "6C",
-        "numero": 6,
         "seme": "COPPE",
         "nome": "SEI",
         "descrizione": "Sei di Coppe",
@@ -145,7 +129,6 @@
     },
     {
         "ID": "7C",
-        "numero": 7,
         "seme": "COPPE",
         "nome": "SETTE",
         "descrizione": "Sette di Coppe",
@@ -154,7 +137,6 @@
     },
     {
         "ID": "8C",
-        "numero": 8,
         "seme": "COPPE",
         "nome": "FANTE",
         "descrizione": "Fante di Coppe",
@@ -163,7 +145,6 @@
     },
     {
         "ID": "9C",
-        "numero": 9,
         "seme": "COPPE",
         "nome": "CAVALLO",
         "descrizione": "Cavallo di Coppe",
@@ -172,7 +153,6 @@
     },
     {
         "ID": "10C",
-        "numero": 10,
         "seme": "COPPE",
         "nome": "RE",
         "descrizione": "Re di Coppe",
@@ -181,7 +161,6 @@
     },
     {
         "ID": "1D",
-        "numero": 1,
         "seme": "DENARA",
         "nome": "ASSO",
         "descrizione": "Asso di Denara",
@@ -190,7 +169,6 @@
     },
     {
         "ID": "2D",
-        "numero": 2,
         "seme": "DENARA",
         "nome": "DUE",
         "descrizione": "Due di Denara",
@@ -199,7 +177,6 @@
     },
     {
         "ID": "3D",
-        "numero": 3,
         "seme": "DENARA",
         "nome": "TRE",
         "descrizione": "Tre di Denara",
@@ -208,7 +185,6 @@
     },
     {
         "ID": "4D",
-        "numero": 4,
         "seme": "DENARA",
         "nome": "QUATTRO",
         "descrizione": "Quattro di Denara",
@@ -217,7 +193,6 @@
     },
     {
         "ID": "5D",
-        "numero": 5,
         "seme": "DENARA",
         "nome": "CINQUE",
         "descrizione": "Cinque di Denara",
@@ -226,7 +201,6 @@
     },
     {
         "ID": "6D",
-        "numero": 6,
         "seme": "DENARA",
         "nome": "SEI",
         "descrizione": "Sei di Denara",
@@ -235,7 +209,6 @@
     },
     {
         "ID": "7D",
-        "numero": 7,
         "seme": "DENARA",
         "nome": "SETTE",
         "descrizione": "Sette di Denara",
@@ -244,7 +217,6 @@
     },
     {
         "ID": "8D",
-        "numero": 8,
         "seme": "DENARA",
         "nome": "FANTE",
         "descrizione": "Fante di Denara",
@@ -253,7 +225,6 @@
     },
     {
         "ID": "9D",
-        "numero": 9,
         "seme": "DENARA",
         "nome": "CAVALLO",
         "descrizione": "Cavallo di Denara",
@@ -262,7 +233,6 @@
     },
     {
         "ID": "10D",
-        "numero": 10,
         "seme": "DENARA",
         "nome": "RE",
         "descrizione": "Re di Denara",
@@ -271,7 +241,6 @@
     },
     {
         "ID": "1S",
-        "numero": 1,
         "seme": "SPADE",
         "nome": "ASSO",
         "descrizione": "Asso di Spade",
@@ -280,7 +249,6 @@
     },
     {
         "ID": "2S",
-        "numero": 2,
         "seme": "SPADE",
         "nome": "DUE",
         "descrizione": "Due di Spade",
@@ -289,7 +257,6 @@
     },
     {
         "ID": "3S",
-        "numero": 3,
         "seme": "SPADE",
         "nome": "TRE",
         "descrizione": "Tre di Spade",
@@ -298,7 +265,6 @@
     },
     {
         "ID": "4S",
-        "numero": 4,
         "seme": "SPADE",
         "nome": "QUATTRO",
         "descrizione": "Quattro di Spade",
@@ -307,7 +273,6 @@
     },
     {
         "ID": "5S",
-        "numero": 5,
         "seme": "SPADE",
         "nome": "CINQUE",
         "descrizione": "Cinque di Spade",
@@ -316,7 +281,6 @@
     },
     {
         "ID": "6S",
-        "numero": 6,
         "seme": "SPADE",
         "nome": "SEI",
         "descrizione": "Sei di Spade",
@@ -325,7 +289,6 @@
     },
     {
         "ID": "7S",
-        "numero": 7,
         "seme": "SPADE",
         "nome": "SETTE",
         "descrizione": "Sette di Spade",
@@ -334,7 +297,6 @@
     },
     {
         "ID": "8S",
-        "numero": 8,
         "seme": "SPADE",
         "nome": "FANTE",
         "descrizione": "Fante di Spade",
@@ -343,7 +305,6 @@
     },
     {
         "ID": "9S",
-        "numero": 9,
         "seme": "SPADE",
         "nome": "CAVALLO",
         "descrizione": "Cavallo di Spade",
@@ -352,7 +313,6 @@
     },
     {
         "ID": "10D",
-        "numero": 10,
         "seme": "SPADE",
         "nome": "RE",
         "descrizione": "Re di Spade",

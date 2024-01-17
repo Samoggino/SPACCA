@@ -2,10 +2,9 @@ package com.spacca.database;
 
 public interface Handler {
 
-    void salva(Object object, String pathOrFileName);
+    void salva();
 
-    void elimina(String codice);
+    void carica();
 
-    Object carica(String codice);
-
+    void elimina();
 }

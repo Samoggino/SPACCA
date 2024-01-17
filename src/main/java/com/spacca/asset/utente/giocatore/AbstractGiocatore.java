@@ -5,16 +5,16 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AbstractGiocatore extends Object implements GiocatoreInterface {
+public class AbstractGiocatore implements GiocatoreInterface {
 
-    @SerializedName("username")
+    @SerializedName("Username")
     String username;
 
     @SerializedName("listaCodiciPartite")
     List<String> listaCodiciPartite = new ArrayList<>();
 
-    public AbstractGiocatore(String username) {
-        this.username = username;
+    public AbstractGiocatore(String nickname) {
+        this.username = nickname;
     }
 
     @Override
@@ -48,8 +48,8 @@ public class AbstractGiocatore extends Object implements GiocatoreInterface {
         return stampa();
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String nickname) {
+        this.username = nickname;
     }
 
     public List<String> getListaCodiciPartite() {

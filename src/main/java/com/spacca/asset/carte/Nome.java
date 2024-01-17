@@ -3,7 +3,7 @@ package com.spacca.asset.carte;
 public enum Nome {
     ASSO, DUE, TRE, QUATTRO, CINQUE, SEI, SETTE, FANTE, CAVALLO, RE;
 
-    public static Nome caseInsensitiveValueOf(String value) throws IllegalArgumentException {
+    public static Nome caseInsensitiveValueOf(String value) {
 
         /**
          * Itera su tutti i valori dell'enumerazione

@@ -6,13 +6,17 @@ import java.util.Random;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.match.Torneo;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.database.PartitaHandler;
+import com.spacca.database.FileHandler;
 
 /**
  * AmministratoreI
  */
 public class Amministratore {
-    transient PartitaHandler partitaHandler = new PartitaHandler();;
+    FileHandler fileHandler = new FileHandler();
+
+    void creaPartita() {
+        // TODO
+    }
 
     void creaTorneo() {
         // TODO
@@ -46,6 +50,10 @@ public class Amministratore {
         // TODO
     }
 
+    void creaCodicePartita() {
+
+    }
+
     public Torneo creaNuovoTorneo() {
         return new Torneo("T" + generaNumeroCasuale());
     }
@@ -65,11 +73,11 @@ public class Amministratore {
             abstractGiocatore.addCodicePartita(codicePartita);
         }
 
-        return partitaHandler.creaPartita(codicePartita, giocatori);
+        return fileHandler.creaPartita(codicePartita, giocatori);
     }
 
     public Partita caricaPartita(String string) {
-        return partitaHandler.carica(string);
+        return fileHandler.caricaPartita(string);
     }
 
 }
