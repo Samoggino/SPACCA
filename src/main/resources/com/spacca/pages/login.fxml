@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+   prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/8.0.171"
+   xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.LoginController">
+   <children>
+      <Button fx:id="LoginButton" contentDisplay="CENTER" layoutX="271" layoutY="351"
+         mnemonicParsing="false" onAction="#handleLogin" opacity="0.6"
+         style="-fx-alignment: CENTER; -fx-background-color: orange;" text="Login " />
+      <Label layoutX="182" layoutY="154" prefHeight="17" prefWidth="243"
+         style="-fx-alignment: CENTER_LEFT;" text="Username " />
+      <PasswordField fx:id="passwordField" layoutX="180" layoutY="256" prefHeight="25"
+         prefWidth="243" promptText="Inserisci la Password" style="-fx-alignment: CENTER_LEFT;" />
+      <TextField fx:id="usernameField" layoutX="179" layoutY="188" prefHeight="25"
+         prefWidth="243" promptText="Inserisci il Nome Utente" style="-fx-alignment: CENTER_LEFT;" />
+      <Label layoutX="178" layoutY="230" prefHeight="17" prefWidth="243"
+         style="-fx-alignment: CENTER_LEFT;" text="Password" />
+      <ImageView fitHeight="130" fitWidth="149" layoutX="231" layoutY="14"
+         pickOnBounds="true" preserveRatio="true" style="-fx-alignment: CENTER;">
+         <image>
+            <Image url="@images/icone/logo.jpg" />
+         </image>
+      </ImageView>
+      <Label fx:id="statusLabel" layoutX="180" layoutY="287" prefHeight="17" prefWidth="243"
+         style="-fx-alignment: CENTER_LEFT;" text="" />
+      <Hyperlink fx:id="registrazione" alignment="CENTER" contentDisplay="CENTER" layoutX="180"
+         layoutY="310" onMouseClicked="#handleRegistrazione" prefHeight="23" prefWidth="243"
+         text="Se non sei registrato clicca qui !" textAlignment="CENTER" textFill="#f49404"
+         underline="true" wrapText="true" />
+   </children>
+</Pane>

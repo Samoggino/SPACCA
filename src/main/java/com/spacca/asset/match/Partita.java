@@ -8,27 +8,26 @@ import java.util.Map;
 import com.google.gson.annotations.SerializedName;
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Mazzo;
-import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.database.FileHandler;
+import com.spacca.database.PartitaHandler;
 
 /**
  * La classe <strong>Partita</strong> rappresenta un'istanza di una partita.
  * Contiene informazioni sui giocatori coinvolti, le carte in mano ai giocatori,
  * le carte prese dai giocatori, il mazzo di gioco e il risultato della partita.
  */
-public class Partita {
+public class Partita extends Object {
 
-    // lista dei giocatori
-    @SerializedName("lista dei giocatori")
-    private List<AbstractGiocatore> listaDeiGiocatori = new ArrayList<>();
+    // // lista dei giocatori
+    // @SerializedName("lista dei giocatori")
+    // private List<String> listaDeiGiocatori;
 
     // carte in mano ai giocatori
     @SerializedName("mano del giocatore")
-    private Map<String, Mazzo> manoDelGiocatore;
+    private Map<String, Mazzo> manoDeiGiocatori = new HashMap<>();
 
     // carte prese dai giocatori
     @SerializedName("prese di ogni giocatore")
-    private Map<String, Mazzo> cartePreseDiOgniGiocatore;
+    private Map<String, Mazzo> preseDeiGiocatori = new HashMap<>();
 
     // mazzo di gioco e piatto
     @SerializedName("mazzo di gioco")
@@ -39,53 +38,45 @@ public class Partita {
 
     // risultato della partita
     @SerializedName("risultato")
-    private String risultato = "risultato default";
+    private String risultato;
+
+    @SerializedName("è il turno di")
+    private String giocatoreCorrente = "nessuno";
+
+    public String getGiocatoreCorrente() {
+        return this.giocatoreCorrente;
+    }
+
+    public void setGiocatoreCorrente(String giocatoreCorrente) {
+        this.giocatoreCorrente = giocatoreCorrente;
+        salvaPartita();
+    }
 
     // codice della partita
     @SerializedName("codice")
     private String codice = "codice default";
 
-    private FileHandler fileHandler = new FileHandler();
+    private PartitaHandler handlerPartita = new PartitaHandler();
 
-    public Partita(String codice, List<AbstractGiocatore> giocatori) {
+    public Partita(String codice, List<String> giocatori) {
 
         this.codice = codice;
-        this.listaDeiGiocatori = giocatori;
         this.risultato = "Ancora da giocare";
 
-        creaPartita(giocatori);
-    }
-
-    private void creaPartita(List<AbstractGiocatore> giocatori) {
         // Crea il mazzo di gioco
-        setMazzoDiGioco(new Mazzo().creaMazzoDiPartenza());
+        this.mazzoDiGioco = new Mazzo().creaMazzoDiPartenza();
 
         // Crea il mazzo di carte sul tavolo
-        setCarteSulTavolo(new Mazzo());
-
-        // Crea la mano dei giocatori
-        setManoDelGiocatore(new HashMap<>());
-
-        // Crea le carte prese di ogni giocatore
-        setCartePreseDiOgniGiocatore(new HashMap<>());
+        this.carteSulTavolo = new Mazzo();
 
         // setup degli utenti
-        for (AbstractGiocatore giocatore : giocatori) {
-            this.manoDelGiocatore.put(giocatore.getUsername(), new Mazzo());
-            this.cartePreseDiOgniGiocatore.put(giocatore.getUsername(), new Mazzo());
+        for (String giocatore : giocatori) {
+            getManoDeiGiocatori().put(giocatore, new Mazzo());
+            getPreseDeiGiocatori().put(giocatore, new Mazzo());
         }
 
-    }
+        salvaPartita();
 
-    public Partita(String codice, List<AbstractGiocatore> giocatori, String risultato) {
-        this.codice = codice;
-        this.listaDeiGiocatori = giocatori;
-        this.risultato = risultato;
-    }
-
-    public Partita(String codice) {
-        this.codice = codice;
-        caricaPartita(codice);
     }
 
     public String getCodice() {
@@ -97,33 +88,38 @@ public class Partita {
     }
 
     public void salvaPartita() {
-        fileHandler.salvaPartita(this, this.codice);
-    }
-
-    public void caricaPartita(String codicePartita) {
-        fileHandler.caricaPartita(codicePartita);
+        try {
+            calcolaRisultato();
+            this.handlerPartita.salva(this, this.codice);
+        } catch (Exception e) {
+            System.err.println("Errore nel salvare la partita" + e.getMessage());
+        }
     }
 
     public void eliminaPartita() {
-        fileHandler.eliminaPartita(this.codice);
+        this.handlerPartita.elimina(this.codice);
     }
 
     public String getRisultato() {
-        return risultato;
+        return this.risultato;
     }
 
-    public String stampa() {
+    public Map<String, Mazzo> getManoDeiGiocatori() {
+        return this.manoDeiGiocatori;
+    }
+
+    private String stampa() {
         String stampa = "\nPartita: \n";
 
         int i = 0;
-        for (AbstractGiocatore giocatore : listaDeiGiocatori) {
+        for (String giocatore : getListaDeiGiocatori()) {
             if (i == 1) {
                 stampa += "\tvs\t";
             }
-            stampa += giocatore.getUsername();
+            stampa += giocatore;
             i++;
         }
-        stampa += "\nCodice " + this.codice + "\nRisultato: " + this.risultato + "\n";
+        stampa += "\nCodice " + this.codice + "\nRisultato: " + getRisultato() + "\n";
 
         return stampa;
     }
@@ -133,78 +129,239 @@ public class Partita {
         return stampa();
     }
 
-    public List<AbstractGiocatore> getListaDeiGiocatori() {
+    public List<String> getListaDeiGiocatori() {
+
+        List<String> listaDeiGiocatori = new ArrayList<>();
+
+        // prendi la lista dei giocatori con un foreach dalle mappe
+        getManoDeiGiocatori().forEach((utente, mano) -> listaDeiGiocatori.add(utente));
+
         return listaDeiGiocatori;
     }
 
-    public void setListaDeiGiocatori(List<AbstractGiocatore> giocatori) {
-        this.listaDeiGiocatori = giocatori;
-        salvaPartita();
+    public void calcolaRisultato() {
+        this.risultato = CalcolatoreRisultatoPartita.calcolaRisultato(getPreseDeiGiocatori());
     }
 
-    public void setRisultato(String risultato) {
-        this.risultato = risultato;
-        salvaPartita();
+    public Mazzo getManoDellUtente(String username) {
+        return this.manoDeiGiocatori.get(username);
     }
 
-    public Mazzo getMano(String nickname) {
-        return this.manoDelGiocatore.get(nickname);
+    public Mazzo getPreseDellUtente(String username) {
+        return this.preseDeiGiocatori.get(username);
     }
 
-    public void setManoDelGiocatore(Map<String, Mazzo> manoDelGiocatore) {
-        this.manoDelGiocatore = manoDelGiocatore;
-        salvaPartita();
-    }
-
-    public Map<String, Mazzo> getCartePreseDiOgniGiocatore() {
-        return cartePreseDiOgniGiocatore;
-    }
-
-    public void setCartePreseDiOgniGiocatore(Map<String, Mazzo> cartePreseDiOgniGiocatore) {
-        this.cartePreseDiOgniGiocatore = cartePreseDiOgniGiocatore;
-        salvaPartita();
+    public Map<String, Mazzo> getPreseDeiGiocatori() {
+        return this.preseDeiGiocatori;
     }
 
     public Mazzo getMazzoDiGioco() {
-        return mazzoDiGioco;
-    }
-
-    public void setMazzoDiGioco(Mazzo mazzoDiGioco) {
-        this.mazzoDiGioco = mazzoDiGioco;
-        salvaPartita();
+        return this.mazzoDiGioco;
     }
 
     public Mazzo getCarteSulTavolo() {
-        return carteSulTavolo;
+        return this.carteSulTavolo;
     }
 
-    public void setCarteSulTavolo(Mazzo carteSulTavolo) {
-        this.carteSulTavolo = carteSulTavolo;
+    /**
+     * questo metodo distribuisce le carte ai giocatori e mette le carte sul tavolo
+     */
+    public void nuovoTurno() {
+        distribuisciLeCarteAiGiocatori();
+        mettiCarteSulTavolo();
+        System.out.println("Carte distribuite con successo!");
         salvaPartita();
     }
 
-    public void pesca(String nickname) {
+    private void distribuisciLeCarteAiGiocatori() {
+        // distribuisce le carte ai giocatori
+        for (String username : getManoDeiGiocatori().keySet()) {
+            Mazzo mazzoGiocatore = getManoDellUtente(username);
+            List<Carta> ultimeTreCarte = this.mazzoDiGioco
+                    .getCarteNelMazzo()
+                    .subList(
+                            lunghezzaMazzoDiGiocoCorrente() - 3,
+                            lunghezzaMazzoDiGiocoCorrente());
 
-        Carta cartaPescata = pesca();
-        aggiungiCartaAlMazzoDellUtente(nickname, cartaPescata);
-        salvaPartita();
+            mazzoGiocatore.aggiungiListaCarteAdAltroMazzo(ultimeTreCarte);
+        }
     }
 
-    public Carta pesca() {
-        return this.mazzoDiGioco.getMazzo().remove(this.mazzoDiGioco.getMazzo().size() - 1);
+    private int lunghezzaMazzoDiGiocoCorrente() {
+        return this.mazzoDiGioco.size();
     }
 
-    public void aggiungiCartaAlMazzoDellUtente(String nickname, Carta carta) {
+    private void mettiCarteSulTavolo() {
+        // Supponiamo che questo sia il numero di carte che desideri distribuire in un
+        // turno normale.
+        int carteDaDistribuire = 4;
 
-        System.out.println("Mano del giocatore: " + getMano(nickname));
-        this.manoDelGiocatore.put(nickname, carteSulTavolo);
-        salvaPartita();
+        // Ottieni il numero di carte nel mazzo di gioco
+        int carteRimanenti = lunghezzaMazzoDiGiocoCorrente() - 1;
+
+        // Determina il numero di carte da distribuire in questo turno
+        int carteDaDistribuireQuestoTurno = Math.min(carteDaDistribuire, carteRimanenti);
+
+        // Distribuisci le carte sul tavolo
+        for (int i = 0; i < carteDaDistribuireQuestoTurno; i++) {
+            Carta cartaDaDare = this.mazzoDiGioco
+                    .getCarteNelMazzo()
+                    .remove(lunghezzaMazzoDiGiocoCorrente() - 1);
+            getCarteSulTavolo().aggiungiCartaAlMazzo(cartaDaDare);
+        }
+    }
+
+    public void giocaUnaCarta(String giocatore, int posizioneCartaDaGiocare) {
+
         try {
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+            Carta cartaGiocata;
+            cartaGiocata = getManoDellUtente(giocatore).rimuoviCartaDalMazzo(posizioneCartaDaGiocare);
+            getCarteSulTavolo().aggiungiCartaAlMazzo(cartaGiocata);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(
+                    "Non ci sono più carte in mano al giocatore oppure il giocatore ha al massimo 3 carte in mano.");
+        }
+    }
+
+    public void rubaUnMazzo(String ladro, String scammato) {
+
+        if (true) {
+            // TODO: controllo se l'utente ha una carta che è lo stesso numero della carta
+            // in cima al mazzo dell'altro utente
+        }
+
+        try {
+            Mazzo mazzoLadro = getPreseDellUtente(ladro);
+            Mazzo mazzoScammato = getPreseDellUtente(scammato);
+
+            if (mazzoScammato.size() > 0) {
+                mazzoLadro.aggiungiListaCarteAdAltroMazzo(mazzoScammato.getCarteNelMazzo());
+                mazzoScammato.getCarteNelMazzo().clear();
+                salvaPartita();
+            } else {
+                System.out.println("L'utente non ha carte da rubare!");
+
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public void rubaMezzoMazzo(String ladro, String scammato) {
+
+        if (true) {
+            // TODO: controllo se l'utente ha una carta che è lo stesso numero della carta
+            // in cima al mazzo dell'altro utente
+        }
+
+        // Aggiungi il controllo solo se il mazzo dello scammato ha un numero dispari di
+        // carte
+        boolean arrotondaPerDifetto = getPreseDellUtente(scammato).size() % 2 != 0;
+
+        try {
+            Mazzo mazzoLadro = getPreseDellUtente(ladro);
+            Mazzo mazzoScammato = getPreseDellUtente(scammato);
+
+            if (mazzoScammato.size() > 0) {
+                int metaMazzo = mazzoScammato.size() / 2;
+
+                // Aggiungi l'arrotondamento per difetto se necessario
+                if (arrotondaPerDifetto) {
+                    metaMazzo = (int) Math.floor(metaMazzo);
+                }
+
+                mazzoLadro.aggiungiListaCarteAdAltroMazzo(
+                        mazzoScammato
+                                .getCarteNelMazzo()
+                                .subList(0, metaMazzo));
+                mazzoScammato
+                        .getCarteNelMazzo()
+                        .subList(0, metaMazzo)
+                        .clear();
+
+                salvaPartita();
+            } else {
+                System.out.println("L'utente non ha carte da rubare!");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String stampaManoDeiGiocatori() {
+        String stampa = "\n";
+        int i = 0;
+        for (String username : getManoDeiGiocatori().keySet()) {
+            stampa += "Mano di " + username + ": " + getManoDellUtente(username);
+            if (i < getListaDeiGiocatori().size()) {
+                // mette a capo tra un giocatore e l'altro
+                stampa += "\n";
+            }
+            i++;
+        }
+        return stampa;
+    }
+
+    public void prendiCartaDaTavolo(String giocatore) {
+
+        if (true) {
+            // controlla che il giocatore abbia una carta che è lo stesso numero della carta
+        }
+        try {
+            Carta cartaGiocata;
+            int posizioneCartaDaGiocare = this.carteSulTavolo.size() - 1;
+
+            if (posizioneCartaDaGiocare < 0) {
+                throw new IndexOutOfBoundsException("Non ci sono più carte sul tavolo.");
+            }
+            cartaGiocata = this.carteSulTavolo
+                    .rimuoviCartaDalMazzo(posizioneCartaDaGiocare);
+            getPreseDellUtente(giocatore).aggiungiCartaAlMazzo(cartaGiocata);
+            salvaPartita();
+            System.out.println(
+                    giocatore + " ha preso un " + cartaGiocata.getNome() + " di " + cartaGiocata.getSeme()
+                            + " dal tavolo");
+
+        } catch (IndexOutOfBoundsException e) {
+            System.err.println(
+                    "Non ci sono più carte sul tavolo oppure il giocatore ha al massimo 3 carte in mano.");
+        }
+    }
+
+    /**
+     * Questo metodo sarà probabilmente utilizzato solo dagli utenti CPU e andrà
+     * modificato.
+     * 
+     * @param cartaDaCercare
+     * @param username
+     */
+    public void cercaCartaSulTavolo(Carta cartaDaCercare, String username) {
+
+        try {
+            for (Carta carta : this.carteSulTavolo.getCarteNelMazzo()) {
+                if (carta.getNome() == cartaDaCercare.getNome()) {
+                    // prendi la carta dal tavolo e mettila nella mano del giocatore
+                    Carta cartaGiocata = this.carteSulTavolo
+                            .getCarteNelMazzo()
+                            .remove(this.carteSulTavolo
+                                    .getCarteNelMazzo()
+                                    .indexOf(carta));
+
+                    System.out.println("La carta è stata trovata!");
+                    getManoDellUtente(username).aggiungiCartaAlMazzo(cartaGiocata);
+                }
+            }
+        } catch (IndexOutOfBoundsException e) {
+            System.err.println("Sul tavolo non ci sono carte!" + e.getMessage());
+        }
+
+    }
+
+    Carta getCartaInCima() {
+        return this.carteSulTavolo
+                .getCarteNelMazzo()
+                .get(this.carteSulTavolo.size() - 1);
+    }
 }

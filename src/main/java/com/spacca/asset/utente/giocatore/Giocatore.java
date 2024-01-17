@@ -37,10 +37,6 @@ public class Giocatore extends AbstractGiocatore {
         return email;
     }
 
-    public String getUsername() {
-        return this.username;
-    }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -48,4 +44,5 @@ public class Giocatore extends AbstractGiocatore {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }
