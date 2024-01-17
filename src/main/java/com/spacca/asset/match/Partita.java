@@ -184,6 +184,10 @@ public class Partita extends Object {
                             lunghezzaMazzoDiGiocoCorrente());
 
             mazzoGiocatore.aggiungiListaCarteAdAltroMazzo(ultimeTreCarte);
+
+            // è necessario fare clear() per rimuovere le carte dal mazzo di gioco,
+            // altrimenti continuerebbe a dare le stesse carte a tutti gli utenti
+            ultimeTreCarte.clear();
         }
     }
 
@@ -359,9 +363,12 @@ public class Partita extends Object {
 
     }
 
-    Carta getCartaInCima() {
-        return this.carteSulTavolo
-                .getCarteNelMazzo()
-                .get(this.carteSulTavolo.size() - 1);
+    public Carta getCartaInCima(String username) {
+
+        if (getPreseDellUtente(username).size() == 0) {
+            return null;
+        }
+
+        return getPreseDellUtente(username).getCarteNelMazzo().get(getPreseDellUtente(username).size() - 1);
     }
 }

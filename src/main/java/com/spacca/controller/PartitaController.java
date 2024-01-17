@@ -53,7 +53,7 @@ public class PartitaController implements Initializable {
         partita.setGiocatoreCorrente(giocatoreCorrente.getUsername());
         partita.nuovoTurno();
         System.out.println(partita);
-        changeScene();
+        // changeScene();
     }
 
     @FXML
@@ -98,7 +98,9 @@ public class PartitaController implements Initializable {
     }
 
     private void caricaPartita(String codicePartita) {
-        partita = amministratore.caricaPartita(codicePartita);
+        this.partita = amministratore.caricaPartita(codicePartita);
+        this.partita.setGiocatoreCorrente(giocatoreCorrente.getUsername());
+        System.out.println(partita);
         changeScene();
     }
 
@@ -110,7 +112,7 @@ public class PartitaController implements Initializable {
             TavoloController tavolo = loader.getController();
             loader.setController(tavolo);
 
-            tavolo.initController(partita);
+            tavolo.initController(this.partita);
 
             Stage currentStage = (Stage) partitaControllerVBox.getScene().getWindow();
 

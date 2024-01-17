@@ -125,9 +125,10 @@ public class Mazzo {
     }
 
     public Carta getUltimaCarta() {
-        if (this.carteNelMazzo.size() >= 0) {
+        if (size() == 0) {
+            System.err.println("ERRORE: Non ci sono carte nel mazzo");
             return null;
         }
-        return this.carteNelMazzo.get(this.carteNelMazzo.size() - 1);
+        return this.carteNelMazzo.get(size());
     }
 }
