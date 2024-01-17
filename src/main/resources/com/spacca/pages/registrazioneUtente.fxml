@@ -8,53 +8,65 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.RegistrazioneController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+   prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/8.0.171"
+   xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.RegistrazioneController">
    <children>
-      <Button fx:id="save" layoutX="327.0" layoutY="361.0" mnemonicParsing="false" onMouseClicked="#handleLogin" opacity="0.68" prefHeight="25.0" prefWidth="58.0" style="-fx-background-color: orange;" text="Salva" textAlignment="CENTER" /> 
-      <Button fx:id="indietro" layoutX="224.0" layoutY="361.0" mnemonicParsing="false" onMouseClicked="#tornaIndietro" opacity="0.68" style="-fx-background-color: orange;" text="Indietro" textAlignment="CENTER" />
-      <Label layoutX="80.0" layoutY="70.0" prefHeight="17.0" prefWidth="149.0" text="Username" />
-      <Label fx:id="labelUsername" layoutX="82.0" layoutY="129.0" prefHeight="15.0" prefWidth="149.0">
+      <Button fx:id="save" layoutX="327" layoutY="361" mnemonicParsing="false"
+         onMouseClicked="#handleLogin" opacity="0.68" prefHeight="25" prefWidth="58"
+         style="-fx-background-color: orange;" text="Salva" textAlignment="CENTER" />
+      <Button fx:id="indietro" layoutX="224" layoutY="361" mnemonicParsing="false"
+         onMouseClicked="#tornaIndietro" opacity="0.68" style="-fx-background-color: orange;"
+         text="Indietro" textAlignment="CENTER" />
+      <Label layoutX="80" layoutY="70" prefHeight="17" prefWidth="149" text="Username" />
+      <Label fx:id="labelUsername" layoutX="82" layoutY="129" prefHeight="15" prefWidth="149">
          <font>
-            <Font size="10.0" />
+            <Font size="10" />
          </font>
       </Label>
-      <TextField fx:id="usernameField" layoutX="80.0" layoutY="95.0" prefHeight="25.0" prefWidth="149.0" promptText="Inserisci il Nome Utente" />
-      <Label layoutX="81.0" layoutY="165.0" prefHeight="17.0" prefWidth="149.0" text="Email" />
-      <Label fx:id="labelEmail" layoutX="83.0" layoutY="224.0" prefHeight="15.0" prefWidth="149.0">
+      <TextField fx:id="usernameField" layoutX="80" layoutY="95" prefHeight="25" prefWidth="149"
+         promptText="Inserisci il Nome Utente" />
+      <Label layoutX="81" layoutY="165" prefHeight="17" prefWidth="149" text="Email" />
+      <Label fx:id="labelEmail" layoutX="83" layoutY="224" prefHeight="15" prefWidth="149">
          <font>
-            <Font size="10.0" />
+            <Font size="10" />
          </font>
       </Label>
-      <TextField fx:id="emailField" layoutX="81.0" layoutY="190.0" promptText="Inserisci la tua E-mail" />
-      <PasswordField fx:id="passwordField" layoutX="366.0" layoutY="94.0" prefHeight="25.0" prefWidth="149.0" promptText="Inserisci la Password" />
-      <PasswordField fx:id="confermaPasswordField" layoutX="366.0" layoutY="189.0" prefHeight="25.0" prefWidth="149.0" promptText="Conferma la Password" />
-      <Label layoutX="365.0" layoutY="70.0" prefHeight="17.0" prefWidth="149.0" text="Password" />
-      <Label fx:id="labelPassword" layoutX="368.0" layoutY="223.0" prefHeight="15.0" prefWidth="149.0">
+      <TextField fx:id="emailField" layoutX="81" layoutY="190" promptText="Inserisci la tua E-mail" />
+      <PasswordField fx:id="passwordField" layoutX="366" layoutY="94" prefHeight="25"
+         prefWidth="149" promptText="Inserisci la Password" />
+      <PasswordField fx:id="confermaPasswordField" layoutX="366" layoutY="189" prefHeight="25"
+         prefWidth="149" promptText="Conferma la Password" />
+      <Label layoutX="365" layoutY="70" prefHeight="17" prefWidth="149" text="Password" />
+      <Label fx:id="labelPassword" layoutX="368" layoutY="223" prefHeight="15" prefWidth="149">
          <font>
-            <Font size="10.0" />
+            <Font size="10" />
          </font>
       </Label>
-      <Label layoutX="366.0" layoutY="164.0" prefHeight="17.0" prefWidth="149.0" text="Conferma Password" />
-      <Label fx:id="labelConfermaPassword" layoutX="368.0" layoutY="223.0" prefHeight="15.0" prefWidth="149.0">
+      <Label layoutX="366" layoutY="164" prefHeight="17" prefWidth="149" text="Conferma Password" />
+      <Label fx:id="labelConfermaPassword" layoutX="368" layoutY="223" prefHeight="15"
+         prefWidth="149">
          <font>
-            <Font size="10.0" />
+            <Font size="10" />
          </font>
       </Label>
-      <DatePicker fx:id="data" layoutX="80.0" layoutY="283.0" prefHeight="25.0" prefWidth="149.0" promptText="Seleziona la Data" />
-      <Label layoutX="81.0" layoutY="257.0" prefHeight="17.0" prefWidth="149.0" text="Data di nascita" />
-      <Label fx:id="labelData" layoutX="83.0" layoutY="316.0" prefHeight="15.0" prefWidth="149.0">
+      <DatePicker fx:id="data" layoutX="80" layoutY="283" prefHeight="25" prefWidth="149"
+         promptText="Seleziona la Data" />
+      <Label layoutX="81" layoutY="257" prefHeight="17" prefWidth="149" text="Data di nascita" />
+      <Label fx:id="labelData" layoutX="83" layoutY="316" prefHeight="15" prefWidth="149">
          <font>
-            <Font size="10.0" />
+            <Font size="10" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="226.0" layoutY="33.0" prefHeight="17.0" prefWidth="149.0" text="Registrati : " textAlignment="CENTER" textFill="#10100f">
+      <Label alignment="CENTER" layoutX="226" layoutY="33" prefHeight="17" prefWidth="149"
+         text="Registrati : " textAlignment="CENTER" textFill="#10100f">
          <font>
-            <Font size="15.0" />
+            <Font size="15" />
          </font>
       </Label>
-      <Label fx:id="labelPassword" layoutX="365.0" layoutY="129.0" prefHeight="15.0" prefWidth="149.0">
+      <Label fx:id="labelPassword" layoutX="365" layoutY="129" prefHeight="15" prefWidth="149">
          <font>
-            <Font size="10.0" />
+            <Font size="10" />
          </font>
       </Label>
    </children>

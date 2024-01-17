@@ -10,16 +10,22 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1133.0" style="-fx-background-color: #696969;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.TavoloController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+   prefHeight="760.0" prefWidth="1133.0" style="-fx-background-color: #696969;"
+   xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+   fx:controller="com.spacca.controller.TavoloController">
    <left>
-      <VBox prefHeight="378.0" prefWidth="100.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+      <VBox prefHeight="378.0" prefWidth="100.0" style="-fx-background-color: gray;"
+         BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="playerOnLeft" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: lightgray;" translateY="180.0" />
+            <VBox fx:id="playerOnLeft" prefHeight="200.0" prefWidth="100.0"
+               style="-fx-background-color: lightgray;" translateY="180.0" />
          </children>
       </VBox>
    </left>
    <center>
-      <Pane id="tavolo" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: lightgreen;" BorderPane.alignment="CENTER">
+      <Pane id="tavolo" prefHeight="200.0" prefWidth="200.0"
+         style="-fx-background-color: lightgreen;" BorderPane.alignment="CENTER">
          <children>
             <GridPane layoutX="190.0" layoutY="144.0" prefHeight="272.0" prefWidth="554.0">
                <columnConstraints>
@@ -37,11 +43,14 @@
       </Pane>
    </center>
    <top>
-      <HBox maxWidth="-Infinity" prefHeight="100.0" prefWidth="937.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+      <HBox maxWidth="-Infinity" prefHeight="100.0" prefWidth="937.0"
+         style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="playerOnTop" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: lightgray;" translateX="370.0">
+            <HBox fx:id="playerOnTop" alignment="CENTER" prefHeight="100.0" prefWidth="200.0"
+               style="-fx-background-color: lightgray;" translateX="370.0">
                <children>
-                  <ImageView fx:id="immagineCarta" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+                  <ImageView fx:id="immagineCarta" fitHeight="150.0" fitWidth="200.0"
+                     pickOnBounds="true" preserveRatio="true" rotate="90.0">
                      <image>
                         <!-- src/main/resources/com/spacca/images/Retro.jpeg -->
                         <Image url="@../images/retro.png" />
@@ -53,16 +62,20 @@
       </HBox>
    </top>
    <right>
-      <VBox prefHeight="378.0" prefWidth="100.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+      <VBox prefHeight="378.0" prefWidth="100.0" style="-fx-background-color: gray;"
+         BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="playerOnRight" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: lightgray;" translateY="180.0" />
+            <VBox fx:id="playerOnRight" prefHeight="200.0" prefWidth="100.0"
+               style="-fx-background-color: lightgray;" translateY="180.0" />
          </children>
       </VBox>
    </right>
    <bottom>
-      <HBox maxWidth="-Infinity" prefHeight="100.0" prefWidth="937.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+      <HBox maxWidth="-Infinity" prefHeight="100.0" prefWidth="937.0"
+         style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="currentPlayer" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: lightgray;" translateX="370.0" />
+            <HBox fx:id="currentPlayer" prefHeight="100.0" prefWidth="200.0"
+               style="-fx-background-color: lightgray;" translateX="370.0" />
          </children>
       </HBox>
    </bottom>

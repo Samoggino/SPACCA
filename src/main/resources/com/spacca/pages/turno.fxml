@@ -21,14 +21,13 @@
                 <Button layoutX="37.0" layoutY="71.0" onAction="#inviaCodice" text="Invia Codice" />
             </children>
         </Group>
-        <VBox fx:id="partitaControllerVBox" alignment="CENTER" spacing="20.0">
+        <VBox alignment="CENTER" spacing="20.0">
             <children>
-                <Button onAction="#nuovaPartita" text="Crea una partita" />
-                <Button onAction="#rubaUnMazzo" text="Ruba un mazzo" />
-                <Button onAction="#rubaMezzoMazzo" text="Ruba mezzo mazzo" />
-                <Button onAction="#risultatoPartita"
+                <Button fx:id="primaryButton" onAction="#nuovaPartita" text="Crea una partita" />
+                <Button fx:id="primaryButton" onAction="#rubaUnMazzo" text="Ruba un mazzo" />
+                <Button fx:id="primaryButton" onAction="#risultatoPartita"
                     text="Mostra il risultato" />
-                <Button onAction="#prendiUnaCartaDalTavoloYoshi"
+                <Button fx:id="primaryButton" onAction="#prendiUnaCartaDalTavolo"
                     text="Prendi una carta dal tavolo" />
             </children>
             <padding>
