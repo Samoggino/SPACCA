@@ -91,7 +91,6 @@ public class Mazzo {
         return this.carteNelMazzo.size();
     }
 
-
     /**
      * Metodo che stampa le carte dal file JSON
      */
@@ -123,5 +122,12 @@ public class Mazzo {
         }
 
         return carte;
+    }
+
+    public Carta getUltimaCarta() {
+        if (this.carteNelMazzo.size() >= 0) {
+            return null;
+        }
+        return this.carteNelMazzo.get(this.carteNelMazzo.size() - 1);
     }
 }

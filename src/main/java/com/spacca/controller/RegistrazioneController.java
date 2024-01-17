@@ -99,7 +99,7 @@ public class RegistrazioneController implements Initializable {
             // Fai qualcosa se tutte le condizioni sono vere
             if (controlloData & controlloEmail & controlloPassword & controlloUsername) {
                 giocatoreHandler.salva(utente, utente.getUsername());
-                App.setRoot("benvenuto");
+                // App.setRoot("benvenuto");
             }
 
         } catch (Exception e) {
