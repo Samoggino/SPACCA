@@ -1,19 +1,19 @@
 package com.spacca.controller;
 
-import java.io.File;
+//import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 import com.spacca.App;
-import com.spacca.asset.utente.giocatore.Giocatore;
+//import com.spacca.asset.utente.giocatore.Giocatore;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
+//import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -28,8 +28,8 @@ public class BenvenutoController {
     @FXML
     private Button avvioButton;
 
-    @FXML
-    private ChoiceBox menuTendina;
+    // @FXML
+    // private ChoiceBox menuTendina;
 
     @FXML
     private Button indietro;

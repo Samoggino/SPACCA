@@ -101,48 +101,12 @@ public class RegistrazioneController implements Initializable {
     }
 
     private boolean controllaData(LocalDate annoNascita) {
-<<<<<<< HEAD
-        try {
-            if (annoNascita == null) {
-                // Modifica lo stile dell'elemento UI 'data' in caso di data mancante
-                // e mostra un messaggio di errore
-                data.setStyle("-fx-border-color: darkorange");
-                labelData.setText("Data non inserita");
-                labelData.setTextFill(Color.DARKORANGE);
-                return false;
-            } else {
-                LocalDate now = LocalDate.now();
-                int eta = Period.between(annoNascita, now).getYears();
-
-                if (eta >= 18) {
-                    // Modifica lo stile dell'elemento UI 'data' in caso di successo
-                    data.setStyle("-fx-border-color: whitegrey");
-                    labelData.setText("");
-                    return true;
-                } else {
-                    // Mostra un avviso e passa alla schermata di login in caso di età insufficiente
-                    showAlert("Non hai diciotto anni, non puoi registrarti");
-                    try {
-                        // Assicurati che il metodo setRoot sia implementato correttamente in App
-                        App.setRoot("login");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    labelData.setText("");
-                    return false;
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("Errore (Login controller): \n" + e.getMessage());
-            e.printStackTrace();
-=======
         if (annoNascita == null) {
             // Modifica lo stile dell'elemento UI 'data' in caso di data mancante
             // e mostra un messaggio di errore
             data.setStyle("-fx-border-color: #eba400");
             labelData.setText("Data non inserita");
             labelData.setTextFill(Color.DARKORANGE);
->>>>>>> parent of 1291cd9 (Merge branch 'main' into grafica)
             return false;
         } else {
             LocalDate now = LocalDate.now();
