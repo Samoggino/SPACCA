@@ -38,7 +38,7 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         try {
-
+            App.getStage().setTitle("Login");
         } catch (Exception e) {
             System.err.println("Error initialize: " + e.getMessage() + "initialize");
         }
@@ -77,8 +77,10 @@ public class LoginController implements Initializable {
                 if (utente.getUsername().equals(username) && utente.getPassword().equals(password)) {
                     // System.out.println("Utente registrato " + userFile.getAbsolutePath());
                     if (utente.getUsername().equals("admin")) {
+                        App.getStage().setTitle("Benvenuto Admin ! ");
                         App.setRoot("benvenutoAdmin");
                     } else {
+                        App.getStage().setTitle("Benvenuto " + username + " !");
                         App.setRoot("benvenutoUtente");
                     }
 
@@ -104,6 +106,7 @@ public class LoginController implements Initializable {
     @FXML
     private void handleRegistrazione() {
         try {
+            App.getStage().setTitle("Registrazione");
             App.setRoot("registrazioneUtente");
         } catch (IOException e) {
             e.getStackTrace();
