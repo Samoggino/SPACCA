@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -10,10 +12,12 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-   prefHeight="760.0" prefWidth="1133.0" style="-fx-background-color: #696969;"
-   xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+   prefHeight="760.0" prefWidth="1300.0" style="-fx-background-color: #696969;"
+   xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
    fx:controller="com.spacca.controller.TavoloController">
    <center>
       <Pane id="tavolo" prefHeight="200.0" prefWidth="200.0"
@@ -35,12 +39,22 @@
       </Pane>
    </center>
    <top>
-      <HBox maxWidth="-Infinity" prefHeight="74.0" prefWidth="937.0"
+      <HBox maxWidth="-Infinity" prefHeight="100.0" prefWidth="937.0"
          style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="playerOnTopPane" alignment="CENTER" prefHeight="100.0" prefWidth="200.0"
-               style="-fx-background-color: lightgray;" translateX="370.0">
+            <VBox fx:id="playerOnTopPane" alignment="CENTER" prefHeight="150.0" prefWidth="204.0"
+               style="-fx-background-color: lightgray;" translateX="368.0">
                <children>
+                  <Text boundsType="VISUAL" strokeLineCap="ROUND" strokeLineJoin="ROUND"
+                     strokeWidth="0.0" text="Text" textAlignment="CENTER" textOrigin="CENTER"
+                     translateY="20.0" wrappingWidth="83.791015625" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Droid Sans Bold" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Text>
                   <ImageView fx:id="playerOnTopImage" fitHeight="150.0" fitWidth="200.0"
                      pickOnBounds="true" preserveRatio="true" rotate="90.0">
                      <image>
@@ -51,8 +65,13 @@
                         <Cursor fx:constant="OPEN_HAND" />
                      </cursor>
                   </ImageView>
+                  <Button mnemonicParsing="false" text="Button">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="-25.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
-            </HBox>
+            </VBox>
          </children>
       </HBox>
    </top>
@@ -60,21 +79,58 @@
       <HBox maxWidth="-Infinity" prefHeight="100.0" prefWidth="937.0"
          style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="currentPlayerPane" prefHeight="100.0" prefWidth="200.0"
-               style="-fx-background-color: lightgray;" translateX="370.0" />
+            <VBox fx:id="currentPlayerPane" alignment="CENTER" prefHeight="150.0" prefWidth="204.0"
+               style="-fx-background-color: lightgray;" translateX="368.0">
+               <children>
+                  <Text boundsType="VISUAL" strokeLineCap="ROUND" strokeLineJoin="ROUND"
+                     strokeWidth="0.0" text="Text" textAlignment="CENTER" textOrigin="CENTER"
+                     translateY="20.0" wrappingWidth="83.791015625" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Droid Sans Bold" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Text>
+                  <ImageView fx:id="playerOnTopImage1" fitHeight="150.0" fitWidth="200.0"
+                     pickOnBounds="true" preserveRatio="true" rotate="90.0">
+                     <image>
+                        <Image url="@../images/retro.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor>
+                  </ImageView>
+                  <Button mnemonicParsing="false" text="Mostra carte">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="-25.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
          </children>
       </HBox>
    </bottom>
    <left>
-      <VBox prefHeight="378.0" prefWidth="100.0" style="-fx-background-color: gray;"
+      <VBox prefHeight="378.0" prefWidth="182.0" style="-fx-background-color: gray;"
          BorderPane.alignment="CENTER">
          <children>
             <VBox fx:id="playerOnLeftPane" alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
-               style="-fx-background-color: lightgray;" translateY="154.0">
+               style="-fx-background-color: lightgray;" translateY="136.0">
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
                <children>
+                  <Text boundsType="VISUAL" strokeLineCap="ROUND" strokeLineJoin="ROUND"
+                     strokeWidth="0.0" text="Text" textAlignment="CENTER" textOrigin="CENTER"
+                     wrappingWidth="83.791015625">
+                     <font>
+                        <Font name="Droid Sans Bold" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Text>
                   <ImageView fx:id="playerOnLeftImage" fitHeight="150.0" fitWidth="200.0"
                      pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -84,21 +140,36 @@
                         <Cursor fx:constant="OPEN_HAND" />
                      </cursor>
                   </ImageView>
+                  <Button mnemonicParsing="false" text="Button">
+                     <VBox.margin>
+                        <Insets bottom="8.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
             </VBox>
          </children>
       </VBox>
    </left>
    <right>
-      <VBox prefHeight="378.0" prefWidth="100.0" style="-fx-background-color: gray;"
+      <VBox prefHeight="378.0" prefWidth="181.0" style="-fx-background-color: gray;"
          BorderPane.alignment="CENTER">
          <children>
             <VBox fx:id="playerOnRightPane" alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
-               style="-fx-background-color: lightgray;" translateY="154.0">
+               style="-fx-background-color: lightgray;" translateY="136.0">
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor>
                <children>
+                  <Text boundsType="VISUAL" strokeLineCap="ROUND" strokeLineJoin="ROUND"
+                     strokeWidth="0.0" text="Text" textAlignment="CENTER" textOrigin="CENTER"
+                     wrappingWidth="83.791015625">
+                     <font>
+                        <Font name="Droid Sans Bold" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Text>
                   <ImageView fx:id="playerOnRightImage" fitHeight="150.0" fitWidth="200.0"
                      pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -108,6 +179,11 @@
                         <Cursor fx:constant="OPEN_HAND" />
                      </cursor>
                   </ImageView>
+                  <Button mnemonicParsing="false" text="Button">
+                     <VBox.margin>
+                        <Insets bottom="8.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
             </VBox>
          </children>

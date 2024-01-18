@@ -10,8 +10,9 @@
 <?import javafx.scene.layout.Pane?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-   prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/8.0.171"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.LoginController">
+   prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx"
+   xmlns:fx="http://javafx.com/fxml"
+   fx:controller="com.spacca.controller.LoginController">
    <children>
       <Button fx:id="LoginButton" contentDisplay="CENTER" layoutX="271" layoutY="351"
          mnemonicParsing="false" onAction="#handleLogin" opacity="0.6"

@@ -53,7 +53,7 @@ public class PartitaController implements Initializable {
         partita.setGiocatoreCorrente(giocatoreCorrente.getUsername());
         partita.nuovoTurno();
         System.out.println(partita);
-        // changeScene();
+        changeScene();
     }
 
     @FXML
