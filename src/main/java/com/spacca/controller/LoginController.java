@@ -76,9 +76,12 @@ public class LoginController implements Initializable {
                 Giocatore utente = (Giocatore) file.carica(pathString);
 
                 if (utente.getUsername().equals(username) && utente.getPassword().equals(password)) {
-
-                    // App.setRoot("benvenuto");
-                    changeScene("/com/spacca/pages/prepartita.fxml", utente);
+                    if (username.equals("admin")) {
+                        changeScene("/com/spacca/pages/benvenutoAdmin.fxml", utente);
+                    } else {
+                        changeScene("/com/spacca/pages/benvenutoUtente.fxml", utente);
+                    }
+                    changeScene("/com/spacca/pages/benvenutoUtente.fxml", utente);
 
                     System.out.println("Benvenuto " + utente.getUsername());
                     statusLabel.setText("Benvenuto " + username);
@@ -118,7 +121,7 @@ public class LoginController implements Initializable {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
             Parent root = loader.load();
             // Logica per inizializzare il controller se necessario
-            PrePartitaController prePartita = loader.getController();
+            BenvenutoController prePartita = loader.getController();
             loader.setController(prePartita);
 
             prePartita.initController((Giocatore) controllerData);
@@ -128,7 +131,7 @@ public class LoginController implements Initializable {
             currentStage.setScene(new Scene(root));
             currentStage.show();
         } catch (IOException e) {
-            System.err.println("Errore (changeScene): \n" + e.getMessage());
+            System.err.println("Errore (changeScene login): \n" + e.getMessage());
         }
 
     }
