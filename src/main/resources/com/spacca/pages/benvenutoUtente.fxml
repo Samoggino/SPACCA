@@ -10,14 +10,21 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.BenvenutoController" >
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+   prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;"
+   xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+   fx:controller="com.spacca.controller.BenvenutoController">
    <children>
-      <Button layoutX="252.0" layoutY="188.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="87.0" style="-fx-background-color: #edab05;" text="Gioca" onAction="#handleGiocaButton" >
+      <Button fx:id="gioca" layoutX="252.0" layoutY="188.0" mnemonicParsing="false" prefHeight="51.0"
+         prefWidth="87.0" style="-fx-background-color: #edab05;" text="Gioca"
+         onAction="#handleGiocaButton">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Label layoutX="51.0" layoutY="283.0" prefHeight="103.0" prefWidth="488.0" text="Sei Pronto A Combattere Contro i tuoi Avversari ? " textAlignment="CENTER" wrapText="true">
+      <Label layoutX="51.0" layoutY="283.0" prefHeight="103.0" prefWidth="488.0"
+         text="Sei Pronto A Combattere Contro i tuoi Avversari ? " textAlignment="CENTER"
+         wrapText="true">
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -31,7 +38,8 @@
             <Font size="25.0" />
          </font>
       </Label>
-      <ImageView fitHeight="105.0" fitWidth="206.0" layoutX="104.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="105.0" fitWidth="206.0" layoutX="104.0" layoutY="28.0"
+         pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/icone/logo.jpg" />
          </image>
@@ -39,7 +47,9 @@
             <Cursor fx:constant="S_RESIZE" />
          </cursor>
       </ImageView>
-      <Label alignment="CENTER" blendMode="SRC_ATOP" contentDisplay="CENTER" layoutX="56.0" layoutY="28.0" prefHeight="89.0" prefWidth="488.0" text="Benvenuto in " textAlignment="CENTER" wrapText="true">
+      <Label alignment="CENTER" blendMode="SRC_ATOP" contentDisplay="CENTER" layoutX="56.0"
+         layoutY="28.0" prefHeight="89.0" prefWidth="488.0" text="Benvenuto in "
+         textAlignment="CENTER" wrapText="true">
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>

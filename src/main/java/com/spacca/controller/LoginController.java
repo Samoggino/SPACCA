@@ -18,7 +18,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -36,16 +35,11 @@ public class LoginController implements Initializable {
     @FXML
     private Label statusLabel;
 
-    @FXML
-    private GridPane gridPane;
+    public LoginController() {
+    }
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        try {
-
-        } catch (Exception e) {
-            System.err.println("Error initialize: " + e.getMessage() + "initialize");
-        }
     }
 
     @FXML
@@ -116,21 +110,27 @@ public class LoginController implements Initializable {
         }
     }
 
-    public static void changeScene(String fxmlPath, Object controllerData) {
+    public void changeScene(String fxmlPath, Object controllerData) {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
             Parent root = loader.load();
             // Logica per inizializzare il controller se necessario
             BenvenutoController prePartita = loader.getController();
             loader.setController(prePartita);
-
             prePartita.initController((Giocatore) controllerData);
 
-            Stage currentStage = (Stage) App.getScene().getWindow();
+            Scene currentScene = loginButton.getScene();
+
+            // Ottieni lo Stage dalla scena corrente
+            Stage currentStage = (Stage) currentScene.getWindow();
 
             currentStage.setScene(new Scene(root));
             currentStage.show();
+        } catch (NullPointerException e) {
+            System.out.println("Login avvenuto con successo!");
         } catch (IOException e) {
+            System.err.println("Errore (changeScene login): \n" + e.getMessage());
+        } catch (Exception e) {
             System.err.println("Errore (changeScene login): \n" + e.getMessage());
         }
 

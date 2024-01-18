@@ -1,28 +1,24 @@
 package com.spacca.controller;
 
-//import java.io.File;
 import java.io.IOException;
-//import java.util.ArrayList;
-//import java.util.List;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import com.spacca.App;
-//import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-//import com.spacca.asset.utente.giocatore.Giocatore;
 
-//import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-//import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class BenvenutoController {
+public class BenvenutoController implements Initializable {
 
     List<AbstractGiocatore> giocatoriDellaPartita = new ArrayList<>(); // Inizializzazione della lista
     AbstractGiocatore giocatoreCorrente;
@@ -47,27 +43,48 @@ public class BenvenutoController {
     private void handleGiocaButton() {
         // Mostra lo stage del popup
         try {
+
+            // Carica il nuovo layout FXML per il PartitaController
             FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/modpartita.fxml"));
-
-            // Carica la radice della nuova finestra
             Parent root = loader.load();
+            // Logica per inizializzare il controller se necessario
+            ModPartitaController modpartita = loader.getController();
+            loader.setController(modpartita);
+            modpartita.initController(giocatoreCorrente);
 
-            // Crea uno stage per la nuova finestra
-            Stage newStage = new Stage();
+            // Ottieni la scena corrente
+            Scene currentScene = gioca.getScene();
 
-            // Imposta il titolo e la scena per il nuovo stage
-            newStage.setTitle("Mod Partita");
-            newStage.setScene(new Scene(root));
+            // Ottieni lo Stage dalla scena corrente
+            Stage currentStage = (Stage) currentScene.getWindow();
 
-            // Ottieni il controller dalla finestra caricata
-            ModPartitaController modPartitaController = loader.getController();
+            // Imposta la nuova scena sulla finestra di scena corrente
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
 
-            // Inizializza il controller se necessario (puoi creare un metodo initController
-            // nel tuo ModPartitaController)
-            modPartitaController.initController();
+            // FXMLLoader loader = new
+            // FXMLLoader(App.class.getResource("/com/spacca/pages/modpartita.fxml"));
 
-            // Mostra il nuovo stage
-            newStage.show();
+            // // Carica la radice della nuova finestra
+            // Parent root = loader.load();
+
+            // // Crea uno stage per la nuova finestra
+            // Stage newStage = new Stage();
+
+            // // Imposta il titolo e la scena per il nuovo stage
+            // newStage.setTitle("Mod Partita");
+            // newStage.setScene(new Scene(root));
+
+            // // Ottieni il controller dalla finestra caricata
+            // ModPartitaController modPartitaController = loader.getController();
+
+            // // Inizializza il controller se necessario (puoi creare un metodo
+            // initController
+            // // nel tuo ModPartitaController)
+            // modPartitaController.initController(giocatoreCorrente);
+
+            // // Mostra il nuovo stage
+            // newStage.show();
 
         } catch (IOException e) {
             System.err.println("Errore durante il caricamento di modpartita.fxml: " + e.getMessage());
@@ -149,12 +166,13 @@ public class BenvenutoController {
         }
     }
 
-    public static void changeScene(String fxmlPath, Object controllerData) {
+    public void changeScene(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
             Parent root = loader.load();
             // Logica per inizializzare il controller se necessario
             PartitaController partitaController = loader.getController();
+            partitaController.initController(giocatoreCorrente, giocatoriDellaPartita);
             loader.setController(partitaController);
 
             Stage currentStage = (Stage) App.getScene().getWindow();
@@ -162,7 +180,11 @@ public class BenvenutoController {
             currentStage.setScene(new Scene(root));
             currentStage.show();
         } catch (IOException e) {
-            System.err.println("Errore (changeScene login): \n" + e.getMessage());
+            System.err.println("Errore (changeScene benventuoController): \n" + e.getMessage());
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
     }
 }

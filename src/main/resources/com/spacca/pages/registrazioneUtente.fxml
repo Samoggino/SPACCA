@@ -9,8 +9,9 @@
 <?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-   prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/8.0.171"
-   xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.RegistrazioneController">
+   prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx"
+   xmlns:fx="http://javafx.com/fxml"
+   fx:controller="com.spacca.controller.RegistrazioneController">
    <children>
       <Button fx:id="save" layoutX="327" layoutY="361" mnemonicParsing="false"
          onMouseClicked="#handleLogin" opacity="0.68" prefHeight="25" prefWidth="58"
