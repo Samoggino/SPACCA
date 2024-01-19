@@ -14,7 +14,6 @@ public class BenvenutoAdminController {
 
     @FXML
     private Button bottoneCreaSingola;
-    
     @FXML
     private Button bottoneCreaTorneo;
 
