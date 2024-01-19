@@ -52,39 +52,20 @@ public class BenvenutoUtenteController implements Initializable {
             loader.setController(modpartita);
             modpartita.initController(giocatoreCorrente);
 
-            // Ottieni la scena corrente
-            Scene currentScene = gioca.getScene();
+            // Ottieni la scena per il nuovo layout
+            Scene newScene = new Scene(root);
 
-            // Ottieni lo Stage dalla scena corrente
-            Stage currentStage = (Stage) currentScene.getWindow();
+            // Crea un nuovo stage
+            Stage newStage = new Stage();
 
-            // Imposta la nuova scena sulla finestra di scena corrente
-            currentStage.setScene(new Scene(root));
-            currentStage.show();
+            // Imposta la nuova scena sul nuovo stage
+            newStage.setScene(newScene);
 
-            // FXMLLoader loader = new
-            // FXMLLoader(App.class.getResource("/com/spacca/pages/modpartita.fxml"));
+            // Chiudi lo stage corrente (se necessario)
+            // oldStage.close();
 
-            // // Carica la radice della nuova finestra
-            // Parent root = loader.load();
-
-            // // Crea uno stage per la nuova finestra
-            // Stage newStage = new Stage();
-
-            // // Imposta il titolo e la scena per il nuovo stage
-            // newStage.setTitle("Mod Partita");
-            // newStage.setScene(new Scene(root));
-
-            // // Ottieni il controller dalla finestra caricata
-            // ModPartitaController modPartitaController = loader.getController();
-
-            // // Inizializza il controller se necessario (puoi creare un metodo
-            // initController
-            // // nel tuo ModPartitaController)
-            // modPartitaController.initController(giocatoreCorrente);
-
-            // // Mostra il nuovo stage
-            // newStage.show();
+            // Mostra il nuovo stage
+            newStage.show();
 
         } catch (IOException e) {
             System.err.println("Errore durante il caricamento di modpartita.fxml: " + e.getMessage());

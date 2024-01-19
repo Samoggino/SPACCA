@@ -111,7 +111,6 @@ public class ModPartitaController implements Initializable {
         AbstractGiocatore MARIO = new Giocatore("Mario", "", "");
         AbstractGiocatore LUIGI = new Giocatore("Luigi", "", "");
 
-
         giocatoriDellaPartita.add(giocatoreCorrente);
         giocatoriDellaPartita.add(YOSHI);
         giocatoriDellaPartita.add(MARIO);
