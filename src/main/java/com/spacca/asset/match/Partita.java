@@ -303,7 +303,7 @@ public class Partita extends Object {
         return stampa;
     }
 
-    public void prendiCartaDaTavolo(String giocatore) {
+    public void prendiCartaDaTavolo(String giocatore, Carta cartaDaCercare) {
 
         if (true) {
             // controlla che il giocatore abbia una carta che è lo stesso numero della carta
@@ -365,5 +365,22 @@ public class Partita extends Object {
         }
 
         return getPreseDellUtente(username).getCarteNelMazzo().get(getPreseDellUtente(username).size() - 1);
+    }
+
+    public boolean utentePuoPrendereCarta(String username, Carta cartaDaGiocare) {
+        Mazzo mano = getManoDellUtente(username);
+        Mazzo tavolo = getCarteSulTavolo();
+
+        if (mano.size() == 0) {
+            return false;
+        } else {
+            for (Carta carta : tavolo.getCarteNelMazzo()) {
+                if (carta.getValore() == cartaDaGiocare.getValore()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

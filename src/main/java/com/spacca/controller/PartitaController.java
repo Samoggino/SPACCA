@@ -81,20 +81,20 @@ public class PartitaController implements Initializable {
 
     @FXML
     void prendiUnaCartaDalTavoloYoshi() {
-        try {
-            partita.prendiCartaDaTavolo(this.giocatoreCorrente.getUsername());
-        } catch (Exception e) {
-            System.err.println("ERRORE (prendiUnaCartaDalTavoloYoshi):\t\t " + e.getMessage());
-        }
+        // try {
+        //     partita.prendiCartaDaTavolo(this.giocatoreCorrente.getUsername());
+        // } catch (Exception e) {
+        //     System.err.println("ERRORE (prendiUnaCartaDalTavoloYoshi):\t\t " + e.getMessage());
+        // }
     }
 
     @FXML
     void prendiUnaCartaDalTavoloMario() {
-        try {
-            partita.prendiCartaDaTavolo(this.giocatoreCorrente.getUsername());
-        } catch (Exception e) {
-            System.err.println("ERRORE (prendiUnaCartaDalTavoloMario):\t\t " + e.getMessage());
-        }
+        // try {
+        //     partita.prendiCartaDaTavolo(this.giocatoreCorrente.getUsername());
+        // } catch (Exception e) {
+        //     System.err.println("ERRORE (prendiUnaCartaDalTavoloMario):\t\t " + e.getMessage());
+        // }
     }
 
     private void caricaPartita(String codicePartita) {

@@ -26,6 +26,9 @@ public class Carta {
     @SerializedName("immagine")
     private String immagine;
 
+    @SerializedName("valore")
+    private int valore;
+
     public void setImmagine(String immagine) {
         this.immagine = immagine;
     }
@@ -61,6 +64,14 @@ public class Carta {
 
     public void setNome(Nome valore) {
         this.nome = valore;
+    }
+
+    public int getValore() {
+        return valore;
+    }
+
+    public void setValore(int valore) {
+        this.valore = valore;
     }
 
     public String stampa() {

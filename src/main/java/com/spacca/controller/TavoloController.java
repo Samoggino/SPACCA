@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import com.spacca.asset.carte.Carta;
+import com.spacca.asset.carte.Mazzo;
 import com.spacca.asset.match.Partita;
 
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
@@ -25,6 +27,9 @@ public class TavoloController implements Initializable {
 
     @FXML
     public Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane;
+
+    @FXML
+    public GridPane tavolo;
 
     @FXML
     public ImageView playerOnLeftImage, playerOnTopImage, playerOnRightImage;
@@ -61,10 +66,10 @@ public class TavoloController implements Initializable {
     void buildView() {
 
         hideUnusedPlayerPanes();
-        // buildTable();
         giocatori.forEach(g -> {
             updatePlayerPanel(g, posizione.get(giocatori.indexOf(g)));
         });
+        buildTable();
     }
 
     private void hideUnusedPlayerPanes() {
@@ -74,7 +79,7 @@ public class TavoloController implements Initializable {
         }
     }
 
-    public Pane getPlayerPane(Pane paneName) {
+    Pane getPlayerPane(Pane paneName) {
         switch (paneName.getId()) {
             case "currentPlayer":
                 return currentPlayerPane;
@@ -89,28 +94,46 @@ public class TavoloController implements Initializable {
         }
     }
 
-    /**
-     * void buildTable() {
-     * 
-     * try {
-     * for (Carta carta : partita.getCarteSulTavolo().getCarteNelMazzo()) { //
-     * prende le carte sul tavolo
-     * Image image = new Image("file:" + carta.getImmagine()); // prende l'immagine
-     * della carta
-     * Background background = new Background(new BackgroundImage(image, null, null,
-     * null, null)); // crea lo
-     * Pane pane = new Pane(); // crea un pannello
-     * pane.setBackground(background); // aggiunge lo sfondo al pannello
-     * pane.setPrefSize(100, 150); // imposta le dimensioni del pannello
-     * posizione.get(0).getChildren().add(pane); // aggiunge il pannello alla
-     * posizione 0
-     * }
-     * } catch (Exception e) {
-     * System.err.println("ERRORE (buildTable):\t\t " + e.getMessage());
-     * e.printStackTrace();
-     * }
-     * }
-     */
+    void buildTable() {
+        // Distribuisci le carte sul tavolo
+        Mazzo carteSulTavolo = partita.getCarteSulTavolo();
+
+        int maxCartePerRiga = 4;
+        int i = 0;
+
+        for (Carta carta : carteSulTavolo.getCarteNelMazzo()) {
+            ImageView cartaView = createCartaImageView(carta);
+
+            int riga = i >= maxCartePerRiga ? 1 : 0;
+            tavolo.add(cartaView, i % maxCartePerRiga, riga);
+
+            cartaView.setOnMouseClicked(event -> prendiCartaHandler(carta));
+
+            i++;
+        }
+    }
+
+    private ImageView createCartaImageView(Carta carta) {
+        String immaginePath = "file:" + carta.getImmagine();
+        Image immagine = new Image(immaginePath);
+
+        ImageView cartaView = new ImageView(immagine);
+        // cartaView.setFitHeight(100);
+        // cartaView.setFitWidth(100);
+
+        return cartaView;
+    }
+
+    private void prendiCartaHandler(Carta posizioneCartaDaPrendere) {
+
+        // controlla che il giocatore possa prendere quella carta
+        if (partita.getManoDellUtente(giocatoreCorrente) == null) {
+            System.out.println("Non puoi prendere carte dal tavolo");
+            return;
+        }
+
+        partita.prendiCartaDaTavolo(giocatoreCorrente, posizioneCartaDaPrendere);
+    }
 
     /**
      * Aggiorna le informazioni del giocatore e aggiunge i giusti bottoni
