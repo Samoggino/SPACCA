@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -33,6 +34,9 @@ public class TavoloController implements Initializable {
 
     @FXML
     public ImageView playerOnLeftImage, playerOnTopImage, playerOnRightImage;
+
+    @FXML
+    public FlowPane playerHand;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -68,7 +72,20 @@ public class TavoloController implements Initializable {
         giocatori.forEach(g -> {
             updatePlayerPanel(g, posizione.get(giocatori.indexOf(g)));
         });
+        buildHand();
         buildTable();
+    }
+
+    void buildHand() {
+        playerHand.getChildren().clear();
+
+        partita.getManoDellUtente(giocatoreCorrente).getCarteNelMazzo().forEach(carta -> {
+            ImageView cartaView = createCartaImageView(carta);
+            cartaView.setFitWidth(0.5 * cartaView.getImage().getWidth());
+            cartaView.setFitHeight(0.5 * cartaView.getImage().getHeight());
+            playerHand.getChildren().add(cartaView);
+        });
+
     }
 
     private void hideUnusedPlayerPanes() {
@@ -127,15 +144,16 @@ public class TavoloController implements Initializable {
         return cartaView;
     }
 
-    private void prendiCartaHandler(Carta posizioneCartaDaPrendere) {
+    private void prendiCartaHandler(Carta cartaSelezionata) {
+        Carta cartaDallaManoDellUtente = partita.getManoDellUtente(giocatoreCorrente).getCarteNelMazzo().get(0);
 
         // controlla che il giocatore possa prendere quella carta
         if (partita.getManoDellUtente(giocatoreCorrente) == null) {
             System.out.println("Non puoi prendere carte dal tavolo");
             return;
         }
-        System.out.println(posizioneCartaDaPrendere);
-        partita.cercaCartaSulTavolo(giocatoreCorrente, posizioneCartaDaPrendere);
+        System.out.println(cartaSelezionata);
+        partita.cercaCartaSulTavolo(giocatoreCorrente, cartaSelezionata, cartaDallaManoDellUtente);
         refreshData();
     }
 

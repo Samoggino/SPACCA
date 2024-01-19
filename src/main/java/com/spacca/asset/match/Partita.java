@@ -211,18 +211,6 @@ public class Partita extends Object {
         }
     }
 
-    public void giocaUnaCarta(String giocatore, int posizioneCartaDaGiocare) {
-
-        try {
-            Carta cartaGiocata;
-            cartaGiocata = getManoDellUtente(giocatore).rimuoviCartaDalMazzo(posizioneCartaDaGiocare);
-            getCarteSulTavolo().aggiungiCartaAlMazzo(cartaGiocata);
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println(
-                    "Non ci sono più carte in mano al giocatore oppure il giocatore ha al massimo 3 carte in mano.");
-        }
-    }
-
     public void rubaUnMazzo(String ladro, String scammato) {
 
         if (true) {
@@ -304,32 +292,6 @@ public class Partita extends Object {
         return stampa;
     }
 
-    public void prendiCartaDaTavolo(String giocatore, Carta cartaDaCercare) {
-
-        if (true) {
-            // controlla che il giocatore abbia una carta che è lo stesso numero della carta
-        }
-        try {
-            Carta cartaGiocata;
-            int posizioneCartaDaGiocare = this.carteSulTavolo.size() - 1;
-
-            if (posizioneCartaDaGiocare < 0) {
-                throw new IndexOutOfBoundsException("Non ci sono più carte sul tavolo.");
-            }
-            cartaGiocata = this.carteSulTavolo
-                    .rimuoviCartaDalMazzo(posizioneCartaDaGiocare);
-            getPreseDellUtente(giocatore).aggiungiCartaAlMazzo(cartaGiocata);
-            salvaPartita();
-            System.out.println(
-                    giocatore + " ha preso un " + cartaGiocata.getNome() + " di " + cartaGiocata.getSeme()
-                            + " dal tavolo");
-
-        } catch (IndexOutOfBoundsException e) {
-            System.err.println(
-                    "Non ci sono più carte sul tavolo oppure il giocatore ha al massimo 3 carte in mano.");
-        }
-    }
-
     /**
      * Questo metodo sarà probabilmente utilizzato solo dagli utenti CPU e andrà
      * modificato.
@@ -337,13 +299,13 @@ public class Partita extends Object {
      * @param cartaDaCercare
      * @param username
      */
-    public void cercaCartaSulTavolo(String username, Carta cartaDaCercare) {
+    public void cercaCartaSulTavolo(String username, Carta cartaDaCercare, Carta cartaDaGiocare) {
         try {
-            if (utentePuoPrendereCarta(username, cartaDaCercare) == false) {
+            if (utentePuoPrendereCarta(username, cartaDaGiocare) == false) {
                 System.out.println("Non puoi prendere questa carta!");
                 return;
             }
-            Iterator<Carta> iterator = this.carteSulTavolo.getCarteNelMazzo().iterator();
+            Iterator<Carta> iterator = getCarteSulTavolo().getCarteNelMazzo().iterator();
 
             while (iterator.hasNext()) {
                 Carta carta = iterator.next();
@@ -351,6 +313,8 @@ public class Partita extends Object {
                     // Rimuovi la carta dal tavolo e mettila nella mano del giocatore
                     iterator.remove();
                     getPreseDellUtente(username).aggiungiCartaAlMazzo(carta);
+                    // rimuoivi la carta dalla mano del giocatore
+                    getManoDellUtente(username).rimuoviCartaDalMazzo(cartaDaGiocare);
                 }
             }
         } catch (IndexOutOfBoundsException e) {
@@ -378,8 +342,11 @@ public class Partita extends Object {
         if (mano.size() == 0) {
             return false;
         } else {
-            for (Carta carta : tavolo.getCarteNelMazzo()) {
-                if (carta.getValore() == cartaDaGiocare.getValore()) {
+            for (Carta cartaDelTavolo : tavolo.getCarteNelMazzo()) {
+                if (cartaDelTavolo.getValore() == cartaDaGiocare.getValore()) {
+                    System.out.println("Puoi prendere " + cartaDaGiocare.getNome() + " dal tavolo" + " con "
+                            + cartaDelTavolo.getNome() + " di " + cartaDelTavolo.getSeme() + "");
+
                     return true;
                 }
             }
