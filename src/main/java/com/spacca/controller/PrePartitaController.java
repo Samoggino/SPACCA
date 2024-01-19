@@ -87,7 +87,7 @@ public class PrePartitaController implements Initializable {
             this.giocatoriDellaPartita.add(this.giocatoreCorrente);
             this.giocatoriDellaPartita.add(MARIO);
             this.giocatoriDellaPartita.add(LUIGI);
-            this.giocatoriDellaPartita.add(PEACH);
+            // this.giocatoriDellaPartita.add(PEACH);
 
             for (AbstractGiocatore giocatore : giocatoriDellaPartita) {
                 Button button = new Button(giocatore.getUsername());

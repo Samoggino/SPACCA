@@ -64,7 +64,6 @@ public class TavoloController implements Initializable {
     }
 
     void buildView() {
-
         hideUnusedPlayerPanes();
         giocatori.forEach(g -> {
             updatePlayerPanel(g, posizione.get(giocatori.indexOf(g)));
@@ -73,7 +72,7 @@ public class TavoloController implements Initializable {
     }
 
     private void hideUnusedPlayerPanes() {
-        for (int i = 3; i > giocatori.size() - 1; i--) {
+        for (int i = posizione.size() - 1; i >= giocatori.size(); i--) {
             posizione.get(i).setVisible(false);
             posizione.remove(i);
         }
@@ -95,31 +94,35 @@ public class TavoloController implements Initializable {
     }
 
     void buildTable() {
-        // Distribuisci le carte sul tavolo
         Mazzo carteSulTavolo = partita.getCarteSulTavolo();
-
         int maxCartePerRiga = 4;
-        int i = 0;
+
+        int colonna = 0;
+        int riga = 0;
 
         for (Carta carta : carteSulTavolo.getCarteNelMazzo()) {
             ImageView cartaView = createCartaImageView(carta);
 
-            int riga = i >= maxCartePerRiga ? 1 : 0;
-            tavolo.add(cartaView, i % maxCartePerRiga, riga);
+            // Associare la Carta come proprietà di ImageView
+            cartaView.setUserData(carta);
 
-            cartaView.setOnMouseClicked(event -> prendiCartaHandler(carta));
+            // Aggiungere l'evento di clic
+            cartaView.setOnMouseClicked(event -> prendiCartaHandler((Carta) cartaView.getUserData()));
 
-            i++;
+            tavolo.add(cartaView, colonna, riga);
+
+            colonna++;
+            if (colonna >= maxCartePerRiga) {
+                colonna = 0;
+                riga++;
+            }
         }
     }
 
     private ImageView createCartaImageView(Carta carta) {
         String immaginePath = "file:" + carta.getImmagine();
         Image immagine = new Image(immaginePath);
-
         ImageView cartaView = new ImageView(immagine);
-        // cartaView.setFitHeight(100);
-        // cartaView.setFitWidth(100);
 
         return cartaView;
     }
@@ -131,8 +134,14 @@ public class TavoloController implements Initializable {
             System.out.println("Non puoi prendere carte dal tavolo");
             return;
         }
+        System.out.println(posizioneCartaDaPrendere);
+        partita.cercaCartaSulTavolo(giocatoreCorrente, posizioneCartaDaPrendere);
+        refreshData();
+    }
 
-        partita.prendiCartaDaTavolo(giocatoreCorrente, posizioneCartaDaPrendere);
+    void refreshData() {
+        tavolo.getChildren().clear();
+        buildView();
     }
 
     /**

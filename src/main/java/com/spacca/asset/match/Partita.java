@@ -1,6 +1,7 @@
 package com.spacca.asset.match;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -336,26 +337,29 @@ public class Partita extends Object {
      * @param cartaDaCercare
      * @param username
      */
-    public void cercaCartaSulTavolo(Carta cartaDaCercare, String username) {
-
+    public void cercaCartaSulTavolo(String username, Carta cartaDaCercare) {
         try {
-            for (Carta carta : this.carteSulTavolo.getCarteNelMazzo()) {
-                if (carta.getNome() == cartaDaCercare.getNome()) {
-                    // prendi la carta dal tavolo e mettila nella mano del giocatore
-                    Carta cartaGiocata = this.carteSulTavolo
-                            .getCarteNelMazzo()
-                            .remove(this.carteSulTavolo
-                                    .getCarteNelMazzo()
-                                    .indexOf(carta));
+            if (utentePuoPrendereCarta(username, cartaDaCercare) == false) {
+                System.out.println("Non puoi prendere questa carta!");
+                return;
+            }
+            Iterator<Carta> iterator = this.carteSulTavolo.getCarteNelMazzo().iterator();
 
-                    System.out.println("La carta è stata trovata!");
-                    getManoDellUtente(username).aggiungiCartaAlMazzo(cartaGiocata);
+            while (iterator.hasNext()) {
+                Carta carta = iterator.next();
+                if (carta.getNome().equals(cartaDaCercare.getNome())) {
+                    // Rimuovi la carta dal tavolo e mettila nella mano del giocatore
+                    iterator.remove();
+                    getPreseDellUtente(username).aggiungiCartaAlMazzo(carta);
                 }
             }
         } catch (IndexOutOfBoundsException e) {
             System.err.println("Sul tavolo non ci sono carte!" + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore nella ricerca della carta sul tavolo" + e.getMessage());
+        } finally {
+            salvaPartita();
         }
-
     }
 
     public Carta getCartaInCima(String username) {
