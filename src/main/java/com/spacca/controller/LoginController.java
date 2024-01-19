@@ -71,11 +71,12 @@ public class LoginController implements Initializable {
 
                 if (utente.getUsername().equals(username) && utente.getPassword().equals(password)) {
                     if (username.equals("admin")) {
-                        changeScene("/com/spacca/pages/benvenutoAdmin.fxml", utente);
+                        System.out.println("SEI UN AMMINISTRATORE");
+                        changeSceneAdmin("/com/spacca/pages/benvenutoAdmin.fxml", utente);
                     } else {
-                        changeScene("/com/spacca/pages/benvenutoUtente.fxml", utente);
+                        System.out.println("SEI UN UTENTE");
+                        changeSceneUtente("/com/spacca/pages/benvenutoUtente.fxml", utente);
                     }
-                    changeScene("/com/spacca/pages/benvenutoUtente.fxml", utente);
 
                     System.out.println("Benvenuto " + utente.getUsername());
                     statusLabel.setText("Benvenuto " + username);
@@ -110,12 +111,38 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void changeScene(String fxmlPath, Object controllerData) {
+    public void changeSceneUtente(String fxmlPath, Object controllerData) {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
             Parent root = loader.load();
             // Logica per inizializzare il controller se necessario
-            BenvenutoController prePartita = loader.getController();
+            BenvenutoUtenteController prePartita = loader.getController();
+            loader.setController(prePartita);
+            prePartita.initController((Giocatore) controllerData);
+
+            Scene currentScene = loginButton.getScene();
+
+            // Ottieni lo Stage dalla scena corrente
+            Stage currentStage = (Stage) currentScene.getWindow();
+
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+        } catch (NullPointerException e) {
+            System.out.println("Login avvenuto con successo!");
+        } catch (IOException e) {
+            System.err.println("Errore (changeScene login): \n" + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore (changeScene login): \n" + e.getMessage());
+        }
+
+    }
+
+    public void changeSceneAdmin(String fxmlPath, Object controllerData) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
+            Parent root = loader.load();
+            // Logica per inizializzare il controller se necessario
+            BenvenutoAdminController prePartita = loader.getController();
             loader.setController(prePartita);
             prePartita.initController((Giocatore) controllerData);
 

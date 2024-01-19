@@ -18,7 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class BenvenutoController implements Initializable {
+public class BenvenutoUtenteController implements Initializable {
 
     List<AbstractGiocatore> giocatoriDellaPartita = new ArrayList<>(); // Inizializzazione della lista
     AbstractGiocatore giocatoreCorrente;

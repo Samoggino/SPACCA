@@ -104,9 +104,9 @@ public class RegistrazioneController implements Initializable {
             if (controlloData & controlloEmail & controlloPassword & controlloUsername) {
                 giocatoreHandler.salva(utente, utente.getUsername());
                 if (username.equals("admin")) {
-                    changeScene("/com/spacca/pages/benvenutoAdmin.fxml", utente);
+                    changeSceneAdmin("/com/spacca/pages/benvenutoAdmin.fxml", utente);
                 } else {
-                    changeScene("/com/spacca/pages/benvenutoUtente.fxml", utente);
+                    changeSceneUtente("/com/spacca/pages/benvenutoUtente.fxml", utente);
                 }
             }
 
@@ -116,12 +116,32 @@ public class RegistrazioneController implements Initializable {
         }
     }
 
-    public static void changeScene(String fxmlPath, Object controllerData) {
+    public static void changeSceneUtente(String fxmlPath, Object controllerData) {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
             Parent root = loader.load();
             // Logica per inizializzare il controller se necessario
-            BenvenutoController prePartita = loader.getController();
+            BenvenutoUtenteController prePartita = loader.getController();
+            loader.setController(prePartita);
+
+            prePartita.initController((Giocatore) controllerData);
+
+            Stage currentStage = (Stage) App.getScene().getWindow();
+
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+        } catch (IOException e) {
+            System.err.println("Errore (changeScene registrazione controller): \n" + e.getMessage());
+        }
+
+    }
+
+    public static void changeSceneAdmin(String fxmlPath, Object controllerData) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
+            Parent root = loader.load();
+            // Logica per inizializzare il controller se necessario
+            BenvenutoAdminController prePartita = loader.getController();
             loader.setController(prePartita);
 
             prePartita.initController((Giocatore) controllerData);
