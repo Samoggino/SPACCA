@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.spacca.App;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.asset.utente.giocatore.Giocatore;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -35,7 +34,7 @@ public class BenvenutoAdminController {
     PartitaController partitaController;
 
     // Lista degli utenti
-    private List<String> userList = new ArrayList<>();
+    // private List<String> userList = new ArrayList<>();
 
     @FXML
     private void initialize() throws IOException {

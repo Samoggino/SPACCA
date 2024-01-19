@@ -15,7 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
+//import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class BenvenutoUtenteController implements Initializable {
@@ -24,11 +24,10 @@ public class BenvenutoUtenteController implements Initializable {
     AbstractGiocatore giocatoreCorrente;
     PartitaController partitaController;
 
-    @FXML
-    private VBox buttonContainer;
-
-    // Lista degli utenti
-    private List<String> userList = new ArrayList<>();
+    /*
+     * @FXML
+     * private VBox buttonContainer;
+     */
 
     @FXML
     private Button gioca;
@@ -43,58 +42,36 @@ public class BenvenutoUtenteController implements Initializable {
     private void handleGiocaButton() {
         // Mostra lo stage del popup
         try {
-
-            // Carica il nuovo layout FXML per il PartitaController
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/modpartita.fxml"));
-            Parent root = loader.load();
-            // Logica per inizializzare il controller se necessario
-            ModPartitaController modpartita = loader.getController();
-            loader.setController(modpartita);
-            modpartita.initController(giocatoreCorrente);
-
-            // Ottieni la scena per il nuovo layout
-            Scene newScene = new Scene(root);
-
-            // Crea un nuovo stage
-            Stage newStage = new Stage();
-
-            // Imposta la nuova scena sul nuovo stage
-            newStage.setScene(newScene);
-
-            // Chiudi lo stage corrente (se necessario)
-            // oldStage.close();
-
-            // Mostra il nuovo stage
-            newStage.show();
-
-        } catch (IOException e) {
+            changeScene("/com/spacca/pages/modpartita.fxml");
+        } catch (Exception e) {
             System.err.println("Errore durante il caricamento di modpartita.fxml: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    /*
-     * private void changeScene(Button sourceButton) throws IOException {
-     * // Carica il nuovo layout FXML per il PartitaController
-     * FXMLLoader loader = new
-     * FXMLLoader(App.class.getResource("/com/spacca/pages/partita.fxml"));
-     * Parent root = loader.load();
-     * // Logica per inizializzare il controller se necessario
-     * PartitaController partitaController = loader.getController();
-     * loader.setController(partitaController);
-     * partitaController.initController(giocatoreCorrente, giocatoriDellaPartita);
-     * 
-     * // Ottieni la scena corrente
-     * Scene currentScene = sourceButton.getScene();
-     * 
-     * // Ottieni lo Stage dalla scena corrente
-     * Stage currentStage = (Stage) currentScene.getWindow();
-     * 
-     * // Imposta la nuova scena sulla finestra di scena corrente
-     * currentStage.setScene(new Scene(root));
-     * currentStage.show();
-     * }
-     */
+    private void changeScene(String path) {
+        try {
+            // Carica il nuovo layout FXML per il PartitaController
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(path));
+            Parent root = loader.load();
+            ModPartitaController modController = loader.getController();
+            loader.setController(partitaController);
+            modController.initController(giocatoreCorrente, giocatoriDellaPartita);
+            // Ottieni la scena corrente
+            Scene currentScene = gioca.getScene();
+
+            // Ottieni lo Stage dalla scena corrente
+            Stage currentStage = (Stage) currentScene.getWindow();
+
+            // Imposta la nuova scena sulla finestra di scena corrente
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
 
     /*
      * private void handleButtonAction(ActionEvent event) {
@@ -122,6 +99,7 @@ public class BenvenutoUtenteController implements Initializable {
 
         try {
             this.giocatoreCorrente = giocatoreCorrente;
+
             /*
              * this.giocatoriDellaPartita.add(this.giocatoreCorrente);
              * // this.giocatoriDellaPartita.add(MARIO);
@@ -129,12 +107,10 @@ public class BenvenutoUtenteController implements Initializable {
              * // this.giocatoriDellaPartita.add(PEACH);
              * 
              * // this.giocatoreCorrente = YOSHI;
-             */
-            for (AbstractGiocatore giocatore : giocatoriDellaPartita) {
-                userList.add(giocatore.getUsername());
-            }
-
-            /*
+             * 
+             * for (AbstractGiocatore giocatore : giocatoriDellaPartita) {
+             * userList.add(giocatore.getUsername());
+             * }
              * for (String username : userList) {
              * Button button = new Button(username);
              * button.setOnAction(this::handleButtonAction);
@@ -144,24 +120,6 @@ public class BenvenutoUtenteController implements Initializable {
 
         } catch (Exception e) {
             System.err.println("ERRORE (pre):\t\t " + e.getMessage());
-        }
-    }
-
-    public void changeScene(String fxmlPath) {
-        try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
-            Parent root = loader.load();
-            // Logica per inizializzare il controller se necessario
-            PartitaController partitaController = loader.getController();
-            partitaController.initController(giocatoreCorrente, giocatoriDellaPartita);
-            loader.setController(partitaController);
-
-            Stage currentStage = (Stage) App.getScene().getWindow();
-
-            currentStage.setScene(new Scene(root));
-            currentStage.show();
-        } catch (IOException e) {
-            System.err.println("Errore (changeScene benventuoController): \n" + e.getMessage());
         }
     }
 

@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.spacca.App;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.database.GiocatoreHandler;
 
@@ -70,6 +71,7 @@ public class LoginController implements Initializable {
                 Giocatore utente = (Giocatore) file.carica(pathString);
 
                 if (utente.getUsername().equals(username) && utente.getPassword().equals(password)) {
+
                     if (username.equals("admin")) {
                         System.out.println("SEI UN AMMINISTRATORE");
                         changeSceneAdmin("/com/spacca/pages/benvenutoAdmin.fxml", utente);
@@ -125,6 +127,8 @@ public class LoginController implements Initializable {
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
 
+            currentStage.setTitle("Benvenuto " + ((AbstractGiocatore) controllerData).getUsername() + "!");
+
             currentStage.setScene(new Scene(root));
             currentStage.show();
         } catch (NullPointerException e) {
@@ -134,7 +138,6 @@ public class LoginController implements Initializable {
         } catch (Exception e) {
             System.err.println("Errore (changeScene login): \n" + e.getMessage());
         }
-
     }
 
     public void changeSceneAdmin(String fxmlPath, Object controllerData) {
@@ -151,6 +154,7 @@ public class LoginController implements Initializable {
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
 
+            currentStage.setTitle("Benvenuto " + ((AbstractGiocatore) controllerData).getUsername() + "!");
             currentStage.setScene(new Scene(root));
             currentStage.show();
         } catch (NullPointerException e) {

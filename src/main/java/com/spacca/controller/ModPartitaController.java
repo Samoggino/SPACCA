@@ -54,10 +54,6 @@ public class ModPartitaController implements Initializable {
 
     @FXML
     private void handleAvviaButton() {
-
-        // Chiudi lo stage principale
-        indietro.getScene().getWindow().getScene().getWindow().hide();
-
         try {
             if (singolaScelta.isSelected()) {
                 System.out.println("Scelta singola selezionata");
@@ -65,22 +61,7 @@ public class ModPartitaController implements Initializable {
                 // partita selezionato nel menu a tendina dall'utente
             } else if (torneoScelta.isSelected()) {
                 System.out.println("Scelta torneo selezionata");
-                String fxmlPath = "/com/spacca/pages/partita.fxml";
-                FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
-                Parent root = loader.load();
-
-                // Logica per inizializzare il controller se necessario
-                // PartitaController partitaController = loader.getController();
-                // loader.setController(partitaController);
-
-                Stage mainStage = App.getStage();
-
-                if (mainStage != null) {
-                    // Carica la schermata Partita nel riquadro della finestra principale
-                    mainStage.setScene(new Scene(root));
-                    mainStage.show();
-                }
-                // App.setRoot(fxmlPath);
+                changeScene();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Errore");
@@ -88,7 +69,6 @@ public class ModPartitaController implements Initializable {
                 alert.setContentText("Per avviare una partita devi per forza selezionare un'opzione");
                 alert.showAndWait();
             }
-            changeScene();
         } catch (IOException e) {
             System.err.println("Errore durante il caricamento di partita.fxml: " + e.getMessage());
             e.printStackTrace();
@@ -166,7 +146,32 @@ public class ModPartitaController implements Initializable {
 
     @FXML
     private void handleIndietroButton() {
-        indietro.getScene().getWindow().getScene().getWindow().hide();
+        changeSceneUtente("/com/spacca/pages/benvenutoUtente.fxml", giocatoreCorrente);
+    }
+
+    public void changeSceneUtente(String fxmlPath, Object controllerData) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
+            Parent root = loader.load();
+            // Logica per inizializzare il controller se necessario
+            BenvenutoUtenteController prePartita = loader.getController();
+            loader.setController(prePartita);
+            prePartita.initController((Giocatore) controllerData);
+
+            Scene currentScene = indietro.getScene();
+
+            // Ottieni lo Stage dalla scena corrente
+            Stage currentStage = (Stage) currentScene.getWindow();
+
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+        } catch (NullPointerException e) {
+            System.out.println("Login avvenuto con successo!");
+        } catch (IOException e) {
+            System.err.println("Errore (changeScene login): \n" + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore (changeScene login): \n" + e.getMessage());
+        }
     }
 
     @FXML
@@ -183,7 +188,7 @@ public class ModPartitaController implements Initializable {
         }
     }
 
-    public void initController(AbstractGiocatore giocatoreCorrente) {
+    public void initController(AbstractGiocatore giocatoreCorrente, List<AbstractGiocatore> giocatoriDellaPartita2) {
 
         this.giocatoreCorrente = giocatoreCorrente;
         popupStage = new Stage();
@@ -197,7 +202,6 @@ public class ModPartitaController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
     }
 
 }
