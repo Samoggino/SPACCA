@@ -12,7 +12,10 @@ import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.database.GiocatoreHandler;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -20,6 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class RegistrazioneController implements Initializable {
 
@@ -99,13 +103,57 @@ public class RegistrazioneController implements Initializable {
             // Fai qualcosa se tutte le condizioni sono vere
             if (controlloData & controlloEmail & controlloPassword & controlloUsername) {
                 giocatoreHandler.salva(utente, utente.getUsername());
-                // App.setRoot("benvenuto");
+                if (username.equals("admin")) {
+                    changeSceneAdmin("/com/spacca/pages/benvenutoAdmin.fxml", utente);
+                } else {
+                    changeSceneUtente("/com/spacca/pages/benvenutoUtente.fxml", utente);
+                }
             }
 
         } catch (Exception e) {
             System.out.println("Errore (Login controller): \n" + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public static void changeSceneUtente(String fxmlPath, Object controllerData) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
+            Parent root = loader.load();
+            // Logica per inizializzare il controller se necessario
+            BenvenutoUtenteController prePartita = loader.getController();
+            loader.setController(prePartita);
+
+            prePartita.initController((Giocatore) controllerData);
+
+            Stage currentStage = (Stage) App.getScene().getWindow();
+
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+        } catch (IOException e) {
+            System.err.println("Errore (changeScene registrazione controller): \n" + e.getMessage());
+        }
+
+    }
+
+    public static void changeSceneAdmin(String fxmlPath, Object controllerData) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
+            Parent root = loader.load();
+            // Logica per inizializzare il controller se necessario
+            BenvenutoAdminController prePartita = loader.getController();
+            loader.setController(prePartita);
+
+            prePartita.initController((Giocatore) controllerData);
+
+            Stage currentStage = (Stage) App.getScene().getWindow();
+
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+        } catch (IOException e) {
+            System.err.println("Errore (changeScene registrazione controller): \n" + e.getMessage());
+        }
+
     }
 
     private boolean controllaData(LocalDate annoNascita) {
@@ -130,7 +178,7 @@ public class RegistrazioneController implements Initializable {
                     // Mostra un avviso e passa alla schermata di login in caso di età insufficiente
                     showAlert("Non hai diciotto anni, non puoi registrarti");
                     try {
-                        // Assicurati che il metodo setRoot sia implementato correttamente in App
+                        // Utilizzo serRotto perchè non mi servono parametri
                         App.setRoot("login");
                     } catch (IOException e) {
                         e.printStackTrace();

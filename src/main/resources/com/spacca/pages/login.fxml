@@ -14,7 +14,7 @@
    xmlns:fx="http://javafx.com/fxml"
    fx:controller="com.spacca.controller.LoginController">
    <children>
-      <Button fx:id="LoginButton" contentDisplay="CENTER" layoutX="271" layoutY="351"
+      <Button fx:id="loginButton" contentDisplay="CENTER" layoutX="271" layoutY="351"
          mnemonicParsing="false" onAction="#handleLogin" opacity="0.6"
          style="-fx-alignment: CENTER; -fx-background-color: orange;" text="Login " />
       <Label layoutX="182" layoutY="154" prefHeight="17" prefWidth="243"

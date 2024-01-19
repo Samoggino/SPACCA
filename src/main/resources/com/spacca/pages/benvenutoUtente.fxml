@@ -10,12 +10,12 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+<Pane  fx:id="benvenutoPane"  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
    prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;"
    xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-   fx:controller="com.spacca.controller.BenvenutoController">
+   fx:controller="com.spacca.controller.BenvenutoUtenteController">
    <children>
-      <Button layoutX="252.0" layoutY="188.0" mnemonicParsing="false" prefHeight="51.0"
+      <Button fx:id="gioca" layoutX="252.0" layoutY="188.0" mnemonicParsing="false" prefHeight="51.0"
          prefWidth="87.0" style="-fx-background-color: #edab05;" text="Gioca"
          onAction="#handleGiocaButton">
          <font>
@@ -54,8 +54,8 @@
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
                   <Stop color="BLACK" />
-                  <Stop color="#eba400" offset="0.5211912943871707" />
-                  <Stop color="#edab05" offset="1.0" />
+                  <Stop color="darkorange" offset="0.5211912943871707" />
+                  <Stop color="darkorange" offset="1.0" />
                </stops>
             </LinearGradient>
          </textFill>
