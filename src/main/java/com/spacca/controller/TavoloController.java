@@ -11,9 +11,14 @@ import com.spacca.asset.match.Partita;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.PickResult;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -25,6 +30,9 @@ public class TavoloController implements Initializable {
     private List<String> giocatori;
     private String giocatoreCorrente;
     private List<Pane> posizione = new ArrayList<>();
+
+    private Carta cartaDelTavolo;
+    private Carta cartaDellaMano;
 
     @FXML
     public Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane;
@@ -79,13 +87,56 @@ public class TavoloController implements Initializable {
     void buildHand() {
         playerHand.getChildren().clear();
 
-        partita.getManoDellUtente(giocatoreCorrente).getCarteNelMazzo().forEach(carta -> {
-            ImageView cartaView = createCartaImageView(carta);
+        for (Carta cartaDellaMano : partita.getManoDellUtente(giocatoreCorrente).getCarteNelMazzo()) {
+            ImageView cartaView = createCartaImageView(cartaDellaMano);
             cartaView.setFitWidth(0.5 * cartaView.getImage().getWidth());
             cartaView.setFitHeight(0.5 * cartaView.getImage().getHeight());
-            playerHand.getChildren().add(cartaView);
-        });
 
+            // Aggiungi il gestore di eventi per iniziare il trascinamento
+            cartaView.setOnDragDetected(event -> iniziaTrascinamento(cartaDellaMano, cartaView));
+
+            playerHand.getChildren().add(cartaView);
+        }
+    }
+
+    private void iniziaTrascinamento(Carta cartaDellaMano, ImageView cartaView) {
+        this.cartaDellaMano = cartaDellaMano;
+
+        cartaView.setEffect(new DropShadow());
+        cartaView.setCursor(Cursor.CLOSED_HAND);
+
+        cartaView.setOnDragDetected(event -> iniziaTrascinamento(cartaDellaMano, cartaView));
+        cartaView.setOnMouseReleased(event -> rilasciaTrascinamento(cartaView, event));
+        cartaView.startFullDrag();
+    }
+
+    private void rilasciaTrascinamento(ImageView cartaView, MouseEvent event) {
+        cartaView.setEffect(null);
+        cartaView.setCursor(Cursor.DEFAULT);
+
+        // Ottieni il risultato della selezione del punto colpito
+        PickResult pickResult = event.getPickResult();
+
+        // Ottieni il nodo colpito
+        Node nodoColpito = pickResult.getIntersectedNode();
+
+        // se la carta su cui è stato rilasciato il mouse ha lo stesso valore della
+        // carta
+        // che si sta trascinando, prendila
+        if (nodoColpito instanceof ImageView) {
+
+            // Ottieni la carta sotto il mouse
+            ImageView cartaSottoIlMouse = (ImageView) nodoColpito;
+            this.cartaDelTavolo = (Carta) cartaSottoIlMouse.getUserData();
+
+            if (this.cartaDelTavolo.getValore() == this.cartaDellaMano.getValore()) {
+                System.out.println("Puoi prendere " + this.cartaDelTavolo + " con " + this.cartaDellaMano);
+                prendiCartaHandler(this.cartaDelTavolo, this.cartaDellaMano);
+            } else {
+                System.out.println("Non puoi prendere " + this.cartaDelTavolo + " con " + this.cartaDellaMano);
+                System.out.println("Non puoi prendere questa carta");
+            }
+        }
     }
 
     private void hideUnusedPlayerPanes() {
@@ -112,20 +163,15 @@ public class TavoloController implements Initializable {
 
     void buildTable() {
         Mazzo carteSulTavolo = partita.getCarteSulTavolo();
-        int maxCartePerRiga = 4;
+        int maxCartePerRiga = 6;
 
         int colonna = 0;
         int riga = 0;
 
         for (Carta carta : carteSulTavolo.getCarteNelMazzo()) {
             ImageView cartaView = createCartaImageView(carta);
-
-            // Associare la Carta come proprietà di ImageView
-            cartaView.setUserData(carta);
-
-            // Aggiungere l'evento di clic
-            cartaView.setOnMouseClicked(event -> prendiCartaHandler((Carta) cartaView.getUserData()));
-
+            cartaView.setFitWidth(0.5 * cartaView.getImage().getWidth());
+            cartaView.setFitHeight(0.5 * cartaView.getImage().getHeight());
             tavolo.add(cartaView, colonna, riga);
 
             colonna++;
@@ -141,11 +187,13 @@ public class TavoloController implements Initializable {
         Image immagine = new Image(immaginePath);
         ImageView cartaView = new ImageView(immagine);
 
+        // Aggiungi i dati della carta all'ImageView
+        cartaView.setUserData(carta);
+
         return cartaView;
     }
 
-    private void prendiCartaHandler(Carta cartaSelezionata) {
-        Carta cartaDallaManoDellUtente = partita.getManoDellUtente(giocatoreCorrente).getCarteNelMazzo().get(0);
+    private void prendiCartaHandler(Carta cartaSelezionata, Carta cartaDallaManoDellUtente) {
 
         // controlla che il giocatore possa prendere quella carta
         if (partita.getManoDellUtente(giocatoreCorrente) == null) {
@@ -153,7 +201,7 @@ public class TavoloController implements Initializable {
             return;
         }
         System.out.println(cartaSelezionata);
-        partita.cercaCartaSulTavolo(giocatoreCorrente, cartaSelezionata, cartaDallaManoDellUtente);
+        partita.prendiCartaConCartaDellaMano(giocatoreCorrente, cartaSelezionata, cartaDallaManoDellUtente);
         refreshData();
     }
 

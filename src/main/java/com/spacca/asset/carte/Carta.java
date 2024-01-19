@@ -77,8 +77,7 @@ public class Carta {
     public String stampa() {
         // FIXME: l'immagine dà problemi perchè non viene presa e viene sollenzata una
         // NullPointerException
-        return "Carta: " + this.nome + " di " + this.seme + " - " + this.punti + " punti" + " - "
-                + this.immagine;
+        return "Carta: " + this.nome + " di " + this.seme + " - " + this.punti + " punti";
     }
 
     public int getPunti() {

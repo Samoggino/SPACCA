@@ -67,12 +67,15 @@ public class Mazzo {
         this.carteNelMazzo = carte;
     }
 
-    public void aggiungiCartaAlMazzo(Carta carta) {
+    public void aggiungiCarteAlMazzo(Carta... carta) {
         if (this.carteNelMazzo == null) {
-            this.carteNelMazzo = new ArrayList<>(); // Initialize the list if null
-            this.carteNelMazzo.add(carta);
+
+            // Initialize the list if null
+            this.carteNelMazzo = new ArrayList<>();
         }
-        this.carteNelMazzo.add(carta);
+        for (Carta c : carta) {
+            this.carteNelMazzo.add(c);
+        }
     }
 
     public void rimuoviCartaDalMazzo(Carta carta) {
@@ -84,7 +87,6 @@ public class Mazzo {
             e.printStackTrace();
         }
     }
-
 
     public void aggiungiListaCarteAdAltroMazzo(List<Carta> mano) {
         if (this.carteNelMazzo == null) {
