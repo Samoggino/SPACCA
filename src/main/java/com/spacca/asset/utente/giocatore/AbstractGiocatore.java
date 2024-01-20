@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
+import com.spacca.controller.BenvenutoAdminController;
+import com.spacca.database.GiocatoreHandler;
 
 public class AbstractGiocatore extends Object implements GiocatoreInterface {
 
@@ -12,6 +14,8 @@ public class AbstractGiocatore extends Object implements GiocatoreInterface {
 
     @SerializedName("listaCodiciPartite")
     List<String> listaCodiciPartite = new ArrayList<>();
+
+    private GiocatoreHandler handlerGiocatore;
 
     public AbstractGiocatore(String username) {
         this.username = username;
@@ -62,6 +66,15 @@ public class AbstractGiocatore extends Object implements GiocatoreInterface {
 
     public void addCodicePartita(String codicePartita) {
         this.listaCodiciPartite.add(codicePartita);
+        salvaGiocatore();
+    }
+
+    public void salvaGiocatore() {
+        try {
+            this.handlerGiocatore.salva(this, username);
+        } catch (Exception e) {
+            System.err.println("Errore nel salvare la partita" + e.getMessage());
+        }
     }
 
     @Override
@@ -74,6 +87,11 @@ public class AbstractGiocatore extends Object implements GiocatoreInterface {
     public void prendiMezzoMazzoDiUnAltroUtente(AbstractGiocatore giocatore) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'prendiMezzoMazzoDiUnAltroUtente'");
+    }
+
+    public void initController(BenvenutoAdminController benvenutoAdminController) {
+        benvenutoAdminController.giocatoreCorrente = this;
+
     }
 
 }
