@@ -30,7 +30,7 @@ public class BenvenutoAdminController {
     private Button bottoneEliminaTorneo;
 
     List<AbstractGiocatore> giocatoriDellaPartita = new ArrayList<>(); // Inizializzazione della lista
-    AbstractGiocatore giocatoreCorrente;
+    public AbstractGiocatore giocatoreCorrente;
     PartitaController partitaController;
 
     // Lista degli utenti
