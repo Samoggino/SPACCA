@@ -47,6 +47,7 @@ public class App extends Application {
 
             tavolo.initController(partita);
 
+            stage.setTitle(partita.getCodice());
             stage.setScene(new Scene(root));
             stage.show();
 

@@ -16,9 +16,9 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #696969;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.TavoloController">
    <center>
-      <Pane id="tavolo" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: lightgreen;" BorderPane.alignment="CENTER">
+      <Pane id="tavolo" fx:id="tavolo" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: lightgreen;" BorderPane.alignment="CENTER">
          <children>
-            <GridPane fx:id="tavolo" layoutX="224.0" layoutY="138.0" prefHeight="133.0" prefWidth="490.0">
+            <GridPane fx:id="piatto" layoutX="224.0" layoutY="138.0" prefHeight="133.0" prefWidth="490.0">
                
             </GridPane>
          </children>

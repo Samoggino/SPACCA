@@ -1,5 +1,6 @@
 package com.spacca.asset.match;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -334,40 +335,18 @@ public class Partita extends Object {
         return getPreseDellUtente(username).getCarteNelMazzo().get(getPreseDellUtente(username).size() - 1);
     }
 
-    boolean utentePuoPrendereCarta(String username, Carta cartaDaGiocare, Carta cartaDelTavolo) {
-
-        if (getManoDellUtente(username).size() == 0) {
-            System.out.println("Non puoi prendere carte dal tavolo perchè non hai carte in mano!");
-            return false;
-        } else {
-            // controllo se la carta del tavolo è sul tavolo e la carta della mano è nella
-            // mano
-            if (getManoDellUtente(username).getCarteNelMazzo().contains(cartaDelTavolo)
-                    && getManoDellUtente(username).getCarteNelMazzo().contains(cartaDaGiocare)) {
-                // controllo se la carta del tavolo è uguale alla carta della mano
-                if (cartaDelTavolo.getValore() == cartaDaGiocare.getValore()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     // viene riordinata la lista dei giocatori in base al giocatore corrente che
     // viene messo per ultimo
     public void passaTurno() {
-
         List<String> localListGiocatori = getListaDeiGiocatori();
-        String giocatoreCorrenteLocale = localListGiocatori.get(0);
 
-        // sposta il primo giocatore della lista in fondo
-        localListGiocatori.remove(0);
-        localListGiocatori.add(giocatoreCorrenteLocale);
-
-        setGiocatoreCorrente(localListGiocatori.get(0));
-        setListaDeiGiocatori(localListGiocatori);
-
-        salvaPartita();
+        // Verifica che ci siano almeno due giocatori
+        if (localListGiocatori.size() >= 2) {
+            Collections.rotate(localListGiocatori, -1);
+            setGiocatoreCorrente(localListGiocatori.get(0));
+            setListaDeiGiocatori(localListGiocatori);
+            salvaPartita();
+        }
     }
 
     private void setListaDeiGiocatori(List<String> localListGiocatori) {
@@ -379,5 +358,6 @@ public class Partita extends Object {
         getManoDellUtente(username).rimuoviCartaDalMazzo(cartaScartata);
         getCarteSulTavolo().aggiungiCarteAlMazzo(cartaScartata);
         salvaPartita();
+
     }
 }

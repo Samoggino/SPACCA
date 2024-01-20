@@ -1,12 +1,9 @@
 package com.spacca.controller;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import com.spacca.asset.carte.Carta;
-import com.spacca.asset.carte.Mazzo;
 import com.spacca.asset.match.Partita;
 
 import javafx.fxml.FXML;
@@ -27,9 +24,6 @@ import javafx.scene.text.Text;
 public class TavoloController implements Initializable {
 
     private Partita partita;
-    private List<String> giocatori;
-    private String giocatoreCorrente;
-    private List<Pane> posizione = new ArrayList<>();
 
     private Carta cartaDelTavolo;
     private Carta cartaDellaMano;
@@ -38,7 +32,10 @@ public class TavoloController implements Initializable {
     public Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane;
 
     @FXML
-    public GridPane tavolo;
+    public Pane tavolo;
+
+    @FXML
+    public GridPane piatto;
 
     @FXML
     public ImageView playerOnLeftImage, playerOnTopImage, playerOnRightImage;
@@ -54,14 +51,8 @@ public class TavoloController implements Initializable {
         try {
 
             this.partita = partita;
-            this.giocatori = partita.getListaDeiGiocatori();
-            this.giocatoreCorrente = partita.getGiocatoreCorrente();
-
-            this.posizione.add(currentPlayerPane);
-
-            this.posizione.add(playerOnTopPane);
-            this.posizione.add(playerOnRightPane);
-            this.posizione.add(playerOnLeftPane);
+            System.out.println("Partita: " + partita.getCodice());
+            // metti come titolo dello stage il codice della partita
 
             buildView();
 
@@ -72,20 +63,22 @@ public class TavoloController implements Initializable {
     }
 
     void buildView() {
-        hideUnusedPlayerPanes();
-        giocatori.forEach(g -> {
-            updatePlayerPanel(g, posizione.get(giocatori.indexOf(g)));
-        });
-        buildHand();
-        buildTable();
-        System.out.println("Codice partita " + partita.getCodice());
+
+        try {
+            buildGiocatore();
+            buildHand();
+            buildTable();
+        } catch (Exception e) {
+            System.err.println("ERRORE (buildView):\t\t " + e.getMessage());
+            e.printStackTrace();
+        }
 
     }
 
     void buildHand() {
         playerHand.getChildren().clear();
 
-        for (Carta cartaDellaMano : partita.getManoDellUtente(giocatoreCorrente).getCarteNelMazzo()) {
+        for (Carta cartaDellaMano : partita.getManoDellUtente(partita.getGiocatoreCorrente()).getCarteNelMazzo()) {
             ImageView cartaView = createCartaImageView(cartaDellaMano);
             cartaView.setFitWidth(0.5 * cartaView.getImage().getWidth());
             cartaView.setFitHeight(0.5 * cartaView.getImage().getHeight());
@@ -97,7 +90,74 @@ public class TavoloController implements Initializable {
         }
     }
 
-    private void iniziaTrascinamento(Carta cartaDellaMano, ImageView cartaView) {
+    void buildTable() {
+        int maxCartePerRiga = 6;
+
+        int colonna = 0;
+        int riga = 0;
+
+        for (Carta carta : partita.getCarteSulTavolo().getCarteNelMazzo()) {
+            ImageView cartaView = createCartaImageView(carta);
+            cartaView.setFitWidth(0.5 * cartaView.getImage().getWidth());
+            cartaView.setFitHeight(0.5 * cartaView.getImage().getHeight());
+            piatto.add(cartaView, colonna, riga);
+
+            colonna++;
+            if (colonna >= maxCartePerRiga) {
+                colonna = 0;
+                riga++;
+            }
+        }
+    }
+
+    void buildGiocatore() {
+
+        switch (partita.getListaDeiGiocatori().size()) {
+
+            case 2:
+                playerOnLeftPane.setVisible(false);
+                playerOnRightPane.setVisible(false);
+
+                currentPlayerPane.setUserData(partita.getListaDeiGiocatori().get(0));
+                playerOnTopPane.setUserData(partita.getListaDeiGiocatori().get(1));
+
+                updatePlayerPanel(currentPlayerPane);
+                updatePlayerPanel(playerOnTopPane);
+
+                break;
+
+            case 3:
+                playerOnLeftPane.setVisible(false);
+
+                currentPlayerPane.setUserData(partita.getListaDeiGiocatori().get(0));
+                playerOnTopPane.setUserData(partita.getListaDeiGiocatori().get(1));
+                playerOnRightPane.setUserData(partita.getListaDeiGiocatori().get(2));
+
+                updatePlayerPanel(currentPlayerPane);
+                updatePlayerPanel(playerOnTopPane);
+                updatePlayerPanel(playerOnRightPane);
+                break;
+
+            case 4:
+
+                currentPlayerPane.setUserData(partita.getListaDeiGiocatori().get(0));
+                playerOnLeftPane.setUserData(partita.getListaDeiGiocatori().get(1));
+                playerOnTopPane.setUserData(partita.getListaDeiGiocatori().get(2));
+                playerOnRightPane.setUserData(partita.getListaDeiGiocatori().get(3));
+
+                updatePlayerPanel(currentPlayerPane);
+                updatePlayerPanel(playerOnLeftPane);
+                updatePlayerPanel(playerOnTopPane);
+                updatePlayerPanel(playerOnRightPane);
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
+    void iniziaTrascinamento(Carta cartaDellaMano, ImageView cartaView) {
         this.cartaDellaMano = cartaDellaMano;
 
         cartaView.setEffect(new DropShadow());
@@ -108,93 +168,51 @@ public class TavoloController implements Initializable {
         cartaView.startFullDrag();
     }
 
-    private void rilasciaTrascinamento(ImageView cartaView, MouseEvent event) {
+    void rilasciaTrascinamento(ImageView cartaView, MouseEvent event) {
         try {
             cartaView.setEffect(null);
             cartaView.setCursor(Cursor.DEFAULT);
 
-            // Ottieni il risultato della selezione del punto colpito
             PickResult pickResult = event.getPickResult();
-
-            // Ottieni il nodo colpito
             Node nodoColpito = pickResult.getIntersectedNode();
 
-            System.out.println("Nodo colpito: " + nodoColpito.getParent().getId());
+            cartaLasciataSuCarta(nodoColpito);
+            cartaLasciataSuTavolo(nodoColpito);
 
-            // se la carta su cui è stato rilasciato il mouse ha lo stesso valore della
-            // carta
-            // che si sta trascinando, prendila
-            if (nodoColpito instanceof ImageView) {
-
-                // Ottieni la carta sotto il mouse
-                ImageView cartaSottoIlMouse = (ImageView) nodoColpito;
-                this.cartaDelTavolo = (Carta) cartaSottoIlMouse.getUserData();
-
-                if (this.cartaDelTavolo.getValore() == this.cartaDellaMano.getValore()) {
-                    // System.out.println("Puoi prendere " + this.cartaDelTavolo + " con " +
-                    // this.cartaDellaMano);
-                    prendiCartaHandler(this.cartaDelTavolo, this.cartaDellaMano);
-                } else {
-                    System.out.println("Non puoi prendere " + this.cartaDelTavolo + " con " + this.cartaDellaMano);
-                }
-            }
-
-            // non funziona bene perchè il gridPane fa sempre parte del nodo colpito
-            if (nodoColpito instanceof GridPane) {
-                System.out.println("Puoi scartare " + this.cartaDellaMano);
-                scartaCartaHandler(this.cartaDellaMano);
-                cambiaTurno();
-            }
+        } catch (NullPointerException e) {
+            System.err.println("ERRORE (rilasciaTrascinamento - NullPointerException):\t\t " + e.getMessage());
+            e.printStackTrace();
         } catch (Exception e) {
             System.err.println("ERRORE (rilasciaTrascinamento):\t\t " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    private void hideUnusedPlayerPanes() {
-        for (int i = posizione.size() - 1; i >= giocatori.size(); i--) {
-            posizione.get(i).setVisible(false);
-            posizione.remove(i);
-        }
-    }
+    void cartaLasciataSuCarta(Node nodoColpito) {
+        if (nodoColpito instanceof ImageView) {
+            ImageView cartaSottoIlMouse = (ImageView) nodoColpito;
+            this.cartaDelTavolo = (Carta) cartaSottoIlMouse.getUserData();
 
-    Pane getPlayerPane(Pane paneName) {
-        switch (paneName.getId()) {
-            case "currentPlayer":
-                return currentPlayerPane;
-            case "playerOnTop":
-                return playerOnTopPane;
-            case "playerOnLeft":
-                return playerOnLeftPane;
-            case "playerOnRight":
-                return playerOnRightPane;
-            default:
-                return null;
-        }
-    }
-
-    void buildTable() {
-        Mazzo carteSulTavolo = partita.getCarteSulTavolo();
-        int maxCartePerRiga = 6;
-
-        int colonna = 0;
-        int riga = 0;
-
-        for (Carta carta : carteSulTavolo.getCarteNelMazzo()) {
-            ImageView cartaView = createCartaImageView(carta);
-            cartaView.setFitWidth(0.5 * cartaView.getImage().getWidth());
-            cartaView.setFitHeight(0.5 * cartaView.getImage().getHeight());
-            tavolo.add(cartaView, colonna, riga);
-
-            colonna++;
-            if (colonna >= maxCartePerRiga) {
-                colonna = 0;
-                riga++;
+            if (checkPossoPrendereLaCarta(this.cartaDelTavolo)) {
+                prendiCartaHandler(this.cartaDelTavolo, this.cartaDellaMano);
+            } else {
+                System.out.println("Non puoi prendere " + this.cartaDelTavolo + " con " + this.cartaDellaMano);
             }
         }
     }
 
-    private ImageView createCartaImageView(Carta carta) {
+    void cartaLasciataSuTavolo(Node nodoColpito) {
+        if (nodoColpito instanceof GridPane) {
+            // System.out.println("Puoi scartare " + this.cartaDellaMano);
+            scartaCartaHandler(this.cartaDellaMano);
+        }
+    }
+
+    boolean checkPossoPrendereLaCarta(Carta cartaDelTavolo) {
+        return cartaDelTavolo.getValore() == this.cartaDellaMano.getValore();
+    }
+
+    ImageView createCartaImageView(Carta carta) {
         String immaginePath = "file:" + carta.getImmagine();
         Image immagine = new Image(immaginePath);
         ImageView cartaView = new ImageView(immagine);
@@ -205,32 +223,35 @@ public class TavoloController implements Initializable {
         return cartaView;
     }
 
-    private void prendiCartaHandler(Carta cartaSelezionata, Carta cartaDallaManoDellUtente) {
+    void prendiCartaHandler(Carta cartaSelezionata, Carta cartaDallaManoDellUtente) {
 
         // controlla che il giocatore possa prendere quella carta
-        if (partita.getManoDellUtente(giocatoreCorrente) == null) {
+        if (partita.getManoDellUtente(partita.getGiocatoreCorrente()) == null) {
             System.out.println("Non puoi prendere carte dal tavolo");
             return;
-
         }
         System.out.println(cartaSelezionata);
-        partita.prendiCartaConCartaDellaMano(giocatoreCorrente, cartaSelezionata, cartaDallaManoDellUtente);
+        partita.prendiCartaConCartaDellaMano(partita.getGiocatoreCorrente(), cartaSelezionata,
+                cartaDallaManoDellUtente);
         cambiaTurno();
     }
 
-    private void scartaCartaHandler(Carta cartaDellaMano) {
-        partita.scarta(giocatoreCorrente, cartaDellaMano);
+    void scartaCartaHandler(Carta cartaDellaMano) {
+        partita.scarta(partita.getGiocatoreCorrente(), cartaDellaMano);
         cambiaTurno();
     }
 
-    private void cambiaTurno() {
+    void cambiaTurno() {
+        for (String giocatore : partita.getListaDeiGiocatori()) {
+            System.out.println(giocatore);
+        }
+        System.out.println("Turno di " + partita.getGiocatoreCorrente() + "\n");
         partita.passaTurno();
-        this.giocatoreCorrente = partita.getGiocatoreCorrente();
         refreshData();
     }
 
     void refreshData() {
-        tavolo.getChildren().clear();
+        piatto.getChildren().clear();
         buildView();
     }
 
@@ -240,33 +261,51 @@ public class TavoloController implements Initializable {
      * @param giocatore
      * @param containerPane
      */
-    public void updatePlayerPanel(String giocatore, Pane containerPane) {
-        boolean isCurrentPlayer = giocatore.equals(giocatoreCorrente);
-        Text existingText = getNomeCorrente(containerPane);
+    void updatePlayerPanel(Pane containerPane) {
+        try {
+            String giocatore = containerPane.getUserData().toString();
 
-        if (existingText == null) {
-            containerPane.getChildren().add(0, new Text(giocatore));
-        } else {
-            existingText.setText(giocatore);
-        }
+            boolean isCurrentPlayer = giocatore.equals(partita.getGiocatoreCorrente());
+            Text existingText = getNomeCorrente(containerPane);
 
-        Carta cartaInCimaCarta = partita.getCartaInCima(giocatore);
-        if (cartaInCimaCarta != null) {
-            getImmagineCorrente(containerPane).setImage(new Image("file:" + cartaInCimaCarta.getImmagine()));
-        }
+            if (existingText == null) {
+                containerPane.getChildren().add(0, new Text(giocatore));
+            } else {
+                existingText.setText(giocatore);
+            }
 
-        if (isCurrentPlayer) {
-            getButtonCorrente(containerPane).setText("Mostra le mie carte");
-            getButtonCorrente(containerPane)
-                    .setOnAction(event -> System.out.println(partita.getManoDellUtente(giocatoreCorrente)));
-        } else {
-            getButtonCorrente(containerPane).setText("Ruba a " + giocatore);
-            getButtonCorrente(containerPane).setOnAction(event -> partita.rubaUnMazzo(giocatoreCorrente, giocatore));
+            Carta cartaInCimaCarta = partita.getCartaInCima(giocatore);
+            if (cartaInCimaCarta != null) {
+                getImmagineCorrente(containerPane).setImage(new Image("file:" + cartaInCimaCarta.getImmagine()));
+                getImmagineCorrente(containerPane).setUserData(cartaInCimaCarta);
+                // getImmagineCorrente(containerPane).setOnMouseReleased(event ->
+                // rubaUnMazzoHandler(giocatore, event));
+            } else {
+                getImmagineCorrente(containerPane)
+                        .setImage(new Image("file:src/main/resources/com/spacca/images/retro.png"));
+            }
+
+            if (isCurrentPlayer) {
+                getButtonCorrente(containerPane).setText("Mostra le mie carte");
+                getButtonCorrente(containerPane)
+                        .setOnAction(
+                                event -> System.out.println(partita.getManoDellUtente(partita.getGiocatoreCorrente())));
+            } else {
+                getButtonCorrente(containerPane).setText("Ruba a " + giocatore);
+                getButtonCorrente(containerPane)
+                        .setOnAction(event -> partita.rubaUnMazzo(partita.getGiocatoreCorrente(), giocatore));
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
 
     }
 
-    private ImageView getImmagineCorrente(Pane containerPane) {
+    // private void rubaUnMazzoHandler(String giocatore, MouseEvent event) {
+    // }
+
+    ImageView getImmagineCorrente(Pane containerPane) {
         return containerPane.getChildren().stream()
                 .filter(node -> node instanceof ImageView)
                 .map(node -> (ImageView) node)
@@ -274,7 +313,7 @@ public class TavoloController implements Initializable {
                 .orElse(new ImageView());
     }
 
-    private Text getNomeCorrente(Pane containerPane) {
+    Text getNomeCorrente(Pane containerPane) {
         return containerPane.getChildren().stream()
                 .filter(node -> node instanceof Text)
                 .map(node -> (Text) node)
@@ -282,7 +321,7 @@ public class TavoloController implements Initializable {
                 .orElse(new Text());
     }
 
-    private Button getButtonCorrente(Pane containerPane) {
+    Button getButtonCorrente(Pane containerPane) {
         return containerPane.getChildren().stream()
                 .filter(node -> node instanceof Button)
                 .map(node -> (Button) node)
