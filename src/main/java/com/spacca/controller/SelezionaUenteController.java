@@ -2,18 +2,22 @@ package com.spacca.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import com.spacca.App;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.stage.Stage;
 
 import java.nio.file.*;
 
@@ -24,6 +28,13 @@ public class SelezionaUenteController implements Initializable {
     @FXML
     private ChoiceBox<String> listaUtenti;
 
+    @FXML
+    private Button indietro;
+
+    @FXML
+    private Button procedi;
+
+    @FXML
     private String nomeFileUtenteScelto;
 
     @FXML
@@ -63,6 +74,69 @@ public class SelezionaUenteController implements Initializable {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void handleIndietro() {
+        changeScene("/com/spacca/pages/benvenutoAdmin.fxml");
+    }
+
+    public void handleProcedi() {
+        System.out.println("Siamo in procedi " + nomeFileUtenteScelto);
+        changeSceneModificaUTente("/com/spacca/pages/modificaUtente.fxml", nomeFileUtenteScelto);
+    }
+
+    private void changeSceneModificaUTente(String path, String nomeFile) {
+        try {
+            // Carica il nuovo layout FXML per il PartitaController
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(path));
+            Parent root = loader.load();
+
+            ModificaUtenteController modificaUtenteController = loader.getController();
+            loader.setController(modificaUtenteController);
+
+            modificaUtenteController.initController(nomeFile);
+
+            // Ottieni la scena corrente
+            Scene currentScene = procedi.getScene();
+
+            // Ottieni lo Stage dalla scena corrente
+            Stage currentStage = (Stage) currentScene.getWindow();
+
+            // Imposta la nuova scena sulla finestra di scena corrente
+            currentStage.setTitle("Modifica utente " + nomeFile);
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+
+        } catch (NullPointerException e) {
+            System.out.println("Login avvenuto con successo!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("IO Errore (Benvenuto Admin controller): \n" + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
+        }
+    }
+
+    public void changeScene(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
+            Parent root = loader.load();
+
+            Scene currentScene = procedi.getScene();
+
+            // Ottieni lo Stage dalla scena corrente
+            Stage currentStage = (Stage) currentScene.getWindow();
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+
+        } catch (NullPointerException e) {
+            System.out.println("Login avvenuto con successo!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("IO Errore (Benvenuto Admin controller): \n" + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
         }
     }
 

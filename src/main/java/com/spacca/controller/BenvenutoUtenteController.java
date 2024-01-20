@@ -71,7 +71,6 @@ public class BenvenutoUtenteController implements Initializable {
 
         try {
             this.giocatoriDellaPartita.add(this.giocatoreCorrente);
-
         } catch (Exception e) {
             System.err.println("ERRORE (pre):\t\t " + e.getMessage());
         }

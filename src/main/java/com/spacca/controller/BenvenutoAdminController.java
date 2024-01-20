@@ -33,6 +33,7 @@ public class BenvenutoAdminController {
     @FXML
     private Button bottoneEliminaTorneo;
 
+    @FXML
     public AbstractGiocatore giocatoreCorrente;
 
     @FXML
@@ -66,7 +67,6 @@ public class BenvenutoAdminController {
 
             SelezionaUenteController selezionaUenteController = loader.getController();
             loader.setController(selezionaUenteController);
-
             selezionaUenteController.initController((Giocatore) controllerData);
 
             // Ottieni lo Stage dalla scena corrente
