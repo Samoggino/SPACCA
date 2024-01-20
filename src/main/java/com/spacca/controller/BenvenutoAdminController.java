@@ -64,6 +64,11 @@ public class BenvenutoAdminController {
 
             Scene currentScene = bottoneModificaUtente.getScene();
 
+            SelezionaUenteController selezionaUenteController = loader.getController();
+            loader.setController(selezionaUenteController);
+
+            selezionaUenteController.initController((Giocatore) controllerData);
+
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
 

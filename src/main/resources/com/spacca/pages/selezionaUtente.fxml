@@ -16,7 +16,7 @@
       </Label>
       <Button layoutX="191.0" layoutY="306.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: orange;" text="Indietro" />
       <Button layoutX="347.0" layoutY="306.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: orange;" text="Procedi" />
-      <ChoiceBox id="listaUtenti" layoutX="191.0" layoutY="188.0" prefHeight="25.0" prefWidth="228.0" />
+      <ChoiceBox fx:id="listaUtenti" layoutX="191.0" layoutY="188.0" prefHeight="25.0" prefWidth="228.0" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="191.0" layoutY="139.0" prefHeight="36.0" prefWidth="228.0" text="Seleziona l'utente da modificare ">
          <font>
             <Font size="15.0" />
