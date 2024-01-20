@@ -38,7 +38,7 @@ public class App extends Application {
             Partita partita = amministratore.creaPartita(giocatoriDellaPartita);
             partita.nuovoTurno();
 
-            // Partita partita = amministratore.caricaPartita("P1397");
+            // Partita partita = amministratore.caricaPartita("P9698");
 
             FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
             Parent root = loader.load();

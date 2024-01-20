@@ -18,7 +18,7 @@
    <center>
       <Pane id="tavolo" fx:id="tavolo" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: lightgreen;" BorderPane.alignment="CENTER">
          <children>
-            <GridPane fx:id="piatto" layoutX="224.0" layoutY="138.0" prefHeight="133.0" prefWidth="490.0">
+            <GridPane fx:id="piatto" layoutX="108.0" layoutY="66.0" prefHeight="316.0" prefWidth="702.0">
                
             </GridPane>
          </children>

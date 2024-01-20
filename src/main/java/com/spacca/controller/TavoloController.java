@@ -8,6 +8,7 @@ import com.spacca.asset.match.Partita;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -24,7 +25,6 @@ import javafx.scene.text.Text;
 public class TavoloController implements Initializable {
 
     private Partita partita;
-
     private Carta cartaDelTavolo;
     private Carta cartaDellaMano;
 
@@ -63,8 +63,11 @@ public class TavoloController implements Initializable {
     }
 
     void buildView() {
-
         try {
+            if (partita.isNecessarioRidistribuireLeCarte()) {
+                partita.nuovoTurno();
+            }
+
             buildGiocatore();
             buildHand();
             buildTable();
@@ -96,10 +99,17 @@ public class TavoloController implements Initializable {
         int colonna = 0;
         int riga = 0;
 
+        // Definisci la quantità di spazio tra le carte
+        double spazioTraCarte = 10.0;
+
         for (Carta carta : partita.getCarteSulTavolo().getCarteNelMazzo()) {
             ImageView cartaView = createCartaImageView(carta);
             cartaView.setFitWidth(0.5 * cartaView.getImage().getWidth());
             cartaView.setFitHeight(0.5 * cartaView.getImage().getHeight());
+
+            // Aggiungi uno spazio tra le carte tramite un margine
+            GridPane.setMargin(cartaView, new Insets(spazioTraCarte));
+
             piatto.add(cartaView, colonna, riga);
 
             colonna++;
@@ -108,6 +118,7 @@ public class TavoloController implements Initializable {
                 riga++;
             }
         }
+
     }
 
     void buildGiocatore() {
@@ -231,8 +242,15 @@ public class TavoloController implements Initializable {
             return;
         }
         System.out.println(cartaSelezionata);
-        partita.prendiCartaConCartaDellaMano(partita.getGiocatoreCorrente(), cartaSelezionata,
-                cartaDallaManoDellUtente);
+
+        if (cartaSelezionata.getNome().equals(cartaDallaManoDellUtente.getNome()) &&
+                cartaSelezionata.getSeme().equals(cartaDallaManoDellUtente.getSeme())) {
+            System.out.println("Non puoi prendere la stessa carta!!!!");
+            return;
+        } else {
+            partita.prendiCartaConCartaDellaMano(partita.getGiocatoreCorrente(), cartaSelezionata,
+                    cartaDallaManoDellUtente);
+        }
         cambiaTurno();
     }
 
@@ -277,7 +295,7 @@ public class TavoloController implements Initializable {
             Carta cartaInCimaCarta = partita.getCartaInCima(giocatore);
             if (cartaInCimaCarta != null) {
                 getImmagineCorrente(containerPane).setImage(new Image("file:" + cartaInCimaCarta.getImmagine()));
-                getImmagineCorrente(containerPane).setUserData(cartaInCimaCarta);
+                // getImmagineCorrente(containerPane).setUserData(cartaInCimaCarta);
                 // getImmagineCorrente(containerPane).setOnMouseReleased(event ->
                 // rubaUnMazzoHandler(giocatore, event));
             } else {
