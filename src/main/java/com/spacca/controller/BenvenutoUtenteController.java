@@ -71,15 +71,6 @@ public class BenvenutoUtenteController implements Initializable {
 
         try {
             this.giocatoriDellaPartita.add(this.giocatoreCorrente);
-            // this.giocatoriDellaPartita.add(PEACH);
-
-            // this.giocatoreCorrente = YOSHI;
-
-            // for (AbstractGiocatore giocatore : giocatoriDellaPartita) {
-            // Button button = new Button(giocatore.getUsername());
-            // button.setOnAction(this::handleButtonAction);
-            // buttonContainer.getChildren().add(button);
-            // }
 
         } catch (Exception e) {
             System.err.println("ERRORE (pre):\t\t " + e.getMessage());

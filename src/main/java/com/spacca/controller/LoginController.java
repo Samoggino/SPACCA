@@ -47,8 +47,8 @@ public class LoginController implements Initializable {
     private void handleLogin() {
         try {
             statusLabel.setTextFill(Color.BLACK);
-            usernameField.setStyle("-fx-border-color:whitegrey");
-            passwordField.setStyle("-fx-border-color:whitegrey");
+            usernameField.setStyle("-fx-border-color: whitegrey");
+            passwordField.setStyle("-fx-border-color: whitegrey");
             statusLabel.setTextFill(Color.DARKORANGE);
 
             String username = usernameField.getText();

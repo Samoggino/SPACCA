@@ -14,8 +14,6 @@
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
                   <Stop color="BLACK" />
-                  <Stop color="#eba400" offset="0.5211912943871707" />
-                  <Stop color="#ffa100" offset="0.9266895761741124" />
                   <Stop color="ORANGE" offset="1.0" />
                </stops>
             </LinearGradient>
@@ -29,7 +27,6 @@
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
                   <Stop color="BLACK" />
-                  <Stop color="#eba400" offset="0.5211912943871707" />
                   <Stop color="ORANGE" offset="1.0" />
                </stops>
             </LinearGradient>
