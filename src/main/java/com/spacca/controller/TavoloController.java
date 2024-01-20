@@ -50,10 +50,9 @@ public class TavoloController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
     }
 
-    void initController(Partita partita) {
+    public void initController(Partita partita) {
         try {
 
-            this.partita = partita;
             this.partita = partita;
             this.giocatori = partita.getListaDeiGiocatori();
             this.giocatoreCorrente = partita.getGiocatoreCorrente();
@@ -64,11 +63,8 @@ public class TavoloController implements Initializable {
             this.posizione.add(playerOnRightPane);
             this.posizione.add(playerOnLeftPane);
 
-            for (String string : giocatori) {
-                System.out.println(string);
-            }
-
             buildView();
+
         } catch (Exception e) {
             System.err.println("ERRORE (initController):\t\t " + e.getMessage());
             e.printStackTrace();
@@ -82,6 +78,8 @@ public class TavoloController implements Initializable {
         });
         buildHand();
         buildTable();
+        System.out.println("Codice partita " + partita.getCodice());
+
     }
 
     void buildHand() {
@@ -111,31 +109,45 @@ public class TavoloController implements Initializable {
     }
 
     private void rilasciaTrascinamento(ImageView cartaView, MouseEvent event) {
-        cartaView.setEffect(null);
-        cartaView.setCursor(Cursor.DEFAULT);
+        try {
+            cartaView.setEffect(null);
+            cartaView.setCursor(Cursor.DEFAULT);
 
-        // Ottieni il risultato della selezione del punto colpito
-        PickResult pickResult = event.getPickResult();
+            // Ottieni il risultato della selezione del punto colpito
+            PickResult pickResult = event.getPickResult();
 
-        // Ottieni il nodo colpito
-        Node nodoColpito = pickResult.getIntersectedNode();
+            // Ottieni il nodo colpito
+            Node nodoColpito = pickResult.getIntersectedNode();
 
-        // se la carta su cui è stato rilasciato il mouse ha lo stesso valore della
-        // carta
-        // che si sta trascinando, prendila
-        if (nodoColpito instanceof ImageView) {
+            System.out.println("Nodo colpito: " + nodoColpito.getParent().getId());
 
-            // Ottieni la carta sotto il mouse
-            ImageView cartaSottoIlMouse = (ImageView) nodoColpito;
-            this.cartaDelTavolo = (Carta) cartaSottoIlMouse.getUserData();
+            // se la carta su cui è stato rilasciato il mouse ha lo stesso valore della
+            // carta
+            // che si sta trascinando, prendila
+            if (nodoColpito instanceof ImageView) {
 
-            if (this.cartaDelTavolo.getValore() == this.cartaDellaMano.getValore()) {
-                System.out.println("Puoi prendere " + this.cartaDelTavolo + " con " + this.cartaDellaMano);
-                prendiCartaHandler(this.cartaDelTavolo, this.cartaDellaMano);
-            } else {
-                System.out.println("Non puoi prendere " + this.cartaDelTavolo + " con " + this.cartaDellaMano);
-                System.out.println("Non puoi prendere questa carta");
+                // Ottieni la carta sotto il mouse
+                ImageView cartaSottoIlMouse = (ImageView) nodoColpito;
+                this.cartaDelTavolo = (Carta) cartaSottoIlMouse.getUserData();
+
+                if (this.cartaDelTavolo.getValore() == this.cartaDellaMano.getValore()) {
+                    // System.out.println("Puoi prendere " + this.cartaDelTavolo + " con " +
+                    // this.cartaDellaMano);
+                    prendiCartaHandler(this.cartaDelTavolo, this.cartaDellaMano);
+                } else {
+                    System.out.println("Non puoi prendere " + this.cartaDelTavolo + " con " + this.cartaDellaMano);
+                }
             }
+
+            // non funziona bene perchè il gridPane fa sempre parte del nodo colpito
+            if (nodoColpito instanceof GridPane) {
+                System.out.println("Puoi scartare " + this.cartaDellaMano);
+                scartaCartaHandler(this.cartaDellaMano);
+                cambiaTurno();
+            }
+        } catch (Exception e) {
+            System.err.println("ERRORE (rilasciaTrascinamento):\t\t " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -199,9 +211,21 @@ public class TavoloController implements Initializable {
         if (partita.getManoDellUtente(giocatoreCorrente) == null) {
             System.out.println("Non puoi prendere carte dal tavolo");
             return;
+
         }
         System.out.println(cartaSelezionata);
         partita.prendiCartaConCartaDellaMano(giocatoreCorrente, cartaSelezionata, cartaDallaManoDellUtente);
+        cambiaTurno();
+    }
+
+    private void scartaCartaHandler(Carta cartaDellaMano) {
+        partita.scarta(giocatoreCorrente, cartaDellaMano);
+        cambiaTurno();
+    }
+
+    private void cambiaTurno() {
+        partita.passaTurno();
+        this.giocatoreCorrente = partita.getGiocatoreCorrente();
         refreshData();
     }
 

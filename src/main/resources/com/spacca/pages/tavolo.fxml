@@ -29,7 +29,7 @@
          <children>
             <VBox fx:id="playerOnTopPane" alignment="CENTER" prefHeight="176.0" prefWidth="507.0" style="-fx-background-color: lightgray;" translateX="228.0">
                <children>
-                  <Text boundsType="VISUAL" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.0" text="Text" textAlignment="CENTER" textOrigin="CENTER" translateY="20.0" wrappingWidth="83.791015625" VBox.vgrow="ALWAYS">
+                  <Text boundsType="VISUAL" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.0" text="Text" textAlignment="CENTER" textOrigin="CENTER" translateY="20.0" wrappingWidth="74.791015625" VBox.vgrow="ALWAYS">
                      <font>
                         <Font name="Droid Sans Bold" size="20.0" />
                      </font>

@@ -1,12 +1,18 @@
 package com.spacca;
 
 import java.io.IOException;
+import java.util.List;
+
+import com.spacca.asset.match.Partita;
+import com.spacca.asset.utente.Amministratore;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.asset.utente.giocatore.Giocatore;
+import com.spacca.controller.TavoloController;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -19,13 +25,29 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
 
         try {
-            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
-            scene = new Scene(loadFXML("login"), 600, 500);
+            AbstractGiocatore YOSHI = new Giocatore("yoshi", "ciao", "");
+            AbstractGiocatore MARIO = new Giocatore("mario", "ciao", "");
+            AbstractGiocatore LUIGI = new Giocatore("luigi", "ciao", "");
+            AbstractGiocatore WARIO = new Giocatore("wario", "ciao", "");
 
-            stage.setTitle("Login APP");
-            stage.getIcons().add(icon);
+            // AbstractGiocatore StupidCPU = new StupidCPU("CPU");
+            // AbstractGiocatore SmartCPU = new SmartCPU("smartCPU");
+            Amministratore amministratore = new Amministratore();
 
-            stage.setScene(scene);
+            List<AbstractGiocatore> giocatoriDellaPartita = List.of(YOSHI, MARIO, LUIGI, WARIO);
+            Partita partita = amministratore.creaPartita(giocatoriDellaPartita);
+            partita.nuovoTurno();
+
+            // Partita partita = amministratore.caricaPartita("P1397");
+
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
+            Parent root = loader.load();
+            TavoloController tavolo = loader.getController();
+            loader.setController(tavolo);
+
+            tavolo.initController(partita);
+
+            stage.setScene(new Scene(root));
             stage.show();
 
         } catch (Exception e) {
@@ -33,6 +55,14 @@ public class App extends Application {
         }
 
     }
+    // Image icon = new
+    // Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
+    // scene = new Scene(loadFXML("login"), 600, 500);
+
+    // stage.setTitle("Login APP");
+    // stage.getIcons().add(icon);
+
+    //
 
     public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));

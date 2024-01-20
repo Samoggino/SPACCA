@@ -9,6 +9,7 @@ import java.io.Reader;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.stream.JsonWriter;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
 
 public class GiocatoreHandler implements Handler {
@@ -16,14 +17,20 @@ public class GiocatoreHandler implements Handler {
     @Override
     public void salva(Object utenteObject, String username) {
 
-        Giocatore giocatore = (Giocatore) utenteObject;
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
 
         try (JsonWriter writer = new JsonWriter(new FileWriter(path))) {
 
+            AbstractGiocatore giocatore;
             Gson gson = new Gson();
-            gson.toJson(giocatore, Giocatore.class, writer);
-            System.out.println("Utente salvato correttamente in formato JSON.");
+
+            if (utenteObject instanceof Giocatore) {
+                giocatore = (Giocatore) utenteObject;
+                gson.toJson(giocatore, Giocatore.class, writer);
+            } else {
+                giocatore = (AbstractGiocatore) utenteObject;
+                gson.toJson(giocatore, AbstractGiocatore.class, writer);
+            }
 
         } catch (JsonIOException e) {
             System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" + e.getMessage());

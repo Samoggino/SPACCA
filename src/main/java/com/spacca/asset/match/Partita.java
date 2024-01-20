@@ -76,6 +76,8 @@ public class Partita extends Object {
             getPreseDeiGiocatori().put(giocatore, new Mazzo());
         }
 
+        setGiocatoreCorrente(giocatori.get(0));
+
         salvaPartita();
 
     }
@@ -303,10 +305,6 @@ public class Partita extends Object {
         System.out.println("Carta selezionata: " + cartaDellaMano.getNome() + " di " + cartaDellaMano.getSeme());
         System.out.println("Carta sul tavolo: " + cartaSulTavolo.getNome() + " di " + cartaSulTavolo.getSeme());
         try {
-            if (utentePuoPrendereCarta(username, cartaDellaMano, cartaSulTavolo) == false) {
-                System.out.println("Non puoi prendere questa carta!");
-                return;
-            }
             Iterator<Carta> iterator = getCarteSulTavolo().getCarteNelMazzo().iterator();
 
             while (iterator.hasNext()) {
@@ -337,23 +335,49 @@ public class Partita extends Object {
     }
 
     boolean utentePuoPrendereCarta(String username, Carta cartaDaGiocare, Carta cartaDelTavolo) {
-        Mazzo mano = getManoDellUtente(username);
-        Mazzo tavolo = getCarteSulTavolo();
 
-        if (mano.size() == 0) {
+        if (getManoDellUtente(username).size() == 0) {
+            System.out.println("Non puoi prendere carte dal tavolo perchè non hai carte in mano!");
             return false;
         } else {
             // controllo se la carta del tavolo è sul tavolo e la carta della mano è nella
             // mano
-            if (tavolo.getCarteNelMazzo().contains(cartaDelTavolo)
-                    && mano.getCarteNelMazzo().contains(cartaDaGiocare)) {
+            if (getManoDellUtente(username).getCarteNelMazzo().contains(cartaDelTavolo)
+                    && getManoDellUtente(username).getCarteNelMazzo().contains(cartaDaGiocare)) {
                 // controllo se la carta del tavolo è uguale alla carta della mano
                 if (cartaDelTavolo.getValore() == cartaDaGiocare.getValore()) {
                     return true;
                 }
             }
         }
-
         return false;
+    }
+
+    // viene riordinata la lista dei giocatori in base al giocatore corrente che
+    // viene messo per ultimo
+    public void passaTurno() {
+
+        List<String> localListGiocatori = getListaDeiGiocatori();
+        String giocatoreCorrenteLocale = localListGiocatori.get(0);
+
+        // sposta il primo giocatore della lista in fondo
+        localListGiocatori.remove(0);
+        localListGiocatori.add(giocatoreCorrenteLocale);
+
+        setGiocatoreCorrente(localListGiocatori.get(0));
+        setListaDeiGiocatori(localListGiocatori);
+
+        salvaPartita();
+    }
+
+    private void setListaDeiGiocatori(List<String> localListGiocatori) {
+        this.listaDeiGiocatori = localListGiocatori;
+    }
+
+    public void scarta(String username, Carta cartaScartata) {
+
+        getManoDellUtente(username).rimuoviCartaDalMazzo(cartaScartata);
+        getCarteSulTavolo().aggiungiCarteAlMazzo(cartaScartata);
+        salvaPartita();
     }
 }
