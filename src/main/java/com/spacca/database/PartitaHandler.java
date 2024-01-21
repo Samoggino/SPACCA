@@ -1,5 +1,6 @@
 package com.spacca.database;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -80,10 +81,21 @@ public class PartitaHandler implements Handler {
         return partita;
     }
 
-    @Override
-    public void elimina(String codicePartita) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'elimina'");
+    @Override // attenzione passare il codice con il nome del file per intero quindi
+              // user-codice.json
+    public void elimina(String codice) {
+        String path = "src/main/resources/com/spacca/database/partite/" + codice;
+        File file = new File(path);
+
+        if (file.exists() && file.isFile()) {
+            if (file.delete()) {
+                System.out.println("Il giocatore con codice " + codice + " è stato eliminato correttamente.");
+            } else {
+                System.err.println("Errore durante l'eliminazione del giocatore con codice " + codice);
+            }
+        } else {
+            System.err.println("Il giocatore con codice " + codice + " non esiste o non è un file.");
+        }
     }
 
     public Partita creaPartita(String codice, List<AbstractGiocatore> giocatori) {

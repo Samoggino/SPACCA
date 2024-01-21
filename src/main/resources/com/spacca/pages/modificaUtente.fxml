@@ -11,24 +11,24 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.ModificaUtenteController">
    <children>
-      <Button fx:id="procedi" layoutX="350.0" layoutY="324.0" mnemonicParsing="false" opacity="0.68" prefHeight="25" prefWidth="76.0" style="-fx-background-color: orange;" text="Procedi" textAlignment="CENTER" />
-      <Button fx:id="indietro" layoutX="191.0" layoutY="324.0" mnemonicParsing="false" opacity="0.68" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: orange;" text="Indietro" textAlignment="CENTER" />
+      <Button fx:id="procedi" layoutX="350.0" layoutY="324.0" mnemonicParsing="false" onMouseClicked="#procediModifica" opacity="0.68" prefHeight="25" prefWidth="76.0" style="-fx-background-color: orange;" text="Procedi" textAlignment="CENTER" />
+      <Button fx:id="indietro" layoutX="191.0" layoutY="324.0" mnemonicParsing="false" onMouseClicked="#handleIndietro" opacity="0.68" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: orange;" text="Indietro" textAlignment="CENTER" />
       <Label layoutX="118.0" layoutY="112.0" prefHeight="17" prefWidth="149" text="Username :" />
-      <Label fx:id="labelUsername" layoutX="82" layoutY="129" prefHeight="15" prefWidth="149">
+      <Label id="labelUsername" fx:id="labelUsername" layoutX="118.0" layoutY="179.0" prefHeight="15" prefWidth="149">
          <font>
             <Font size="10" />
          </font>
       </Label>
       <TextField fx:id="usernameField" layoutX="116.0" layoutY="143.0" prefHeight="25" prefWidth="149" promptText="Inserisci il Nome Utente" />
-      <Label fx:id="labelEmail" layoutX="83" layoutY="224" prefHeight="15" prefWidth="149">
+      <TextField fx:id="emailField" layoutX="350.0" layoutY="147.0" prefHeight="25.0" prefWidth="149.0" promptText="Inserisci la tua E-mail" />
+      <PasswordField id="passwordField" fx:id="passwordField" layoutX="117.0" layoutY="237.0" prefHeight="25" prefWidth="149" promptText="Inserisci la Password" />
+      <Label fx:id="labelEmail" layoutX="350.0" layoutY="179.0" prefHeight="15" prefWidth="149">
          <font>
             <Font size="10" />
          </font>
       </Label>
-      <TextField fx:id="emailField" layoutX="350.0" layoutY="147.0" prefHeight="25.0" prefWidth="149.0" promptText="Inserisci la tua E-mail" />
-      <PasswordField fx:id="passwordField" layoutX="117.0" layoutY="237.0" prefHeight="25" prefWidth="149" promptText="Inserisci la Password" />
       <Label layoutX="118.0" layoutY="207.0" prefHeight="17" prefWidth="149" text="Password : " />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="45.0" prefHeight="30.0" prefWidth="600.0" text="Modifica Utente: " textAlignment="CENTER">
+      <Label  fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutY="45.0" prefHeight="30.0" prefWidth="600.0" text="Modifica Utente: " textAlignment="CENTER">
          <font>
             <Font size="22.0" />
          </font>
@@ -41,6 +41,11 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Label fx:id="labelPassword" layoutX="352.0" layoutY="117.0" prefHeight="15" prefWidth="149" text="Email : " />
+      <Label layoutX="352.0" layoutY="117.0" prefHeight="15" prefWidth="149" text="Email : " />
+      <Label fx:id="labelPassword" layoutX="117.0" layoutY="280.0" prefHeight="15" prefWidth="149">
+         <font>
+            <Font size="10" />
+         </font>
+      </Label>
    </children>
 </Pane>

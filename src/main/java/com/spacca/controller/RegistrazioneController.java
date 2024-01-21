@@ -224,11 +224,11 @@ public class RegistrazioneController implements Initializable {
                         labelUsername.setText("Username già in utilizzo! ");
                         usernameField.setStyle("-fx-border-color:darkorange");
                         controllo = false;
-                    } else {
-                        labelUsername.setText("Username corretto! ");
-                        labelUsername.setTextFill(Color.BLACK);
-                        controllo = true;
                     }
+                } else {
+                    labelUsername.setText("Username corretto! ");
+                    labelUsername.setTextFill(Color.BLACK);
+                    controllo = true;
                 }
 
             } catch (Exception e) {
