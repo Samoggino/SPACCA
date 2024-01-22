@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
@@ -82,8 +83,16 @@ public class SelezionaUenteController implements Initializable {
     }
 
     public void handleProcedi() {
-        System.out.println("Siamo in procedi " + nomeFileUtenteScelto);
-        changeSceneModificaUTente("/com/spacca/pages/modificaUtente.fxml", nomeFileUtenteScelto);
+        System.out.println("Siamo in procedi della selezione utetnte" + nomeFileUtenteScelto);
+        if (nomeFileUtenteScelto == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("");
+            alert.setHeaderText("");
+            alert.setContentText("Non puoi procedere alla modifica \n se non selezioni alcun utente ! ");
+            alert.showAndWait();
+        } else {
+            changeSceneModificaUTente("/com/spacca/pages/modificaUtente.fxml", nomeFileUtenteScelto);
+        }
     }
 
     private void changeSceneModificaUTente(String path, String nomeFile) {
@@ -104,7 +113,11 @@ public class SelezionaUenteController implements Initializable {
             Stage currentStage = (Stage) currentScene.getWindow();
 
             // Imposta la nuova scena sulla finestra di scena corrente
-            currentStage.setTitle("Modifica utente " + nomeFile);
+            String senzaUser = nomeFile.replace("user-", "");
+            // Rimuovi ".json" dalla fine della stringa
+            String senzaJson = senzaUser.replace(".json", "");
+
+            currentStage.setTitle("Modifica utente " + senzaJson);
             currentStage.setScene(new Scene(root));
             currentStage.show();
 
@@ -127,6 +140,8 @@ public class SelezionaUenteController implements Initializable {
 
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
+
+            currentStage.setTitle("Benvenuto Admin ! ");
             currentStage.setScene(new Scene(root));
             currentStage.show();
 
@@ -140,8 +155,4 @@ public class SelezionaUenteController implements Initializable {
         }
     }
 
-    // Aggiungi un metodo per ottenere il nome del file utente selezionato
-    public String getNomeFileUtenteScelto() {
-        return nomeFileUtenteScelto;
-    }
 }

@@ -189,13 +189,13 @@ public class ModificaUtenteController implements Initializable {
 
     private void showAlert(String content) {
         try {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Errore");
-            alert.setHeaderText(null);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("");
+            alert.setHeaderText("");
             alert.setContentText(content);
             alert.showAndWait();
         } catch (Exception e) {
-            System.err.println("Errore (Login controller): \n" + e.getMessage());
+            System.err.println("Errore (alert Modifica utente controller): \n" + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -213,6 +213,7 @@ public class ModificaUtenteController implements Initializable {
 
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
+            currentStage.setTitle("Benvenuto Admin ! ");
             currentStage.setScene(new Scene(root));
             currentStage.show();
 
@@ -232,10 +233,14 @@ public class ModificaUtenteController implements Initializable {
 
             this.utenteScelto = nomeFile;
 
-            title.setText("Modifice utente : " + utenteScelto);
+            String senzaUser = utenteScelto.replace("user-", "");
+            // Rimuovi ".json" dalla fine della stringa
+            String senzaJson = senzaUser.replace(".json", "");
 
-            // in base al nome del file carico i dati dell'utente e apro il suo file per la
-            // modifica
+            title.setText("Modifica utente " + senzaJson);
+
+            // in base al nome del file carico i dati dell'utente e carico il suo file per
+            // la modifica
 
             String path = "src/main/resources/com/spacca/database/giocatori/" + nomeFile;
             GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
