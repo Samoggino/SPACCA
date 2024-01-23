@@ -28,8 +28,6 @@ public class BenvenutoUtenteController implements Initializable {
 
     @FXML
     private void initialize() throws IOException {
-        // Imposta il titolo della finestra principale
-        App.getStage().setTitle("Benvenuto");
     }
 
     @FXML

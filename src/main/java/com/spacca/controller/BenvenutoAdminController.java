@@ -43,6 +43,7 @@ public class BenvenutoAdminController {
     public void initController(Giocatore giocatoreCorrente) {
 
         try {
+
             this.giocatoreCorrente = giocatoreCorrente;
 
         } catch (NullPointerException e) {
@@ -57,6 +58,13 @@ public class BenvenutoAdminController {
         System.out.println("Siamo in Modifica utente" + giocatoreCorrente);
         String titlePages = "Modifica utente ";
         changeSceneModificaUtente("/com/spacca/pages/selezionaUtente.fxml", giocatoreCorrente, titlePages);
+    }
+
+    @FXML
+    private void handleElimnaPartita() {
+        System.out.println("Siamo in Elimina partita" + giocatoreCorrente);
+        String titlePages = "Elimina partita ";
+        changeSceneEliminaPartita("/com/spacca/pages/selezionaPartita.fxml", giocatoreCorrente, titlePages);
     }
 
     public void changeSceneModificaUtente(String fxmlPath, Object controllerData, String titlePages) {
@@ -80,36 +88,22 @@ public class BenvenutoAdminController {
             System.out.println("Login avvenuto con successo!");
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("IO Errore (Benvenuto Admin controller): \n" + e.getMessage());
+            System.err.println("IO Errore (Benvenuto Admin controller per modifica partita): \n" + e.getMessage());
         } catch (Exception e) {
             System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
         }
     }
 
-    @FXML
-    private void handleElimnaPartita() {
-        System.out.println("Siamo in elimina partita" + giocatoreCorrente);
-        String titlePages = "Eliminazione partita ";
-        changeSceneEliminaPartita("/com/spacca/pages/selezioneEliminazionePartita.fxml", giocatoreCorrente, titlePages);
-    }
-
     public void changeSceneEliminaPartita(String fxmlPath, Object controllerData, String titlePages) {
         try {
-            System.out.println("changeSceneEliminaPartita");
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
             Parent root = loader.load();
 
-            System.out.println("root" + root);
+            Scene currentScene = bottoneModificaUtente.getScene();
 
-            Scene currentScene = bottoneEliminaSingola.getScene();
-
-            System.out.println("currentScene" + currentScene);
-
-            SelezionaPartitaController selezionaPartitaController = loader.getController();
-            loader.setController(selezionaPartitaController);
-            System.out.println("controllerData" + (Giocatore) controllerData);
-            selezionaPartitaController.initController((Giocatore) controllerData);
-            System.out.println("selezionaPartitaController" + (selezionaPartitaController));
+            SelezionaPartitaController selezionaUenteController = loader.getController();
+            loader.setController(selezionaUenteController);
+            selezionaUenteController.initController((Giocatore) controllerData);
 
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
@@ -121,7 +115,7 @@ public class BenvenutoAdminController {
             System.out.println("Login avvenuto con successo!");
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("IO Errore (Benvenuto Admin controller): \n" + e.getMessage());
+            System.err.println("IO Errore (Benvenuto Admin controller per modifica partita): \n" + e.getMessage());
         } catch (Exception e) {
             System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
         }
