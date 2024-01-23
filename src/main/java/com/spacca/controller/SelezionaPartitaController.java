@@ -60,6 +60,7 @@ public class SelezionaPartitaController implements Initializable {
 
             // Ottieni la lista dei nomi dei file JSON presenti nella cartella
             List<String> fileNames = Files.walk(resourceFolder, 1)
+                    .filter(path -> !path.getFileName().toString().equals("template-partita.json"))
                     .filter(path -> path.toString().endsWith(".json") && Files.isRegularFile(path))
                     .map(path -> path.getFileName().toString())
                     .collect(Collectors.toList());

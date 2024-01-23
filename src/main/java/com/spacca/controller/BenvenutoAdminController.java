@@ -67,6 +67,13 @@ public class BenvenutoAdminController {
         changeSceneEliminaPartita("/com/spacca/pages/selezionaPartita.fxml", giocatoreCorrente, titlePages);
     }
 
+    @FXML
+    private void handleCreazioneUtente() {
+        System.out.println("Siamo in Creazione utente" + giocatoreCorrente);
+        String titlePages = "Creazione nuovo utente ";
+        changeSceneCreazioneUtente("/com/spacca/pages/creazioneUtente.fxml", giocatoreCorrente, titlePages);
+    }
+
     public void changeSceneModificaUtente(String fxmlPath, Object controllerData, String titlePages) {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
@@ -121,4 +128,30 @@ public class BenvenutoAdminController {
         }
     }
 
+    public void changeSceneCreazioneUtente(String fxmlPath, Object controllerData, String titlePages) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
+            Parent root = loader.load();
+
+            Scene currentScene = bottoneModificaUtente.getScene();
+
+            CreazioneUtenteController creazioneUtenteController = loader.getController();
+            loader.setController(creazioneUtenteController);
+            creazioneUtenteController.initController((Giocatore) controllerData);
+
+            // Ottieni lo Stage dalla scena corrente
+            Stage currentStage = (Stage) currentScene.getWindow();
+            currentStage.setTitle(titlePages);
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+
+        } catch (NullPointerException e) {
+            System.out.println("Login avvenuto con successo!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("IO Errore (Benvenuto Admin controller per modifica partita): \n" + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
+        }
+    }
 }
