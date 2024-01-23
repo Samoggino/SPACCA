@@ -64,8 +64,13 @@ public class SelezionaPartitaController implements Initializable {
                     .map(path -> path.getFileName().toString())
                     .collect(Collectors.toList());
 
+            // Rimuovi "user-" e ".json" dai nomi dei file
+            List<String> modifiedFileNames = fileNames.stream()
+                    .map(fileName -> fileName.replace("user-", "").replace(".json", ""))
+                    .collect(Collectors.toList());
+
             // Popola il ChoiceBox con la lista dei nomi dei file
-            listaUtenti.getItems().addAll(fileNames);
+            listaUtenti.getItems().addAll(modifiedFileNames);
 
             listaUtenti.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 System.out.println("Partita selezionata: " + newValue);
@@ -93,12 +98,15 @@ public class SelezionaPartitaController implements Initializable {
             alert.showAndWait();
         } else {
             System.out.println("Parita selezionata " + nomeFilePartitaScelto);
+            String nomeFileEsteso = "user-" + nomeFilePartitaScelto + ".json";
+
             PartitaHandler partitaHandler = new PartitaHandler();
-            partitaHandler.elimina(nomeFilePartitaScelto);
+            partitaHandler.elimina(nomeFileEsteso);
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("");
             alert.setHeaderText("");
-            alert.setContentText("Partita " + nomeFilePartitaScelto + "eliminata correttamente ! ");
+            alert.setContentText("Partita " + nomeFilePartitaScelto + " eliminata correttamente ! ");
             alert.showAndWait();
             handleIndietro();
         }

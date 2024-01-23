@@ -63,8 +63,13 @@ public class SelezionaUenteController implements Initializable {
                     .map(path -> path.getFileName().toString())
                     .collect(Collectors.toList());
 
+            // Rimuovi "user-" e ".json" dai nomi dei file
+            List<String> modifiedFileNames = fileNames.stream()
+                    .map(fileName -> fileName.replace("user-", "").replace(".json", ""))
+                    .collect(Collectors.toList());
+
             // Popola il ChoiceBox con la lista dei nomi dei file
-            listaUtenti.getItems().addAll(fileNames);
+            listaUtenti.getItems().addAll(modifiedFileNames);
 
             listaUtenti.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 System.out.println("Utente selezionato: " + newValue);
@@ -83,7 +88,7 @@ public class SelezionaUenteController implements Initializable {
     }
 
     public void handleProcedi() {
-        System.out.println("Siamo in procedi della selezione utetnte" + nomeFileUtenteScelto);
+        System.out.println("Siamo in procedi della selezione utente" + nomeFileUtenteScelto);
         if (nomeFileUtenteScelto == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("");
@@ -104,7 +109,9 @@ public class SelezionaUenteController implements Initializable {
             ModificaUtenteController modificaUtenteController = loader.getController();
             loader.setController(modificaUtenteController);
 
-            modificaUtenteController.initController(nomeFile);
+            String nomeFileEsteso = "user-" + nomeFileUtenteScelto + ".json";
+
+            modificaUtenteController.initController(nomeFileEsteso);
 
             // Ottieni la scena corrente
             Scene currentScene = procedi.getScene();
@@ -112,12 +119,7 @@ public class SelezionaUenteController implements Initializable {
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
 
-            // Imposta la nuova scena sulla finestra di scena corrente
-            String senzaUser = nomeFile.replace("user-", "");
-            // Rimuovi ".json" dalla fine della stringa
-            String senzaJson = senzaUser.replace(".json", "");
-
-            currentStage.setTitle("Modifica utente " + senzaJson);
+            currentStage.setTitle("Modifica utente " + nomeFileUtenteScelto);
             currentStage.setScene(new Scene(root));
             currentStage.show();
 
