@@ -234,11 +234,7 @@ public class TavoloController implements Initializable {
             ImageView cartaSottoIlMouse = (ImageView) nodoColpito;
             this.cartaDelTavolo = (Carta) cartaSottoIlMouse.getUserData();
 
-            if (checkPossoPrendereLaCarta(this.cartaDelTavolo)) {
-                prendiCartaHandler(this.cartaDelTavolo, this.cartaDellaMano);
-            } else {
-                System.out.println("Non puoi prendere " + this.cartaDelTavolo + " con " + this.cartaDellaMano);
-            }
+            prendiCartaHandler(this.cartaDelTavolo, this.cartaDellaMano);
         }
     }
 
@@ -247,10 +243,6 @@ public class TavoloController implements Initializable {
             // System.out.println("Puoi scartare " + this.cartaDellaMano);
             scartaCartaHandler(this.cartaDellaMano);
         }
-    }
-
-    boolean checkPossoPrendereLaCarta(Carta cartaDelTavolo) {
-        return cartaDelTavolo.getValore() == this.cartaDellaMano.getValore();
     }
 
     ImageView createCartaImageView(Carta carta) {
@@ -266,22 +258,14 @@ public class TavoloController implements Initializable {
 
     void prendiCartaHandler(Carta cartaSelezionata, Carta cartaDallaManoDellUtente) {
 
-        // controlla che il giocatore possa prendere quella carta
-        if (partita.getManoDellUtente(partita.getGiocatoreCorrente()) == null) {
-            System.out.println("Non puoi prendere carte dal tavolo");
-            return;
-        }
         System.out.println(cartaSelezionata);
 
-        if (cartaSelezionata.getNome().equals(cartaDallaManoDellUtente.getNome()) &&
-                cartaSelezionata.getSeme().equals(cartaDallaManoDellUtente.getSeme())) {
-            System.out.println("Non puoi prendere la stessa carta!!!!");
-            return;
-        } else {
-            partita.prendiCartaConCartaDellaMano(partita.getGiocatoreCorrente(), cartaSelezionata,
-                    cartaDallaManoDellUtente);
+        boolean cartaPresa = partita.prendiCartaConCartaDellaMano(partita.getGiocatoreCorrente(), cartaSelezionata,
+                cartaDallaManoDellUtente);
+
+        if (cartaPresa) {
+            cambiaTurno();
         }
-        cambiaTurno();
     }
 
     void scartaCartaHandler(Carta cartaDellaMano) {
@@ -323,11 +307,16 @@ public class TavoloController implements Initializable {
             }
 
             Carta cartaInCimaCarta = partita.getCartaInCima(giocatore);
+
+            ImageView cartaImageView = getImmagineCorrente(containerPane);
+
+            // Rimuovi il gestore di eventi setOnDragDetected
+            cartaImageView.setOnDragDetected(null);
+
             if (cartaInCimaCarta != null) {
                 getImmagineCorrente(containerPane).setImage(new Image("file:" + cartaInCimaCarta.getImmagine()));
-                // getImmagineCorrente(containerPane).setUserData(cartaInCimaCarta);
-                // getImmagineCorrente(containerPane).setOnMouseReleased(event ->
-                // rubaUnMazzoHandler(giocatore, event));
+                getImmagineCorrente(containerPane).setUserData(cartaInCimaCarta);
+
             } else {
                 getImmagineCorrente(containerPane)
                         .setImage(new Image("file:src/main/resources/com/spacca/images/retro.png"));
@@ -344,7 +333,7 @@ public class TavoloController implements Initializable {
                         .setOnAction(event -> partita.rubaUnMazzo(partita.getGiocatoreCorrente(), giocatore));
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
+            System.err.println("ERRORE (updatePlayerPanel):\t\t " + e.getMessage());
             e.printStackTrace();
         }
 

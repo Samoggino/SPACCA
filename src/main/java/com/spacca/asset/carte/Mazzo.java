@@ -78,14 +78,6 @@ public class Mazzo {
         }
     }
 
-    public void aggiungiCartaAlMazzo(Carta carta) {
-        if (this.carteNelMazzo == null) {
-            // Initialize the list if null
-            this.carteNelMazzo = new ArrayList<>();
-        }
-        this.carteNelMazzo.add(carta);
-    }
-
     public void rimuoviCartaDalMazzo(Carta carta) {
 
         try {
