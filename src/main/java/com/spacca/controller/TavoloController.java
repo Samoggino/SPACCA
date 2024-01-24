@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.spacca.asset.carte.Carta;
+import com.spacca.asset.carte.Nome;
 import com.spacca.asset.match.Partita;
 
 import javafx.fxml.FXML;
@@ -94,6 +95,7 @@ public class TavoloController implements Initializable {
             cartaView.setFitHeight(0.5 * cartaView.getImage().getHeight());
 
             // Aggiungi il gestore di eventi per iniziare il trascinamento
+            cartaView.setOnMouseClicked(event -> assoPrendeTuttoHandler(cartaDellaMano));
             cartaView.setOnDragDetected(event -> iniziaTrascinamento(cartaDellaMano, cartaView));
 
             FlowPane.setMargin(cartaView, new Insets(5));
@@ -254,6 +256,15 @@ public class TavoloController implements Initializable {
         cartaView.setUserData(carta);
 
         return cartaView;
+    }
+
+    void assoPrendeTuttoHandler(Carta cartaDellaMano) {
+
+        if (cartaDellaMano.getNome().equals(Nome.ASSO)) {
+            partita.assoPrendeTutto(partita.getGiocatoreCorrente(), cartaDellaMano);
+            System.out.println("Puoi prendere tutto con " + cartaDellaMano);
+            cambiaTurno();
+        }
     }
 
     void prendiCartaHandler(Carta cartaSelezionata, Carta cartaDallaManoDellUtente) {

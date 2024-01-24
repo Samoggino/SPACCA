@@ -357,6 +357,19 @@ public class Partita extends Object {
         return stampa;
     }
 
+    public void assoPrendeTutto(String username, Carta carta) {
+        // l'asso prende tutto quello che c'è sul tavolo
+
+        getManoDellUtente(username).rimuoviCartaDalMazzo(carta);
+        getPreseDellUtente(username).aggiungiListaCarteAdAltroMazzo(getCarteSulTavolo().getCarteNelMazzo());
+        getPreseDellUtente(username).aggiungiCarteAlMazzo(carta);
+        // sposta tutte le carte del tavolo nelle prese dell'utente
+
+        getCarteSulTavolo().getCarteNelMazzo().clear();
+        this.ultimoGiocatoreCheHapreso = username;
+        salvaPartita();
+    }
+
     /**
      * Questo metodo sarà probabilmente utilizzato solo dagli utenti CPU e andrà
      * modificato.
