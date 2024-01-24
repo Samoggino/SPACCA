@@ -41,8 +41,8 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Label layoutX="352.0" layoutY="117.0" prefHeight="15" prefWidth="149" text="Email : " />
-      <Label fx:id="labelPassword" layoutX="117.0" layoutY="280.0" prefHeight="15" prefWidth="149">
+      <Label layoutX="352.0" layoutY="117.0" prefHeight="20" prefWidth="149" text="Email : " />
+      <Label fx:id="labelPassword" layoutX="117.0" layoutY="280.0" prefHeight="20" prefWidth="149">
          <font>
             <Font size="10" />
          </font>

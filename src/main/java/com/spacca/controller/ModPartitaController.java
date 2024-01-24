@@ -18,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -50,7 +49,7 @@ public class ModPartitaController implements Initializable {
     @FXML
     private Button indietro;
 
-    private Stage popupStage; // Riferimento allo Stage del popup
+    // private Stage popupStage;
 
     @FXML
     private void handleAvviaButton() {
@@ -109,47 +108,14 @@ public class ModPartitaController implements Initializable {
         currentStage.show();
     }
 
-    // private void popolaChoiceBoxConUtenti() {
-    /*
-     * // Imposta il percorso della cartella degli utenti
-     * String folderPath = "src/main/resources/com/spacca/database/giocatori/";
-     * 
-     * // Ottieni la lista di file nella cartella
-     * File folder = new File(folderPath);
-     * File[] files = folder.listFiles();
-     * 
-     * if (files != null) {
-     * List<String> nomiUtenti = new ArrayList<>();
-     * 
-     * // Filtra e leggi i file JSON
-     * for (File file : files) {
-     * if (file.isFile() && file.getName().endsWith(".json")) {
-     * try {
-     * // Leggi il giocatore dal file
-     * FileHandler fileHandler = new FileHandler();
-     * Giocatore giocatore = fileHandler.leggiUtente(file);
-     * 
-     * // Aggiungi il nome utente alla lista
-     * nomiUtenti.add(giocatore.getUsername());
-     * } catch (Exception e) {
-     * e.printStackTrace();
-     * // Gestisci eventuali errori di lettura
-     * }
-     * }
-     * }
-     * 
-     * // Popola il ChoiceBox con la lista di nomi utenti
-     * listaCodici.getItems().addAll(nomiUtenti);
-     * }
-     */
-    // }
-
     @FXML
     private void handleIndietroButton() {
-        changeSceneUtente("/com/spacca/pages/benvenutoUtente.fxml", giocatoreCorrente);
+        changeSceneUtente(("Benvenuto " + giocatoreCorrente.getUsername() + " !"),
+                "/com/spacca/pages/benvenutoUtente.fxml",
+                giocatoreCorrente);
     }
 
-    public void changeSceneUtente(String fxmlPath, Object controllerData) {
+    public void changeSceneUtente(String titolo, String fxmlPath, Object controllerData) {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
             Parent root = loader.load();
@@ -163,14 +129,15 @@ public class ModPartitaController implements Initializable {
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
 
+            currentStage.setTitle(titolo);
             currentStage.setScene(new Scene(root));
             currentStage.show();
         } catch (NullPointerException e) {
-            System.out.println("Login avvenuto con successo!");
+            System.out.println("mmod partita non trovato !");
         } catch (IOException e) {
-            System.err.println("Errore (changeScene login): \n" + e.getMessage());
+            System.err.println("Errore (changeScene mod partita): \n" + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Errore (changeScene login): \n" + e.getMessage());
+            System.err.println("Errore (changeScene mod partita): \n" + e.getMessage());
         }
     }
 
@@ -188,16 +155,10 @@ public class ModPartitaController implements Initializable {
         }
     }
 
-    public void initController(AbstractGiocatore giocatoreCorrente, List<AbstractGiocatore> giocatoriDellaPartita2) {
+    public void initController(AbstractGiocatore giocatoreCorrente) {
 
         this.giocatoreCorrente = giocatoreCorrente;
-        popupStage = new Stage();
-        popupStage.setTitle("Modalità partita");
-
-        Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/icone/logo.jpg"));
-        popupStage.getIcons().add(icon);
-
-        // popolaChoiceBoxConUtenti();
+        // TOO-DOO popolaChoiceBoxConUtenti();
     }
 
     @Override

@@ -34,28 +34,32 @@ public class BenvenutoUtenteController implements Initializable {
     private void handleGiocaButton() {
         // Mostra lo stage del popup
         try {
-            changeScene("/com/spacca/pages/modpartita.fxml");
+            changeScene("Modalità partita", "/com/spacca/pages/modpartita.fxml");
         } catch (Exception e) {
             System.err.println("Errore durante il caricamento di modpartita.fxml: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    private void changeScene(String path) {
+    private void changeScene(String title, String path) {
         try {
+            System.out.println("Siamo dentro Benvenuto utente controller change scene");
             // Carica il nuovo layout FXML per il PartitaController
             FXMLLoader loader = new FXMLLoader(App.class.getResource(path));
             Parent root = loader.load();
+
+            System.out.println("Benvenuto utente controller change scene giocatore corrente : " + giocatoreCorrente);
+
             ModPartitaController modController = loader.getController();
             loader.setController(partitaController);
-            modController.initController(giocatoreCorrente, giocatoriDellaPartita);
+
+            modController.initController(giocatoreCorrente);
             // Ottieni la scena corrente
             Scene currentScene = gioca.getScene();
 
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
-
-            // Imposta la nuova scena sulla finestra di scena corrente
+            currentStage.setTitle(title);
             currentStage.setScene(new Scene(root));
             currentStage.show();
 
@@ -68,7 +72,8 @@ public class BenvenutoUtenteController implements Initializable {
     public void initController(AbstractGiocatore giocatoreCorrente) {
 
         try {
-            this.giocatoriDellaPartita.add(this.giocatoreCorrente);
+            this.giocatoreCorrente = giocatoreCorrente;
+            // this.giocatoriDellaPartita.add(this.giocatoreCorrente);
         } catch (Exception e) {
             System.err.println("ERRORE (pre):\t\t " + e.getMessage());
         }
