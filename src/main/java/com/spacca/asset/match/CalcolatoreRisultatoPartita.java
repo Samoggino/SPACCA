@@ -1,5 +1,7 @@
 package com.spacca.asset.match;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.spacca.asset.carte.Carta;
@@ -42,8 +44,8 @@ public class CalcolatoreRisultatoPartita {
      * @return una stringa rappresentante il vincitore della partita
      */
     public static String calcolaVincitore(Map<String, Mazzo> preseDeiGiocatori) {
-        String vincitore = null;
-        int punteggioVincitore = Integer.MIN_VALUE;
+        List<String> vincitori = new ArrayList<>();
+        int punteggioMassimo = 0;
 
         for (Map.Entry<String, Mazzo> entry : preseDeiGiocatori.entrySet()) {
             int punti = entry
@@ -53,12 +55,21 @@ public class CalcolatoreRisultatoPartita {
                     .mapToInt(Carta::getPunti)
                     .sum();
 
-            if (punti > punteggioVincitore) {
-                punteggioVincitore = punti;
-                vincitore = entry.getKey();
+            if (punti > punteggioMassimo) {
+                punteggioMassimo = punti;
+                vincitori.clear();
+                vincitori.add(entry.getKey());
+            } else if (punti == punteggioMassimo) {
+                vincitori.add(entry.getKey());
             }
         }
 
-        return "Il vincitore della partita è: " + vincitore + " con " + punteggioVincitore + " punti.";
+        if (vincitori.size() == 1) {
+            return "Il vincitore della partita è: " + vincitori.get(0) + " con " + punteggioMassimo + " punti.";
+        } else {
+            return "La partita è finita in pareggio tra i giocatori: " + String.join(", ", vincitori) + " con "
+                    + punteggioMassimo + " punti ciascuno.";
+        }
     }
+
 }

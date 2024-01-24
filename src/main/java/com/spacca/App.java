@@ -34,8 +34,7 @@ public class App extends Application {
             // AbstractGiocatore SmartCPU = new SmartCPU("smartCPU");
             Amministratore amministratore = new Amministratore();
 
-            List<AbstractGiocatore> giocatoriDellaPartita = List.of(YOSHI, MARIO, LUIGI,
-                    WARIO);
+            List<AbstractGiocatore> giocatoriDellaPartita = List.of(YOSHI, MARIO, LUIGI, WARIO);
             Partita partita = amministratore.creaPartita(giocatoriDellaPartita);
             partita.nuovoTurno();
 
