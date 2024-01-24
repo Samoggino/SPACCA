@@ -377,7 +377,6 @@ public class Partita extends Object {
             }
 
             if (cartaSulTavolo.getNome() == cartaDellaMano.getNome()) {
-
                 getManoDellUtente(username).rimuoviCartaDalMazzo(cartaDellaMano);
                 getCarteSulTavolo().rimuoviCartaDalMazzo(cartaSulTavolo);
                 getPreseDellUtente(username).aggiungiCarteAlMazzo(cartaDellaMano, cartaSulTavolo);
@@ -392,32 +391,6 @@ public class Partita extends Object {
         }
         System.out.println("Non puoi prendere la carta");
         return false;
-    }
-
-    boolean checkPresa(Carta cartaSulTavolo, Carta cartaDellaMano) {
-        // controlla che il giocatore possa prendere quella carta
-        if (getManoDellUtente(getGiocatoreCorrente()) == null) {
-            System.out.println("Non puoi prendere carte dal tavolo");
-            return false;
-        }
-        if (cartaSulTavolo == null || cartaDellaMano == null) {
-            return false;
-        }
-        // se entrambe le carte fanno parte della mano dell'utente
-        // non puoi prendere la carta
-
-        if (getManoDellUtente(getGiocatoreCorrente()).getCarteNelMazzo().contains(cartaSulTavolo)
-                && getManoDellUtente(getGiocatoreCorrente()).getCarteNelMazzo()
-                        .contains(cartaDellaMano)) {
-            System.out.println("Non puoi prendere la tua stessa carta");
-            return false;
-        }
-
-        if (cartaSulTavolo.getValore() != cartaDellaMano.getValore()) {
-            System.out.println("Non puoi prendere la carta");
-            return false;
-        }
-        return true;
     }
 
     public Carta getCartaInCima(String username) {
