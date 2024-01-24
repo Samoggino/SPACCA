@@ -44,13 +44,16 @@ public class Partita extends Object {
     @SerializedName("è il turno di")
     private String giocatoreCorrente = "nessuno";
 
+    @SerializedName("vincitore")
+    private String vincitore;
+
     transient String ultimoGiocatoreCheHapreso = "";
 
     // codice della partita
     @SerializedName("codice")
     private String codice = "codice default";
 
-    transient private PartitaHandler handlerPartita = new PartitaHandler();
+    private PartitaHandler handlerPartita = new PartitaHandler();
 
     public String getGiocatoreCorrente() {
         return this.giocatoreCorrente;
@@ -96,6 +99,9 @@ public class Partita extends Object {
     public void salvaPartita() {
         try {
             calcolaRisultato();
+            if (this.handlerPartita == null) {
+                this.handlerPartita = new PartitaHandler();
+            }
             this.handlerPartita.salva(this, this.codice);
         } catch (Exception e) {
             System.err.println("Errore nel salvare la partita" + e.getMessage());
@@ -107,7 +113,7 @@ public class Partita extends Object {
     }
 
     public String getRisultato() {
-        return this.risultato;
+        return calcolaVincitore();
     }
 
     public Map<String, Mazzo> getManoDeiGiocatori() {
@@ -454,5 +460,15 @@ public class Partita extends Object {
         }
         System.out.println("Ci sono abbastanza carte nel mazzo per distribuire le carte!");
         return true;
+    }
+
+    public String calcolaVincitore() {
+        this.vincitore = CalcolatoreRisultatoPartita.calcolaVincitore(getPreseDeiGiocatori());
+        salvaPartita();
+        return this.vincitore;
+    }
+
+    public String getVincitore() {
+        return this.vincitore;
     }
 }

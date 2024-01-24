@@ -21,6 +21,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 public class TavoloController implements Initializable {
 
@@ -29,10 +30,7 @@ public class TavoloController implements Initializable {
     private Carta cartaDellaMano;
 
     @FXML
-    public Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane;
-
-    @FXML
-    public Pane tavolo;
+    public Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane, overlay, tavolo;
 
     @FXML
     public GridPane piatto;
@@ -42,6 +40,9 @@ public class TavoloController implements Initializable {
 
     @FXML
     public FlowPane playerHand;
+
+    @FXML
+    public Text andTheWinnerIs, risultatoOverlay;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -63,14 +64,20 @@ public class TavoloController implements Initializable {
     }
 
     void buildView() {
+        overlay.setVisible(false);
         try {
-            if (partita.isNecessarioRidistribuireLeCarte()) {
+            if (partita.getVincitore() != null) {
+                buildOverlay();
+            } else if (partita.isNecessarioRidistribuireLeCarte()) {
                 partita.nuovoTurno();
             }
 
             buildGiocatore();
             buildHand();
             buildTable();
+
+            buildOverlay();
+
         } catch (Exception e) {
             System.err.println("ERRORE (buildView):\t\t " + e.getMessage());
             e.printStackTrace();
@@ -88,6 +95,8 @@ public class TavoloController implements Initializable {
 
             // Aggiungi il gestore di eventi per iniziare il trascinamento
             cartaView.setOnDragDetected(event -> iniziaTrascinamento(cartaDellaMano, cartaView));
+
+            FlowPane.setMargin(cartaView, new Insets(5));
 
             playerHand.getChildren().add(cartaView);
         }
@@ -166,6 +175,27 @@ public class TavoloController implements Initializable {
                 break;
         }
 
+    }
+
+    void buildOverlay() {
+        try {
+            if (partita.getCarteSulTavolo().getCarteNelMazzo().size() == 0
+                    && partita.getMazzoDiGioco().getCarteNelMazzo().size() == 0) {
+                overlay.setVisible(true);
+                andTheWinnerIs.setText(partita.getVincitore());
+
+                String risultato = partita.getRisultato();
+
+                // Centra il testo orizzontalmente e verticalmente
+
+                risultatoOverlay.setText(risultato);
+                risultatoOverlay.setTextAlignment(TextAlignment.CENTER);
+            }
+
+        } catch (Exception e) {
+            System.err.println("ERRORE (buildOverlay):\t\t " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     void iniziaTrascinamento(Carta cartaDellaMano, ImageView cartaView) {
