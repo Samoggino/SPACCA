@@ -144,8 +144,6 @@ public class RegistrazioneController implements Initializable {
             BenvenutoAdminController prePartita = loader.getController();
             loader.setController(prePartita);
 
-            prePartita.initController((Giocatore) controllerData);
-
             Stage currentStage = (Stage) App.getScene().getWindow();
 
             currentStage.setScene(new Scene(root));

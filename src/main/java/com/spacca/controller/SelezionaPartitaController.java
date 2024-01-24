@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import com.spacca.App;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.database.PartitaHandler;
 
 import javafx.fxml.FXML;
@@ -40,14 +39,7 @@ public class SelezionaPartitaController implements Initializable {
     private String nomeFilePartitaScelto;
 
     @FXML
-    public void initController(Giocatore utenteCorrente) {
-        try {
-            this.giocatoreCorrente = utenteCorrente;
-        } catch (NullPointerException e) {
-            System.err.println("ERRORE NullPointerException:\t\t " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("ERRORE eccezione:\t\t " + e.getMessage());
-        }
+    public void initController() {
     }
 
     @Override
@@ -67,7 +59,7 @@ public class SelezionaPartitaController implements Initializable {
 
             // Rimuovi "user-" e ".json" dai nomi dei file
             List<String> modifiedFileNames = fileNames.stream()
-                    .map(fileName -> fileName.replace("user-", "").replace(".json", ""))
+                    .map(fileName -> fileName.replace("P", "").replace(".json", ""))
                     .collect(Collectors.toList());
 
             // Popola il ChoiceBox con la lista dei nomi dei file
@@ -99,7 +91,7 @@ public class SelezionaPartitaController implements Initializable {
             alert.showAndWait();
         } else {
             System.out.println("Parita selezionata " + nomeFilePartitaScelto);
-            String nomeFileEsteso = "user-" + nomeFilePartitaScelto + ".json";
+            String nomeFileEsteso = "P" + nomeFilePartitaScelto + ".json";
 
             PartitaHandler partitaHandler = new PartitaHandler();
             partitaHandler.elimina(nomeFileEsteso);

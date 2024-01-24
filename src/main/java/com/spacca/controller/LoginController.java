@@ -147,7 +147,6 @@ public class LoginController implements Initializable {
             // Logica per inizializzare il controller se necessario
             BenvenutoAdminController prePartita = loader.getController();
             loader.setController(prePartita);
-            prePartita.initController((Giocatore) controllerData);
 
             Scene currentScene = loginButton.getScene();
 

@@ -40,13 +40,6 @@ public class SelezionaUenteController implements Initializable {
 
     @FXML
     public void initController(Giocatore utenteCorrente) {
-        try {
-            this.giocatoreCorrente = utenteCorrente;
-        } catch (NullPointerException e) {
-            System.err.println("ERRORE NullPointerException:\t\t " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("ERRORE eccezione:\t\t " + e.getMessage());
-        }
     }
 
     @Override

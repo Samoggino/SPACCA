@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.spacca.App;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.asset.utente.giocatore.Giocatore;
+import com.spacca.database.GiocatoreHandler;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,43 +38,35 @@ public class BenvenutoAdminController {
 
     @FXML
     private void initialize() throws IOException {
+        GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
+        giocatoreCorrente = giocatoreHandler.carica("src/main/resources/com/spacca/database/giocatori/user-admin.json");
     }
 
-    public void initController(Giocatore giocatoreCorrente) {
-
-        try {
-
-            this.giocatoreCorrente = giocatoreCorrente;
-
-        } catch (NullPointerException e) {
-            System.err.println("ERRORE NullPointerException:\t\t " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("ERRORE eccezione:\t\t " + e.getMessage());
-        }
+    public void initController() {
     }
 
     @FXML
     private void handleModificaUtente() {
-        System.out.println("Siamo in Modifica utente" + giocatoreCorrente);
+        System.out.println("Siamo in Modifica utente");
         String titlePages = "Modifica utente ";
-        changeSceneModificaUtente("/com/spacca/pages/selezionaUtente.fxml", giocatoreCorrente, titlePages);
+        changeSceneModificaUtente("/com/spacca/pages/selezionaUtente.fxml", titlePages);
     }
 
     @FXML
     private void handleElimnaPartita() {
         System.out.println("Siamo in Elimina partita" + giocatoreCorrente);
         String titlePages = "Elimina partita ";
-        changeSceneEliminaPartita("/com/spacca/pages/selezionaPartita.fxml", giocatoreCorrente, titlePages);
+        changeSceneEliminaPartita("/com/spacca/pages/selezionaPartita.fxml", titlePages);
     }
 
     @FXML
     private void handleCreazioneUtente() {
-        System.out.println("Siamo in Creazione utente" + giocatoreCorrente);
+        System.out.println("Siamo in Creazione utente");
         String titlePages = "Creazione nuovo utente ";
-        changeSceneCreazioneUtente("/com/spacca/pages/creazioneUtente.fxml", giocatoreCorrente, titlePages);
+        changeSceneCreazioneUtente("/com/spacca/pages/modCreazioneUtente.fxml", titlePages);
     }
 
-    public void changeSceneModificaUtente(String fxmlPath, Object controllerData, String titlePages) {
+    public void changeSceneModificaUtente(String fxmlPath, String titlePages) {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
             Parent root = loader.load();
@@ -83,7 +75,6 @@ public class BenvenutoAdminController {
 
             SelezionaUenteController selezionaUenteController = loader.getController();
             loader.setController(selezionaUenteController);
-            selezionaUenteController.initController((Giocatore) controllerData);
 
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
@@ -101,7 +92,7 @@ public class BenvenutoAdminController {
         }
     }
 
-    public void changeSceneEliminaPartita(String fxmlPath, Object controllerData, String titlePages) {
+    public void changeSceneEliminaPartita(String fxmlPath, String titlePages) {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
             Parent root = loader.load();
@@ -110,7 +101,6 @@ public class BenvenutoAdminController {
 
             SelezionaPartitaController selezionaUenteController = loader.getController();
             loader.setController(selezionaUenteController);
-            selezionaUenteController.initController((Giocatore) controllerData);
 
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
@@ -128,16 +118,12 @@ public class BenvenutoAdminController {
         }
     }
 
-    public void changeSceneCreazioneUtente(String fxmlPath, Object controllerData, String titlePages) {
+    public void changeSceneCreazioneUtente(String fxmlPath, String titlePages) {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
             Parent root = loader.load();
 
             Scene currentScene = bottoneModificaUtente.getScene();
-
-            CreazioneUtenteController creazioneUtenteController = loader.getController();
-            loader.setController(creazioneUtenteController);
-            creazioneUtenteController.initController((Giocatore) controllerData);
 
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();

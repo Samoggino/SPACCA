@@ -211,11 +211,10 @@ public class CreazioneUtenteController implements Initializable {
 
     public void tornaIndietro() throws IOException {
         giocatoreCorrente = giocatoreHandler.carica("src/main/resources/com/spacca/database/giocatori/user-admin.json");
-        System.out.println("Giocatore torna indietro" + giocatoreCorrente);
-        changeSceneAdmin("/com/spacca/pages/benvenutoAdmin.fxml", giocatoreCorrente);
+        changeSceneAdmin("/com/spacca/pages/benvenutoAdmin.fxml");
     }
 
-    private void changeSceneAdmin(String fxmlPath, Giocatore giocatore) throws IOException {
+    private void changeSceneAdmin(String fxmlPath) throws IOException {
         FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
         Parent root = loader.load();
 
@@ -223,7 +222,6 @@ public class CreazioneUtenteController implements Initializable {
 
         BenvenutoAdminController benvenutoAdminController = loader.getController();
         loader.setController(benvenutoAdminController);
-        benvenutoAdminController.initController((Giocatore) giocatore);
 
         // Ottieni lo Stage dalla scena corrente
         Stage currentStage = (Stage) currentScene.getWindow();
@@ -244,8 +242,7 @@ public class CreazioneUtenteController implements Initializable {
         }
     }
 
-    public void initController(Giocatore controllerData) {
-        this.giocatoreCorrente = controllerData;
+    public void initController() {
     }
 
 }
