@@ -1,11 +1,15 @@
 package com.spacca.controller;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Nome;
 import com.spacca.asset.match.Partita;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.database.GiocatoreHandler;
+import com.spacca.database.PartitaHandler;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,6 +33,8 @@ public class TavoloController implements Initializable {
     private Partita partita;
     private Carta cartaDelTavolo;
     private Carta cartaDellaMano;
+    private List<AbstractGiocatore> giocatori;
+    private GiocatoreHandler giocatoreHandler;
 
     @FXML
     public Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane, overlay, tavolo;
@@ -54,6 +60,13 @@ public class TavoloController implements Initializable {
 
             this.partita = partita;
             System.out.println("Partita: " + partita.getCodice());
+
+            for (String giocatore : partita.getListaDeiGiocatori()) {
+                giocatori.add(giocatoreHandler.carica("src/main/resources/com/spacca/database/giocatori/user-"
+                        + giocatore + ".json"));
+                System.out.println("Giocatore: " + giocatore);
+            }
+
             // metti come titolo dello stage il codice della partita
 
             buildView();
@@ -180,6 +193,8 @@ public class TavoloController implements Initializable {
     }
 
     void buildOverlay() {
+        // FIXME: la stampa del andTheWinnerIs non funziona, non viene visualizzato il
+        // nome del vincitore
         try {
             if (partita.getCarteSulTavolo().getCarteNelMazzo().size() == 0
                     && partita.getMazzoDiGioco().getCarteNelMazzo().size() == 0) {
@@ -192,12 +207,25 @@ public class TavoloController implements Initializable {
 
                 risultatoOverlay.setText(risultato);
                 risultatoOverlay.setTextAlignment(TextAlignment.CENTER);
+                finePartitaHandler();
             }
 
         } catch (Exception e) {
             System.err.println("ERRORE (buildOverlay):\t\t " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    void finePartitaHandler() {
+        // rimuovi il codice dalle liste dei giocatori
+        for (AbstractGiocatore abstractGiocatore : giocatori) {
+            abstractGiocatore.getListaCodiciPartite().remove(partita.getCodice());
+            giocatoreHandler.salva(abstractGiocatore, abstractGiocatore.getUsername());
+        }
+
+        // elimina il file della partita
+        PartitaHandler partitaHandler = new PartitaHandler();
+        partitaHandler.elimina(partita.getCodice());
     }
 
     void iniziaTrascinamento(Carta cartaDellaMano, ImageView cartaView) {
@@ -267,11 +295,11 @@ public class TavoloController implements Initializable {
         }
     }
 
-    void prendiCartaHandler(Carta cartaSelezionata, Carta cartaDallaManoDellUtente) {
+    void prendiCartaHandler(Carta cartaDiDestinazione, Carta cartaDallaManoDellUtente) {
 
-        System.out.println(cartaSelezionata);
+        System.out.println(cartaDiDestinazione);
 
-        boolean cartaPresa = partita.prendiCartaConCartaDellaMano(partita.getGiocatoreCorrente(), cartaSelezionata,
+        boolean cartaPresa = partita.prendiCartaConCartaDellaMano(partita.getGiocatoreCorrente(), cartaDiDestinazione,
                 cartaDallaManoDellUtente);
 
         if (cartaPresa) {
@@ -349,9 +377,6 @@ public class TavoloController implements Initializable {
         }
 
     }
-
-    // private void rubaUnMazzoHandler(String giocatore, MouseEvent event) {
-    // }
 
     ImageView getImmagineCorrente(Pane containerPane) {
         return containerPane.getChildren().stream()
