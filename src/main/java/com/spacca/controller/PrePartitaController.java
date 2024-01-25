@@ -1,10 +1,8 @@
 package com.spacca.controller;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import com.spacca.App;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
@@ -13,14 +11,13 @@ import com.spacca.asset.utente.giocatore.Giocatore;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class PrePartitaController implements Initializable {
+public class PrePartitaController  {
 
     AbstractGiocatore YOSHI = new Giocatore("Yoshi", "", "");
     AbstractGiocatore MARIO = new Giocatore("Mario", "", "");
@@ -35,11 +32,6 @@ public class PrePartitaController implements Initializable {
 
     @FXML
     private VBox buttonContainer;
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-    }
 
     private void handleButtonAction(ActionEvent event) {
         try {

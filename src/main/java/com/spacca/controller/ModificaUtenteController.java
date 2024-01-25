@@ -2,33 +2,31 @@ package com.spacca.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import com.spacca.App;
 import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.database.GiocatoreHandler;
+import com.spacca.database.Handler;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-//TOO DO MODIFICA UTENTE PERMETTENDO LA MODIFICA DI OGNI SINGOLO ELEMENTO )
+//TODO MODIFICA UTENTE PERMETTENDO LA MODIFICA DI OGNI SINGOLO ELEMENTO )
 
-public class ModificaUtenteController implements Initializable {
+public class ModificaUtenteController {
 
     @FXML
-    private String utenteScelto; // estensione completa --> user- (username).json
+    private String usernameScelto; // estensione completa --> user- (username).json
 
     @FXML
     private Giocatore giocatoreScelto;
@@ -59,13 +57,9 @@ public class ModificaUtenteController implements Initializable {
     @FXML
     private Label title;
 
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-    }
-
     @FXML
     private void procediModifica() {
-        GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
+        GiocatoreHandler handler = new GiocatoreHandler();
 
         System.out.println("Siamo in procedi modifica");
         System.out.println("Utente corrente " + giocatoreScelto);
@@ -80,7 +74,6 @@ public class ModificaUtenteController implements Initializable {
             if (!email.isEmpty() && controllaInserimentoEmail(email)) {
                 giocatoreScelto.setEmail(email);
                 System.out.println("Utente corrente modifica mail " + giocatoreScelto.getEmail());
-
             }
             if (!password.isEmpty()) {
                 labelPassword.setText("Password inserita !");
@@ -88,20 +81,9 @@ public class ModificaUtenteController implements Initializable {
                 System.out.println("Utente corrente modifica password" + giocatoreScelto.getPassword());
             }
 
-            giocatoreHandler.modifica(utenteScelto, giocatoreScelto);
+            giocatoreScelto = handler.modifica(usernameScelto, giocatoreScelto);
 
-            if (!username.isEmpty() && controllaInserimentoUsername(username)) {
-                // elimino vecchio file
-                giocatoreHandler.elimina(utenteScelto);
-                // modifico lo username del vecchio utente con il corrente
-                giocatoreScelto.setUsername(username);
-                System.out.println("Utente corrente modifica username" + giocatoreScelto);
-
-                // salvo il nuovo utente in un nuovo file
-                giocatoreHandler.salva(giocatoreScelto, username);
-            }
-            String utenteSceltoslim = utenteScelto.replace("user-", "").replace(".json", "");
-            showAlert("Utente " + utenteSceltoslim + "modificato con successo!", AlertType.INFORMATION,
+            showAlert("Utente " + giocatoreScelto.getUsername() + "modificato con successo!", AlertType.INFORMATION,
                     "Modifica effettuata correttamente");
             changeScene("/com/spacca/pages/benvenutoAdmin.fxml");
         }
@@ -124,8 +106,8 @@ public class ModificaUtenteController implements Initializable {
 
                 // Verifica se il file esiste
                 if (userFile.exists() && userFile.isFile()) {
-                    GiocatoreHandler file = new GiocatoreHandler();
-                    Giocatore utente = file.carica(path);
+                    Handler file = new GiocatoreHandler();
+                    Giocatore utente = (Giocatore) file.carica(username);
 
                     System.out.println(utente);
 
@@ -217,28 +199,23 @@ public class ModificaUtenteController implements Initializable {
     }
 
     @FXML
-    public void initController(String nomeFile) {
+    public void initController(String username) {
         try {
 
-            this.utenteScelto = nomeFile;
+            this.usernameScelto = username;
 
-            String senzaUser = utenteScelto.replace("user-", "");
-            // Rimuovi ".json" dalla fine della stringa
-            String senzaJson = senzaUser.replace(".json", "");
-
-            title.setText("Modifica utente " + senzaJson);
+            title.setText("Modifica utente " + username);
 
             // in base al nome del file carico i dati dell'utente e carico il suo file per
             // la modifica
 
-            String path = "src/main/resources/com/spacca/database/giocatori/" + nomeFile;
-            GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
+            Handler giocatoreHandler = new GiocatoreHandler();
 
-            this.giocatoreScelto = giocatoreHandler.carica(path);
+            this.giocatoreScelto = (Giocatore) giocatoreHandler.carica(username);
 
-            passwordField.setPromptText(giocatoreScelto.getPassword());
-            usernameField.setPromptText(giocatoreScelto.getUsername());
-            emailField.setPromptText(giocatoreScelto.getEmail());
+            passwordField.setPromptText(this.giocatoreScelto.getPassword());
+            usernameField.setPromptText(this.giocatoreScelto.getUsername());
+            emailField.setPromptText(this.giocatoreScelto.getEmail());
 
         } catch (NullPointerException e) {
             System.out.println("utente scelto null" + e);

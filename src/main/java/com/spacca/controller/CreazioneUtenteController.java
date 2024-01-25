@@ -210,7 +210,7 @@ public class CreazioneUtenteController implements Initializable {
     }
 
     public void tornaIndietro() throws IOException {
-        giocatoreCorrente = giocatoreHandler.carica("src/main/resources/com/spacca/database/giocatori/user-admin.json");
+        giocatoreCorrente = giocatoreHandler.carica("admin");
         changeSceneAdmin("/com/spacca/pages/benvenutoAdmin.fxml");
     }
 

@@ -1,23 +1,20 @@
 package com.spacca.controller;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import com.spacca.App;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class BenvenutoUtenteController implements Initializable {
+public class BenvenutoUtenteController {
 
     List<AbstractGiocatore> giocatoriDellaPartita = new ArrayList<>(); // Inizializzazione della lista
     AbstractGiocatore giocatoreCorrente;
@@ -25,10 +22,6 @@ public class BenvenutoUtenteController implements Initializable {
 
     @FXML
     private Button gioca;
-
-    @FXML
-    private void initialize() throws IOException {
-    }
 
     @FXML
     private void handleGiocaButton() {
@@ -79,7 +72,4 @@ public class BenvenutoUtenteController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    }
 }

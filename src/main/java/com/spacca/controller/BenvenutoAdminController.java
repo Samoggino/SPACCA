@@ -39,7 +39,7 @@ public class BenvenutoAdminController {
     @FXML
     private void initialize() throws IOException {
         GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
-        giocatoreCorrente = giocatoreHandler.carica("src/main/resources/com/spacca/database/giocatori/user-admin.json");
+        giocatoreCorrente = giocatoreHandler.carica("admin");
     }
 
     public void initController() {
@@ -73,7 +73,7 @@ public class BenvenutoAdminController {
 
             Scene currentScene = bottoneModificaUtente.getScene();
 
-            SelezionaUenteController selezionaUenteController = loader.getController();
+            SelezionaUtenteController selezionaUenteController = loader.getController();
             loader.setController(selezionaUenteController);
 
             // Ottieni lo Stage dalla scena corrente

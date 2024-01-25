@@ -1,16 +1,13 @@
 package com.spacca.controller;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Mazzo;
 import com.spacca.asset.match.Partita;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -24,7 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
-public class TavoloController implements Initializable {
+public class TavoloController {
 
     private Partita partita;
     private List<String> giocatori;
@@ -45,10 +42,6 @@ public class TavoloController implements Initializable {
 
     @FXML
     public FlowPane playerHand;
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    }
 
     void initController(Partita partita) {
         try {

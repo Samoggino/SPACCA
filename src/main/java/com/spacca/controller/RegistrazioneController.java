@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import com.spacca.App;
 import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.database.GiocatoreHandler;
+import com.spacca.database.Handler;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -215,8 +216,8 @@ public class RegistrazioneController implements Initializable {
 
                 // Verifica se il file esiste
                 if (userFile.exists() && userFile.isFile()) {
-                    GiocatoreHandler file = new GiocatoreHandler();
-                    Giocatore utente = file.carica(path);
+                    Handler file = new GiocatoreHandler();
+                    Giocatore utente = (Giocatore) file.carica(username);
 
                     if (utente.getUsername().equals(username)) {
                         labelUsername.setText("Username già in utilizzo! ");

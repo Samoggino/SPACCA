@@ -1,10 +1,8 @@
 package com.spacca.controller;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import com.spacca.App;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
@@ -12,7 +10,6 @@ import com.spacca.asset.utente.giocatore.Giocatore;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -22,7 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class ModPartitaController implements Initializable {
+public class ModPartitaController {
 
     List<AbstractGiocatore> giocatoriDellaPartita = new ArrayList<>(); // Inizializzazione della lista
     AbstractGiocatore giocatoreCorrente;
@@ -159,10 +156,6 @@ public class ModPartitaController implements Initializable {
 
         this.giocatoreCorrente = giocatoreCorrente;
         // TOO-DOO popolaChoiceBoxConUtenti();
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
     }
 
 }

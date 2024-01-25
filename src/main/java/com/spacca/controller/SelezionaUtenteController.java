@@ -2,13 +2,12 @@ package com.spacca.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 import com.spacca.App;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
+import com.spacca.database.GiocatoreHandler;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,9 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 
-import java.nio.file.*;
-
-public class SelezionaUenteController implements Initializable {
+public class SelezionaUtenteController implements Initializable {
 
     @FXML
     private AbstractGiocatore giocatoreCorrente;
@@ -30,13 +27,10 @@ public class SelezionaUenteController implements Initializable {
     private ChoiceBox<String> listaUtenti;
 
     @FXML
-    private Button indietro;
+    private Button indietro, procedi;
 
     @FXML
-    private Button procedi;
-
-    @FXML
-    private String nomeFileUtenteScelto;
+    private String username;
 
     @FXML
     public void initController(Giocatore utenteCorrente) {
@@ -44,40 +38,18 @@ public class SelezionaUenteController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            String folderPath = "/com/spacca/database/giocatori";
 
-            // Ottieni il percorso completo della cartella delle risorse
-            Path resourceFolder = Paths.get(getClass().getResource(folderPath).toURI());
+        GiocatoreHandler handler = new GiocatoreHandler();
 
-            // Ottieni la lista dei nomi dei file JSON presenti nella cartella
-            // esclludo gli amministratori e gli utenti robot
-            List<String> fileNames = Files.list(resourceFolder)
-                    .filter(path -> path.toString().endsWith(".json") && Files.isRegularFile(path))
-                    .filter(path -> !path.getFileName().toString().equals("user-admin.json"))
-                    .filter(path -> !path.getFileName().toString().startsWith("user-RS-"))
-                    .filter(path -> !path.getFileName().toString().startsWith("user-RI-"))
-                    .map(path -> path.getFileName().toString())
-                    .collect(Collectors.toList());
+        // Popola il ChoiceBox con la lista dei nomi dei file
+        listaUtenti.getItems().addAll(handler.getAllGiocatori());
 
-            // Rimuovi "user-" e ".json" dai nomi dei file
-            List<String> modifiedFileNames = fileNames.stream()
-                    .map(fileName -> fileName.replace("user-", "").replace(".json", ""))
-                    .collect(Collectors.toList());
-
-            // Popola il ChoiceBox con la lista dei nomi dei file
-            listaUtenti.getItems().addAll(modifiedFileNames);
-
-            listaUtenti.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                System.out.println("Utente selezionato: " + newValue);
-                // Salva il valore selezionato nella variabile globale
-                this.nomeFileUtenteScelto = newValue;
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        listaUtenti.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    System.out.println("Utente selezionato: " + newValue);
+                    // Salva il valore selezionato nella variabile globale
+                    this.username = newValue;
+                });
     }
 
     public void handleIndietro() {
@@ -85,30 +57,30 @@ public class SelezionaUenteController implements Initializable {
     }
 
     public void handleProcedi() {
-        System.out.println("Siamo in procedi della selezione utente" + nomeFileUtenteScelto);
-        if (nomeFileUtenteScelto == null) {
+        System.out.println("Siamo in procedi della selezione utente" + username);
+        if (username == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("");
             alert.setHeaderText("");
             alert.setContentText("Non puoi procedere alla modifica \n se non selezioni alcun utente ! ");
             alert.showAndWait();
         } else {
-            changeSceneModificaUTente("/com/spacca/pages/modificaUtente.fxml", nomeFileUtenteScelto);
+            changeSceneModificaUTente(username);
         }
     }
 
-    private void changeSceneModificaUTente(String path, String nomeFile) {
+    private void changeSceneModificaUTente(String username) {
         try {
+            System.out.println("SIMO" + username + "\n\n\n\n");
+
             // Carica il nuovo layout FXML per il PartitaController
-            FXMLLoader loader = new FXMLLoader(App.class.getResource(path));
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/modificaUtente.fxml"));
             Parent root = loader.load();
 
             ModificaUtenteController modificaUtenteController = loader.getController();
             loader.setController(modificaUtenteController);
 
-            String nomeFileEsteso = "user-" + nomeFileUtenteScelto + ".json";
-
-            modificaUtenteController.initController(nomeFileEsteso);
+            modificaUtenteController.initController(username);
 
             // Ottieni la scena corrente
             Scene currentScene = procedi.getScene();
@@ -116,7 +88,7 @@ public class SelezionaUenteController implements Initializable {
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
 
-            currentStage.setTitle("Modifica utente " + nomeFileUtenteScelto);
+            currentStage.setTitle("Modifica utente " + username);
             currentStage.setScene(new Scene(root));
             currentStage.show();
 
@@ -140,7 +112,7 @@ public class SelezionaUenteController implements Initializable {
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
 
-            currentStage.setTitle("Benvenuto Admin ! ");
+            currentStage.setTitle("Benvenuto Admin! ");
             currentStage.setScene(new Scene(root));
             currentStage.show();
 

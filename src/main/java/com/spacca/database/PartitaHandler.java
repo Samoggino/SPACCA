@@ -81,14 +81,26 @@ public class PartitaHandler implements Handler {
         return partita;
     }
 
-    @Override // attenzione passare il codice con il nome del file per intero quindi
-              // user-codice.json
+    @Override
     public void elimina(String codice) {
-        String path = "src/main/resources/com/spacca/database/partite/" + codice;
+        String path = "src/main/resources/com/spacca/database/partite/" + codice + ".json";
         File file = new File(path);
+        Partita partita = this.carica(codice);
+        List<String> listaDeiGiocatori = partita.getListaDeiGiocatori();
 
         if (file.exists() && file.isFile()) {
             if (file.delete()) {
+
+                for (String username : listaDeiGiocatori) {
+                    Handler handler = new GiocatoreHandler();
+                    AbstractGiocatore giocatore = (AbstractGiocatore) handler.carica(username);
+                    giocatore.getListaCodiciPartite().remove(codice);
+                    handler.salva(giocatore, username);
+                    System.out
+                            .println("Rimosso il codice " + codice + " dalla lista dei codici partite di " + username);
+                    System.out.println("Codici partita di " + username + " " + giocatore.getListaCodiciPartite());
+                }
+
                 System.out.println("Il giocatore con codice " + codice + " è stato eliminato correttamente.");
             } else {
                 System.err.println("Errore durante l'eliminazione del giocatore con codice " + codice);

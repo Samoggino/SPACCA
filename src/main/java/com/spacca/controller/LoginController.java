@@ -2,17 +2,15 @@ package com.spacca.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import com.spacca.App;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.database.GiocatoreHandler;
+import com.spacca.database.Handler;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,7 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class LoginController implements Initializable {
+public class LoginController {
 
     @FXML
     private TextField usernameField;
@@ -37,10 +35,6 @@ public class LoginController implements Initializable {
     private Label statusLabel;
 
     public LoginController() {
-    }
-
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
     }
 
     @FXML
@@ -67,8 +61,8 @@ public class LoginController implements Initializable {
                 usernameField.setStyle("-fx-border-color:darkorange");
             } else if (userFile.exists() && userFile.isFile()) { // Verifica se il file esiste
 
-                GiocatoreHandler file = new GiocatoreHandler();
-                Giocatore utente = (Giocatore) file.carica(pathString);
+                Handler handler = new GiocatoreHandler();
+                Giocatore utente = (Giocatore) handler.carica(username);
 
                 if (utente.getUsername().equals(username) && utente.getPassword().equals(password)) {
 

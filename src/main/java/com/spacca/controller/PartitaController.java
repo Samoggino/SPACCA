@@ -1,8 +1,6 @@
 package com.spacca.controller;
 
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import com.spacca.App;
 import com.spacca.asset.match.Partita;
@@ -11,14 +9,13 @@ import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class PartitaController implements Initializable {
+public class PartitaController  {
 
     @FXML
     private TextField codeTextField;
@@ -32,10 +29,6 @@ public class PartitaController implements Initializable {
     AbstractGiocatore giocatoreCorrente;
 
     public PartitaController() {
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
     }
 
     public void initController(AbstractGiocatore giocatoreCorrente, List<AbstractGiocatore> giocatoriDellaPartita) {
