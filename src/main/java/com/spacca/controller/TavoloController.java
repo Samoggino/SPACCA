@@ -1,19 +1,17 @@
 package com.spacca.controller;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Nome;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.database.GiocatoreHandler;
+import com.spacca.database.Handler;
 import com.spacca.database.PartitaHandler;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -29,13 +27,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-public class TavoloController implements Initializable {
+public class TavoloController {
 
     private Partita partita;
-    private Carta cartaDelTavolo;
-    private Carta cartaDellaMano;
+    private Carta cartaDelTavolo, cartaDellaMano;
     private List<AbstractGiocatore> giocatori = new ArrayList<>();
-    private GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
+    private Handler giocatoreHandler = new GiocatoreHandler();
 
     @FXML
     public Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane, overlay, tavolo;
@@ -52,10 +49,6 @@ public class TavoloController implements Initializable {
     @FXML
     public Text andTheWinnerIs, risultatoOverlay;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    }
-
     public void initController(Partita partita) {
         try {
 
@@ -63,11 +56,9 @@ public class TavoloController implements Initializable {
             System.out.println("Partita: " + partita.getCodice());
 
             for (String username : partita.getListaDeiGiocatori()) {
-                giocatori.add(giocatoreHandler.carica(username));
+                giocatori.add((AbstractGiocatore) giocatoreHandler.carica(username));
                 System.out.println("Giocatore: " + username);
             }
-
-            // metti come titolo dello stage il codice della partita
 
             buildView();
 
@@ -224,7 +215,7 @@ public class TavoloController implements Initializable {
         }
 
         // elimina il file della partita
-        PartitaHandler partitaHandler = new PartitaHandler();
+        Handler partitaHandler = new PartitaHandler();
         try {
             partitaHandler.elimina(partita.getCodice());
         } catch (UnsupportedOperationException e) {
