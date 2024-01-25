@@ -19,13 +19,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+//TOO DO MODIFICA UTENTE PERMETTENDO LA MODIFICA DI OGNI SINGOLO ELEMENTO )
 
 public class ModificaUtenteController implements Initializable {
 
     @FXML
-    private String utenteScelto;
+    private String utenteScelto; // estensione completa --> user- (username).json
 
     @FXML
     private Giocatore giocatoreScelto;
@@ -62,37 +65,45 @@ public class ModificaUtenteController implements Initializable {
 
     @FXML
     private void procediModifica() {
+        GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
+
+        System.out.println("Siamo in procedi modifica");
+        System.out.println("Utente corrente " + giocatoreScelto);
 
         String username = usernameField.getText().trim();
         String email = emailField.getText().trim();
         String password = passwordField.getText().trim();
 
-        controllaInserimentoPassword(password);
-        controllaInserimentoEmail(email);
-        controllaInserimentoUsername(username);
-
-        System.out.println("" + controllaInserimentoPassword(password) +
-                controllaInserimentoEmail(email) +
-                controllaInserimentoUsername(username));
-
         if (username.isEmpty() && email.isEmpty() && password.isEmpty()) {
-            showAlert("Non hai effettutato alcuna modifica! ");
+            showAlert("Non hai effettutato alcuna modifica! ", AlertType.ERROR, "Non è possibile effettuare modifiche");
         } else {
-            if (controllaInserimentoPassword(password) &&
-                    controllaInserimentoEmail(email) &&
-                    controllaInserimentoUsername(username)) {
-
+            if (!email.isEmpty() && controllaInserimentoEmail(email)) {
                 giocatoreScelto.setEmail(email);
-                giocatoreScelto.setPassword(password);
-                giocatoreScelto.setUsername(username);
+                System.out.println("Utente corrente modifica mail " + giocatoreScelto.getEmail());
 
-                GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
-                giocatoreHandler.elimina(utenteScelto);
-                giocatoreHandler.salva(giocatoreScelto, username);
-
-                showAlert("Giocatore Modificato con successo !");
-                handleIndietro();
             }
+            if (!password.isEmpty()) {
+                labelPassword.setText("Password inserita !");
+                giocatoreScelto.setPassword(password);
+                System.out.println("Utente corrente modifica password" + giocatoreScelto.getPassword());
+            }
+
+            giocatoreHandler.modifica(utenteScelto, giocatoreScelto);
+
+            if (!username.isEmpty() && controllaInserimentoUsername(username)) {
+                // elimino vecchio file
+                giocatoreHandler.elimina(utenteScelto);
+                // modifico lo username del vecchio utente con il corrente
+                giocatoreScelto.setUsername(username);
+                System.out.println("Utente corrente modifica username" + giocatoreScelto);
+
+                // salvo il nuovo utente in un nuovo file
+                giocatoreHandler.salva(giocatoreScelto, username);
+            }
+            String utenteSceltoslim = utenteScelto.replace("user-", "").replace(".json", "");
+            showAlert("Utente " + utenteSceltoslim + "modificato con successo!", AlertType.INFORMATION,
+                    "Modifica effettuata correttamente");
+            changeScene("/com/spacca/pages/benvenutoAdmin.fxml");
         }
     }
 
@@ -100,7 +111,7 @@ public class ModificaUtenteController implements Initializable {
         try {
             labelUsername.setText("");
             labelUsername.setTextFill(Color.DARKORANGE);
-            usernameField.setStyle("-fx-border-color:whitegrey");
+            usernameField.setStyle("-fx-border-color:lightgrey");
 
             if (username.trim().isEmpty()) {
                 labelUsername.setText("Non ha inserito lo username!");
@@ -127,7 +138,7 @@ public class ModificaUtenteController implements Initializable {
                     labelUsername.setTextFill(Color.BLACK);
                     System.out.println("siamo qui perchè non stampi?");
                     labelUsername.setText("Username corretto! ");
-                    usernameField.setStyle("-fx-border-color:whitegrey");
+                    usernameField.setStyle("-fx-border-color:lightgrey");
                     return true;
                 }
             }
@@ -136,28 +147,6 @@ public class ModificaUtenteController implements Initializable {
             System.err.println("ERRORE: Errore generico in\n" + e.getMessage());
         }
         return false;
-    }
-
-    public boolean controllaInserimentoPassword(String password) {
-        try {
-            labelPassword.setTextFill(Color.DARKORANGE);
-            labelPassword.setText("");
-
-            if (password.trim().isEmpty()) {
-                labelPassword.setText("Non hai inserito la password!");
-                passwordField.setStyle("-fx-border-color:darkorange");
-                return false;
-            } else {
-                labelPassword.setText("Password inserita correttamente");
-                labelPassword.setTextFill(Color.BLACK);
-                passwordField.setStyle("-fx-border-color:whitegrey");
-                return true;
-            }
-        } catch (Exception e) {
-            System.err.println("Errore (Login controller): \n" + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
     }
 
     public boolean controllaInserimentoEmail(String email) {
@@ -172,7 +161,7 @@ public class ModificaUtenteController implements Initializable {
             } else if (email.contains("@")) {
                 labelEmail.setText("Email corretta");
                 labelEmail.setTextFill(Color.BLACK);
-                emailField.setStyle("-fx-border-color:whitegrey");
+                emailField.setStyle("-fx-border-color:lightgrey");
                 return true;
             } else {
                 labelEmail.setText("Email non valida, reinseriscila!");
@@ -187,11 +176,11 @@ public class ModificaUtenteController implements Initializable {
 
     }
 
-    private void showAlert(String content) {
+    private void showAlert(String content, AlertType tipo, String titolo) {
         try {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("");
-            alert.setHeaderText("");
+            Alert alert = new Alert(tipo);
+            alert.setTitle(tipo.toString());
+            alert.setHeaderText(titolo);
             alert.setContentText(content);
             alert.showAndWait();
         } catch (Exception e) {

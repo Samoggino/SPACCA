@@ -51,9 +51,12 @@ public class SelezionaUenteController implements Initializable {
             Path resourceFolder = Paths.get(getClass().getResource(folderPath).toURI());
 
             // Ottieni la lista dei nomi dei file JSON presenti nella cartella
-            List<String> fileNames = Files.walk(resourceFolder, 1)
+            // esclludo gli amministratori e gli utenti robot
+            List<String> fileNames = Files.list(resourceFolder)
                     .filter(path -> path.toString().endsWith(".json") && Files.isRegularFile(path))
                     .filter(path -> !path.getFileName().toString().equals("user-admin.json"))
+                    .filter(path -> !path.getFileName().toString().startsWith("user-RS-"))
+                    .filter(path -> !path.getFileName().toString().startsWith("user-RI-"))
                     .map(path -> path.getFileName().toString())
                     .collect(Collectors.toList());
 
