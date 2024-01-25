@@ -1,6 +1,7 @@
 package com.spacca.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -33,8 +34,8 @@ public class TavoloController implements Initializable {
     private Partita partita;
     private Carta cartaDelTavolo;
     private Carta cartaDellaMano;
-    private List<AbstractGiocatore> giocatori;
-    private GiocatoreHandler giocatoreHandler;
+    private List<AbstractGiocatore> giocatori = new ArrayList<>();
+    private GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
 
     @FXML
     public Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane, overlay, tavolo;
@@ -225,7 +226,11 @@ public class TavoloController implements Initializable {
 
         // elimina il file della partita
         PartitaHandler partitaHandler = new PartitaHandler();
-        partitaHandler.elimina(partita.getCodice());
+        try {
+            partitaHandler.elimina(partita.getCodice());
+        } catch (UnsupportedOperationException e) {
+            System.err.println("Il metodo non è andora stato implementato");
+        }
     }
 
     void iniziaTrascinamento(Carta cartaDellaMano, ImageView cartaView) {
