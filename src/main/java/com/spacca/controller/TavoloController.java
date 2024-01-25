@@ -62,10 +62,9 @@ public class TavoloController implements Initializable {
             this.partita = partita;
             System.out.println("Partita: " + partita.getCodice());
 
-            for (String giocatore : partita.getListaDeiGiocatori()) {
-                giocatori.add(giocatoreHandler.carica("src/main/resources/com/spacca/database/giocatori/user-"
-                        + giocatore + ".json"));
-                System.out.println("Giocatore: " + giocatore);
+            for (String username : partita.getListaDeiGiocatori()) {
+                giocatori.add(giocatoreHandler.carica(username));
+                System.out.println("Giocatore: " + username);
             }
 
             // metti come titolo dello stage il codice della partita
@@ -306,10 +305,10 @@ public class TavoloController implements Initializable {
 
         boolean cartaPresa = partita.prendiCartaConCartaDellaMano(partita.getGiocatoreCorrente(), cartaDiDestinazione,
                 cartaDallaManoDellUtente);
-
         if (cartaPresa) {
             cambiaTurno();
         }
+        // finePartitaHandler();
     }
 
     void scartaCartaHandler(Carta cartaDellaMano) {

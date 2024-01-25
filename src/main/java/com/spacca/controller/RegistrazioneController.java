@@ -170,7 +170,7 @@ public class RegistrazioneController implements Initializable {
                 // Verifica se il file esiste
                 if (userFile.exists() && userFile.isFile()) {
                     GiocatoreHandler file = new GiocatoreHandler();
-                    Giocatore utente = file.carica(path);
+                    Giocatore utente = file.carica(username);
 
                     if (utente.getUsername().equals(username)) {
                         labelUsername.setText("Username già in utilizzo! ");

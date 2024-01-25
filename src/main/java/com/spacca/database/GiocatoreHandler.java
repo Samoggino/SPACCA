@@ -44,8 +44,9 @@ public class GiocatoreHandler implements Handler {
     }
 
     @Override
-    public Giocatore carica(String path) {
+    public Giocatore carica(String username) {
 
+        String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
         Giocatore giocatore = null;
         try {
 

@@ -1,5 +1,6 @@
 package com.spacca.database;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,6 +14,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.stream.JsonWriter;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.asset.utente.giocatore.Giocatore;
 
 public class PartitaHandler implements Handler {
 
@@ -81,9 +83,32 @@ public class PartitaHandler implements Handler {
     }
 
     @Override
-    public void elimina(String codicePartita) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'elimina'");
+    public void elimina(String codice) {
+        String path = "src/main/resources/com/spacca/database/partite/" + codice + ".json";
+        File file = new File(path);
+        Partita partita = this.carica(codice);
+        List<String> listaDeiGiocatori = partita.getListaDeiGiocatori();
+
+        if (file.exists() && file.isFile()) {
+            if (file.delete()) {
+
+                for (String username : listaDeiGiocatori) {
+                    GiocatoreHandler handler = new GiocatoreHandler();
+                    Giocatore giocatore = handler.carica(username);
+                    giocatore.getListaCodiciPartite().remove(codice);
+                    handler.salva(giocatore, username);
+                    System.out
+                            .println("Rimosso il codice " + codice + " dalla lista dei codici partite di " + username);
+                    System.out.println("Codici partita di " + username + " " + giocatore.getListaCodiciPartite());
+                }
+
+                System.out.println("Il giocatore con codice " + codice + " è stato eliminato correttamente.");
+            } else {
+                System.err.println("Errore durante l'eliminazione del giocatore con codice " + codice);
+            }
+        } else {
+            System.err.println("Il giocatore con codice " + codice + " non esiste o non è un file.");
+        }
     }
 
     public Partita creaPartita(String codice, List<AbstractGiocatore> giocatori) {

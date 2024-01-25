@@ -73,7 +73,7 @@ public class LoginController implements Initializable {
             } else if (userFile.exists() && userFile.isFile()) { // Verifica se il file esiste
 
                 GiocatoreHandler file = new GiocatoreHandler();
-                Giocatore utente = (Giocatore) file.carica(pathString);
+                Giocatore utente = (Giocatore) file.carica(username);
 
                 if (utente.getUsername().equals(username) && utente.getPassword().equals(password)) {
 
