@@ -68,8 +68,9 @@ public class PartitaHandler implements Handler {
             // codice passato P0987
             Gson gson = new Gson();
             // PERCHè PARTITà NULL ?
+            System.out.println("PRE PARTITA IN CARICA " + partita);
             partita = gson.fromJson(fileReader, Partita.class);
-            System.out.println("PARTITA HANDLER IN CARICA " + partita);
+            System.out.println("POST PARTITA IN CARICA " + partita);
 
             fileReader.close();
         } catch (JsonIOException e) {
