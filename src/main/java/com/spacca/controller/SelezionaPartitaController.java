@@ -91,10 +91,9 @@ public class SelezionaPartitaController implements Initializable {
             alert.showAndWait();
         } else {
             System.out.println("Parita selezionata " + nomeFilePartitaScelto);
-            String nomeFileEsteso = "P" + nomeFilePartitaScelto + ".json";
 
             PartitaHandler partitaHandler = new PartitaHandler();
-            partitaHandler.elimina(nomeFileEsteso);
+            partitaHandler.elimina(nomeFilePartitaScelto);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("");

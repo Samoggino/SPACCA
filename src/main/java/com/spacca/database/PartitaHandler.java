@@ -60,17 +60,12 @@ public class PartitaHandler implements Handler {
         Partita partita = null;
         try {
             codicePartita = codicePartita.toUpperCase();
-            System.out.println("CODICE PARTITA HANDLER IN CARICA  " + codicePartita);
 
             Reader fileReader = new FileReader(
                     "src/main/resources/com/spacca/database/partite/" + codicePartita + ".json");
-
-            // codice passato P0987
             Gson gson = new Gson();
-            // PERCHè PARTITà NULL ?
-            System.out.println("PRE PARTITA IN CARICA " + partita);
+
             partita = gson.fromJson(fileReader, Partita.class);
-            System.out.println("POST PARTITA IN CARICA " + partita);
 
             fileReader.close();
         } catch (JsonIOException e) {
@@ -91,7 +86,7 @@ public class PartitaHandler implements Handler {
 
     @Override
     public void elimina(String codice) {
-        String path = "src/main/resources/com/spacca/database/partite/" + codice + ".json";
+        String path = "src/main/resources/com/spacca/database/partite/P" + codice + ".json";
         File file = new File(path);
         Partita partita = this.carica(codice);
         List<String> listaDeiGiocatori = partita.getListaDeiGiocatori();
