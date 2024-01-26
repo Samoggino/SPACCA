@@ -1,21 +1,13 @@
 package com.spacca.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Nome;
 import com.spacca.asset.match.Partita;
-import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.database.GiocatoreHandler;
-import com.spacca.database.Handler;
-import com.spacca.database.PartitaHandler;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,17 +23,12 @@ public class TavoloController {
 
     private Partita partita;
     private Carta cartaDelTavolo, cartaDellaMano;
-    private List<AbstractGiocatore> giocatori = new ArrayList<>();
-    private Handler giocatoreHandler = new GiocatoreHandler();
 
     @FXML
     public Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane, overlay, tavolo;
 
     @FXML
     public GridPane piatto;
-
-    @FXML
-    public ImageView playerOnLeftImage, playerOnTopImage, playerOnRightImage;
 
     @FXML
     public FlowPane playerHand;
@@ -54,11 +41,6 @@ public class TavoloController {
 
             this.partita = partita;
             System.out.println("Partita: " + partita.getCodice());
-
-            for (String username : partita.getListaDeiGiocatori()) {
-                giocatori.add((AbstractGiocatore) giocatoreHandler.carica(username));
-                System.out.println("Giocatore: " + username);
-            }
 
             buildView();
 
@@ -73,7 +55,7 @@ public class TavoloController {
         try {
             if (partita.getVincitore() != null) {
                 buildOverlay();
-            } else if (partita.isNecessarioRidistribuireLeCarte()) {
+            } else if (partita.giocatoriNonHannoCarteInMano()) {
                 partita.nuovoTurno();
             }
 
@@ -187,8 +169,9 @@ public class TavoloController {
         // FIXME: la stampa del andTheWinnerIs non funziona, non viene visualizzato il
         // nome del vincitore
         try {
-            if (partita.getCarteSulTavolo().getCarteNelMazzo().size() == 0
-                    && partita.getMazzoDiGioco().getCarteNelMazzo().size() == 0) {
+            if (partita.getCarteSulTavolo().size() == 0
+                    && partita.getMazzoDiGioco().size() == 0
+                    && partita.giocatoriNonHannoCarteInMano()) {
                 overlay.setVisible(true);
                 andTheWinnerIs.setText(partita.getVincitore());
 
@@ -198,28 +181,14 @@ public class TavoloController {
 
                 risultatoOverlay.setText(risultato);
                 risultatoOverlay.setTextAlignment(TextAlignment.CENTER);
-                finePartitaHandler();
+
+                // partita.fine();
+                System.out.println("Partita eliminata per finta");
             }
 
         } catch (Exception e) {
             System.err.println("ERRORE (buildOverlay):\t\t " + e.getMessage());
             e.printStackTrace();
-        }
-    }
-
-    void finePartitaHandler() {
-        // rimuovi il codice dalle liste dei giocatori
-        for (AbstractGiocatore abstractGiocatore : giocatori) {
-            abstractGiocatore.getListaCodiciPartite().remove(partita.getCodice());
-            giocatoreHandler.salva(abstractGiocatore, abstractGiocatore.getUsername());
-        }
-
-        // elimina il file della partita
-        Handler partitaHandler = new PartitaHandler();
-        try {
-            partitaHandler.elimina(partita.getCodice());
-        } catch (UnsupportedOperationException e) {
-            System.err.println("Il metodo non è andora stato implementato");
         }
     }
 
@@ -299,7 +268,6 @@ public class TavoloController {
         if (cartaPresa) {
             cambiaTurno();
         }
-        // finePartitaHandler();
     }
 
     void scartaCartaHandler(Carta cartaDellaMano) {
@@ -329,61 +297,45 @@ public class TavoloController {
      */
     void updatePlayerPanel(Pane containerPane) {
         try {
-            String giocatore = containerPane.getUserData().toString();
+            String giocatoreDelPane = (String) containerPane.getUserData();
 
-            boolean isCurrentPlayer = giocatore.equals(partita.getGiocatoreCorrente());
-            Text existingText = getNomeCorrente(containerPane);
+            boolean isCurrentPlayer = giocatoreDelPane.equals(partita.getGiocatoreCorrente());
 
-            if (existingText == null) {
-                containerPane.getChildren().add(0, new Text(giocatore));
-            } else {
-                existingText.setText(giocatore);
-            }
+            getNomeCorrente(containerPane).setText(giocatoreDelPane);
 
-            Carta cartaInCimaCarta = partita.getCartaInCima(giocatore);
-
-            ImageView cartaImageView = getImmagineCorrente(containerPane);
+            Carta cartaInCimaCarta = partita.getCartaInCima(giocatoreDelPane);
 
             // Rimuovi il gestore di eventi setOnDragDetected
-            cartaImageView.setOnDragDetected(null);
+            getImmagineCorrente(containerPane).setOnDragDetected(null);
 
             if (cartaInCimaCarta != null) {
                 getImmagineCorrente(containerPane).setImage(new Image("file:" + cartaInCimaCarta.getImmagine()));
                 getImmagineCorrente(containerPane).setUserData(cartaInCimaCarta);
 
                 // Aggiungi il nuovo gestore di eventi setOnMouseDragReleased
-                cartaImageView.setOnMouseDragReleased(event -> {
-                    if (isCardOnTop(cartaImageView, containerPane)
-                            && !giocatore.equals(partita.getGiocatoreCorrente())) {
-                        rubaUnMazzoHandler(partita.getGiocatoreCorrente(), giocatore,
+                getImmagineCorrente(containerPane).setOnMouseDragReleased(event -> {
+                    if (isCardOnTop(getImmagineCorrente(containerPane), containerPane)
+                            && !isCurrentPlayer) {
+                        rubaUnMazzoHandler(partita.getGiocatoreCorrente(), giocatoreDelPane,
                                 cartaDellaMano, cartaInCimaCarta);
                     }
                 });
+
+                if (!isCurrentPlayer) {
+                    getImmagineCorrente(containerPane).setOnMouseDragReleased(event -> {
+                        if (isCardOnTop(getImmagineCorrente(containerPane), containerPane)
+                                && !isCurrentPlayer) {
+                            rubaUnMazzoHandler(partita.getGiocatoreCorrente(), giocatoreDelPane,
+                                    cartaDellaMano, cartaInCimaCarta);
+                        }
+                    });
+                }
 
             } else {
                 getImmagineCorrente(containerPane)
                         .setImage(new Image("file:src/main/resources/com/spacca/images/retro.png"));
             }
 
-            if (isCurrentPlayer) {
-                getButtonCorrente(containerPane).setText("Mostra le mie carte");
-                getButtonCorrente(containerPane)
-                        .setOnAction(
-                                event -> System.out.println(partita.getManoDellUtente(partita.getGiocatoreCorrente())));
-            } else {
-                // Aggiungi il nuovo gestore di eventi setOnMouseDragReleased
-                if (cartaImageView != null) {
-
-                    cartaImageView.setOnMouseDragReleased(event -> {
-                        if (isCardOnTop(cartaImageView, containerPane)
-                                && !giocatore.equals(partita.getGiocatoreCorrente())) {
-                            rubaUnMazzoHandler(partita.getGiocatoreCorrente(), giocatore,
-                                    cartaDellaMano, cartaInCimaCarta);
-                        }
-                    });
-                }
-
-            }
         } catch (Exception e) {
             System.err.println("ERRORE (updatePlayerPanel):\t\t " + e.getMessage());
             e.printStackTrace();
@@ -393,7 +345,10 @@ public class TavoloController {
 
     private void rubaUnMazzoHandler(String giocatoreCorrente, String giocatore, Carta cartaCheRuba, Carta cartaInCima) {
 
-        if (cartaCheRuba.getNome().equals(cartaInCima.getNome()) && giocatoreCorrente != giocatore) {
+        if (cartaCheRuba.getNome().equals(Nome.SETTE)) {
+            partita.trascinoUnSette(giocatoreCorrente, giocatore, cartaCheRuba);
+            cambiaTurno();
+        } else if (cartaCheRuba.getNome().equals(cartaInCima.getNome()) && giocatoreCorrente != giocatore) {
             partita.rubaUnMazzo(giocatoreCorrente, giocatore, cartaCheRuba);
             System.out.println("Hai rubato mezzo mazzo a " + giocatore);
             cambiaTurno();
@@ -403,8 +358,12 @@ public class TavoloController {
     }
 
     private boolean isCardOnTop(ImageView cartaImageView, Pane pane) {
-        Carta cartaSottoIlMouse = (Carta) cartaImageView.getUserData();
-        return cartaSottoIlMouse.equals(partita.getCartaInCima((String) pane.getUserData()));
+        try {
+            Carta cartaSottoIlMouse = (Carta) cartaImageView.getUserData();
+            return cartaSottoIlMouse.equals(partita.getCartaInCima((String) pane.getUserData()));
+        } catch (NullPointerException e) {
+            return false;
+        }
     }
 
     ImageView getImmagineCorrente(Pane containerPane) {
@@ -422,13 +381,4 @@ public class TavoloController {
                 .findFirst()
                 .orElse(new Text());
     }
-
-    Button getButtonCorrente(Pane containerPane) {
-        return containerPane.getChildren().stream()
-                .filter(node -> node instanceof Button)
-                .map(node -> (Button) node)
-                .findFirst()
-                .orElse(new Button());
-    }
-
 }

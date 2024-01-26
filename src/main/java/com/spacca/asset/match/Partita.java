@@ -1,5 +1,6 @@
 package com.spacca.asset.match;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,9 @@ import java.util.Map;
 import com.google.gson.annotations.SerializedName;
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Mazzo;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.database.GiocatoreHandler;
+import com.spacca.database.Handler;
 import com.spacca.database.PartitaHandler;
 
 /**
@@ -52,7 +56,7 @@ public class Partita extends Object {
     @SerializedName("codice")
     private String codice = "codice default";
 
-    private PartitaHandler handlerPartita = new PartitaHandler();
+    transient private PartitaHandler handlerPartita = new PartitaHandler();
 
     public String getGiocatoreCorrente() {
         return this.giocatoreCorrente;
@@ -107,7 +111,19 @@ public class Partita extends Object {
         }
     }
 
-    public void eliminaPartita() {
+    public void fine() {
+        Handler giocatoreHandler = new GiocatoreHandler();
+
+        List<AbstractGiocatore> giocatori = new ArrayList<>();
+
+        for (String username : getListaDeiGiocatori()) {
+            giocatori.add((AbstractGiocatore) giocatoreHandler.carica(username));
+            System.out.println("Giocatore: " + username);
+        }
+        for (AbstractGiocatore abstractGiocatore : giocatori) {
+            abstractGiocatore.getListaCodiciPartite().remove(getCodice());
+            giocatoreHandler.salva(abstractGiocatore, abstractGiocatore.getUsername());
+        }
         this.handlerPartita.elimina(this.codice);
     }
 
@@ -174,18 +190,19 @@ public class Partita extends Object {
      */
     public void nuovoTurno() {
 
-        boolean enough = abbastanzaCarteNelMazzo();
+        // FIXME: il gioco termina anche se i giocatori hanno ancora carte in mano
 
-        if (isNecessarioRidistribuireLeCarte() && enough) {
-            distribuisciLeCarteAiGiocatori(enough);
+        boolean enoughMazzo = abbastanzaCarteNelMazzo();
+        boolean notEnoughMano = giocatoriNonHannoCarteInMano();
+
+        if (notEnoughMano && enoughMazzo) {
+            distribuisciLeCarteAiGiocatori(enoughMazzo);
             mettiCarteSulTavolo();
-        } else if (isNecessarioRidistribuireLeCarte() && !enough && getMazzoDiGioco().size() > 0) {
+        } else if (notEnoughMano && !enoughMazzo && lunghezzaMazzoDiGiocoCorrente() > 0) {
             // se non ci sono abbastanza carte nel mazzo di gioco per darle a tutti i
-            // giocatori, ma
-            // ci sono ancora carte nel mazzo di gioco, distribuisci le carte rimaste nel
-            // mazzo di gioco
-            // e metti le carte sul tavolo
-            distribuisciLeCarteAiGiocatori(enough);
+            // giocatori, ma ci sono ancora carte nel mazzo di gioco, distribuisci le carte
+            // rimaste nel mazzo di gioco e metti le carte sul tavolo
+            distribuisciLeCarteAiGiocatori(enoughMazzo);
         } else {
             // dai le carte rimaste sul tavolo all'ultimo giocatore che ha fatto una presa
 
@@ -297,6 +314,34 @@ public class Partita extends Object {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void trascinoUnSette(String ladroGiocatoreCorrente, String scammatoAltroGiocatore, Carta cartaCheRuba) {
+        switch (cartaCheRuba.getSeme()) {
+
+            case DENARA:
+                System.out.println("Ruba mezzo mazzo con 7 di denara");
+                // rubaMezzoMazzo(ladroGiocatoreCorrente, scammatoAltroGiocatore);
+                break;
+
+            case SPADE:
+                System.out.println("Ruba mezzo mazzo con 7 di spade");
+                // rubaMezzoMazzo(ladroGiocatoreCorrente, scammatoAltroGiocatore);
+                break;
+
+            case BASTONI:
+                System.out.println("Ruba tutto il mazzo con 7 di bastoni");
+                rubaUnMazzo(ladroGiocatoreCorrente, scammatoAltroGiocatore, cartaCheRuba);
+                break;
+
+            case COPPE:
+                System.out.println("Ruba tutto il mazzo con 7 di coppe");
+                rubaUnMazzo(ladroGiocatoreCorrente, scammatoAltroGiocatore, cartaCheRuba);
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -432,7 +477,7 @@ public class Partita extends Object {
     }
 
     // calcolo quando devo ridistribuire le carte
-    public boolean isNecessarioRidistribuireLeCarte() {
+    public boolean giocatoriNonHannoCarteInMano() {
 
         // se il numero di carte nelle mani dei giocatori è uguale a zero
         // devi ridistribuire le carte
