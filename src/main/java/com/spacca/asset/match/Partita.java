@@ -233,7 +233,8 @@ public class Partita extends Object {
                 }
             }
         } catch (IndexOutOfBoundsException e) {
-            System.err.println("ERRORE (distribuisciLeCarteAiGiocatoriUnoPerUno):  nella dimensione del mazzo di gioco" + e.getMessage());
+            System.err.println("ERRORE (distribuisciLeCarteAiGiocatoriUnoPerUno):  nella dimensione del mazzo di gioco"
+                    + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -321,12 +322,12 @@ public class Partita extends Object {
 
             case DENARA:
                 System.out.println("Ruba mezzo mazzo con 7 di denara");
-                // rubaMezzoMazzo(ladroGiocatoreCorrente, scammatoAltroGiocatore);
+                rubaMezzoMazzo(ladroGiocatoreCorrente, scammatoAltroGiocatore, cartaCheRuba);
                 break;
 
             case SPADE:
                 System.out.println("Ruba mezzo mazzo con 7 di spade");
-                // rubaMezzoMazzo(ladroGiocatoreCorrente, scammatoAltroGiocatore);
+                rubaMezzoMazzo(ladroGiocatoreCorrente, scammatoAltroGiocatore, cartaCheRuba);
                 break;
 
             case BASTONI:
@@ -344,7 +345,7 @@ public class Partita extends Object {
         }
     }
 
-    public void rubaMezzoMazzo(String ladroGiocatoreCorrente, String scammato) {
+    public void rubaMezzoMazzo(String ladroGiocatoreCorrente, String scammato, Carta cartaCheRuba) {
 
         // Aggiungi il controllo solo se il mazzo dello scammato ha un numero dispari di
         // carte
@@ -370,6 +371,8 @@ public class Partita extends Object {
                         .subList(0, metaMazzo)
                         .clear();
 
+                getManoDellUtente(ladroGiocatoreCorrente).rimuoviCartaDalMazzo(cartaCheRuba);
+                getPreseDellUtente(ladroGiocatoreCorrente).aggiungiCarteAlMazzo(cartaCheRuba);
                 salvaPartita();
             } else {
                 System.out.println("L'utente non ha carte da rubare!");

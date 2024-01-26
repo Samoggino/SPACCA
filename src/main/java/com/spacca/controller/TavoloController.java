@@ -323,17 +323,9 @@ public class TavoloController {
                     }
                 });
 
-                if (!isCurrentPlayer) {
-                    getImmagineCorrente(containerPane).setOnMouseDragReleased(event -> {
-                        if (isCardOnTop(getImmagineCorrente(containerPane), containerPane)
-                                && !isCurrentPlayer) {
-                            rubaUnMazzoHandler(partita.getGiocatoreCorrente(), giocatoreDelPane,
-                                    cartaDellaMano, cartaInCimaCarta);
-                        }
-                    });
-                }
-
             } else {
+                // serve per evitare che l'immagine della carta rimanga in "cache" e venga
+                // visualizzata per tutti i giocatori successivi
                 getImmagineCorrente(containerPane)
                         .setImage(new Image("file:src/main/resources/com/spacca/images/retro.png"));
             }
