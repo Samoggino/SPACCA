@@ -276,24 +276,23 @@ public class Partita extends Object {
         }
     }
 
-    public void rubaUnMazzo(String ladro, String scammato) {
-
-        if (true) {
-            // TODO: controllo se l'utente ha una carta che è lo stesso numero della carta
-            // in cima al mazzo dell'altro utente
-        }
+    public void rubaUnMazzo(String ladroGiocatoreCorrente, String scammatoAltroGiocatore, Carta cartaCheRuba) {
 
         try {
-            Mazzo mazzoLadro = getPreseDellUtente(ladro);
-            Mazzo mazzoScammato = getPreseDellUtente(scammato);
 
-            if (mazzoScammato.size() > 0) {
-                mazzoLadro.aggiungiListaCarteAdAltroMazzo(mazzoScammato.getCarteNelMazzo());
-                mazzoScammato.getCarteNelMazzo().clear();
+            if (getPreseDellUtente(scammatoAltroGiocatore).size() > 0) {
+
+                getPreseDellUtente(ladroGiocatoreCorrente)
+                        .aggiungiListaCarteAdAltroMazzo(getPreseDellUtente(scammatoAltroGiocatore).getCarteNelMazzo());
+
+                getPreseDellUtente(scammatoAltroGiocatore).getCarteNelMazzo().clear();
+
+                getManoDellUtente(ladroGiocatoreCorrente).rimuoviCartaDalMazzo(cartaCheRuba);
+                getPreseDellUtente(ladroGiocatoreCorrente).aggiungiCarteAlMazzo(cartaCheRuba);
+
                 salvaPartita();
             } else {
                 System.out.println("L'utente non ha carte da rubare!");
-
             }
 
         } catch (Exception e) {
@@ -301,34 +300,28 @@ public class Partita extends Object {
         }
     }
 
-    public void rubaMezzoMazzo(String ladro, String scammato) {
-
-        if (true) {
-            // TODO: controllo se l'utente ha una carta che è lo stesso numero della carta
-            // in cima al mazzo dell'altro utente
-        }
+    public void rubaMezzoMazzo(String ladroGiocatoreCorrente, String scammato) {
 
         // Aggiungi il controllo solo se il mazzo dello scammato ha un numero dispari di
         // carte
         boolean arrotondaPerDifetto = getPreseDellUtente(scammato).size() % 2 != 0;
 
         try {
-            Mazzo mazzoLadro = getPreseDellUtente(ladro);
-            Mazzo mazzoScammato = getPreseDellUtente(scammato);
 
-            if (mazzoScammato.size() > 0) {
-                int metaMazzo = mazzoScammato.size() / 2;
+            if (getPreseDellUtente(scammato).size() > 0) {
+                int metaMazzo = getPreseDellUtente(scammato).size() / 2;
 
                 // Aggiungi l'arrotondamento per difetto se necessario
                 if (arrotondaPerDifetto) {
                     metaMazzo = (int) Math.floor(metaMazzo);
                 }
 
-                mazzoLadro.aggiungiListaCarteAdAltroMazzo(
-                        mazzoScammato
-                                .getCarteNelMazzo()
-                                .subList(0, metaMazzo));
-                mazzoScammato
+                getPreseDellUtente(ladroGiocatoreCorrente)
+                        .aggiungiListaCarteAdAltroMazzo(
+                                getPreseDellUtente(scammato)
+                                        .getCarteNelMazzo()
+                                        .subList(0, metaMazzo));
+                getPreseDellUtente(scammato)
                         .getCarteNelMazzo()
                         .subList(0, metaMazzo)
                         .clear();
@@ -378,8 +371,6 @@ public class Partita extends Object {
      * @param username
      */
     public boolean prendiCartaConCartaDellaMano(String username, Carta cartaSulTavolo, Carta cartaDellaMano) {
-        System.out.println("Carta selezionata: " + cartaDellaMano.getNome() + " di " + cartaDellaMano.getSeme());
-        System.out.println("Carta sul tavolo: " + cartaSulTavolo.getNome() + " di " + cartaSulTavolo.getSeme());
 
         try {
 

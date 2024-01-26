@@ -351,6 +351,15 @@ public class TavoloController {
                 getImmagineCorrente(containerPane).setImage(new Image("file:" + cartaInCimaCarta.getImmagine()));
                 getImmagineCorrente(containerPane).setUserData(cartaInCimaCarta);
 
+                // Aggiungi il nuovo gestore di eventi setOnMouseDragReleased
+                cartaImageView.setOnMouseDragReleased(event -> {
+                    if (isCardOnTop(cartaImageView, containerPane)
+                            && !giocatore.equals(partita.getGiocatoreCorrente())) {
+                        rubaUnMazzoHandler(partita.getGiocatoreCorrente(), giocatore,
+                                cartaDellaMano, cartaInCimaCarta);
+                    }
+                });
+
             } else {
                 getImmagineCorrente(containerPane)
                         .setImage(new Image("file:src/main/resources/com/spacca/images/retro.png"));
@@ -362,15 +371,40 @@ public class TavoloController {
                         .setOnAction(
                                 event -> System.out.println(partita.getManoDellUtente(partita.getGiocatoreCorrente())));
             } else {
-                getButtonCorrente(containerPane).setText("Ruba a " + giocatore);
-                getButtonCorrente(containerPane)
-                        .setOnAction(event -> partita.rubaUnMazzo(partita.getGiocatoreCorrente(), giocatore));
+                // Aggiungi il nuovo gestore di eventi setOnMouseDragReleased
+                if (cartaImageView != null) {
+
+                    cartaImageView.setOnMouseDragReleased(event -> {
+                        if (isCardOnTop(cartaImageView, containerPane)
+                                && !giocatore.equals(partita.getGiocatoreCorrente())) {
+                            rubaUnMazzoHandler(partita.getGiocatoreCorrente(), giocatore,
+                                    cartaDellaMano, cartaInCimaCarta);
+                        }
+                    });
+                }
+
             }
         } catch (Exception e) {
             System.err.println("ERRORE (updatePlayerPanel):\t\t " + e.getMessage());
             e.printStackTrace();
         }
 
+    }
+
+    private void rubaUnMazzoHandler(String giocatoreCorrente, String giocatore, Carta cartaCheRuba, Carta cartaInCima) {
+
+        if (cartaCheRuba.getNome().equals(cartaInCima.getNome()) && giocatoreCorrente != giocatore) {
+            partita.rubaUnMazzo(giocatoreCorrente, giocatore, cartaCheRuba);
+            System.out.println("Hai rubato mezzo mazzo a " + giocatore);
+            cambiaTurno();
+        } else {
+            System.out.println("Non puoi rubare il mazzo a " + giocatore + " con " + cartaCheRuba);
+        }
+    }
+
+    private boolean isCardOnTop(ImageView cartaImageView, Pane pane) {
+        Carta cartaSottoIlMouse = (Carta) cartaImageView.getUserData();
+        return cartaSottoIlMouse.equals(partita.getCartaInCima((String) pane.getUserData()));
     }
 
     ImageView getImmagineCorrente(Pane containerPane) {
