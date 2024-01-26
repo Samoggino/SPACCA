@@ -9,8 +9,6 @@ import java.util.Map;
 import com.google.gson.annotations.SerializedName;
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Mazzo;
-import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.database.GiocatoreHandler;
 import com.spacca.database.Handler;
 import com.spacca.database.PartitaHandler;
 
@@ -23,7 +21,7 @@ public class Partita extends Object {
 
     // // lista dei giocatori
     @SerializedName("lista dei giocatori")
-    private List<String> listaDeiGiocatori;
+    private List<String> listaDeiGiocatori = new ArrayList<>();
 
     // carte in mano ai giocatori
     @SerializedName("mano del giocatore")
@@ -50,13 +48,14 @@ public class Partita extends Object {
     @SerializedName("vincitore")
     private String vincitore;
 
-    transient String ultimoGiocatoreCheHapreso = "";
+    @SerializedName("ultimo giocatore che ha preso")
+    private String ultimoGiocatoreCheHapreso = "";
 
     // codice della partita
     @SerializedName("codice")
     private String codice = "codice default";
 
-    transient private PartitaHandler handlerPartita = new PartitaHandler();
+    transient private Handler handlerPartita = new PartitaHandler();
 
     public String getGiocatoreCorrente() {
         return this.giocatoreCorrente;
@@ -112,18 +111,6 @@ public class Partita extends Object {
     }
 
     public void fine() {
-        Handler giocatoreHandler = new GiocatoreHandler();
-
-        List<AbstractGiocatore> giocatori = new ArrayList<>();
-
-        for (String username : getListaDeiGiocatori()) {
-            giocatori.add((AbstractGiocatore) giocatoreHandler.carica(username));
-            System.out.println("Giocatore: " + username);
-        }
-        for (AbstractGiocatore abstractGiocatore : giocatori) {
-            abstractGiocatore.getListaCodiciPartite().remove(getCodice());
-            giocatoreHandler.salva(abstractGiocatore, abstractGiocatore.getUsername());
-        }
         this.handlerPartita.elimina(this.codice);
     }
 
@@ -229,14 +216,26 @@ public class Partita extends Object {
 
         System.out.println("Distribuisco le carte ai giocatori uno per uno!");
 
-        for (int i = 0; i < mazzoDiGioco.size(); i++) {
-            for (String username : getManoDeiGiocatori().keySet()) {
-                Carta cartaDaDare = this.mazzoDiGioco
-                        .getCarteNelMazzo()
-                        .remove(lunghezzaMazzoDiGiocoCorrente() - 1);
+        int lunghezzaMazzo = lunghezzaMazzoDiGiocoCorrente();
 
-                getManoDellUtente(username).aggiungiCarteAlMazzo(cartaDaDare);
+        try {
+            while (lunghezzaMazzo > 0) {
+                for (String username : getManoDeiGiocatori().keySet()) {
+                    if (lunghezzaMazzo <= 0) {
+                        break;
+                    }
+                    Mazzo mazzoGiocatore = getManoDellUtente(username);
+                    Carta cartaDaDare = this.mazzoDiGioco
+                            .getCarteNelMazzo()
+                            .remove(lunghezzaMazzoDiGiocoCorrente() - 1);
+                    mazzoGiocatore.aggiungiCarteAlMazzo(cartaDaDare);
+                    lunghezzaMazzo--;
+                }
             }
+        } catch (IndexOutOfBoundsException e) {
+            System.err.println("ERRORE (distribuisciLeCarteAiGiocatoriUnoPerUno):  nella dimensione del mazzo di gioco" + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }

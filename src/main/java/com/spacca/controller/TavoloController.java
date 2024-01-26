@@ -53,9 +53,7 @@ public class TavoloController {
     void buildView() {
         overlay.setVisible(false);
         try {
-            if (partita.getVincitore() != null) {
-                buildOverlay();
-            } else if (partita.giocatoriNonHannoCarteInMano()) {
+            if (partita.giocatoriNonHannoCarteInMano()) {
                 partita.nuovoTurno();
             }
 
@@ -181,6 +179,10 @@ public class TavoloController {
 
                 risultatoOverlay.setText(risultato);
                 risultatoOverlay.setTextAlignment(TextAlignment.CENTER);
+
+                System.out.println("Partita terminata?");
+                System.out.println("Mazzo di gioco: " + partita.getMazzoDiGioco().size());
+                System.out.println("Carte sul tavolo: " + partita.getCarteSulTavolo().size());
 
                 // partita.fine();
                 System.out.println("Partita eliminata per finta");
