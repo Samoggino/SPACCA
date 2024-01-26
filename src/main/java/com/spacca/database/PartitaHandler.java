@@ -59,6 +59,8 @@ public class PartitaHandler implements Handler {
     public Partita carica(String codicePartita) {
         Partita partita = null;
         try {
+            System.out.println("\n" + //
+                    " SIAMO IN CARICA PARTITA HANDLER \n" + codicePartita);
             codicePartita = codicePartita.toUpperCase();
 
             Reader fileReader = new FileReader(
@@ -66,6 +68,8 @@ public class PartitaHandler implements Handler {
             Gson gson = new Gson();
 
             partita = gson.fromJson(fileReader, Partita.class);
+            System.out.println("\n" + //
+                    " SIAMO IN CARICA PARTITA HANDLER \n" + partita.getListaDeiGiocatori());
 
             fileReader.close();
         } catch (JsonIOException e) {
@@ -86,7 +90,9 @@ public class PartitaHandler implements Handler {
 
     @Override
     public void elimina(String codice) {
-        String path = "src/main/resources/com/spacca/database/partite/P" + codice + ".json";
+        System.out.println("\n" + //
+                " SIAMO IN ELIMINA PARTITA HANDLER \n" + codice);
+        String path = "src/main/resources/com/spacca/database/partite/" + codice + ".json";
         File file = new File(path);
         Partita partita = this.carica(codice);
         List<String> listaDeiGiocatori = partita.getListaDeiGiocatori();
@@ -129,7 +135,7 @@ public class PartitaHandler implements Handler {
 
     @Override
     public Boolean VerificaEsistenzaFile(String codice) {
-        String path = "src/main/resources/com/spacca/database/partite/P" + codice + ".json";
+        String path = "src/main/resources/com/spacca/database/partite/" + codice + ".json";
 
         File userFile = new File(path);
 
@@ -144,7 +150,7 @@ public class PartitaHandler implements Handler {
     @Override
     public void modifica(String oldPartita, Object partita) {
         // Percorso del file JSON dell'oldGiocatore
-        String path = "src/main/resources/com/spacca/database/partite/P" + oldPartita + ".json";
+        String path = "src/main/resources/com/spacca/database/partite/" + oldPartita + ".json";
 
         Partita newPartita = (Partita) partita;
 

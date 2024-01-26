@@ -59,7 +59,7 @@ public class SelezionaPartitaController implements Initializable {
 
             // Rimuovi "user-" e ".json" dai nomi dei file
             List<String> modifiedFileNames = fileNames.stream()
-                    .map(fileName -> fileName.replace("P", "").replace(".json", ""))
+                    .map(fileName -> fileName.replace(".json", ""))
                     .collect(Collectors.toList());
 
             // Popola il ChoiceBox con la lista dei nomi dei file
@@ -93,6 +93,7 @@ public class SelezionaPartitaController implements Initializable {
             System.out.println("Parita selezionata " + nomeFilePartitaScelto);
 
             PartitaHandler partitaHandler = new PartitaHandler();
+            System.out.print("nomeFilePartitaScelto" + nomeFilePartitaScelto);
             partitaHandler.elimina(nomeFilePartitaScelto);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
