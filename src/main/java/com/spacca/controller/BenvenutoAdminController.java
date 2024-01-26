@@ -66,6 +66,39 @@ public class BenvenutoAdminController {
         changeSceneCreazioneUtente("/com/spacca/pages/modCreazioneUtente.fxml", titlePages);
     }
 
+    @FXML
+    private void handleCreazionePartita() {
+        System.out.println("Siamo in creazione partita");
+        String titlePages = "Creazione nuova partita ";
+        changeSceneCreazionePartita("/com/spacca/pages/creazionePartita.fxml", titlePages);
+
+    }
+
+    public void changeSceneCreazionePartita(String fxmlPath, String titlePages) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
+            Parent root = loader.load();
+
+            Scene currentScene = bottoneModificaUtente.getScene();
+
+            CreazionePartitaController creazionePartitaController = loader.getController();
+            loader.setController(creazionePartitaController);
+
+            // Ottieni lo Stage dalla scena corrente
+            Stage currentStage = (Stage) currentScene.getWindow();
+            currentStage.setTitle(titlePages);
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+        } catch (NullPointerException e) {
+            System.out.println("creazione partita nullpointerException " + e);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("IO Errore (Benvenuto Admin controller per creazione partita): \n" + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
+        }
+    }
+
     public void changeSceneModificaUtente(String fxmlPath, String titlePages) {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
@@ -83,12 +116,12 @@ public class BenvenutoAdminController {
             currentStage.show();
 
         } catch (NullPointerException e) {
-            System.out.println("Login avvenuto con successo!");
+            System.out.println("Modifica utente nullpointerException" + e);
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("IO Errore (Benvenuto Admin controller per modifica partita): \n" + e.getMessage());
+            System.err.println("IO Errore (Benvenuto Admin controller per modifica utente): \n" + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
+            System.err.println("Errore (Benvenuto Admin controller modifica utetne): \n" + e.getMessage());
         }
     }
 
@@ -109,12 +142,12 @@ public class BenvenutoAdminController {
             currentStage.show();
 
         } catch (NullPointerException e) {
-            System.out.println("Login avvenuto con successo!");
+            System.out.println("Elimina partita nullpointerexception! " + e);
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("IO Errore (Benvenuto Admin controller per modifica partita): \n" + e.getMessage());
+            System.err.println("IO Errore (Benvenuto Admin controller per elimina partita): \n" + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
+            System.err.println("Errore (Benvenuto Admin controller elimina partita): \n" + e.getMessage());
         }
     }
 
@@ -132,12 +165,12 @@ public class BenvenutoAdminController {
             currentStage.show();
 
         } catch (NullPointerException e) {
-            System.out.println("Login avvenuto con successo!");
+            System.out.println("Creazione utetne nullpointerexception " + e);
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("IO Errore (Benvenuto Admin controller per modifica partita): \n" + e.getMessage());
+            System.err.println("IO Errore (Benvenuto Admin controller per creazione utente ): \n" + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
+            System.err.println("Errore (Benvenuto Admin controller creazione utente): \n" + e.getMessage());
         }
     }
 }

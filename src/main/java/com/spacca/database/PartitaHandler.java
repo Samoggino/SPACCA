@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,12 +60,16 @@ public class PartitaHandler implements Handler {
         Partita partita = null;
         try {
             codicePartita = codicePartita.toUpperCase();
+            System.out.println("CODICE PARTITA HANDLER IN CARICA  " + codicePartita);
+
             Reader fileReader = new FileReader(
                     "src/main/resources/com/spacca/database/partite/" + codicePartita + ".json");
-            Gson gson = new Gson();
 
+            // codice passato P0987
+            Gson gson = new Gson();
+            // PERCHè PARTITà NULL ?
             partita = gson.fromJson(fileReader, Partita.class);
-            System.out.println(partita);
+            System.out.println("PARTITA HANDLER IN CARICA " + partita);
 
             fileReader.close();
         } catch (JsonIOException e) {
@@ -124,4 +131,53 @@ public class PartitaHandler implements Handler {
         return partita;
     }
 
+    @Override
+    public Boolean VerificaEsistenzaFile(String codice) {
+        String path = "src/main/resources/com/spacca/database/partite/P" + codice + ".json";
+
+        File userFile = new File(path);
+
+        // Verifica se il file esiste
+        if (userFile.exists() && userFile.isFile()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void modifica(String oldPartita, Object partita) {
+        // Percorso del file JSON dell'oldGiocatore
+        String path = "src/main/resources/com/spacca/database/partite/P" + oldPartita + ".json";
+
+        Partita newPartita = (Partita) partita;
+
+        System.out.println("Partita scelto " + oldPartita);
+        Partita vecchiaPartita = carica(oldPartita);
+        System.out.println("\n Vacchio partita" + vecchiaPartita + " \n ");
+        System.out.println("\n Nuovo partita" + newPartita + " \n ");
+
+        // se è stato modificato lo username creo il nuovo file ed elimino il vecchio
+        if (!oldPartita.equals(newPartita.getCodice())) {
+            salva(newPartita, newPartita.getCodice());
+            elimina(oldPartita);
+        } else { // se non è stato modificato lo username ricarico il file
+            try {
+                Path playerFilePath = Paths.get(path);
+                // Leggi il contenuto del file JSON e deserializza in un oggetto Giocatore
+                Gson gson = new Gson();
+
+                // Sovrascrivi il contenuto del file JSON con il nuovo JSON
+                String updatedJsonContent = gson.toJson(newPartita);
+                Files.write(playerFilePath, updatedJsonContent.getBytes());
+
+            } catch (IOException e) {
+                System.out.println("File non trovato " + e);
+            } catch (Exception e) {
+                System.out.println("Eccezione nella modifica del giocatore handler " + e);
+                e.printStackTrace();
+
+            }
+        }
+    }
 }

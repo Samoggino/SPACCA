@@ -20,4 +20,16 @@ public class TorneoHandler implements Handler {
         throw new UnsupportedOperationException("Unimplemented method 'elimina'");
     }
 
+    @Override
+    public Boolean VerificaEsistenzaFile(String codice) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void modifica(String oldFileName, Object newObject) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'modifica'");
+    }
+
 }

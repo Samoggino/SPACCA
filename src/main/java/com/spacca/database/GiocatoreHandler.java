@@ -15,8 +15,10 @@ import java.util.stream.Collectors;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.stream.JsonWriter;
+import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
+import com.spacca.asset.utente.giocatore.SmartCPU;
 
 public class GiocatoreHandler implements Handler {
 
@@ -78,14 +80,49 @@ public class GiocatoreHandler implements Handler {
         return giocatore;
     }
 
-    @Override // attenzione passare il codice con il nome del file per intero quindi
-              // user-codice.json
+    @Override
     public void elimina(String username) {
-        String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
-        File file = new File(path);
+        Handler handlerGiocatore = new GiocatoreHandler();
+        System.out.println("SONO IN ELIMINA: " + username);
 
-        if (file.exists() && file.isFile()) {
+        String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
+
+        File file = new File(path);
+        Giocatore giocatoreEliminato = (Giocatore) handlerGiocatore.carica(username);
+
+        if (VerificaEsistenzaFile(username)) {
             if (file.delete()) {
+
+                System.out.println("\n giocatoreEliminato (elimina): " + giocatoreEliminato + "\n");
+
+                List<String> listaCodiciPartita = giocatoreEliminato.getListaCodiciPartite();
+                System.out.println("\n listaCodiciPartita: " + listaCodiciPartita + "\n");
+
+                for (String codicePartita : listaCodiciPartita) {
+                    Handler handlerPartita = new PartitaHandler();
+                    System.out.println("\n Stiamo per caricare: " + codicePartita + "\n");
+                    Partita partita = (Partita) handlerPartita.carica(codicePartita);
+                    System.out.println("\n PARTITA" + codicePartita + "\n");
+                    System.out.println("\n LISTA GIOCATORI" + partita.getListaDeiGiocatori() + "\n");
+                    // rimuovo l'utente eliminato dalla lista dei giocatori delle partite
+                    partita.getListaDeiGiocatori().remove(username);
+                    System.out.println("\n LISTA GIOCATORI POST" + partita.getListaDeiGiocatori() + "\n");
+                    // creo nuovo sostituto
+                    SmartCPU sostituto = new SmartCPU(username);
+                    // dopo aver eliminato l'utente lo sostituisco con il computer, creando il file
+                    handlerPartita.salva(sostituto, username);
+                    // lo aggiungo alla lista dei giocatori della partita
+                    partita.getListaDeiGiocatori().add(sostituto.getUsername());
+
+                    handlerPartita.modifica(codicePartita, partita);
+                    // handler.salva(partita, codicePartita);
+                    System.out
+                            .println("Rimosso lo username " + username + " dalla lista delle partite  " +
+                                    partita);
+                    System.out.println(
+                            "username " + username + " lista codici" + partita.getListaDeiGiocatori());
+                }
+
                 System.out.println("Il giocatore con codice " + username + " è stato eliminato correttamente.");
             } else {
                 System.err.println("Errore durante l'eliminazione del giocatore con codice " + username);
@@ -95,44 +132,52 @@ public class GiocatoreHandler implements Handler {
         }
     }
 
-    // attenzione passare l'oldGiocatore con il nome del file per intero quindi
-    // user-codice.json
-    public Giocatore modifica(String oldGiocatore, Giocatore newGiocatore) {
+    @Override
+    public Boolean VerificaEsistenzaFile(String username) {
+        String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
+
+        File userFile = new File(path);
+
+        // Verifica se il file esiste
+        if (userFile.exists() && userFile.isFile()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void modifica(String oldGiocatore, Object newObject) {
+        Giocatore newGiocatore = (Giocatore) newObject;
         // Percorso del file JSON dell'oldGiocatore
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + oldGiocatore + ".json";
-        Path playerFilePath = Paths.get(path);
-        Giocatore giocatoreFinale = null;
 
-        try (Reader fileReader = new FileReader(path)) {
-            // Leggi il contenuto del file JSON e deserializza in un oggetto Giocatore
-            Gson gson = new Gson();
-            giocatoreFinale = gson.fromJson(fileReader, Giocatore.class);
+        System.out.println("Giocatore scelto " + oldGiocatore);
+        Giocatore vecchioGiocatore = carica(oldGiocatore);
+        System.out.println("\n Vacchio giocatore " + vecchioGiocatore + " \n ");
+        System.out.println("\n Nuovo giocatore " + newGiocatore + " \n ");
 
-            // Modifica i dati del giocatore esistente con quelli del nuovo giocatore
-            // giocatore.setUsername(newGiocatore.getUsername());
-            giocatoreFinale.setPassword(newGiocatore.getPassword());
-            giocatoreFinale.setEmail(newGiocatore.getEmail());
+        // se è stato modificato lo username creo il nuovo file ed elimino il vecchio
+        if (!oldGiocatore.equals(newGiocatore.getUsername())) {
+            salva(newGiocatore, newGiocatore.getUsername());
+            elimina(oldGiocatore);
+        } else { // se non è stato modificato lo username ricarico il file
+            try {
+                Path playerFilePath = Paths.get(path);
+                // Leggi il contenuto del file JSON e deserializza in un oggetto Giocatore
+                Gson gson = new Gson();
 
-            // Sovrascrivi il contenuto del file JSON con il nuovo JSON
-            String updatedJsonContent = gson.toJson(giocatoreFinale);
-            Files.write(playerFilePath, updatedJsonContent.getBytes());
+                // Sovrascrivi il contenuto del file JSON con il nuovo JSON
+                String updatedJsonContent = gson.toJson(newGiocatore);
+                Files.write(playerFilePath, updatedJsonContent.getBytes());
+            } catch (IOException e) {
+                System.out.println("File non trovato " + e);
+            } catch (Exception e) {
+                System.out.println("Eccezione nella modifica del giocatore handler " + e);
+                e.printStackTrace();
 
-            System.out.println("Giocatore modificato con successo: " + oldGiocatore);
-
-            this.salva(giocatoreFinale, giocatoreFinale.getUsername());
-            this.elimina(oldGiocatore);
-
-        } catch (JsonIOException e) {
-            System.err.println("Errore durante la modifica del giocatore " + oldGiocatore + ": " + e.getMessage());
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            System.err.println("Errore durante la modifica del giocatore " + oldGiocatore + ": " + e.getMessage());
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("Errore durante la modifica del giocatore " + oldGiocatore + ": " + e.getMessage());
-            e.printStackTrace();
+            }
         }
-        return newGiocatore;
     }
 
     public List<String> getAllGiocatori() {
@@ -165,4 +210,5 @@ public class GiocatoreHandler implements Handler {
         }
         return modifiedFileNames;
     }
+
 }

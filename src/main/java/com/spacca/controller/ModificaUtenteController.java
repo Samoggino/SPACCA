@@ -1,6 +1,5 @@
 package com.spacca.controller;
 
-import java.io.File;
 import java.io.IOException;
 
 import com.spacca.App;
@@ -57,9 +56,10 @@ public class ModificaUtenteController {
     @FXML
     private Label title;
 
+    private GiocatoreHandler handler = new GiocatoreHandler();
+
     @FXML
     private void procediModifica() {
-        GiocatoreHandler handler = new GiocatoreHandler();
 
         System.out.println("Siamo in procedi modifica");
         System.out.println("Utente corrente " + giocatoreScelto);
@@ -73,18 +73,25 @@ public class ModificaUtenteController {
         } else {
             if (!email.isEmpty() && controllaInserimentoEmail(email)) {
                 giocatoreScelto.setEmail(email);
-                System.out.println("Utente corrente modifica mail " + giocatoreScelto.getEmail());
+                System.out.println("Utente corrente modifica mail: " + giocatoreScelto.getEmail());
             }
             if (!password.isEmpty()) {
                 labelPassword.setText("Password inserita !");
                 giocatoreScelto.setPassword(password);
-                System.out.println("Utente corrente modifica password" + giocatoreScelto.getPassword());
+                System.out.println("Utente corrente modifica password: " + giocatoreScelto.getPassword());
+            }
+            if (!username.isEmpty() && controllaInserimentoUsername(username)) {
+                labelPassword.setText("Usernamente inserito !");
+                giocatoreScelto.setUsername(username);
+                System.out.println("Utente corrente modifica username: " + giocatoreScelto.getUsername());
             }
 
-            giocatoreScelto = handler.modifica(usernameScelto, giocatoreScelto);
+            handler.modifica(usernameScelto, giocatoreScelto);
 
-            showAlert("Utente " + giocatoreScelto.getUsername() + "modificato con successo!", AlertType.INFORMATION,
+            showAlert("Utente " + giocatoreScelto.getUsername() +
+                    "modificato con successo!", AlertType.INFORMATION,
                     "Modifica effettuata correttamente");
+
             changeScene("/com/spacca/pages/benvenutoAdmin.fxml");
         }
     }
@@ -100,16 +107,13 @@ public class ModificaUtenteController {
                 usernameField.setStyle("-fx-border-color:darkorange");
                 return false;
             } else {
-                String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
-
-                File userFile = new File(path);
 
                 // Verifica se il file esiste
-                if (userFile.exists() && userFile.isFile()) {
-                    Handler file = new GiocatoreHandler();
-                    Giocatore utente = (Giocatore) file.carica(username);
+                if (handler.VerificaEsistenzaFile(username)) {
+                    System.out.println("il file esiste già");
+                    Giocatore utente = (Giocatore) handler.carica(username);
 
-                    System.out.println(utente);
+                    System.out.println("utente " + utente);
 
                     if (utente.getUsername().equals(username)) {
                         labelUsername.setText("Username già in utilizzo! ");
@@ -117,8 +121,8 @@ public class ModificaUtenteController {
                         return false;
                     }
                 } else {
+                    System.out.println("il file non esiste");
                     labelUsername.setTextFill(Color.BLACK);
-                    System.out.println("siamo qui perchè non stampi?");
                     labelUsername.setText("Username corretto! ");
                     usernameField.setStyle("-fx-border-color:lightgrey");
                     return true;
