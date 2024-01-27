@@ -1,6 +1,5 @@
 package com.spacca.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -68,8 +67,7 @@ public class CreazioneUtenteRobotController implements Initializable {
 
             if (sceltaRobotIntelligente.isSelected()) {
                 System.out.println("crea robot intelligente selezionato ");
-                controllaInserimentoUsername(username);
-                username = "RI-" + username;
+                controllaInserimentoUsername("RI-" + username);
                 SmartCPU utenteSmartCPU = new SmartCPU(username);
                 giocatoreHandler.salva(utenteSmartCPU, username);
                 showAlert("Utente Robot Intelligente" + username + "\n salvato con successo!", "",
@@ -79,10 +77,9 @@ public class CreazioneUtenteRobotController implements Initializable {
             } else if (sceltaRobotBasico.isSelected()) {
 
                 System.out.println("crea robot stupido selezionato ");
-                controllaInserimentoUsername(username);
+                controllaInserimentoUsername("RS-" + username);
                 StupidCPU utenteStupidCPU = new StupidCPU(username);
                 System.out.println("utenteSmartCPU " + utenteStupidCPU);
-                username = "RS-" + username;
                 giocatoreHandler.salva(utenteStupidCPU, username);
                 showAlert("Utente Robot Basico" + username + "\n salvato con successo!", "", AlertType.INFORMATION);
                 changeSceneAdmin();
@@ -101,25 +98,27 @@ public class CreazioneUtenteRobotController implements Initializable {
 
     public boolean controllaInserimentoUsername(String username) {
         Boolean controllo = true;
-        try {
-            usernameLabel.setText("");
-            usernameLabel.setTextFill(Color.DARKORANGE);
-            usernameField.setStyle("-fx-border-color: lightgrey;");
+        System.out.println("\n \n" + //
+                " CONTROLLO INRIMENTO USERNAME " + username + "\n \n");
 
-            if (username.trim().isEmpty()) {
-                usernameLabel.setText("Non ha inserito lo username!");
-                usernameField.setStyle("-fx-border-color:darkorange");
-                controllo = false;
-            } else {
+        usernameLabel.setText("");
+        usernameLabel.setTextFill(Color.DARKORANGE);
+        usernameField.setStyle("-fx-border-color: lightgrey");
 
-                String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
+        if (username.trim().isEmpty()) {
+            usernameLabel.setText("Non ha inserito lo username!");
+            usernameField.setStyle("-fx-border-color:darkorange");
+            controllo = false;
+        } else {
+            try {
 
-                File userFile = new File(path);
+                GiocatoreHandler file = new GiocatoreHandler();
 
                 // Verifica se il file esiste
-                if (userFile.exists() && userFile.isFile()) {
-                    GiocatoreHandler file = new GiocatoreHandler();
-                    Giocatore utente = file.carica(path);
+                if (file.VerificaEsistenzaFile(username)) {
+
+                    Giocatore utente = file.carica(username);
+                    System.out.println("GIOCATORE" + utente);
 
                     if (utente.getUsername().equals(username)) {
                         usernameLabel.setText("Username già in utilizzo! ");
@@ -132,10 +131,9 @@ public class CreazioneUtenteRobotController implements Initializable {
                     controllo = true;
                 }
 
+            } catch (Exception e) {
+                System.err.println("ERRORE: Errore generico in\n" + e.getMessage());
             }
-
-        } catch (Exception e) {
-            System.err.println("ERRORE: Errore generico in\n" + e.getMessage());
         }
         return controllo;
     }

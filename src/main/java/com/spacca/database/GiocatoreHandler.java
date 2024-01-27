@@ -18,7 +18,7 @@ import com.google.gson.stream.JsonWriter;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
-import com.spacca.asset.utente.giocatore.SmartCPU;
+import com.spacca.asset.utente.giocatore.StupidCPU;
 
 public class GiocatoreHandler implements Handler {
 
@@ -106,7 +106,7 @@ public class GiocatoreHandler implements Handler {
                     // stupido
                     Handler handlerGiocatore = new GiocatoreHandler();
                     String usernameStupid = "RS-" + username;
-                    SmartCPU giocatoreSostituto = new SmartCPU(usernameStupid);
+                    StupidCPU giocatoreSostituto = new StupidCPU(usernameStupid);
                     partita.getListaDeiGiocatori().add(usernameStupid);
                     // salvo su file il nuovo giocatore stupido
                     handlerGiocatore.salva(giocatoreSostituto, usernameStupid);
@@ -137,8 +137,10 @@ public class GiocatoreHandler implements Handler {
 
         // Verifica se il file esiste
         if (userFile.exists() && userFile.isFile()) {
+            System.out.println("VerificaEsistenzaFile: " + true);
             return true;
         } else {
+            System.out.println("VerificaEsistenzaFile: " + false);
             return false;
         }
     }

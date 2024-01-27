@@ -1,6 +1,5 @@
 package com.spacca.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -100,13 +99,11 @@ public class CreazioneUtenteController implements Initializable {
 
     public boolean controllaInserimentoUsername(String username) {
         Boolean controllo = true;
-        try {
-            labelUsername.setText("");
-            labelUsername.setTextFill(Color.DARKORANGE);
-            usernameField.setStyle("-fx-border-color:whitegrey");
-        } catch (Exception e) {
-            System.err.println("Errore (Login controller): \n" + e.getMessage());
-        }
+        System.out.println("\n \n CONTROLLO INSERIMENTO USERNAME " + username + "\n \n");
+
+        labelUsername.setText("");
+        labelUsername.setTextFill(Color.DARKORANGE);
+        usernameField.setStyle("-fx-border-color: lightgrey");
 
         if (username.trim().isEmpty()) {
             labelUsername.setText("Non ha inserito lo username!");
@@ -115,14 +112,13 @@ public class CreazioneUtenteController implements Initializable {
         } else {
             try {
 
-                String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
-
-                File userFile = new File(path);
+                GiocatoreHandler file = new GiocatoreHandler();
 
                 // Verifica se il file esiste
-                if (userFile.exists() && userFile.isFile()) {
-                    GiocatoreHandler file = new GiocatoreHandler();
-                    Giocatore utente = file.carica(path);
+                if (file.VerificaEsistenzaFile(username)) {
+
+                    Giocatore utente = file.carica(username);
+                    System.out.println("GIOCATORE" + utente);
 
                     if (utente.getUsername().equals(username)) {
                         labelUsername.setText("Username già in utilizzo! ");
@@ -156,19 +152,19 @@ public class CreazioneUtenteController implements Initializable {
                 return false;
             } else if (confermaPassword.trim().isEmpty()) {
                 labelPassword.setText("");
-                passwordField.setStyle("-fx-border-color:whitegrey");
+                passwordField.setStyle("-fx-border-color:lightgrey");
                 labelConfermaPassword.setText("Non hai inserito la conferma!");
                 confermaPasswordField.setStyle("-fx-border-color:darkorange");
                 return false;
             } else if (password.trim().isEmpty()) {
                 labelConfermaPassword.setText("");
-                confermaPasswordField.setStyle("-fx-border-color:whitegrey");
+                confermaPasswordField.setStyle("-fx-border-color:lightgrey");
                 labelPassword.setText("Non hai inserito la password!");
                 passwordField.setStyle("-fx-border-color:darkorange");
                 return false;
             } else if (password.equals(confermaPassword)) {
                 labelConfermaPassword.setText("Password di conferma corretta!");
-                confermaPasswordField.setStyle("-fx-border-color:whitegrey");
+                confermaPasswordField.setStyle("-fx-border-color:lightgrey");
                 labelConfermaPassword.setTextFill(Color.BLACK);
                 return true;
             } else {
@@ -193,7 +189,7 @@ public class CreazioneUtenteController implements Initializable {
                 return false;
             } else if (email.contains("@")) {
                 labelEmail.setText("");
-                emailField.setStyle("-fx-border-color:whitegrey");
+                emailField.setStyle("-fx-border-color:lightgrey");
                 return true;
             } else {
                 labelEmail.setText("Email non valida, reinseriscila!");

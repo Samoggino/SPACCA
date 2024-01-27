@@ -1,6 +1,5 @@
 package com.spacca.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -10,7 +9,6 @@ import java.util.ResourceBundle;
 import com.spacca.App;
 import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.database.GiocatoreHandler;
-import com.spacca.database.Handler;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,17 +56,12 @@ public class RegistrazioneController implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         try {
-            // usernameField.setStyle("-fx-border-color:whitegrey");
-            // passwordField.setStyle("-fx-border-color:whitegrey");
-            // emailField.setStyle("-fx-border-color:whitegrey");
-            // confermaPasswordField.setStyle("-fx-border-color:whitegrey");
-            // data.setStyle("-fx-border-color:whitegrey");
 
-            usernameField.setStyle("-fx-border-color: white grey;");
-            passwordField.setStyle("-fx-border-color: white grey;");
-            emailField.setStyle("-fx-border-color: white grey;");
-            confermaPasswordField.setStyle("-fx-border-color: white grey;");
-            data.setStyle("-fx-border-color: white grey;");
+            usernameField.setStyle("-fx-border-color: lightgrey;");
+            passwordField.setStyle("-fx-border-color: lightgrey;");
+            emailField.setStyle("-fx-border-color: lightgrey;");
+            confermaPasswordField.setStyle("-fx-border-color: lightgrey;");
+            data.setStyle("-fx-border-color: lightgrey;");
 
             labelData.setText("");
             labelConfermaPassword.setText("");
@@ -170,7 +163,7 @@ public class RegistrazioneController implements Initializable {
 
                 if (eta >= 18) {
                     // Modifica lo stile dell'elemento UI 'data' in caso di successo
-                    data.setStyle("-fx-border-color: whitegrey");
+                    data.setStyle("-fx-border-color: lightgrey");
                     labelData.setText("");
                     return true;
                 } else {
@@ -195,10 +188,12 @@ public class RegistrazioneController implements Initializable {
 
     public boolean controllaInserimentoUsername(String username) {
         Boolean controllo = true;
+        GiocatoreHandler file = new GiocatoreHandler();
+
         try {
             labelUsername.setText("");
             labelUsername.setTextFill(Color.DARKORANGE);
-            usernameField.setStyle("-fx-border-color:whitegrey");
+            usernameField.setStyle("-fx-border-color:lightgrey");
         } catch (Exception e) {
             System.err.println("Errore (Login controller): \n" + e.getMessage());
         }
@@ -209,17 +204,13 @@ public class RegistrazioneController implements Initializable {
             controllo = false;
         } else {
             try {
-
-                String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
-
-                File userFile = new File(path);
-
                 // Verifica se il file esiste
-                if (userFile.exists() && userFile.isFile()) {
-                    Handler file = new GiocatoreHandler();
-                    Giocatore utente = (Giocatore) file.carica(username);
+                if (file.VerificaEsistenzaFile(username)) {
+
+                    Giocatore utente = file.carica(username);
 
                     if (utente.getUsername().equals(username)) {
+
                         labelUsername.setText("Username già in utilizzo! ");
                         usernameField.setStyle("-fx-border-color:darkorange");
                         controllo = false;
@@ -251,19 +242,19 @@ public class RegistrazioneController implements Initializable {
                 return false;
             } else if (confermaPassword.trim().isEmpty()) {
                 labelPassword.setText("");
-                passwordField.setStyle("-fx-border-color:whitegrey");
+                passwordField.setStyle("-fx-border-color:lightgrey");
                 labelConfermaPassword.setText("Non hai inserito la conferma!");
                 confermaPasswordField.setStyle("-fx-border-color:darkorange");
                 return false;
             } else if (password.trim().isEmpty()) {
                 labelConfermaPassword.setText("");
-                confermaPasswordField.setStyle("-fx-border-color:whitegrey");
+                confermaPasswordField.setStyle("-fx-border-color:lightgrey");
                 labelPassword.setText("Non hai inserito la password!");
                 passwordField.setStyle("-fx-border-color:darkorange");
                 return false;
             } else if (password.equals(confermaPassword)) {
                 labelConfermaPassword.setText("Password di conferma corretta!");
-                confermaPasswordField.setStyle("-fx-border-color:whitegrey");
+                confermaPasswordField.setStyle("-fx-border-color:lightgrey");
                 labelConfermaPassword.setTextFill(Color.BLACK);
                 return true;
             } else {
@@ -288,7 +279,7 @@ public class RegistrazioneController implements Initializable {
                 return false;
             } else if (email.contains("@")) {
                 labelEmail.setText("");
-                emailField.setStyle("-fx-border-color:whitegrey");
+                emailField.setStyle("-fx-border-color:lightgrey");
                 return true;
             } else {
                 labelEmail.setText("Email non valida, reinseriscila!");
