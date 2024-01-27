@@ -98,7 +98,7 @@ public class Partita extends Object {
 
     public void salvaPartita() {
         try {
-            CalcolatoreRisultatoPartita.calcolaVincitore(preseDeiGiocatori, classifica);
+            UpdateClassifica.aggiornaClassifica(preseDeiGiocatori, classifica);
             if (this.handlerPartita == null) {
                 this.handlerPartita = new PartitaHandler();
             }
@@ -112,8 +112,9 @@ public class Partita extends Object {
         this.handlerPartita.elimina(this.codice);
     }
 
-    public String getRisultato() {
-        return this.classifica.toString();
+    public Map<String, Integer> getClassifica() {
+        aggiornaLaClassifica();
+        return this.classifica;
     }
 
     public Map<String, Mazzo> getManoDeiGiocatori() {
@@ -171,8 +172,6 @@ public class Partita extends Object {
      */
     public void nuovoTurno() {
 
-        // FIXME: il gioco termina anche se i giocatori hanno ancora carte in mano
-
         boolean enoughMazzo = abbastanzaCarteNelMazzo();
         boolean notEnoughMano = giocatoriNonHannoCarteInMano();
 
@@ -195,7 +194,6 @@ public class Partita extends Object {
             getCarteSulTavolo().getCarteNelMazzo().clear();
 
             System.out.println("Partita finita!");
-            System.out.println("Risultato: " + getRisultato());
         }
         salvaPartita();
     }
@@ -500,14 +498,14 @@ public class Partita extends Object {
         return true;
     }
 
-    public void calcolaVincitore() {
+    public void aggiornaLaClassifica() {
 
-        this.classifica = CalcolatoreRisultatoPartita.calcolaVincitore(getPreseDeiGiocatori(), this.classifica);
+        this.classifica = UpdateClassifica.aggiornaClassifica(getPreseDeiGiocatori(), this.classifica);
         salvaPartita();
     }
 
     public String getVincitore() {
-        calcolaVincitore();
+        aggiornaLaClassifica();
 
         // devi prendere il primo elemento della classifica se il successivo ha un
         // punteggio minore, altrimenti devi prendere il secondo elemento della

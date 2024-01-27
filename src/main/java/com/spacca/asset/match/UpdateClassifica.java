@@ -21,7 +21,7 @@ import com.spacca.asset.carte.Seme;
  * - il due di bastoni
  * - i punti delle carte presenti nei mazzi dei giocatori
  */
-public class CalcolatoreRisultatoPartita {
+public class UpdateClassifica {
 
     static Map<String, Integer> puntiPerGiocatore = new HashMap<String, Integer>();
 
@@ -32,7 +32,7 @@ public class CalcolatoreRisultatoPartita {
      * @param preseDeiGiocatori una mappa contenente i mazzi dei giocatori
      * @return una stringa rappresentante il vincitore della partita
      */
-    public static Map<String, Integer> calcolaVincitore(Map<String, Mazzo> preseDeiGiocatori,
+    public static Map<String, Integer> aggiornaClassifica(Map<String, Mazzo> preseDeiGiocatori,
             Map<String, Integer> classifica) {
 
         // prendi tutti i giocatori dalla mappa delle prese e mettili nella mappa dei

@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextFlow;
 
 public class TavoloController {
 
@@ -25,7 +27,11 @@ public class TavoloController {
     private Carta cartaDelTavolo, cartaDellaMano;
 
     @FXML
-    public Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane, overlay, tavolo;
+    public Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane, overlay, tavolo,
+            classificaPane;
+
+    @FXML
+    public Button classificaButton;
 
     @FXML
     public GridPane piatto;
@@ -163,6 +169,26 @@ public class TavoloController {
 
     }
 
+    @FXML
+    void buildClassifica() {
+        if (classificaPane.isVisible()) {
+            classificaPane.setVisible(false);
+            return;
+        } else {
+            classificaPane.getChildren().clear();
+            classificaPane.setVisible(true);
+            TextFlow classificaFlowPane = new TextFlow();
+
+            partita.getClassifica().forEach(
+                    (giocatore, punti) -> extracted(classificaFlowPane, giocatore, punti));
+            classificaPane.getChildren().add(classificaFlowPane);
+        }
+    }
+
+    private void extracted(TextFlow classificaFlowPane, String giocatore, Integer punti) {
+        classificaFlowPane.getChildren().add(new Text(giocatore + ": " + punti + " punti" + "\n"));
+    }
+
     void buildOverlay() {
         // FIXME: la stampa del andTheWinnerIs non funziona, non viene visualizzato il
         // nome del vincitore
@@ -173,7 +199,6 @@ public class TavoloController {
                 overlay.setVisible(true);
                 andTheWinnerIs.setText(partita.getVincitore());
 
-                
                 String classifica = partita.classifica.toString();
 
                 // Centra il testo orizzontalmente e verticalmente

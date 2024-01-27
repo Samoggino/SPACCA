@@ -66,7 +66,7 @@ public class PartitaController implements Initializable {
     void risultatoPartita() {
 
         System.out.println(partita.getCarteSulTavolo());
-        System.out.println(partita.getRisultato());
+        System.out.println(partita.getClassifica());
     }
 
     @FXML
