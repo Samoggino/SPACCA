@@ -38,10 +38,6 @@ public class Partita extends Object {
     @SerializedName("carte sul tavolo")
     private Mazzo carteSulTavolo;
 
-    // risultato della partita
-    @SerializedName("risultato")
-    private String risultato;
-
     @SerializedName("è il turno di")
     private String giocatoreCorrente = "nessuno";
 
@@ -54,6 +50,9 @@ public class Partita extends Object {
     // codice della partita
     @SerializedName("codice")
     private String codice = "codice default";
+
+    @SerializedName("classifica")
+    public Map<String, Integer> classifica = new HashMap<>();
 
     transient private Handler handlerPartita = new PartitaHandler();
 
@@ -70,7 +69,6 @@ public class Partita extends Object {
 
         this.codice = codice;
         this.listaDeiGiocatori = giocatori;
-        this.risultato = "Ancora da giocare";
 
         // Crea il mazzo di gioco
         this.mazzoDiGioco = new Mazzo().creaMazzoDiPartenza();
@@ -100,7 +98,7 @@ public class Partita extends Object {
 
     public void salvaPartita() {
         try {
-            calcolaRisultato();
+            CalcolatoreRisultatoPartita.calcolaVincitore(preseDeiGiocatori, classifica);
             if (this.handlerPartita == null) {
                 this.handlerPartita = new PartitaHandler();
             }
@@ -115,7 +113,7 @@ public class Partita extends Object {
     }
 
     public String getRisultato() {
-        return calcolaVincitore();
+        return this.classifica.toString();
     }
 
     public Map<String, Mazzo> getManoDeiGiocatori() {
@@ -146,10 +144,6 @@ public class Partita extends Object {
     public List<String> getListaDeiGiocatori() {
 
         return this.listaDeiGiocatori;
-    }
-
-    public void calcolaRisultato() {
-        this.risultato = CalcolatoreRisultatoPartita.calcolaRisultato(getPreseDeiGiocatori());
     }
 
     public Mazzo getManoDellUtente(String username) {
@@ -506,13 +500,14 @@ public class Partita extends Object {
         return true;
     }
 
-    public String calcolaVincitore() {
-        this.vincitore = CalcolatoreRisultatoPartita.calcolaVincitore(getPreseDeiGiocatori());
+    public void calcolaVincitore() {
+
+        this.classifica = CalcolatoreRisultatoPartita.calcolaVincitore(getPreseDeiGiocatori(), this.classifica);
         salvaPartita();
-        return this.vincitore;
     }
 
     public String getVincitore() {
+        calcolaVincitore();
         return this.vincitore;
     }
 }

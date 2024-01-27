@@ -34,11 +34,11 @@ public class App extends Application {
             // AbstractGiocatore SmartCPU = new SmartCPU("smartCPU");
             Amministratore amministratore = new Amministratore();
 
-            List<AbstractGiocatore> giocatoriDellaPartita = List.of(YOSHI, MARIO, LUIGI, WARIO);
+            List<AbstractGiocatore> giocatoriDellaPartita = List.of(YOSHI, MARIO);
             Partita partita = amministratore.creaPartita(giocatoriDellaPartita);
             partita.nuovoTurno();
 
-            // Partita partita = amministratore.caricaPartita("P5679");
+            // Partita partita = amministratore.caricaPartita("p1602");
 
             FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
             Parent root = loader.load();

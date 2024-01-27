@@ -172,8 +172,7 @@ public class TavoloController {
                     && partita.giocatoriNonHannoCarteInMano()) {
                 overlay.setVisible(true);
                 andTheWinnerIs.setText(partita.getVincitore());
-
-                String risultato = partita.getRisultato();
+                String risultato = partita.classifica.toString();
 
                 // Centra il testo orizzontalmente e verticalmente
 
