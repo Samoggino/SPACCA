@@ -85,9 +85,11 @@ public class BenvenutoAdminController {
             loader.setController(creazionePartitaController);
 
             // Ottieni lo Stage dalla scena corrente
+
             Stage currentStage = (Stage) currentScene.getWindow();
             currentStage.setTitle(titlePages);
-            currentStage.setScene(new Scene(root));
+            Scene scene = new Scene(root, 700, 500);
+            currentStage.setScene(scene);
             currentStage.show();
         } catch (NullPointerException e) {
             System.out.println("creazione partita nullpointerException " + e);

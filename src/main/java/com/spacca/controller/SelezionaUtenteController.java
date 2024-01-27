@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 
 import com.spacca.App;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.database.GiocatoreHandler;
 
 import javafx.fxml.FXML;
@@ -33,7 +32,7 @@ public class SelezionaUtenteController implements Initializable {
     private String username;
 
     @FXML
-    public void initController(Giocatore utenteCorrente) {
+    public void initController() {
     }
 
     @Override
@@ -41,8 +40,8 @@ public class SelezionaUtenteController implements Initializable {
 
         GiocatoreHandler handler = new GiocatoreHandler();
 
-        // Popola il ChoiceBox con la lista dei nomi dei file
-        listaUtenti.getItems().addAll(handler.getAllGiocatori());
+        // Popola il ChoiceBox con la lista dei nomi dei file con i robot
+        listaUtenti.getItems().addAll(handler.getAllGiocatoriUtenti());
 
         listaUtenti.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
