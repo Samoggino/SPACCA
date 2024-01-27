@@ -61,8 +61,9 @@ public class ModificaUtenteController {
     @FXML
     private void procediModifica() {
 
-        System.out.println("Siamo in procedi modifica");
+        System.out.println("\n PROCEDI MODIFICA \n ");
         System.out.println("Utente corrente " + giocatoreScelto);
+        System.out.println("Lista partite " + giocatoreScelto.getListaCodiciPartite());
 
         String username = usernameField.getText().trim();
         String email = emailField.getText().trim();

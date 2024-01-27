@@ -82,64 +82,51 @@ public class GiocatoreHandler implements Handler {
 
     @Override
     public void elimina(String username) {
-        /*
-         * Handler handlerGiocatore = new GiocatoreHandler();
-         * System.out.println("SONO IN ELIMINA: " + username);
-         * 
-         * String path = "src/main/resources/com/spacca/database/giocatori/user-" +
-         * username + ".json";
-         * 
-         * File file = new File(path);
-         * Giocatore giocatoreEliminato = (Giocatore) handlerGiocatore.carica(username);
-         * 
-         * if (VerificaEsistenzaFile(username)) {
-         * if (file.delete()) {
-         * 
-         * System.out.println("\n giocatoreEliminato (elimina): " + giocatoreEliminato +
-         * "\n");
-         * 
-         * List<String> listaCodiciPartita = giocatoreEliminato.getListaCodiciPartite();
-         * System.out.println("\n listaCodiciPartita: " + listaCodiciPartita + "\n");
-         * 
-         * for (String codicePartita : listaCodiciPartita) {
-         * Handler handlerPartita = new PartitaHandler();
-         * System.out.println("\n Stiamo per caricare: " + codicePartita + "\n");
-         * Partita partita = (Partita) handlerPartita.carica("P" + codicePartita);
-         * System.out.println("\n PARTITA" + codicePartita + "\n");
-         * System.out.println("\n LISTA GIOCATORI" + partita.getListaDeiGiocatori() +
-         * "\n");
-         * // rimuovo l'utente eliminato dalla lista dei giocatori delle partite
-         * partita.getListaDeiGiocatori().remove(username);
-         * System.out.println("\n LISTA GIOCATORI POST" + partita.getListaDeiGiocatori()
-         * + "\n");
-         * // creo nuovo sostituto
-         * SmartCPU sostituto = new SmartCPU(username);
-         * // dopo aver eliminato l'utente lo sostituisco con il computer, creando il
-         * file
-         * handlerPartita.salva(sostituto, username);
-         * // lo aggiungo alla lista dei giocatori della partita
-         * partita.getListaDeiGiocatori().add(sostituto.getUsername());
-         * 
-         * handlerPartita.modifica(codicePartita, partita);
-         * // handler.salva(partita, codicePartita);
-         * System.out
-         * .println("Rimosso lo username " + username + " dalla lista delle partite  " +
-         * partita);
-         * System.out.println(
-         * "username " + username + " lista codici" + partita.getListaDeiGiocatori());
-         * }
-         * 
-         * System.out.println("Il giocatore con codice " + username +
-         * " è stato eliminato correttamente.");
-         * } else {
-         * System.err.println("Errore durante l'eliminazione del giocatore con codice "
-         * + username);
-         * }
-         * } else {
-         * System.err.println("Il giocatore con codice " + username +
-         * " non esiste o non è un file.");
-         * }
-         */
+        System.out.println("\n" + //
+                " SIAMO IN ELIMINA UTENTE HANDLER \n" + username);
+        String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
+
+        File file = new File(path);
+
+        Giocatore giocatoreEliminato = this.carica(username);
+
+        List<String> listaCodici = giocatoreEliminato.getListaCodiciPartite();
+
+        if (file.exists() && file.isFile()) {
+            if (file.delete()) {
+
+                for (String codice : listaCodici) {
+                    Handler handlerPartita = new PartitaHandler();
+                    // carico la partita con il codice presente nella lista per eliminare il
+                    // giocatore
+                    Partita partita = (Partita) handlerPartita.carica(codice);
+                    // rimuovo il giocatore nella lista dei giocatori della partita
+                    partita.getListaDeiGiocatori().remove(username);
+                    // creo un nuovo giocatore stupido e lo sostituisco con un giocatore robot
+                    // stupido
+                    Handler handlerGiocatore = new GiocatoreHandler();
+                    String usernameStupid = "RS-" + username;
+                    SmartCPU giocatoreSostituto = new SmartCPU(usernameStupid);
+                    partita.getListaDeiGiocatori().add(usernameStupid);
+                    // salvo su file il nuovo giocatore stupido
+                    handlerGiocatore.salva(giocatoreSostituto, usernameStupid);
+
+                    // salvo la partita modificata
+                    handlerPartita.salva(partita, codice);
+
+                    System.out
+                            .println("Eliminato utente " + username + " dalla partita " + codice);
+                    System.out.println(
+                            "Codici partita di " + username + " " + giocatoreEliminato.getListaCodiciPartite());
+                }
+
+                System.out.println("Il giocatore con username " + username + " è stato eliminato correttamente.");
+            } else {
+                System.err.println("Errore durante l'eliminazione del giocatore  " + username);
+            }
+        } else {
+            System.err.println("Il giocatore con username " + username + " non esiste o non è un file.");
+        }
     }
 
     @Override
