@@ -172,19 +172,17 @@ public class TavoloController {
                     && partita.giocatoriNonHannoCarteInMano()) {
                 overlay.setVisible(true);
                 andTheWinnerIs.setText(partita.getVincitore());
-                String risultato = partita.classifica.toString();
+
+                
+                String classifica = partita.classifica.toString();
 
                 // Centra il testo orizzontalmente e verticalmente
 
-                risultatoOverlay.setText(risultato);
+                risultatoOverlay.setText(classifica);
                 risultatoOverlay.setTextAlignment(TextAlignment.CENTER);
 
-                System.out.println("Partita terminata?");
-                System.out.println("Mazzo di gioco: " + partita.getMazzoDiGioco().size());
-                System.out.println("Carte sul tavolo: " + partita.getCarteSulTavolo().size());
-
+                System.out.println("Partita finita!");
                 // partita.fine();
-                System.out.println("Partita eliminata per finta");
             }
 
         } catch (Exception e) {
@@ -254,8 +252,12 @@ public class TavoloController {
     void assoPrendeTuttoHandler(Carta cartaDellaMano) {
 
         if (cartaDellaMano.getNome().equals(Nome.ASSO)) {
-            partita.assoPrendeTutto(partita.getGiocatoreCorrente(), cartaDellaMano);
-            System.out.println("Puoi prendere tutto con " + cartaDellaMano);
+            if (partita.getCarteSulTavolo().size() == 0) {
+                scartaCartaHandler(cartaDellaMano);
+            } else {
+                partita.assoPrendeTutto(partita.getGiocatoreCorrente(), cartaDellaMano);
+                System.out.println("Prendi tutto con " + cartaDellaMano + "!");
+            }
             cambiaTurno();
         }
     }

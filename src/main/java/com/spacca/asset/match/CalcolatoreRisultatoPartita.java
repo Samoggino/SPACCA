@@ -1,9 +1,12 @@
 package com.spacca.asset.match;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Mazzo;
@@ -48,7 +51,6 @@ public class CalcolatoreRisultatoPartita {
         calcolaDueDiBastoni(preseDeiGiocatori); // funziona
         calcolaPunti(preseDeiGiocatori);// funziona
 
-
         System.out.println("puntiPerGiocatore" + puntiPerGiocatore);
 
         return ordinaClassifica();
@@ -60,7 +62,6 @@ public class CalcolatoreRisultatoPartita {
      */
     private static void calcolaDueDiBastoni(Map<String, Mazzo> preseDeiGiocatori) {
 
-        System.out.println("calcolaDueDiBastoni");
         for (Map.Entry<String, Mazzo> entry : preseDeiGiocatori.entrySet()) {
             for (Carta carta : entry.getValue().getCarteNelMazzo()) {
                 if (carta.getValore() == 2 && carta.getSeme().equals(Seme.BASTONI)) {
@@ -79,7 +80,6 @@ public class CalcolatoreRisultatoPartita {
         List<String> vincitori = new ArrayList<>();
         int carteMassime = 1;
 
-        System.out.println("calcolaCarte");
         for (Map.Entry<String, Mazzo> entry : preseDeiGiocatori.entrySet()) {
             int conteggioCarte = entry.getValue().getCarteNelMazzo().size();
 
@@ -92,7 +92,7 @@ public class CalcolatoreRisultatoPartita {
             } else if (conteggioCarte == carteMassime) {
                 vincitori.add(entry.getKey());
             }
-            System.out.println(entry.getKey() + " " + conteggioCarte);
+            System.out.println(entry.getKey() + " ha " + conteggioCarte + " carte");
         }
 
         // Resetta i punti per tutti i giocatori
@@ -148,15 +148,19 @@ public class CalcolatoreRisultatoPartita {
         // prima
         System.out.println("prima" + puntiPerGiocatore);
 
-        puntiPerGiocatore
+        // ordina la mappa dei punti
+        Map<String, Integer> mappaOrdinata = puntiPerGiocatore
                 .entrySet()
                 .stream()
-                .sorted(Map.Entry.<String, Integer>comparingByValue());
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+        System.out.println(mappaOrdinata);
 
         // dopo
-        System.out.println("dopo" + puntiPerGiocatore);
+        System.out.println("dopo" + mappaOrdinata);
 
-        return puntiPerGiocatore;
+        return mappaOrdinata;
     }
 
 }

@@ -131,7 +131,7 @@ public class Partita extends Object {
             stampa += giocatore;
             i++;
         }
-        stampa += "\nCodice " + this.codice + "\nRisultato: " + getRisultato() + "\n";
+        stampa += "\nCodice " + this.codice + "\nRisultato: " + this.classifica + "\n";
 
         return stampa;
     }
@@ -508,6 +508,22 @@ public class Partita extends Object {
 
     public String getVincitore() {
         calcolaVincitore();
+
+        // devi prendere il primo elemento della classifica se il successivo ha un
+        // punteggio minore, altrimenti devi prendere il secondo elemento della
+        // classifica e così via
+
+        int punteggioMassimo = 0;
+
+        for (Map.Entry<String, Integer> entry : this.classifica.entrySet()) {
+            if (entry.getValue() > punteggioMassimo) {
+                punteggioMassimo = entry.getValue();
+                this.vincitore = entry.getKey();
+            } else if (entry.getValue() == punteggioMassimo) {
+                this.vincitore += " e " + entry.getKey();
+            }
+        }
+
         return this.vincitore;
     }
 }
