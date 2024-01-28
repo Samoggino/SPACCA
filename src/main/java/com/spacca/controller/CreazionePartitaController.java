@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 
 public class CreazionePartitaController implements Initializable {
     @FXML
-    private Spinner numeroGiocatori;
+    private Spinner<Integer> numeroGiocatori;
     @FXML
     private ComboBox<String> sceltaGiocatore1;
     @FXML
@@ -57,6 +57,23 @@ public class CreazionePartitaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+    }
+
+    @FXML
+    public void handleIndietro() {
+        changeScene("/com/spacca/pages/benvenutoAdmin.fxml");
+    }
+
+    @FXML
+    public void handleCrea() {
+        System.out.println("GIOCATORI SCELTI  : " + listaGiocatori);
+    }
+
+    @FXML
+    private void handleMostra() {
+        System.out.println("SIAMO IN MOSTRA PARTITA ");
+
         // Inizializza le liste delle ComboBox
         List<ComboBox<String>> comboBoxes = Arrays.asList(sceltaGiocatore1, sceltaGiocatore2, sceltaGiocatore3,
                 sceltaGiocatore4);
@@ -90,34 +107,8 @@ public class CreazionePartitaController implements Initializable {
                 }
             });
         }
-    }
 
-    @FXML
-    public void handleIndietro() {
-        changeScene("/com/spacca/pages/benvenutoAdmin.fxml");
-    }
-
-    @FXML
-    public void handleCrea() {
-        System.out.println("GIOCATORI SCELTI  : " + listaGiocatori);
-    }
-
-    @FXML
-    private void handleMostra() {
-        System.out.println("SIAMO IN MOSTRA PARTITA ");
-        // salvo il numero inserito e mostro il numero di giocatori
-        // System.out.println("L'amministratore ha selezionato " + "giocatori");
-        /*
-         * Integer num = (Integer) numeroGiocatori.getValue();
-         * System.out.println("L'amministratore ha selezionato " + num + "giocatori");
-         * sceltaGiocatore1.setVisible(num >= 1);
-         * sceltaGiocatore2.setVisible(num >= 2);
-         * sceltaGiocatore3.setVisible(num >= 3);
-         * sceltaGiocatore4.setVisible(num >= 4);
-         */
-
-        // Aggiorna l'interfaccia utente per rendere effettive le modifiche
-        rootPane.requestLayout();
+        // rootPane.requestLayout();
     }
 
     public void changeScene(String fxmlPath) {

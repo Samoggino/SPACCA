@@ -63,7 +63,7 @@
       <TextField fx:id="codicePartita" layoutX="80.0" layoutY="132.0" prefHeight="25.0" prefWidth="228.0" />
       <Button fx:id="indietroButton" layoutX="239.0" layoutY="442.0" mnemonicParsing="false" onMouseClicked="#handleIndietro" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: orange;" text="Indeitro" />
       <Button fx:id="creaButton" layoutX="385.0" layoutY="442.0" mnemonicParsing="false" onMouseClicked="#handleCrea" style="-fx-background-color: orange;" text="Crea Partita" />
-      <Button fx:id="procButton" layoutX="314.0" layoutY="187.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: orange;" text="Procedi" />
+      <Button fx:id="procButton" layoutX="314.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#handleMostra" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: orange;" text="Procedi" />
       <Line endX="603.0" layoutX="97.0" layoutY="237.0" startX="-100.0" strokeWidth="3.0">
          <stroke>
             <LinearGradient endX="1.0" endY="1.0">
