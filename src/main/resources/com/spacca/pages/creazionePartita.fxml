@@ -26,45 +26,42 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Spinner fx:id="numeroGiocatoriSpinner" initialValue="2" layoutX="390.0" layoutY="132.0" max="4" min="2" prefHeight="25.0" prefWidth="228.0" />
-
-
-<Label layoutX="390.0" layoutY="99.0" prefHeight="19.0" prefWidth="228.0" text="Inserisci il numero di giocatori :">
+      <Spinner fx:id="numeroGiocatoriSpinner" initialValue="2" layoutX="390.0" layoutY="119.0" max="4" min="2" prefHeight="25.0" prefWidth="228.0" />
+      <Label layoutX="390.0" layoutY="86.0" prefHeight="19.0" prefWidth="228.0" text="Inserisci il numero di giocatori :">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-
-      <Label layoutX="88.0" layoutY="272.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Uno : ">
+      <Label fx:id="label1" layoutX="88.0" layoutY="272.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Uno : ">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="88.0" layoutY="344.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Tre: ">
+      <Label fx:id="label3" layoutX="88.0" layoutY="359.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Tre: ">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="390.0" layoutY="272.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Due: ">
+      <Label fx:id="label2" layoutX="390.0" layoutY="272.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Due: ">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="390.0" layoutY="344.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Quattro: ">
+      <Label fx:id="label4" layoutX="390.0" layoutY="359.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Quattro: ">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="80.0" layoutY="99.0" prefHeight="19.0" prefWidth="228.0" text="Inserisci il codice della partita :">
+      <Label layoutX="80.0" layoutY="86.0" prefHeight="17.0" prefWidth="228.0" text="Inserisci il codice della partita :">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <TextField fx:id="codicePartita" layoutX="80.0" layoutY="132.0" prefHeight="25.0" prefWidth="228.0" />
-      <Button fx:id="indietroButton" layoutX="239.0" layoutY="442.0" mnemonicParsing="false" onMouseClicked="#handleIndietro" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: orange;" text="Indeitro" />
-      <Button fx:id="creaButton" layoutX="385.0" layoutY="442.0" mnemonicParsing="false" onMouseClicked="#handleCrea" style="-fx-background-color: orange;" text="Crea Partita" />
-      <Button fx:id="procButton" layoutX="314.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#handleMostra" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: orange;" text="Procedi" />
-      <Line endX="603.0" layoutX="97.0" layoutY="237.0" startX="-100.0" strokeWidth="3.0">
+      <TextField fx:id="codiceField" layoutX="80.0" layoutY="119.0" prefHeight="25.0" prefWidth="228.0" />
+      <Button fx:id="indietroButton" layoutX="238.0" layoutY="461.0" mnemonicParsing="false" onMouseClicked="#handleIndietro" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: orange;" text="Indeitro" />
+      <Button fx:id="creaButton" layoutX="384.0" layoutY="461.0" mnemonicParsing="false" onMouseClicked="#handleCrea" style="-fx-background-color: orange;" text="Crea Partita" />
+      <Button fx:id="procButton" layoutX="314.0" layoutY="198.0" mnemonicParsing="false" onMouseClicked="#handleMostra" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: orange;" text="Procedi" />
+      <Line endX="603.0" layoutX="98.0" layoutY="250.0" startX="-100.0" strokeWidth="3.0">
          <stroke>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -75,8 +72,22 @@
          </stroke>
       </Line>
       <ComboBox fx:id="sceltaGiocatore1" layoutX="88.0" layoutY="294.0" prefHeight="25.0" prefWidth="228.0" />
-      <ComboBox fx:id="sceltaGiocatore4" layoutX="390.0" layoutY="371.0" prefHeight="25.0" prefWidth="228.0" />
+      <ComboBox fx:id="sceltaGiocatore4" layoutX="390.0" layoutY="386.0" prefHeight="25.0" prefWidth="228.0" />
       <ComboBox fx:id="sceltaGiocatore2" layoutX="390.0" layoutY="294.0" prefHeight="25.0" prefWidth="228.0" />
-      <ComboBox fx:id="sceltaGiocatore3" layoutX="88.0" layoutY="371.0" prefHeight="25.0" prefWidth="228.0" />
+      <ComboBox fx:id="sceltaGiocatore3" layoutX="88.0" layoutY="386.0" prefHeight="25.0" prefWidth="228.0" />
+      <Label fx:id="labelCodice" layoutX="80.0" layoutY="144.0" prefHeight="17.0" prefWidth="228.0">
+         <font>
+            <Font size="9.0" />
+         </font></Label>
+      <Label layoutX="80.0" layoutY="161.0" prefHeight="19.0" prefWidth="228.0" text="Nota: puoi inserire solo numeri interi">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label layoutX="390.0" layoutY="152.0" prefHeight="32.0" prefWidth="228.0" text="Nota: pui inserire un minimo di due giocatori fino ad un massimo di quattro" wrapText="true">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

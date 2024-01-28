@@ -88,7 +88,7 @@ public class BenvenutoAdminController {
 
             Stage currentStage = (Stage) currentScene.getWindow();
             currentStage.setTitle(titlePages);
-            Scene scene = new Scene(root, 700, 500);
+            Scene scene = new Scene(root, 700, 550);
             currentStage.setScene(scene);
             currentStage.show();
         } catch (NullPointerException e) {
