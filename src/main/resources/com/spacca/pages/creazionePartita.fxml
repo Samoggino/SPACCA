@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextField?>
@@ -26,48 +26,44 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Spinner fx:id="numeroGiocatoriSpinner" initialValue="2" layoutX="433.0" layoutY="137.0" max="4" min="2" prefHeight="25.0" prefWidth="185.0" />
+      <Spinner fx:id="numeroGiocatoriSpinner" initialValue="2" layoutX="390.0" layoutY="132.0" max="4" min="2" prefHeight="25.0" prefWidth="228.0" />
 
 
-<Label layoutX="433.0" layoutY="104.0" prefHeight="17.0" prefWidth="185.0" text="Inserisci il numero di giocatori :">
+<Label layoutX="390.0" layoutY="99.0" prefHeight="19.0" prefWidth="228.0" text="Inserisci il numero di giocatori :">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="sceltaGiocatore1" layoutX="80.0" layoutY="294.0" prefHeight="25.0" prefWidth="228.0" />
-<ChoiceBox fx:id="sceltaGiocatore2" layoutX="433.0" layoutY="294.0" prefHeight="25.0" prefWidth="228.0" />
-<ChoiceBox fx:id="sceltaGiocatore3" layoutX="80.0" layoutY="369.0" prefHeight="25.0" prefWidth="228.0" />
-<ChoiceBox fx:id="sceltaGiocatore4" layoutX="433.0" layoutY="370.0" prefHeight="25.0" prefWidth="228.0" />
 
-      <Label layoutX="80.0" layoutY="272.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Uno : ">
+      <Label layoutX="88.0" layoutY="272.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Uno : ">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="80.0" layoutY="344.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Tre: ">
+      <Label layoutX="88.0" layoutY="344.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Tre: ">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="433.0" layoutY="272.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Due: ">
+      <Label layoutX="390.0" layoutY="272.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Due: ">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="433.0" layoutY="344.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Quattro: ">
+      <Label layoutX="390.0" layoutY="344.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Quattro: ">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="80.0" layoutY="104.0" prefHeight="17.0" prefWidth="185.0" text="Inserisci il codice della partita :">
+      <Label layoutX="80.0" layoutY="99.0" prefHeight="19.0" prefWidth="228.0" text="Inserisci il codice della partita :">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <TextField fx:id="codicePartita" layoutX="80.0" layoutY="137.0" prefHeight="25.0" prefWidth="185.0" />
+      <TextField fx:id="codicePartita" layoutX="80.0" layoutY="132.0" prefHeight="25.0" prefWidth="228.0" />
       <Button fx:id="indietroButton" layoutX="239.0" layoutY="442.0" mnemonicParsing="false" onMouseClicked="#handleIndietro" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: orange;" text="Indeitro" />
-      <Button fx:id="creaButton" onMouseClicked="#handleCrea" layoutX="385.0" layoutY="442.0" mnemonicParsing="false" style="-fx-background-color: orange;" text="Crea Partita" />
-      <Button fx:id="procButton" layoutX="316.0" layoutY="178.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: orange;" text="Procedi" />
+      <Button fx:id="creaButton" layoutX="385.0" layoutY="442.0" mnemonicParsing="false" onMouseClicked="#handleCrea" style="-fx-background-color: orange;" text="Crea Partita" />
+      <Button fx:id="procButton" layoutX="314.0" layoutY="187.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: orange;" text="Procedi" />
       <Line endX="603.0" layoutX="97.0" layoutY="237.0" startX="-100.0" strokeWidth="3.0">
          <stroke>
             <LinearGradient endX="1.0" endY="1.0">
@@ -78,5 +74,9 @@
             </LinearGradient>
          </stroke>
       </Line>
+      <ComboBox fx:id="sceltaGiocatore1" layoutX="88.0" layoutY="294.0" prefHeight="25.0" prefWidth="228.0" />
+      <ComboBox fx:id="sceltaGiocatore4" layoutX="390.0" layoutY="371.0" prefHeight="25.0" prefWidth="228.0" />
+      <ComboBox fx:id="sceltaGiocatore2" layoutX="390.0" layoutY="294.0" prefHeight="25.0" prefWidth="228.0" />
+      <ComboBox fx:id="sceltaGiocatore3" layoutX="88.0" layoutY="371.0" prefHeight="25.0" prefWidth="228.0" />
    </children>
 </Pane>

@@ -16,7 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+//import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -26,13 +27,13 @@ public class CreazionePartitaController implements Initializable {
     @FXML
     private Spinner numeroGiocatori;
     @FXML
-    private ChoiceBox<String> sceltaGiocatore1;
+    private ComboBox<String> sceltaGiocatore1;
     @FXML
-    private ChoiceBox<String> sceltaGiocatore2;
+    private ComboBox<String> sceltaGiocatore2;
     @FXML
-    private ChoiceBox<String> sceltaGiocatore3;
+    private ComboBox<String> sceltaGiocatore3;
     @FXML
-    private ChoiceBox<String> sceltaGiocatore4;
+    private ComboBox<String> sceltaGiocatore4;
     @FXML
     private Button indietroButton;
     @FXML
@@ -56,21 +57,22 @@ public class CreazionePartitaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Inizializza le liste delle ChoiceBox
-        List<ChoiceBox<String>> choiceBoxes = Arrays.asList(sceltaGiocatore1, sceltaGiocatore2, sceltaGiocatore3,
+        // Inizializza le liste delle ComboBox
+        List<ComboBox<String>> comboBoxes = Arrays.asList(sceltaGiocatore1, sceltaGiocatore2, sceltaGiocatore3,
                 sceltaGiocatore4);
 
-        // Inizializza tutte le ChoiceBox con l'elenco completo dei giocatori
-        for (ChoiceBox<String> choiceBox : choiceBoxes) {
-            choiceBox.getItems().addAll(handler.getAllGiocatoriWithRobot());
+        // Inizializza tutte le ComboBox con l'elenco completo dei giocatori
+        for (ComboBox<String> comboBox : comboBoxes) {
+            comboBox.getItems().addAll(handler.getAllGiocatoriWithRobot());
+            comboBox.setVisibleRowCount(5);
 
-            // Aggiungi un listener per la selezione di ogni ChoiceBox
-            choiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            // Aggiungi un listener per la selezione di ogni ComboBox
+            comboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
-                    // Rimuovi l'utente selezionato dalle altre ChoiceBox
-                    for (ChoiceBox<String> otherChoiceBox : choiceBoxes) {
-                        if (otherChoiceBox != choiceBox) {
-                            otherChoiceBox.getItems().remove(newValue);
+                    // Rimuovi l'utente selezionato dalle altre ComboBox
+                    for (ComboBox<String> otherComboBox : comboBoxes) {
+                        if (otherComboBox != comboBox) {
+                            otherComboBox.getItems().remove(newValue);
                         }
                     }
                     // Aggiungi l'utente selezionato alla lista degli utenti selezionati
@@ -79,10 +81,10 @@ public class CreazionePartitaController implements Initializable {
                 if (oldValue != null) {
                     // Rimuovi l'utente deselezionato dalla lista degli utenti selezionati
                     giocatoriSelezionati.remove(oldValue);
-                    // Aggiungi l'utente deselezionato alle altre ChoiceBox
-                    for (ChoiceBox<String> otherChoiceBox : choiceBoxes) {
-                        if (otherChoiceBox != choiceBox && !otherChoiceBox.getItems().contains(oldValue)) {
-                            otherChoiceBox.getItems().add(oldValue);
+                    // Aggiungi l'utente deselezionato alle altre ComboBox
+                    for (ComboBox<String> otherComboBox : comboBoxes) {
+                        if (otherComboBox != comboBox && !otherComboBox.getItems().contains(oldValue)) {
+                            otherComboBox.getItems().add(oldValue);
                         }
                     }
                 }
