@@ -20,8 +20,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-//TODO MODIFICA UTENTE PERMETTENDO LA MODIFICA DI OGNI SINGOLO ELEMENTO )
-
 public class ModificaUtenteController {
 
     @FXML

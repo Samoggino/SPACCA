@@ -1,11 +1,13 @@
 package com.spacca.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.spacca.App;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.database.PartitaHandler;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class PartitaController  {
+public class PartitaController {
 
     @FXML
     private TextField codeTextField;
@@ -42,7 +44,14 @@ public class PartitaController  {
 
     @FXML
     void nuovaPartita() {
-        partita = amministratore.creaPartita(giocatoriDellaPartita); // oppure carica la partita
+        Amministratore amministratore = new Amministratore();
+
+        List<String> usernameLsit = new ArrayList<>();
+        for (AbstractGiocatore utente : giocatoriDellaPartita) {
+            usernameLsit.add(utente.getUsername());
+        }
+
+        partita = amministratore.caricaPartita(usernameLsit); // crea e salva la partita con un codice casuale
         partita.setGiocatoreCorrente(giocatoreCorrente.getUsername());
         partita.nuovoTurno();
         System.out.println(partita);
@@ -57,7 +66,6 @@ public class PartitaController  {
 
     @FXML
     void risultatoPartita() {
-
         System.out.println(partita.getCarteSulTavolo());
         System.out.println(partita.getRisultato());
     }
@@ -75,23 +83,28 @@ public class PartitaController  {
     @FXML
     void prendiUnaCartaDalTavoloYoshi() {
         // try {
-        //     partita.prendiCartaDaTavolo(this.giocatoreCorrente.getUsername());
+        // partita.prendiCartaDaTavolo(this.giocatoreCorrente.getUsername());
         // } catch (Exception e) {
-        //     System.err.println("ERRORE (prendiUnaCartaDalTavoloYoshi):\t\t " + e.getMessage());
+        // System.err.println("ERRORE (prendiUnaCartaDalTavoloYoshi):\t\t " +
+        // e.getMessage());
         // }
     }
 
     @FXML
     void prendiUnaCartaDalTavoloMario() {
         // try {
-        //     partita.prendiCartaDaTavolo(this.giocatoreCorrente.getUsername());
+        // partita.prendiCartaDaTavolo(this.giocatoreCorrente.getUsername());
         // } catch (Exception e) {
-        //     System.err.println("ERRORE (prendiUnaCartaDalTavoloMario):\t\t " + e.getMessage());
+        // System.err.println("ERRORE (prendiUnaCartaDalTavoloMario):\t\t " +
+        // e.getMessage());
         // }
     }
 
     private void caricaPartita(String codicePartita) {
-        this.partita = amministratore.caricaPartita(codicePartita);
+        PartitaHandler partitaHandler = new PartitaHandler();
+        System.out.println("SIAMO DENTRO CARICA PARTITA IN PARTICA CONTROOLER" + codicePartita);
+
+        this.partita = partitaHandler.carica(codicePartita);
         this.partita.setGiocatoreCorrente(giocatoreCorrente.getUsername());
         System.out.println(partita);
         changeScene();

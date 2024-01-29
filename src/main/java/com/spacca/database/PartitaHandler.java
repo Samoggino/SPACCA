@@ -60,7 +60,7 @@ public class PartitaHandler implements Handler {
         Partita partita = null;
         try {
             System.out.println("\n" + //
-                    " SIAMO IN CARICA PARTITA HANDLER \n" + codicePartita);
+                    " SIAMO P HANDLER : codice\n" + codicePartita);
             codicePartita = codicePartita.toUpperCase();
 
             Reader fileReader = new FileReader(
@@ -69,9 +69,11 @@ public class PartitaHandler implements Handler {
 
             partita = gson.fromJson(fileReader, Partita.class);
             System.out.println("\n" + //
-                    " SIAMO IN CARICA PARTITA HANDLER \n" + partita.getListaDeiGiocatori());
+                    " SIAMO P HANDLER: lista giocatori \n" + partita.getListaDeiGiocatori());
 
             fileReader.close();
+            System.out.println("\n" + //
+                    " PARTITA SALVATA \n" + partita.getCodice());
         } catch (JsonIOException e) {
             System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" +
                     this.getClass().getName() + e.getMessage());
@@ -120,15 +122,23 @@ public class PartitaHandler implements Handler {
     }
 
     public Partita creaPartita(String codice, List<AbstractGiocatore> giocatori) {
-        Partita partita;
+        GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
 
-        // TODO: controllo per il login
-        List<String> listaDeiGiocatori = new ArrayList<>(giocatori.size());
+        List<String> listaDeiGiocatori = new ArrayList<>();
+        // aggiungo a tutti i giocatori il codice della partita
+        // e creo la lista con solo gli username per la creazione della partita
+        System.out.println("SONO IN CREA PARTITA HANDLER" + giocatori);
+
         for (AbstractGiocatore abstractGiocatore : giocatori) {
+            abstractGiocatore.addCodicePartita(codice);
             listaDeiGiocatori.add(abstractGiocatore.getUsername());
+            giocatoreHandler.modifica(abstractGiocatore.getUsername(), abstractGiocatore);
         }
-        partita = new Partita(codice, listaDeiGiocatori);
-        salva(partita, codice);
+        System.out.println("LISTA GIOCATORI" + listaDeiGiocatori);
+
+        Partita partita = new Partita(codice, listaDeiGiocatori);
+
+        // salva(partita, codice);
 
         return partita;
     }

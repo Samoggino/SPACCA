@@ -1,21 +1,17 @@
 package com.spacca.controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import com.spacca.App;
 import com.spacca.asset.match.Partita;
+import com.spacca.asset.utente.Amministratore;
 import com.spacca.database.GiocatoreHandler;
 import com.spacca.database.PartitaHandler;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -25,7 +21,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 public class CreazionePartitaController implements Initializable {
     @FXML
@@ -44,6 +39,12 @@ public class CreazionePartitaController implements Initializable {
     private TextField codiceField;
 
     private String codicePartita;
+
+    Amministratore admin = new Amministratore();
+
+    GiocatoreHandler handler = new GiocatoreHandler();
+
+    PartitaHandler partitafile = new PartitaHandler();
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -70,11 +71,9 @@ public class CreazionePartitaController implements Initializable {
     private void handleMostra() {
         System.out.println("SIAMO IN MOSTRA PARTITA ");
 
-        GiocatoreHandler handler = new GiocatoreHandler();
-
         List<String> giocatoriSelezionati = new ArrayList<>();
 
-        Boolean controlloCodice = controllaCodcie(codiceField.getText().trim());
+        Boolean controlloCodice = controllaCodice(codiceField.getText().trim());
 
         if (controlloCodice) {
             // Inizializza le liste delle ComboBox
@@ -160,7 +159,7 @@ public class CreazionePartitaController implements Initializable {
         return comboBoxes;
     }
 
-    public boolean controllaCodcie(String codice) {
+    public boolean controllaCodice(String codice) {
         Boolean controllo = true;
         System.out.println("\n \n CONTROLLO INSERIMENTO CODICE P + " + codice + "\n \n");
 
@@ -179,7 +178,6 @@ public class CreazionePartitaController implements Initializable {
         } else {
             try {
 
-                PartitaHandler partitafile = new PartitaHandler();
                 codice = "P" + codice;
                 // Verifica se il file esiste
                 if (partitafile.VerificaEsistenzaFile(codice)) {
@@ -209,8 +207,6 @@ public class CreazionePartitaController implements Initializable {
     public void handleCrea() {
         System.out.println("GIOCATORI SCELTI  : ");
 
-        PartitaHandler partitaHandler = new PartitaHandler();
-
         List<ComboBox<String>> comboBoxes = inizializeComboBoxandLayout();
 
         List<String> giocatoriScelti = new ArrayList<>();
@@ -229,13 +225,12 @@ public class CreazionePartitaController implements Initializable {
             System.out.println("GIOCATORI SCELTI : " + giocatoriScelti);
             System.out.println("CODICE : " + codicePartita);
 
-            Partita partita = new Partita(codicePartita, giocatoriScelti);
+            admin.creaPartita(codicePartita, giocatoriScelti);
 
-            partitaHandler.salva(partita, codicePartita);
             showAlert("Creazione della partita andata a buon fine", "Partita " + codicePartita + " creata",
                     AlertType.INFORMATION);
 
-            changeScene("/com/spacca/pages/benvenutoAdmin.fxml");
+            admin.ritornaBenvenutoAdmin();
 
         } else {
             showAlert("Non hai scelto tutti i giocatori", "Mancata scelta di un giocatore", AlertType.ERROR);
@@ -251,31 +246,7 @@ public class CreazionePartitaController implements Initializable {
 
     @FXML
     public void handleIndietro() {
-        changeScene("/com/spacca/pages/benvenutoAdmin.fxml");
-    }
-
-    public void changeScene(String fxmlPath) {
-        try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
-            Parent root = loader.load();
-
-            Scene currentScene = procButton.getScene();
-
-            // Ottieni lo Stage dalla scena corrente
-            Stage currentStage = (Stage) currentScene.getWindow();
-
-            currentStage.setTitle("Benvenuto Admin ! ");
-            currentStage.setScene(new Scene(root));
-            currentStage.show();
-
-        } catch (NullPointerException e) {
-            System.out.println("Login avvenuto con successo!");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("IO Errore (Benvenuto Admin controller): \n" + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
-        }
+        admin.ritornaBenvenutoAdmin();
     }
 
 }

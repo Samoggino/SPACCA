@@ -67,7 +67,7 @@ public class CreazioneUtenteRobotController implements Initializable {
 
             if (sceltaRobotIntelligente.isSelected()) {
                 System.out.println("crea robot intelligente selezionato ");
-                controllaInserimentoUsername("RI-" + username);
+                controllaInserimentoUsername(username);
                 SmartCPU utenteSmartCPU = new SmartCPU(username);
                 giocatoreHandler.salva(utenteSmartCPU, username);
                 showAlert("Utente Robot Intelligente" + username + "\n salvato con successo!", "",
@@ -77,7 +77,7 @@ public class CreazioneUtenteRobotController implements Initializable {
             } else if (sceltaRobotBasico.isSelected()) {
 
                 System.out.println("crea robot stupido selezionato ");
-                controllaInserimentoUsername("RS-" + username);
+                controllaInserimentoUsername(username);
                 StupidCPU utenteStupidCPU = new StupidCPU(username);
                 System.out.println("utenteSmartCPU " + utenteStupidCPU);
                 giocatoreHandler.salva(utenteStupidCPU, username);
