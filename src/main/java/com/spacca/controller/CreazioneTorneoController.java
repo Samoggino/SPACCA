@@ -162,7 +162,7 @@ public class CreazioneTorneoController implements Initializable {
 
     public boolean controllaCodcie(String codice) {
         Boolean controllo = true;
-        System.out.println("\n \n CONTROLLO INSERIMENTO CODICE P + " + codice + "\n \n");
+        System.out.println("\n \n CONTROLLO INSERIMENTO CODICE T + " + codice + "\n \n");
 
         labelCodice.setText("");
         labelCodice.setTextFill(Color.DARKORANGE);
@@ -213,6 +213,8 @@ public class CreazioneTorneoController implements Initializable {
 
         List<String> giocatoriScelti = new ArrayList<>();
 
+        TorneoHandler torneoHandler = new TorneoHandler();
+
         // trovo la lista dei giocatori selezionati
         // Itera tutte le ComboBox per aggiungere i giocatori selezionati alla lista
         for (ComboBox<String> comboBox : comboBoxes) {
@@ -226,6 +228,9 @@ public class CreazioneTorneoController implements Initializable {
 
             System.out.println("GIOCATORI SCELTI : " + giocatoriScelti);
             System.out.println("CODICE : " + codiceTorneo);
+
+            Torneo torneo = new Torneo(codiceTorneo, giocatoriScelti);
+            torneoHandler.salva(torneo, codiceTorneo);
 
             // Torneo torneo = new Torneo();
             // partitaHandler.salva(partita, codicePartita);

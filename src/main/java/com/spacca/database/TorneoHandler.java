@@ -10,7 +10,6 @@ import java.io.Reader;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.stream.JsonWriter;
-import com.spacca.asset.match.Partita;
 import com.spacca.asset.match.Torneo;
 
 public class TorneoHandler implements Handler {
@@ -26,13 +25,13 @@ public class TorneoHandler implements Handler {
     @Override // passare il codice per esteso
     public void salva(Object torneoObject, String codiceTorneo) {
         Torneo torneo = (Torneo) torneoObject;
-        codiceTorneo = "src/main/resources/com/spacca/database/partite/" + codiceTorneo + ".json";
+        codiceTorneo = "src/main/resources/com/spacca/database/tornei/" + codiceTorneo + ".json";
 
         /* Implementare creazione partite anche? */
 
         try (JsonWriter writer = new JsonWriter(new FileWriter(codiceTorneo))) {
             Gson gson = new Gson();
-            gson.toJson(torneo, Partita.class, writer);
+            gson.toJson(torneo, Torneo.class, writer);
 
         } catch (JsonIOException e) {
             System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +

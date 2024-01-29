@@ -10,9 +10,37 @@ public class Torneo {
     String codice;
     List<Partita> partite;
     List<AbstractGiocatore> classifica;
+    List<String> giocatori;
 
-    public Torneo(String codice) {
+    public Torneo(String codice, List<String> giocatoriScelti) {
         this.codice = codice;
+        this.giocatori = giocatoriScelti;
+    }
+
+    public List<String> getGiocatori() {
+        return giocatori;
+    }
+
+    public void setGiocatori(List<String> giocatori) {
+        this.giocatori = giocatori;
+    }
+
+    public void addGiocatore(String giocatore) {
+        if (giocatori.size() <= 4) {
+            giocatori.add(giocatore);
+        } else {
+            System.out.println("Torneo al completo, non è possibile aggiungere giocatori");
+        }
+
+    }
+
+    public void deleteGiocatore(String giocatore) {
+        if (giocatori.size() >= 2) {
+            giocatori.remove(giocatore);
+        } else {
+            System.out.println(
+                    "Non è possibile rimuovere il giocatore. \n se elimini il giocatore elimini tutto il torneo ");
+        }
     }
 
     public List<Partita> getPartite() {

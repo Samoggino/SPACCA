@@ -47,7 +47,8 @@ public class Amministratore {
     }
 
     public Torneo creaNuovoTorneo() {
-        return new Torneo("T" + generaNumeroCasuale());
+        return null;
+        // return new Torneo("T" + generaNumeroCasuale());
     }
 
     protected static int generaNumeroCasuale() {
