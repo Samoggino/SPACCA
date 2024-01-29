@@ -46,7 +46,7 @@ public class PartitaHandler implements Handler {
             System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +
                     this.getClass().getName() + "\n" + e.getMessage());
         } catch (Exception e) {
-            System.err.println("ERRORE: Errore generico in\n" + "\n" + e.getMessage());
+            System.err.println("ERRORE: Errore generico in salva partita\n" + "\n" + e.getMessage());
         }
     }
 

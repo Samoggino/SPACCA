@@ -36,7 +36,7 @@
          </font>
       </Label>
       <Button fx:id="bottoneCreaSingola" onMouseClicked="#handleCreazionePartita" layoutX="316.0" layoutY="166.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="214.0" text="Creazione partita singola" /><!--onMouseClicked="#creaPartitaSingola" -->
-      <Button fx:id="bottoneCreaTorneo" layoutX="60.0" layoutY="166.0" mnemonicParsing="false"  prefHeight="25.0" prefWidth="214.0" text="Creazione torneo" /><!--onMouseClicked="#creaTorneo"-->
+      <Button fx:id="bottoneCreaTorneo" onMouseClicked="#handleCreazioneTorneo" layoutX="60.0" layoutY="166.0" mnemonicParsing="false"  prefHeight="25.0" prefWidth="214.0" text="Creazione torneo" /><!--onMouseClicked="#creaTorneo"-->
       <Button fx:id="bottoneCreaUtente" onMouseClicked="#handleCreazioneUtente" layoutX="60.0" layoutY="207.0" mnemonicParsing="false"  prefHeight="25.0" prefWidth="214.0" text="Creazione utente" /><!--onMouseClicked="#creaUtente"-->
       <Button fx:id="bottoneEliminaSingola" onMouseClicked="#handleElimnaPartita" layoutX="316.0" layoutY="207.0" mnemonicParsing="false"  prefHeight="25.0" prefWidth="214.0" text="Eliminazione partita singola" /><!--onMouseClicked="#eliminaPartitaSingola"-->
       <Button fx:id="bottoneModificaUtente" onMouseClicked="#handleModificaUtente" layoutX="60.0" layoutY="244.0" mnemonicParsing="false"  prefHeight="25.0" prefWidth="214.0" text="Modifica utente" /><!---->

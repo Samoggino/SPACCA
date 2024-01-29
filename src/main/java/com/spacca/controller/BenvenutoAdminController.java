@@ -74,6 +74,41 @@ public class BenvenutoAdminController {
 
     }
 
+    @FXML
+    private void handleCreazioneTorneo() {
+        System.out.println("Siamo in creazione torneo");
+        String titlePages = "Creazione nuovo torneo ";
+        changeSceneCreazioneTorneo("/com/spacca/pages/creazioneTorneo.fxml", titlePages);
+
+    }
+
+    public void changeSceneCreazioneTorneo(String fxmlPath, String titlePages) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
+            Parent root = loader.load();
+
+            Scene currentScene = bottoneModificaUtente.getScene();
+
+            CreazioneTorneoController creazionePartitaController = loader.getController();
+            loader.setController(creazionePartitaController);
+
+            // Ottieni lo Stage dalla scena corrente
+
+            Stage currentStage = (Stage) currentScene.getWindow();
+            currentStage.setTitle(titlePages);
+            Scene scene = new Scene(root, 700, 550);
+            currentStage.setScene(scene);
+            currentStage.show();
+        } catch (NullPointerException e) {
+            System.out.println("creazione partita nullpointerException " + e);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("IO Errore (Benvenuto Admin controller per creazione partita): \n" + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
+        }
+    }
+
     public void changeSceneCreazionePartita(String fxmlPath, String titlePages) {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));

@@ -77,9 +77,9 @@ public class RegistrazioneController implements Initializable {
     @FXML
     private void handleLogin() {
         try {
-            String username = usernameField.getText();
-            String password = passwordField.getText();
-            String email = emailField.getText();
+            String username = usernameField.getText().trim();
+            String password = passwordField.getText().trim();
+            String email = emailField.getText().trim();
             LocalDate annoNascita = data.getValue();
 
             Boolean controlloPassword = controllaInserimentoPassword(password);

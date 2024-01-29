@@ -82,17 +82,17 @@ public class CreazioneUtenteController implements Initializable {
             System.out.println("controlloEmail " + controlloEmail);
             System.out.println("controlloUsername " + controlloUsername);
 
-            Giocatore utente = new Giocatore(username, password, email);
-
             // Fai qualcosa se tutte le condizioni sono vere
             if (controlloEmail & controlloPassword & controlloUsername) {
+
+                Giocatore utente = new Giocatore(username, password, email);
                 giocatoreHandler.salva(utente, utente.getUsername());
                 showAlert("Utente " + username + " salvato correttamente !", AlertType.INFORMATION);
                 tornaIndietro();
             }
 
         } catch (Exception e) {
-            System.out.println("Errore (Login controller): \n" + e.getMessage());
+            System.out.println("Errore: \n" + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -111,20 +111,21 @@ public class CreazioneUtenteController implements Initializable {
             controllo = false;
         } else {
             try {
-
                 GiocatoreHandler file = new GiocatoreHandler();
-
+                System.out.println("VERIFICA ESISTENZA FILE " + file.VerificaEsistenzaFile(username));
                 // Verifica se il file esiste
                 if (file.VerificaEsistenzaFile(username)) {
 
                     Giocatore utente = file.carica(username);
-                    System.out.println("GIOCATORE" + utente);
+                    System.out.println("USERNAME: " + username);
+                    System.out.println("UTENTE USERNAME: " + utente.getUsername());
 
                     if (utente.getUsername().equals(username)) {
                         labelUsername.setText("Username già in utilizzo! ");
                         usernameField.setStyle("-fx-border-color:darkorange");
                         controllo = false;
                     }
+
                 } else {
                     labelUsername.setText("Username corretto! ");
                     labelUsername.setTextFill(Color.BLACK);
