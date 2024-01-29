@@ -62,7 +62,6 @@ public class PartitaHandler implements Handler {
             Gson gson = new Gson();
 
             partita = gson.fromJson(fileReader, Partita.class);
-            System.out.println(partita);
 
             fileReader.close();
         } catch (JsonIOException e) {
@@ -96,12 +95,8 @@ public class PartitaHandler implements Handler {
                     AbstractGiocatore giocatore = (AbstractGiocatore) handler.carica(username);
                     giocatore.getListaCodiciPartite().remove(codice);
                     handler.salva(giocatore, username);
-                    System.out
-                            .println("Rimosso il codice " + codice + " dalla lista dei codici partite di " + username);
-                    System.out.println("Codici partita di " + username + " " + giocatore.getListaCodiciPartite());
                 }
 
-                System.out.println("Il giocatore con codice " + codice + " è stato eliminato correttamente.");
             } else {
                 System.err.println("Errore durante l'eliminazione del giocatore con codice " + codice);
             }

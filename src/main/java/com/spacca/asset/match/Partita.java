@@ -9,6 +9,8 @@ import java.util.Map;
 import com.google.gson.annotations.SerializedName;
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Mazzo;
+import com.spacca.asset.carte.Nome;
+import com.spacca.asset.carte.Seme;
 import com.spacca.database.Handler;
 import com.spacca.database.PartitaHandler;
 
@@ -113,7 +115,7 @@ public class Partita extends Object {
     }
 
     public Map<String, Integer> getClassifica() {
-        aggiornaLaClassifica();
+        aggiornaClassifica();
         return this.classifica;
     }
 
@@ -409,7 +411,7 @@ public class Partita extends Object {
      * @param cartaSulTavolo
      * @param username
      */
-    public boolean prendiCartaConCartaDellaMano(String username, Carta cartaSulTavolo, Carta cartaDellaMano) {
+    public boolean prendi(String username, Carta cartaSulTavolo, Carta cartaDellaMano) {
 
         try {
 
@@ -498,14 +500,14 @@ public class Partita extends Object {
         return true;
     }
 
-    public void aggiornaLaClassifica() {
+    public void aggiornaClassifica() {
 
         this.classifica = UpdateClassifica.aggiornaClassifica(getPreseDeiGiocatori(), this.classifica);
         salvaPartita();
     }
 
     public String getVincitore() {
-        aggiornaLaClassifica();
+        aggiornaClassifica();
 
         // devi prendere il primo elemento della classifica se il successivo ha un
         // punteggio minore, altrimenti devi prendere il secondo elemento della
@@ -524,4 +526,14 @@ public class Partita extends Object {
 
         return this.vincitore;
     }
+
+    public boolean has2Bastoni(String username) {
+        for (Carta carta : getPreseDellUtente(username).getCarteNelMazzo()) {
+            if (carta.getNome().equals(Nome.DUE) && carta.getSeme().equals(Seme.BASTONI)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

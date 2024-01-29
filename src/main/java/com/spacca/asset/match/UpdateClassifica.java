@@ -2,7 +2,6 @@ package com.spacca.asset.match;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +22,6 @@ import com.spacca.asset.carte.Seme;
  */
 public class UpdateClassifica {
 
-    static Map<String, Integer> puntiPerGiocatore = new HashMap<String, Integer>();
-
     /**
      * Calcola il vincitore della partita basandosi sulla mappa fornita dei mazzi
      * delle prese dei giocatori.
@@ -39,44 +36,35 @@ public class UpdateClassifica {
         // punti per inizializzarla
 
         for (String giocatore : preseDeiGiocatori.keySet()) {
-            puntiPerGiocatore.put(giocatore, 0);
+            classifica.put(giocatore, 0);
         }
 
-        puntiPerGiocatore = classifica;
+        calcolaCarte(preseDeiGiocatori, classifica); // ora funziona
+        calcolaDueDiBastoni(preseDeiGiocatori, classifica); // funziona
+        calcolaPunti(preseDeiGiocatori, classifica);// funziona
 
-        // per ogni giocatore nella mappa dei punti, calcola i punti e mettili nella
-        // mappa dei punti
-
-        calcolaCarte(preseDeiGiocatori); // ora funziona
-        calcolaDueDiBastoni(preseDeiGiocatori); // funziona
-        calcolaPunti(preseDeiGiocatori);// funziona
-
-        System.out.println("puntiPerGiocatore" + puntiPerGiocatore);
-
-        return ordinaClassifica();
+        return ordinaClassifica(classifica);
 
     }
 
     /**
      * Deve cercare chi ha preso il due di bastoni e assegnare 1 punto
      */
-    private static void calcolaDueDiBastoni(Map<String, Mazzo> preseDeiGiocatori) {
+    private static void calcolaDueDiBastoni(Map<String, Mazzo> preseDeiGiocatori, Map<String, Integer> classifica) {
 
         for (Map.Entry<String, Mazzo> entry : preseDeiGiocatori.entrySet()) {
             for (Carta carta : entry.getValue().getCarteNelMazzo()) {
                 if (carta.getValore() == 2 && carta.getSeme().equals(Seme.BASTONI)) {
-                    puntiPerGiocatore.put(entry.getKey(), puntiPerGiocatore.get(entry.getKey()) + 1);
-                    System.out.println(entry.getKey() + " ha preso il due di bastoni");
+                    classifica.put(entry.getKey(), classifica.get(entry.getKey()) + 1);
                 }
             }
         }
-
     }
 
     /**
      * Deve cercare chi ha più carte e assegnare 1 punto
      */
-    private static void calcolaCarte(Map<String, Mazzo> preseDeiGiocatori) {
+    private static void calcolaCarte(Map<String, Mazzo> preseDeiGiocatori, Map<String, Integer> classifica) {
         List<String> vincitori = new ArrayList<>();
         int carteMassime = 1;
 
@@ -92,17 +80,16 @@ public class UpdateClassifica {
             } else if (conteggioCarte == carteMassime) {
                 vincitori.add(entry.getKey());
             }
-            System.out.println(entry.getKey() + " ha " + conteggioCarte + " carte");
         }
 
         // Resetta i punti per tutti i giocatori
-        for (String giocatore : puntiPerGiocatore.keySet()) {
-            puntiPerGiocatore.put(giocatore, 0);
+        for (String giocatore : classifica.keySet()) {
+            classifica.put(giocatore, 0);
         }
 
         // Assegna punti solo ai vincitori
         for (String vincitore : vincitori) {
-            puntiPerGiocatore.put(vincitore, puntiPerGiocatore.get(vincitore) + 1);
+            classifica.put(vincitore, classifica.get(vincitore) + 1);
         }
     }
 
@@ -114,11 +101,10 @@ public class UpdateClassifica {
      * @return una rappresentazione testuale del risultato, mostrando i punti di
      *         ciascun giocatore
      */
-    private static void calcolaPunti(Map<String, Mazzo> preseDeiGiocatori) {
+    private static void calcolaPunti(Map<String, Mazzo> preseDeiGiocatori, Map<String, Integer> classifica) {
         List<String> vincitori = new ArrayList<>();
         int punteggioMassimo = 1;
 
-        System.out.println("calcolaPunti");
         for (Map.Entry<String, Mazzo> entry : preseDeiGiocatori.entrySet()) {
             int punti = entry
                     .getValue()
@@ -134,31 +120,23 @@ public class UpdateClassifica {
             } else if (punti == punteggioMassimo) {
                 vincitori.add(entry.getKey());
             }
-            System.out.println(entry.getKey() + " " + punti);
         }
 
         for (String vincitore : vincitori) {
-            puntiPerGiocatore.put(vincitore, puntiPerGiocatore.get(vincitore) + 1);
+            classifica.put(vincitore, classifica.get(vincitore) + 1);
         }
 
     }
 
-    static Map<String, Integer> ordinaClassifica() {
-
-        // prima
-        System.out.println("prima" + puntiPerGiocatore);
+    static Map<String, Integer> ordinaClassifica(Map<String, Integer> classifica) {
 
         // ordina la mappa dei punti
-        Map<String, Integer> mappaOrdinata = puntiPerGiocatore
+        Map<String, Integer> mappaOrdinata = classifica
                 .entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-
-        System.out.println(mappaOrdinata);
-
-        // dopo
-        System.out.println("dopo" + mappaOrdinata);
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (user, punti) -> user,
+                        LinkedHashMap::new));
 
         return mappaOrdinata;
     }

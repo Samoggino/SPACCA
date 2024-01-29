@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,11 +26,10 @@ public class TavoloController {
     private Carta cartaDelTavolo, cartaDellaMano;
 
     @FXML
-    public Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane, overlay, tavolo,
-            classificaPane;
+    public Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane, overlay, tavolo;
 
     @FXML
-    public Button classificaButton;
+    TextFlow classificaFlowPane;
 
     @FXML
     public GridPane piatto;
@@ -66,6 +64,7 @@ public class TavoloController {
             buildGiocatore();
             buildHand();
             buildTable();
+            buildClassifica();
 
             buildOverlay();
 
@@ -171,22 +170,21 @@ public class TavoloController {
 
     @FXML
     void buildClassifica() {
-        if (classificaPane.isVisible()) {
-            classificaPane.setVisible(false);
-            return;
-        } else {
-            classificaPane.getChildren().clear();
-            classificaPane.setVisible(true);
-            TextFlow classificaFlowPane = new TextFlow();
 
-            partita.getClassifica().forEach(
-                    (giocatore, punti) -> extracted(classificaFlowPane, giocatore, punti));
-            classificaPane.getChildren().add(classificaFlowPane);
+        classificaFlowPane.getChildren().clear();
+        classificaFlowPane.setVisible(true);
+
+        classificaFlowPane.getChildren().add(new Text("Classifica:\n"));
+        partita.getClassifica().forEach(
+                (giocatore, punti) -> classificaFlowPane.getChildren()
+                        .add(new Text(giocatore + ": " + punti + " punti" + "\n")));
+
+        for (String giocatore : partita.getListaDeiGiocatori()) {
+            if (partita.has2Bastoni(giocatore)) {
+                classificaFlowPane.getChildren().add(new Text(giocatore + " ha 2 bastoni" + "\n"));
+            }
         }
-    }
 
-    private void extracted(TextFlow classificaFlowPane, String giocatore, Integer punti) {
-        classificaFlowPane.getChildren().add(new Text(giocatore + ": " + punti + " punti" + "\n"));
     }
 
     void buildOverlay() {
@@ -207,7 +205,7 @@ public class TavoloController {
                 risultatoOverlay.setTextAlignment(TextAlignment.CENTER);
 
                 System.out.println("Partita finita!");
-                // partita.fine();
+                partita.fine();
             }
 
         } catch (Exception e) {
@@ -282,16 +280,14 @@ public class TavoloController {
             } else {
                 partita.assoPrendeTutto(partita.getGiocatoreCorrente(), cartaDellaMano);
                 System.out.println("Prendi tutto con " + cartaDellaMano + "!");
+                cambiaTurno();
             }
-            cambiaTurno();
         }
     }
 
     void prendiCartaHandler(Carta cartaDiDestinazione, Carta cartaDallaManoDellUtente) {
 
-        System.out.println(cartaDiDestinazione);
-
-        boolean cartaPresa = partita.prendiCartaConCartaDellaMano(partita.getGiocatoreCorrente(), cartaDiDestinazione,
+        boolean cartaPresa = partita.prendi(partita.getGiocatoreCorrente(), cartaDiDestinazione,
                 cartaDallaManoDellUtente);
         if (cartaPresa) {
             cambiaTurno();
@@ -329,8 +325,8 @@ public class TavoloController {
 
             boolean isCurrentPlayer = giocatoreDelPane.equals(partita.getGiocatoreCorrente());
 
-            getNomeCorrente(containerPane).setText(giocatoreDelPane);
-
+            getNomeCorrente(containerPane)
+                    .setText(giocatoreDelPane + "\n" + partita.getPreseDellUtente(giocatoreDelPane).size() + " carte");
             Carta cartaInCimaCarta = partita.getCartaInCima(giocatoreDelPane);
 
             // Rimuovi il gestore di eventi setOnDragDetected
@@ -350,7 +346,7 @@ public class TavoloController {
                 });
 
             } else {
-                // serve per evitare che l'immagine della carta rimanga in "cache" e venga
+                // serve per evitare che l'immagine della carta rimanga in cache e venga
                 // visualizzata per tutti i giocatori successivi
                 getImmagineCorrente(containerPane)
                         .setImage(new Image("file:src/main/resources/com/spacca/images/retro.png"));
