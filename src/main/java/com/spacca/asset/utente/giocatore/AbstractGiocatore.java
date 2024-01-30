@@ -83,10 +83,10 @@ public class AbstractGiocatore extends Object {
             }
 
             if (cartaSulTavolo.getNome() == cartaDellaMano.getNome()) {
-                partita.getManoDellUtente(username).rimuoviCartaDalMazzo(cartaDellaMano);
+                partita.getManoDellUtente(this.username).rimuoviCartaDalMazzo(cartaDellaMano);
                 partita.getCarteSulTavolo().rimuoviCartaDalMazzo(cartaSulTavolo);
-                partita.getPreseDellUtente(username).aggiungiCarteAlMazzo(cartaDellaMano, cartaSulTavolo);
-                partita.setUltimoGiocatoreCheHapreso(username);
+                partita.getPreseDellUtente(this.username).aggiungiCarteAlMazzo(cartaDellaMano, cartaSulTavolo);
+                partita.setUltimoGiocatoreCheHapreso(this.username);
                 return true;
             }
 
@@ -99,21 +99,20 @@ public class AbstractGiocatore extends Object {
         return false;
     }
 
-    public void rubaUnMazzo(Partita partita, String scammatoAltroGiocatore,
-            Carta cartaCheRuba) {
+    public void rubaUnMazzo(Partita partita, String scammato, Carta cartaCheRuba) {
 
         try {
 
-            if (partita.getPreseDellUtente(scammatoAltroGiocatore).size() > 0) {
+            if (partita.getPreseDellUtente(scammato).size() > 0) {
 
-                partita.getPreseDellUtente(username)
+                partita.getPreseDellUtente(this.username)
                         .aggiungiListaCarteAdAltroMazzo(
-                                partita.getPreseDellUtente(scammatoAltroGiocatore).getCarteNelMazzo());
+                                partita.getPreseDellUtente(scammato).getCarteNelMazzo());
 
-                partita.getPreseDellUtente(scammatoAltroGiocatore).getCarteNelMazzo().clear();
+                partita.getPreseDellUtente(scammato).getCarteNelMazzo().clear();
 
-                partita.getManoDellUtente(username).rimuoviCartaDalMazzo(cartaCheRuba);
-                partita.getPreseDellUtente(username).aggiungiCarteAlMazzo(cartaCheRuba);
+                partita.getManoDellUtente(this.username).rimuoviCartaDalMazzo(cartaCheRuba);
+                partita.getPreseDellUtente(this.username).aggiungiCarteAlMazzo(cartaCheRuba);
 
                 partita.salvaPartita();
             } else {
@@ -141,18 +140,19 @@ public class AbstractGiocatore extends Object {
                     metaMazzo = (int) Math.floor(metaMazzo);
                 }
 
-                partita.getPreseDellUtente(username)
+                partita.getPreseDellUtente(this.username)
                         .aggiungiListaCarteAdAltroMazzo(
                                 partita.getPreseDellUtente(scammato)
                                         .getCarteNelMazzo()
                                         .subList(0, metaMazzo));
+
                 partita.getPreseDellUtente(scammato)
                         .getCarteNelMazzo()
                         .subList(0, metaMazzo)
                         .clear();
 
-                partita.getManoDellUtente(username).rimuoviCartaDalMazzo(cartaCheRuba);
-                partita.getPreseDellUtente(username).aggiungiCarteAlMazzo(cartaCheRuba);
+                partita.getManoDellUtente(this.username).rimuoviCartaDalMazzo(cartaCheRuba);
+                partita.getPreseDellUtente(this.username).aggiungiCarteAlMazzo(cartaCheRuba);
                 partita.salvaPartita();
             } else {
                 System.out.println("L'utente non ha carte da rubare!");
@@ -163,9 +163,9 @@ public class AbstractGiocatore extends Object {
         }
     }
 
-    public void scarta(Partita partita, String username, Carta cartaScartata) {
+    public void scarta(Partita partita, Carta cartaScartata) {
 
-        partita.getManoDellUtente(username).rimuoviCartaDalMazzo(cartaScartata);
+        partita.getManoDellUtente(this.username).rimuoviCartaDalMazzo(cartaScartata);
         partita.getCarteSulTavolo().aggiungiCarteAlMazzo(cartaScartata);
         partita.salvaPartita();
 
@@ -174,14 +174,14 @@ public class AbstractGiocatore extends Object {
     public void assoPrendeTutto(Partita partita, Carta carta) {
         // l'asso prende tutto quello che c'è sul tavolo
 
-        partita.getManoDellUtente(username).rimuoviCartaDalMazzo(carta);
-        partita.getPreseDellUtente(username)
+        partita.getManoDellUtente(this.username).rimuoviCartaDalMazzo(carta);
+        partita.getPreseDellUtente(this.username)
                 .aggiungiListaCarteAdAltroMazzo(partita.getCarteSulTavolo().getCarteNelMazzo());
-        partita.getPreseDellUtente(username).aggiungiCarteAlMazzo(carta);
+        partita.getPreseDellUtente(this.username).aggiungiCarteAlMazzo(carta);
         // sposta tutte le carte del tavolo nelle prese dell'utente
 
         partita.getCarteSulTavolo().getCarteNelMazzo().clear();
-        partita.setUltimoGiocatoreCheHapreso(username);
+        partita.setUltimoGiocatoreCheHapreso(this.username);
         partita.salvaPartita();
     }
 }

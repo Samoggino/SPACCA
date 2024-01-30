@@ -7,6 +7,8 @@ import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Nome;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.asset.utente.giocatore.SmartCPU;
+import com.spacca.asset.utente.giocatore.StupidCPU;
 import com.spacca.database.GiocatoreHandler;
 
 import javafx.fxml.FXML;
@@ -45,7 +47,7 @@ public class TavoloController {
     private Partita partita;
     private Carta cartaDelTavolo, cartaDellaMano;
     List<AbstractGiocatore> giocatori = new ArrayList<>();
-    String usernameGiocatoreCorrente;
+    String userCorrente;
     AbstractGiocatore giocatoreCorrente;
 
     public void initController(Partita partita) {
@@ -62,58 +64,17 @@ public class TavoloController {
         }
     }
 
-    private void checkGiocatoreCorrente() {
-
-        this.giocatoreCorrente = new GiocatoreHandler().carica(partita.getGiocatoreCorrente());
+    private void checkCPU() {
 
         switch (this.giocatoreCorrente.getType()) {
             case "SmartCPU":
-                System.out.println("SmartCPU: " + this.usernameGiocatoreCorrente);
-
-                boolean cartaPresa = false;
-                Carta dellaMano = null;
-                Carta delTavolo = null;
-
-                // la CPU intelligente scarta solo se non può prendere
-                if (partita.getCarteSulTavolo().size() == 0) {
-                    cartaPresa = false;
-                } else {
-                    for (Carta cartaSulTavolo : partita.getCarteSulTavolo().getCarteNelMazzo()) {
-                        for (Carta cartaDellaMano : partita.getManoDellUtente(usernameGiocatoreCorrente)
-                                .getCarteNelMazzo()) {
-
-                            if (cartaDellaMano.getNome().equals(Nome.ASSO)) {
-                                assoPrendeTuttoHandler(cartaDellaMano);
-                                return;
-                            }
-
-                            if (cartaDellaMano.getNome().equals(cartaSulTavolo.getNome())) {
-                                cartaPresa = true;
-                                dellaMano = cartaDellaMano;
-                                delTavolo = cartaSulTavolo;
-                            }
-                        }
-                    }
-                }
-
-                if (cartaPresa) {
-                    System.out.println(partita.getGiocatoreCorrente() + " prende " + delTavolo + " con " + dellaMano);
-                    giocatoreCorrente.prendi(partita, delTavolo, dellaMano);
-                    cambiaTurno();
-                } else {
-                    if (partita.getManoDellUtente(usernameGiocatoreCorrente).getCarteNelMazzo().size() > 0) {
-                        scartaCartaHandler(
-                                partita.getManoDellUtente(usernameGiocatoreCorrente).getCarteNelMazzo().get(0));
-                    }
-                }
-
+                ((SmartCPU) giocatoreCorrente).gioca(partita);
+                cambiaTurno();
                 break;
 
             case "StupidCPU":
-                // la CPU stupida scarta e basta
-                if (partita.getManoDellUtente(usernameGiocatoreCorrente).getCarteNelMazzo().size() > 0) {
-                    scartaCartaHandler(partita.getManoDellUtente(usernameGiocatoreCorrente).getCarteNelMazzo().get(0));
-                }
+                ((StupidCPU) giocatoreCorrente).gioca(partita);
+                cambiaTurno();
                 break;
 
             default:
@@ -123,18 +84,18 @@ public class TavoloController {
 
     void buildView() {
         giocatoreCorrente = new GiocatoreHandler().carica(partita.getGiocatoreCorrente());
-        usernameGiocatoreCorrente = giocatoreCorrente.getUsername();
+        userCorrente = giocatoreCorrente.getUsername();
 
         overlay.setVisible(false);
         try {
             if (partita.giocatoriNonHannoCarteInMano()) {
                 partita.nuovoTurno();
             }
-            checkGiocatoreCorrente();
+            checkCPU();
 
             buildGiocatore();
-            buildHand();
-            buildTable();
+            buildMano();
+            buildTavolo();
             buildClassifica();
 
             buildOverlay();
@@ -146,13 +107,13 @@ public class TavoloController {
 
     }
 
-    void buildHand() {
+    void buildMano() {
         playerHand.getChildren().clear();
 
-        for (Carta cartaDellaMano : partita.getManoDellUtente(usernameGiocatoreCorrente).getCarteNelMazzo()) {
+        for (Carta cartaDellaMano : partita.getManoDellUtente(userCorrente).getCarteNelMazzo()) {
             ImageView cartaView = createCartaImageView(cartaDellaMano);
-            cartaView.setFitWidth(0.5 * cartaView.getImage().getWidth());
-            cartaView.setFitHeight(0.5 * cartaView.getImage().getHeight());
+            cartaView.setFitWidth(0.45 * cartaView.getImage().getWidth());
+            cartaView.setFitHeight(0.45 * cartaView.getImage().getHeight());
 
             // Aggiungi il gestore di eventi per iniziare il trascinamento
             cartaView.setOnMouseClicked(event -> assoPrendeTuttoHandler(cartaDellaMano));
@@ -164,8 +125,8 @@ public class TavoloController {
         }
     }
 
-    void buildTable() {
-        int maxCartePerRiga = 6;
+    void buildTavolo() {
+        int maxCartePerRiga = 8;
 
         int colonna = 0;
         int riga = 0;
@@ -175,8 +136,8 @@ public class TavoloController {
 
         for (Carta carta : partita.getCarteSulTavolo().getCarteNelMazzo()) {
             ImageView cartaView = createCartaImageView(carta);
-            cartaView.setFitWidth(0.5 * cartaView.getImage().getWidth());
-            cartaView.setFitHeight(0.5 * cartaView.getImage().getHeight());
+            cartaView.setFitWidth(0.4 * cartaView.getImage().getWidth());
+            cartaView.setFitHeight(0.4 * cartaView.getImage().getHeight());
 
             // Aggiungi uno spazio tra le carte tramite un margine
             GridPane.setMargin(cartaView, new Insets(spazioTraCarte));
@@ -239,19 +200,6 @@ public class TavoloController {
 
     }
 
-    void prendiCartaHandler(Carta cartaDiDestinazione, Carta cartaDallaManoDellUtente) {
-
-        boolean cartaPresa = giocatoreCorrente.prendi(partita, cartaDiDestinazione, cartaDallaManoDellUtente);
-        if (cartaPresa) {
-            cambiaTurno();
-        }
-    }
-
-    void scartaCartaHandler(Carta cartaDellaMano) {
-        giocatoreCorrente.scarta(partita, usernameGiocatoreCorrente, cartaDellaMano);
-        cambiaTurno();
-    }
-
     @FXML
     void buildClassifica() {
 
@@ -272,8 +220,6 @@ public class TavoloController {
     }
 
     void buildOverlay() {
-        // FIXME: la stampa del andTheWinnerIs non funziona, non viene visualizzato il
-        // nome del vincitore
         try {
             if (partita.getCarteSulTavolo().size() == 0
                     && partita.getMazzoDiGioco().size() == 0
@@ -288,7 +234,6 @@ public class TavoloController {
                 risultatoOverlay.setText(classifica);
                 risultatoOverlay.setTextAlignment(TextAlignment.CENTER);
 
-                System.out.println("Partita finita!");
                 partita.fine();
             }
 
@@ -317,8 +262,16 @@ public class TavoloController {
             PickResult pickResult = event.getPickResult();
             Node nodoColpito = pickResult.getIntersectedNode();
 
-            cartaLasciataSuCarta(nodoColpito);
-            cartaLasciataSuTavolo(nodoColpito);
+            if (nodoColpito instanceof ImageView) {
+                ImageView cartaSottoIlMouse = (ImageView) nodoColpito;
+                this.cartaDelTavolo = (Carta) cartaSottoIlMouse.getUserData();
+
+                prendiCartaHandler(this.cartaDelTavolo, this.cartaDellaMano);
+            }
+
+            if (nodoColpito instanceof GridPane) {
+                scartaCartaHandler(this.cartaDellaMano);
+            }
 
         } catch (NullPointerException e) {
             System.err.println("ERRORE (rilasciaTrascinamento - NullPointerException):\t\t " + e.getMessage());
@@ -326,21 +279,6 @@ public class TavoloController {
         } catch (Exception e) {
             System.err.println("ERRORE (rilasciaTrascinamento):\t\t " + e.getMessage());
             e.printStackTrace();
-        }
-    }
-
-    void cartaLasciataSuCarta(Node nodoColpito) {
-        if (nodoColpito instanceof ImageView) {
-            ImageView cartaSottoIlMouse = (ImageView) nodoColpito;
-            this.cartaDelTavolo = (Carta) cartaSottoIlMouse.getUserData();
-
-            prendiCartaHandler(this.cartaDelTavolo, this.cartaDellaMano);
-        }
-    }
-
-    void cartaLasciataSuTavolo(Node nodoColpito) {
-        if (nodoColpito instanceof GridPane) {
-            scartaCartaHandler(this.cartaDellaMano);
         }
     }
 
@@ -368,6 +306,18 @@ public class TavoloController {
         }
     }
 
+    void prendiCartaHandler(Carta cartaDiDestinazione, Carta cartaDallaManoDellUtente) {
+        boolean cartaPresa = giocatoreCorrente.prendi(partita, cartaDiDestinazione, cartaDallaManoDellUtente);
+        if (cartaPresa) {
+            cambiaTurno();
+        }
+    }
+
+    void scartaCartaHandler(Carta cartaDellaMano) {
+        giocatoreCorrente.scarta(partita, cartaDellaMano);
+        cambiaTurno();
+    }
+
     public void cambiaTurno() {
 
         partita.passaTurno();
@@ -389,7 +339,7 @@ public class TavoloController {
         try {
             String giocatoreDelPane = (String) containerPane.getUserData();
 
-            boolean isCurrentPlayer = giocatoreDelPane.equals(usernameGiocatoreCorrente);
+            boolean isCurrentPlayer = giocatoreDelPane.equals(userCorrente);
 
             getNomeCorrente(containerPane)
                     .setText(giocatoreDelPane + "\n" + partita.getPreseDellUtente(giocatoreDelPane).size() + " carte");
@@ -434,44 +384,37 @@ public class TavoloController {
         }
     }
 
-    public void rubaUnMazzoHandler(String giocatore, Carta cartaCheRuba,
-            Carta cartaInCima) {
+    public void rubaUnMazzoHandler(String scammato, Carta cartaCheRuba, Carta cartaInCima) {
 
         if (cartaCheRuba.getNome().equals(Nome.SETTE)) {
-            trascinoUnSette(giocatore, cartaCheRuba);
+            trascinoUnSette(scammato, cartaCheRuba);
             cambiaTurno();
-        } else if (cartaCheRuba.getNome().equals(cartaInCima.getNome()) && usernameGiocatoreCorrente != giocatore) {
-            giocatoreCorrente.rubaUnMazzo(partita, giocatore, cartaCheRuba);
-            System.out.println("Hai rubato mezzo mazzo a " + giocatore);
+        } else if (cartaCheRuba.getNome().equals(cartaInCima.getNome()) && userCorrente != scammato) {
+            giocatoreCorrente.rubaUnMazzo(partita, scammato, cartaCheRuba);
+            System.out.println("Hai rubato mezzo mazzo a " + scammato);
             cambiaTurno();
         } else {
-            System.out.println("Non puoi rubare il mazzo a " + giocatore + " con " + cartaCheRuba);
+            System.out.println("Non puoi rubare il mazzo a " + scammato + " con " + cartaCheRuba);
         }
     }
 
-    public void trascinoUnSette(String scammatoAltroGiocatore, Carta cartaCheRuba) {
+    public void trascinoUnSette(String scammato, Carta cartaCheRuba) {
         switch (cartaCheRuba.getSeme()) {
 
             case DENARA:
-                System.out.println("Ruba mezzo mazzo con 7 di denara");
-                giocatoreCorrente.rubaMezzoMazzo(partita, scammatoAltroGiocatore, cartaCheRuba);
+                giocatoreCorrente.rubaMezzoMazzo(partita, scammato, cartaCheRuba);
                 break;
 
             case SPADE:
-                System.out.println("Ruba mezzo mazzo con 7 di spade");
-                giocatoreCorrente.rubaMezzoMazzo(partita, scammatoAltroGiocatore, cartaCheRuba);
+                giocatoreCorrente.rubaMezzoMazzo(partita, scammato, cartaCheRuba);
                 break;
 
             case BASTONI:
-                System.out.println("Ruba tutto il mazzo con 7 di bastoni");
-                giocatoreCorrente.rubaUnMazzo(partita, scammatoAltroGiocatore,
-                        cartaCheRuba);
+                giocatoreCorrente.rubaUnMazzo(partita, scammato, cartaCheRuba);
                 break;
 
             case COPPE:
-                System.out.println("Ruba tutto il mazzo con 7 di coppe");
-                giocatoreCorrente.rubaUnMazzo(partita, scammatoAltroGiocatore,
-                        cartaCheRuba);
+                giocatoreCorrente.rubaUnMazzo(partita, scammato, cartaCheRuba);
                 break;
 
             default:

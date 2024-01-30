@@ -391,6 +391,23 @@ public class Partita extends Object {
         return false;
     }
 
+    Partita(Partita partita) {
+        this.codice = partita.getCodice();
+        this.listaDeiGiocatori = partita.getListaDeiGiocatori();
+        this.manoDeiGiocatori = partita.getManoDeiGiocatori();
+        this.preseDeiGiocatori = partita.getPreseDeiGiocatori();
+        this.mazzoDiGioco = partita.getMazzoDiGioco();
+        this.carteSulTavolo = partita.getCarteSulTavolo();
+        this.giocatoreCorrente = partita.getGiocatoreCorrente();
+        this.vincitore = partita.getVincitore();
+        this.ultimoGiocatoreCheHapreso = partita.getUltimoGiocatoreCheHapreso();
+        this.classifica = partita.getClassifica();
+    }
+
+    public String getUltimoGiocatoreCheHapreso() {
+        return this.ultimoGiocatoreCheHapreso;
+    }
+
     public void setUltimoGiocatoreCheHapreso(String username) {
         this.ultimoGiocatoreCheHapreso = username;
     }
