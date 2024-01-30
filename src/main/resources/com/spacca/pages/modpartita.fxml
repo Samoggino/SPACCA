@@ -7,31 +7,44 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.BenvenutoController">
+<Pane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: white;"
+   xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+   fx:controller="com.spacca.controller.ModPartitaController">
    <children>
-      <CheckBox fx:id="singolaScelta" layoutX="142.0" layoutY="158.0" mnemonicParsing="false" text="Partita singola" textAlignment="CENTER" onMouseClicked="#handleCheckBoxAction">
+      <CheckBox fx:id="singolaScelta" layoutX="142.0" layoutY="158.0" mnemonicParsing="false"
+         text="Partita singola" textAlignment="CENTER" onMouseClicked="#handleCheckBoxAction">
          <font>
             <Font size="16.0" />
          </font>
       </CheckBox>
-      <CheckBox fx:id="torneoScelta" layoutX="142.0" layoutY="117.0" mnemonicParsing="false" text="Torneo " textAlignment="CENTER" onMouseClicked="#handleCheckBoxAction">
+      <CheckBox fx:id="torneoScelta" layoutX="142.0" layoutY="117.0" mnemonicParsing="false"
+         text="Torneo " textAlignment="CENTER" onMouseClicked="#handleCheckBoxAction">
          <font>
             <Font size="16.0" />
          </font>
       </CheckBox>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="59.0" prefHeight="28.0" prefWidth="400.0" text="Scegli la tipologia di partita da avviare : " textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="59.0" prefHeight="28.0"
+         prefWidth="400.0" text="Scegli la tipologia di partita da avviare : "
+         textAlignment="CENTER">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
       <ChoiceBox fx:id="listaCodici" layoutX="125.0" layoutY="268.0" prefWidth="150.0">
       </ChoiceBox>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="229.0" prefHeight="20.0" prefWidth="400.0" text="Selezione il codice della parita " textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="229.0" prefHeight="20.0"
+         prefWidth="400.0" text="Selezione il codice della parita " textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="avvioPartita" alignment="CENTER" contentDisplay="CENTER" layoutX="151.0" layoutY="335.0" mnemonicParsing="false" onMouseClicked="#handleAvviaButton" prefHeight="28.0" prefWidth="99.0" style="-fx-background-color: #eba400;" text="Avvia partita" />
-      <Button fx:id="indietro" alignment="CENTER" contentDisplay="CENTER" layoutX="359.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#handleIndietroButton" prefHeight="28.0" prefWidth="27.0" style="-fx-background-color: white; -fx-border-color:#eba400;" text="X" />
+      <Button fx:id="avvioPartita" alignment="CENTER" contentDisplay="CENTER" layoutX="151.0"
+         layoutY="335.0" mnemonicParsing="false" onMouseClicked="#handleAvviaButton"
+         prefHeight="28.0" prefWidth="99.0" style="-fx-background-color: #eba400;"
+         text="Avvia partita" />
+      <Button fx:id="indietro" alignment="CENTER" contentDisplay="CENTER" layoutX="359.0"
+         layoutY="14.0" mnemonicParsing="false" onMouseClicked="#handleIndietroButton"
+         prefHeight="28.0" prefWidth="27.0"
+         style="-fx-background-color: white; -fx-border-color:#eba400;" text="X" />
    </children>
 </Pane>

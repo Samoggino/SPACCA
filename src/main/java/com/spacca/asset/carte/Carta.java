@@ -26,6 +26,9 @@ public class Carta {
     @SerializedName("immagine")
     private String immagine;
 
+    @SerializedName("valore")
+    private int valore;
+
     public void setImmagine(String immagine) {
         this.immagine = immagine;
     }
@@ -63,11 +66,18 @@ public class Carta {
         this.nome = valore;
     }
 
+    public int getValore() {
+        return valore;
+    }
+
+    public void setValore(int valore) {
+        this.valore = valore;
+    }
+
     public String stampa() {
         // FIXME: l'immagine dà problemi perchè non viene presa e viene sollenzata una
         // NullPointerException
-        return "Carta: " + this.nome + " di " + this.seme + " - " + this.punti + " punti" + " - "
-                + this.immagine;
+        return "Carta: " + this.nome + " di " + this.seme + " - " + this.punti + " punti";
     }
 
     public int getPunti() {

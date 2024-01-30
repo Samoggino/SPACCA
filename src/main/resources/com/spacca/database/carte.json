@@ -5,7 +5,8 @@
         "nome": "ASSO",
         "descrizione": "Asso di Bastoni",
         "punti": 15,
-        "immagine": "/src/main/resources/com/spacca/images/carte/bastoni/AssoBastoni.png"
+        "valore": 1,
+        "immagine": "src/main/resources/com/spacca/images/carte/bastoni/AssoBastoni.png"
     },
     {
         "ID": "2B",
@@ -13,7 +14,8 @@
         "nome": "DUE",
         "descrizione": "Due di Bastoni",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/bastoni/DueBastoni.png"
+        "valore": 2,
+        "immagine": "src/main/resources/com/spacca/images/carte/bastoni/DueBastoni.png"
     },
     {
         "ID": "3B",
@@ -21,7 +23,8 @@
         "nome": "TRE",
         "descrizione": "Tre di Bastoni",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/bastoni/TreBastoni.png"
+        "valore": 3,
+        "immagine": "src/main/resources/com/spacca/images/carte/bastoni/TreBastoni.png"
     },
     {
         "ID": "4B",
@@ -29,7 +32,8 @@
         "nome": "QUATTRO",
         "descrizione": "Quattro di Bastoni",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/bastoni/QuattroBastoni.png"
+        "valore": 4,
+        "immagine": "src/main/resources/com/spacca/images/carte/bastoni/QuattroBastoni.png"
     },
     {
         "ID": "5B",
@@ -37,7 +41,8 @@
         "nome": "CINQUE",
         "descrizione": "Cinque di Bastoni",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/bastoni/CinqueBastoni.png"
+        "valore": 5,
+        "immagine": "src/main/resources/com/spacca/images/carte/bastoni/CinqueBastoni.png"
     },
     {
         "ID": "6B",
@@ -45,7 +50,8 @@
         "nome": "SEI",
         "descrizione": "Sei di Bastoni",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/bastoni/SeiBastoni.png"
+        "valore": 6,
+        "immagine": "src/main/resources/com/spacca/images/carte/bastoni/SeiBastoni.png"
     },
     {
         "ID": "7B",
@@ -53,7 +59,8 @@
         "nome": "SETTE",
         "descrizione": "Sette di Bastoni",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/bastoni/SetteBastoni.png"
+        "valore": 7,
+        "immagine": "src/main/resources/com/spacca/images/carte/bastoni/SetteBastoni.png"
     },
     {
         "ID": "8B",
@@ -61,7 +68,8 @@
         "nome": "FANTE",
         "descrizione": "Fante di Bastoni",
         "punti": 10,
-        "immagine": "/src/main/resources/com/spacca/images/carte/bastoni/FanteBastoni.png"
+        "valore": 8,
+        "immagine": "src/main/resources/com/spacca/images/carte/bastoni/FanteBastoni.png"
     },
     {
         "ID": "9B",
@@ -69,7 +77,8 @@
         "nome": "CAVALLO",
         "descrizione": "Cavallo di Bastoni",
         "punti": 10,
-        "immagine": "/src/main/resources/com/spacca/images/carte/bastoni/CavalloBastoni.png"
+        "valore": 9,
+        "immagine": "src/main/resources/com/spacca/images/carte/bastoni/CavalloBastoni.png"
     },
     {
         "ID": "10B",
@@ -77,7 +86,8 @@
         "nome": "RE",
         "descrizione": "Re di Bastoni",
         "punti": 10,
-        "immagine": "/src/main/resources/com/spacca/images/carte/bastoni/ReBastoni.png"
+        "valore": 10,
+        "immagine": "src/main/resources/com/spacca/images/carte/bastoni/ReBastoni.png"
     },
     {
         "ID": "1C",
@@ -85,7 +95,8 @@
         "nome": "ASSO",
         "descrizione": "Asso di Coppe",
         "punti": 15,
-        "immagine": "/src/main/resources/com/spacca/images/carte/coppe/AssoCoppe.png"
+        "valore": 1,
+        "immagine": "src/main/resources/com/spacca/images/carte/coppe/AssoCoppe.png"
     },
     {
         "ID": "2C",
@@ -93,7 +104,8 @@
         "nome": "DUE",
         "descrizione": "Due di Coppe",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/coppe/DueCoppe.png"
+        "valore": 2,
+        "immagine": "src/main/resources/com/spacca/images/carte/coppe/DueCoppe.png"
     },
     {
         "ID": "3C",
@@ -101,7 +113,8 @@
         "nome": "TRE",
         "descrizione": "Tre di Coppe",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/coppe/TreCoppe.png"
+        "valore": 3,
+        "immagine": "src/main/resources/com/spacca/images/carte/coppe/TreCoppe.png"
     },
     {
         "ID": "4C",
@@ -109,7 +122,8 @@
         "nome": "QUATTRO",
         "descrizione": "Quattro di Coppe",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/coppe/QuattroCoppe.png"
+        "valore": 4,
+        "immagine": "src/main/resources/com/spacca/images/carte/coppe/QuattroCoppe.png"
     },
     {
         "ID": "5C",
@@ -117,7 +131,8 @@
         "nome": "CINQUE",
         "descrizione": "Cinque di Coppe",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/coppe/CinqueCoppe.png"
+        "valore": 5,
+        "immagine": "src/main/resources/com/spacca/images/carte/coppe/CinqueCoppe.png"
     },
     {
         "ID": "6C",
@@ -125,7 +140,8 @@
         "nome": "SEI",
         "descrizione": "Sei di Coppe",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/coppe/SeiCoppe.png"
+        "valore": 6,
+        "immagine": "src/main/resources/com/spacca/images/carte/coppe/SeiCoppe.png"
     },
     {
         "ID": "7C",
@@ -133,7 +149,8 @@
         "nome": "SETTE",
         "descrizione": "Sette di Coppe",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/coppe/SetteCoppe.png"
+        "valore": 7,
+        "immagine": "src/main/resources/com/spacca/images/carte/coppe/SetteCoppe.png"
     },
     {
         "ID": "8C",
@@ -141,7 +158,8 @@
         "nome": "FANTE",
         "descrizione": "Fante di Coppe",
         "punti": 10,
-        "immagine": "/src/main/resources/com/spacca/images/carte/coppe/FanteCoppe.png"
+        "valore": 8,
+        "immagine": "src/main/resources/com/spacca/images/carte/coppe/FanteCoppe.png"
     },
     {
         "ID": "9C",
@@ -149,7 +167,8 @@
         "nome": "CAVALLO",
         "descrizione": "Cavallo di Coppe",
         "punti": 10,
-        "immagine": "/src/main/resources/com/spacca/images/carte/coppe/CavalloCoppe.png"
+        "valore": 9,
+        "immagine": "src/main/resources/com/spacca/images/carte/coppe/CavalloCoppe.png"
     },
     {
         "ID": "10C",
@@ -157,7 +176,8 @@
         "nome": "RE",
         "descrizione": "Re di Coppe",
         "punti": 10,
-        "immagine": "/src/main/resources/com/spacca/images/carte/coppe/ReCoppe.png"
+        "valore": 10,
+        "immagine": "src/main/resources/com/spacca/images/carte/coppe/ReCoppe.png"
     },
     {
         "ID": "1D",
@@ -165,7 +185,8 @@
         "nome": "ASSO",
         "descrizione": "Asso di Denara",
         "punti": 15,
-        "immagine": "/src/main/resources/com/spacca/images/carte/denara/AssoDenara.png"
+        "valore": 1,
+        "immagine": "src/main/resources/com/spacca/images/carte/denara/AssoDenara.png"
     },
     {
         "ID": "2D",
@@ -173,7 +194,8 @@
         "nome": "DUE",
         "descrizione": "Due di Denara",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/denara/DueDenara.png"
+        "valore": 2,
+        "immagine": "src/main/resources/com/spacca/images/carte/denara/DueDenara.png"
     },
     {
         "ID": "3D",
@@ -181,7 +203,8 @@
         "nome": "TRE",
         "descrizione": "Tre di Denara",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/denara/TreDenara.png"
+        "valore": 3,
+        "immagine": "src/main/resources/com/spacca/images/carte/denara/TreDenara.png"
     },
     {
         "ID": "4D",
@@ -189,7 +212,8 @@
         "nome": "QUATTRO",
         "descrizione": "Quattro di Denara",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/denara/QuattroDenara.png"
+        "valore": 4,
+        "immagine": "src/main/resources/com/spacca/images/carte/denara/QuattroDenara.png"
     },
     {
         "ID": "5D",
@@ -197,7 +221,8 @@
         "nome": "CINQUE",
         "descrizione": "Cinque di Denara",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/denara/CinqueDenara.png"
+        "valore": 5,
+        "immagine": "src/main/resources/com/spacca/images/carte/denara/CinqueDenara.png"
     },
     {
         "ID": "6D",
@@ -205,7 +230,8 @@
         "nome": "SEI",
         "descrizione": "Sei di Denara",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/denara/SeiDenara.png"
+        "valore": 6,
+        "immagine": "src/main/resources/com/spacca/images/carte/denara/SeiDenara.png"
     },
     {
         "ID": "7D",
@@ -213,7 +239,8 @@
         "nome": "SETTE",
         "descrizione": "Sette di Denara",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/denara/SetteDenara.png"
+        "valore": 7,
+        "immagine": "src/main/resources/com/spacca/images/carte/denara/SetteDenara.png"
     },
     {
         "ID": "8D",
@@ -221,7 +248,8 @@
         "nome": "FANTE",
         "descrizione": "Fante di Denara",
         "punti": 10,
-        "immagine": "/src/main/resources/com/spacca/images/carte/denara/FanteDenara.png"
+        "valore": 8,
+        "immagine": "src/main/resources/com/spacca/images/carte/denara/FanteDenara.png"
     },
     {
         "ID": "9D",
@@ -229,7 +257,8 @@
         "nome": "CAVALLO",
         "descrizione": "Cavallo di Denara",
         "punti": 10,
-        "immagine": "/src/main/resources/com/spacca/images/carte/denara/CavalloDenara.png"
+        "valore": 9,
+        "immagine": "src/main/resources/com/spacca/images/carte/denara/CavalloDenara.png"
     },
     {
         "ID": "10D",
@@ -237,7 +266,8 @@
         "nome": "RE",
         "descrizione": "Re di Denara",
         "punti": 10,
-        "immagine": "/src/main/resources/com/spacca/images/carte/denara/ReDenara.png"
+        "valore": 10,
+        "immagine": "src/main/resources/com/spacca/images/carte/denara/ReDenara.png"
     },
     {
         "ID": "1S",
@@ -245,7 +275,8 @@
         "nome": "ASSO",
         "descrizione": "Asso di Spade",
         "punti": 15,
-        "immagine": "/src/main/resources/com/spacca/images/carte/spade/AssoSpade.png"
+        "valore": 1,
+        "immagine": "src/main/resources/com/spacca/images/carte/spade/AssoSpade.png"
     },
     {
         "ID": "2S",
@@ -253,7 +284,8 @@
         "nome": "DUE",
         "descrizione": "Due di Spade",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/spade/DueSpade.png"
+        "valore": 2,
+        "immagine": "src/main/resources/com/spacca/images/carte/spade/DueSpade.png"
     },
     {
         "ID": "3S",
@@ -261,7 +293,8 @@
         "nome": "TRE",
         "descrizione": "Tre di Spade",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/spade/TreSpade.png"
+        "valore": 3,
+        "immagine": "src/main/resources/com/spacca/images/carte/spade/TreSpade.png"
     },
     {
         "ID": "4S",
@@ -269,7 +302,8 @@
         "nome": "QUATTRO",
         "descrizione": "Quattro di Spade",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/spade/QuattroSpade.png"
+        "valore": 4,
+        "immagine": "src/main/resources/com/spacca/images/carte/spade/QuattroSpade.png"
     },
     {
         "ID": "5S",
@@ -277,7 +311,8 @@
         "nome": "CINQUE",
         "descrizione": "Cinque di Spade",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/spade/CinqueSpade.png"
+        "valore": 5,
+        "immagine": "src/main/resources/com/spacca/images/carte/spade/CinqueSpade.png"
     },
     {
         "ID": "6S",
@@ -285,7 +320,8 @@
         "nome": "SEI",
         "descrizione": "Sei di Spade",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/spade/SeiSpade.png"
+        "valore": 6,
+        "immagine": "src/main/resources/com/spacca/images/carte/spade/SeiSpade.png"
     },
     {
         "ID": "7S",
@@ -293,7 +329,8 @@
         "nome": "SETTE",
         "descrizione": "Sette di Spade",
         "punti": 5,
-        "immagine": "/src/main/resources/com/spacca/images/carte/spade/SetteSpade.png"
+        "valore": 7,
+        "immagine": "src/main/resources/com/spacca/images/carte/spade/SetteSpade.png"
     },
     {
         "ID": "8S",
@@ -301,7 +338,8 @@
         "nome": "FANTE",
         "descrizione": "Fante di Spade",
         "punti": 10,
-        "immagine": "/src/main/resources/com/spacca/images/carte/spade/FanteSpade.png"
+        "valore": 8,
+        "immagine": "src/main/resources/com/spacca/images/carte/spade/FanteSpade.png"
     },
     {
         "ID": "9S",
@@ -309,7 +347,8 @@
         "nome": "CAVALLO",
         "descrizione": "Cavallo di Spade",
         "punti": 10,
-        "immagine": "/src/main/resources/com/spacca/images/carte/spade/CavalloSpade.png"
+        "valore": 9,
+        "immagine": "src/main/resources/com/spacca/images/carte/spade/CavalloSpade.png"
     },
     {
         "ID": "10D",
@@ -317,6 +356,7 @@
         "nome": "RE",
         "descrizione": "Re di Spade",
         "punti": 10,
-        "immagine": "/src/main/resources/com/spacca/images/carte/spade/ReSpade.png"
+        "valore": 10,
+        "immagine": "src/main/resources/com/spacca/images/carte/spade/ReSpade.png"
     }
 ]

@@ -28,8 +28,10 @@ public class App extends Application {
             stage.setScene(scene);
             stage.show();
 
+        } catch (IOException e) {
+            System.err.println("ERRORE (app IO exception):\t\t " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("ERRORE (app):\t\t " + e.getMessage());
+            System.err.println("ERRORE (app Exception):\t\t " + e.getMessage());
         }
 
     }

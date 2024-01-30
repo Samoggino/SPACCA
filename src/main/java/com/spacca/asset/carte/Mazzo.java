@@ -67,12 +67,25 @@ public class Mazzo {
         this.carteNelMazzo = carte;
     }
 
-    public void aggiungiCartaAlMazzo(Carta carta) {
+    public void aggiungiCarteAlMazzo(Carta... carta) {
         if (this.carteNelMazzo == null) {
-            this.carteNelMazzo = new ArrayList<>(); // Initialize the list if null
-            this.carteNelMazzo.add(carta);
+
+            // Initialize the list if null
+            this.carteNelMazzo = new ArrayList<>();
         }
-        this.carteNelMazzo.add(carta);
+        for (Carta c : carta) {
+            this.carteNelMazzo.add(c);
+        }
+    }
+
+    public void rimuoviCartaDalMazzo(Carta carta) {
+
+        try {
+            this.carteNelMazzo.remove(carta);
+        } catch (Exception e) {
+            System.err.println("ERRORE (rimuoviCartaDalMazzo):\t\t " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public void aggiungiListaCarteAdAltroMazzo(List<Carta> mano) {
@@ -81,10 +94,6 @@ public class Mazzo {
             this.carteNelMazzo.addAll(mano);
         }
         this.carteNelMazzo.addAll(mano);
-    }
-
-    public Carta rimuoviCartaDalMazzo(int posizioneDellaCarta) throws IndexOutOfBoundsException {
-        return this.carteNelMazzo.remove(posizioneDellaCarta);
     }
 
     public int size() {
@@ -124,10 +133,4 @@ public class Mazzo {
         return carte;
     }
 
-    public Carta getUltimaCarta() {
-        if (this.carteNelMazzo.size() >= 0) {
-            return null;
-        }
-        return this.carteNelMazzo.get(this.carteNelMazzo.size() - 1);
-    }
 }

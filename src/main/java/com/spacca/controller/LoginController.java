@@ -2,27 +2,25 @@ package com.spacca.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import com.spacca.App;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.database.GiocatoreHandler;
+import com.spacca.database.Handler;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class LoginController implements Initializable {
+public class LoginController {
 
     @FXML
     private TextField usernameField;
@@ -36,24 +34,15 @@ public class LoginController implements Initializable {
     @FXML
     private Label statusLabel;
 
-    @FXML
-    private GridPane gridPane;
-
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        try {
-
-        } catch (Exception e) {
-            System.err.println("Error initialize: " + e.getMessage() + "initialize");
-        }
+    public LoginController() {
     }
 
     @FXML
     private void handleLogin() {
         try {
             statusLabel.setTextFill(Color.BLACK);
-            usernameField.setStyle("-fx-border-color:whitegrey");
-            passwordField.setStyle("-fx-border-color:whitegrey");
+            usernameField.setStyle("-fx-border-color: whitegrey");
+            passwordField.setStyle("-fx-border-color: whitegrey");
             statusLabel.setTextFill(Color.DARKORANGE);
 
             String username = usernameField.getText();
@@ -72,13 +61,18 @@ public class LoginController implements Initializable {
                 usernameField.setStyle("-fx-border-color:darkorange");
             } else if (userFile.exists() && userFile.isFile()) { // Verifica se il file esiste
 
-                GiocatoreHandler file = new GiocatoreHandler();
-                Giocatore utente = (Giocatore) file.carica(pathString);
+                Handler handler = new GiocatoreHandler();
+                Giocatore utente = (Giocatore) handler.carica(username);
 
                 if (utente.getUsername().equals(username) && utente.getPassword().equals(password)) {
 
-                    // App.setRoot("benvenuto");
-                    changeScene("/com/spacca/pages/prepartita.fxml", utente);
+                    if (username.equals("admin")) {
+                        System.out.println("SEI UN AMMINISTRATORE");
+                        changeSceneAdmin("/com/spacca/pages/benvenutoAdmin.fxml", utente);
+                    } else {
+                        System.out.println("SEI UN UTENTE");
+                        changeSceneUtente("/com/spacca/pages/benvenutoUtente.fxml", utente);
+                    }
 
                     System.out.println("Benvenuto " + utente.getUsername());
                     statusLabel.setText("Benvenuto " + username);
@@ -113,22 +107,55 @@ public class LoginController implements Initializable {
         }
     }
 
-    public static void changeScene(String fxmlPath, Object controllerData) {
+    public void changeSceneUtente(String fxmlPath, Object controllerData) {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
             Parent root = loader.load();
             // Logica per inizializzare il controller se necessario
-            PrePartitaController prePartita = loader.getController();
+            BenvenutoUtenteController prePartita = loader.getController();
             loader.setController(prePartita);
-
             prePartita.initController((Giocatore) controllerData);
 
-            Stage currentStage = (Stage) App.getScene().getWindow();
+            Scene currentScene = loginButton.getScene();
+
+            // Ottieni lo Stage dalla scena corrente
+            Stage currentStage = (Stage) currentScene.getWindow();
+
+            currentStage.setTitle("Benvenuto " + ((AbstractGiocatore) controllerData).getUsername() + "!");
 
             currentStage.setScene(new Scene(root));
             currentStage.show();
+        } catch (NullPointerException e) {
+            System.out.println("Login avvenuto con successo!");
         } catch (IOException e) {
-            System.err.println("Errore (changeScene): \n" + e.getMessage());
+            System.err.println("Errore (changeScene login): \n" + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore (changeScene login): \n" + e.getMessage());
+        }
+    }
+
+    public void changeSceneAdmin(String fxmlPath, Object controllerData) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
+            Parent root = loader.load();
+            // Logica per inizializzare il controller se necessario
+            BenvenutoAdminController prePartita = loader.getController();
+            loader.setController(prePartita);
+
+            Scene currentScene = loginButton.getScene();
+
+            // Ottieni lo Stage dalla scena corrente
+            Stage currentStage = (Stage) currentScene.getWindow();
+
+            currentStage.setTitle("Benvenuto " + ((AbstractGiocatore) controllerData).getUsername() + "!");
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+        } catch (NullPointerException e) {
+            System.out.println("Login avvenuto con successo!");
+        } catch (IOException e) {
+            System.err.println("Errore (changeScene login): \n" + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore (changeScene login): \n" + e.getMessage());
         }
 
     }

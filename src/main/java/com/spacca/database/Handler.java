@@ -8,4 +8,8 @@ public interface Handler {
 
     Object carica(String codice);
 
+    Boolean VerificaEsistenzaFile(String codice);
+
+    void modifica(String oldFileName, Object newObject);
+
 }
