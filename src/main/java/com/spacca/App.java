@@ -1,21 +1,12 @@
 package com.spacca;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.spacca.asset.match.Partita;
-import com.spacca.asset.utente.Amministratore;
-import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.asset.utente.giocatore.Giocatore;
-import com.spacca.asset.utente.giocatore.SmartCPU;
-import com.spacca.asset.utente.giocatore.StupidCPU;
-import com.spacca.controller.TavoloController;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -28,44 +19,52 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
 
         try {
-            // Image icon = new
-            // Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
-            // scene = new Scene(loadFXML("benvenutoAdmin"), 600, 500);
-            // stage.setTitle("Login APP");
-            // stage.getIcons().add(icon);
-            // stage.setScene(scene);
-            // stage.show();
-
-            Amministratore amministratore = new Amministratore();
-            AbstractGiocatore peach = (Giocatore) amministratore.creaUtenteFisico("peach", "", "@");
-            AbstractGiocatore bowser = (StupidCPU) amministratore.creaCPU("bowser", "StupidCPU");
-            AbstractGiocatore toad = (Giocatore) amministratore.creaUtenteFisico("toad", "", "@");
-            AbstractGiocatore koopa = (SmartCPU) amministratore.creaCPU("koopa", "SmartCPU");
-
-            List<String> giocatoriDellaPartita = new ArrayList<>();
-
-            giocatoriDellaPartita.add(peach.getUsername());
-            giocatoriDellaPartita.add(toad.getUsername());
-            giocatoriDellaPartita.add(bowser.getUsername());
-            giocatoriDellaPartita.add(koopa.getUsername());
-
-            Partita partita = amministratore.creaPartita(amministratore.generaNumeroCasualePartita(),
-                    giocatoriDellaPartita);
-
-            partita.nuovoTurno();
-
-            // Partita partita = amministratore.caricaPartita("p1602");
-
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
-            Parent root = loader.load();
-            TavoloController tavolo = loader.getController();
-            loader.setController(tavolo);
-
-            tavolo.initController(partita);
-
-            stage.setTitle(partita.getCodice());
-            stage.setScene(new Scene(root));
+            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
+            scene = new Scene(loadFXML("login"), 600, 500);
+            stage.setTitle("Login APP");
+            stage.getIcons().add(icon);
+            stage.setScene(scene);
             stage.show();
+
+            /*
+             * Amministratore amministratore = new Amministratore();
+             * AbstractGiocatore peach = (Giocatore)
+             * amministratore.creaUtenteFisico("peach", "", "@");
+             * AbstractGiocatore bowser = (StupidCPU) amministratore.creaCPU("bowser",
+             * "StupidCPU");
+             * AbstractGiocatore toad = (Giocatore) amministratore.creaUtenteFisico("toad",
+             * "", "@");
+             * AbstractGiocatore koopa = (SmartCPU) amministratore.creaCPU("koopa",
+             * "SmartCPU");
+             * 
+             * List<String> giocatoriDellaPartita = new ArrayList<>();
+             * 
+             * giocatoriDellaPartita.add(peach.getUsername());
+             * giocatoriDellaPartita.add(toad.getUsername());
+             * giocatoriDellaPartita.add(bowser.getUsername());
+             * giocatoriDellaPartita.add(koopa.getUsername());
+             * 
+             * Partita partita =
+             * amministratore.creaPartita(amministratore.generaNumeroCasualePartita(),
+             * giocatoriDellaPartita);
+             * 
+             * partita.nuovoTurno();
+             * 
+             * // Partita partita = amministratore.caricaPartita("p1602");
+             * 
+             * FXMLLoader loader = new
+             * FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
+             * Parent root = loader.load();
+             * TavoloController tavolo = loader.getController();
+             * loader.setController(tavolo);
+             * 
+             * tavolo.initController(partita);
+             * 
+             * 
+             * stage.setTitle(partita.getCodice());
+             * stage.setScene(new Scene(root));
+             * stage.show();
+             */
 
         } catch (IOException e) {
             System.err.println("ERRORE (app IO exception):\t\t " + e.getMessage());
