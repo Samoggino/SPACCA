@@ -112,7 +112,7 @@ public class CreazioneUtenteRobotController implements Initializable {
                 // Verifica se il file esiste
                 if (file.VerificaEsistenzaFile(username)) {
 
-                    Giocatore utente = file.carica(username);
+                    Giocatore utente = (Giocatore) file.carica(username);
                     System.out.println("GIOCATORE" + utente);
 
                     if (utente.getUsername().equals(username)) {

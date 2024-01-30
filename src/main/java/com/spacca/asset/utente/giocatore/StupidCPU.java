@@ -5,7 +5,6 @@ import com.spacca.asset.match.Partita;
 public class StupidCPU extends AbstractGiocatore {
 
     public StupidCPU(String nickname) {
-        super("RS-" + nickname);
         super(nickname, "StupidCPU");
     }
 

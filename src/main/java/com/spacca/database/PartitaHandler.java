@@ -1,7 +1,6 @@
 package com.spacca.database;
 
 import java.io.File;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -59,20 +58,17 @@ public class PartitaHandler implements Handler {
     @Override
     public Partita carica(String codicePartita) {
         Partita partita = null;
+        String path = "src/main/resources/com/spacca/database/partite/" + codicePartita + ".json";
         try {
-            System.out.println("\n" + //
-                    " SIAMO P HANDLER : codice\n" + codicePartita);
             codicePartita = codicePartita.toUpperCase();
 
-            Reader fileReader = new FileReader(
-                    "src/main/resources/com/spacca/database/partite/" + codicePartita + ".json");
+            Reader fileReader = new FileReader(path);
             Gson gson = new Gson();
 
             partita = gson.fromJson(fileReader, Partita.class);
 
             fileReader.close();
-            System.out.println("\n" + //
-                    " PARTITA SALVATA \n" + partita.getCodice());
+
         } catch (JsonIOException e) {
             System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" +
                     this.getClass().getName() + e.getMessage());
@@ -125,7 +121,7 @@ public class PartitaHandler implements Handler {
         for (AbstractGiocatore abstractGiocatore : giocatori) {
             abstractGiocatore.addCodicePartita(codice);
             listaDeiGiocatori.add(abstractGiocatore.getUsername());
-            giocatoreHandler.modifica(abstractGiocatore.getUsername(), abstractGiocatore);
+            // giocatoreHandler.modifica(abstractGiocatore.getUsername(), abstractGiocatore);
         }
         System.out.println("LISTA GIOCATORI" + listaDeiGiocatori);
 

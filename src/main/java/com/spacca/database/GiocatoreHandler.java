@@ -1,13 +1,11 @@
 package com.spacca.database;
 
 import java.io.File;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.List;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,11 +18,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.asset.match.Partita;
-import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.asset.utente.giocatore.SmartCPU;
-import com.spacca.asset.utente.giocatore.StupidCPU;
 import com.spacca.asset.utente.giocatore.StupidCPU;
 
 public class GiocatoreHandler implements Handler {
@@ -146,4 +141,113 @@ public class GiocatoreHandler implements Handler {
         }
     }
 
+    public List<String> getAllGiocatoriWithRobot() {
+        List<String> modifiedFileNames = null;
+        try {
+            String folderPath = "/com/spacca/database/giocatori/";
+
+            // Ottieni il percorso completo della cartella delle risorse
+            Path resourceFolder = Paths.get(getClass().getResource(folderPath).toURI());
+
+            // Ottieni la lista dei nomi dei file JSON presenti nella cartella
+            // escludo gli amministratori e gli utenti robot
+            List<String> fileNames = Files.list(resourceFolder)
+                    .filter(path -> path.toString().endsWith(".json") && Files.isRegularFile(path))
+                    .filter(path -> !path.getFileName().toString().equals("user-admin.json"))
+                    .map(path -> path.getFileName().toString())
+                    .collect(Collectors.toList());
+
+            // Rimuovi "user-" e ".json" dai nomi dei file
+            modifiedFileNames = fileNames.stream()
+                    .map(fileName -> fileName.replace("user-", "").replace(".json", ""))
+                    .collect(Collectors.toList());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return modifiedFileNames;
+    }
+
+    public List<String> getAllGiocatoriUtenti() {
+        List<String> modifiedFileNames = null;
+        try {
+            String folderPath = "/com/spacca/database/giocatori/";
+
+            // Ottieni il percorso completo della cartella delle risorse
+            Path resourceFolder = Paths.get(getClass().getResource(folderPath).toURI());
+
+            // Ottieni la lista dei nomi dei file JSON presenti nella cartella
+            // escludo gli amministratori e gli utenti robot
+            List<String> fileNames = Files.list(resourceFolder)
+                    .filter(path -> path.toString().endsWith(".json") && Files.isRegularFile(path))
+                    .filter(path -> !path.getFileName().toString().equals("user-admin.json"))
+                    .filter(path -> !path.getFileName().toString().startsWith("user-RS-"))
+                    .filter(path -> !path.getFileName().toString().startsWith("user-RI-"))
+                    .map(path -> path.getFileName().toString())
+                    .collect(Collectors.toList());
+
+            // Rimuovi "user-" e ".json" dai nomi dei file
+            modifiedFileNames = fileNames.stream()
+                    .map(fileName -> fileName.replace("user-", "").replace(".json", ""))
+                    .collect(Collectors.toList());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return modifiedFileNames;
+    }
+
+    @Override
+    public void modifica(String oldGiocatore, Object newObject) {
+        Giocatore newGiocatore = (Giocatore) newObject;
+        // Percorso del file JSON dell'oldGiocatore
+        String path = "src/main/resources/com/spacca/database/giocatori/user-" + oldGiocatore + ".json";
+
+        System.out.println("Giocatore scelto " + oldGiocatore);
+        Giocatore vecchioGiocatore = (Giocatore) carica(oldGiocatore);
+        System.out.println("\n Vacchio giocatore " + vecchioGiocatore + " \n ");
+        System.out.println("\n Nuovo giocatore " + newGiocatore + " \n ");
+
+        // se è stato modificato lo username creo il nuovo file ed elimino il vecchio
+        if (!oldGiocatore.equals(newGiocatore.getUsername())) {
+            salva(newGiocatore, newGiocatore.getUsername());
+            elimina(oldGiocatore);
+        } else { // se non è stato modificato lo username ricarico il file
+            try {
+                Path playerFilePath = Paths.get(path);
+                // Leggi il contenuto del file JSON e deserializza in un oggetto Giocatore
+                Gson gson = new Gson();
+
+                // Sovrascrivi il contenuto del file JSON con il nuovo JSON
+                String updatedJsonContent = gson.toJson(newGiocatore);
+                Files.write(playerFilePath, updatedJsonContent.getBytes());
+            } catch (IOException e) {
+                System.out.println("File non trovato " + e);
+            } catch (Exception e) {
+                System.out.println("Eccezione nella modifica del giocatore handler " + e);
+                e.printStackTrace();
+
+            }
+        }
+    }
+
+    @Override
+    public Boolean VerificaEsistenzaFile(String username) {
+        String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
+
+        File userFile = new File(path);
+
+        // Verifica se il file esiste
+        if (userFile.exists() && userFile.isFile()) {
+            System.out.println("VerificaEsistenzaFile: " + true);
+            return true;
+        } else {
+            System.out.println("VerificaEsistenzaFile: " + false);
+            return false;
+        }
+    }
 }

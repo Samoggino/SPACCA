@@ -10,7 +10,10 @@ import com.spacca.asset.match.Partita;
 import com.spacca.asset.match.Torneo;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
+import com.spacca.asset.utente.giocatore.SmartCPU;
+import com.spacca.asset.utente.giocatore.StupidCPU;
 import com.spacca.database.GiocatoreHandler;
+import com.spacca.database.Handler;
 import com.spacca.database.PartitaHandler;
 import com.spacca.database.TorneoHandler;
 
@@ -23,7 +26,7 @@ import javafx.stage.Stage;
  * AmministratoreI
  */
 public class Amministratore extends AbstractGiocatore {
-    
+
     transient static PartitaHandler partitaHandler = new PartitaHandler();
     transient TorneoHandler torneoHandler = new TorneoHandler();
     transient GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
@@ -88,15 +91,34 @@ public class Amministratore extends AbstractGiocatore {
         return creaPartita(generaNumeroCasualePartita(), giocatoriDellaPartita);
     }
 
-    public void creaUtenteFisico(String username, String password, String email) {
+    public Giocatore creaUtenteFisico(String username, String password, String email) {
         Giocatore giocatore = new Giocatore(username, password, email);
-        giocatoreHandler.salva(giocatore, username);
+        new GiocatoreHandler().salva(giocatore, username);
+        return giocatore;
     }
 
-    public void creaUtenteRobot(String username) {
+    public AbstractGiocatore creaCPU(String username, String type) {
+        // TODO da mettere il tipo di utente robot
+        AbstractGiocatore giocatore = null;
+
+        if (type.equals("SmartCPU")) {
+            giocatore = new SmartCPU(username);
+            System.out.println("SONO IN CREA UTENTE ROBOT" + giocatore);
+        } else if (type.equals("StupidCPU")) {
+            giocatore = new StupidCPU(username);
+            System.out.println("SONO IN CREA UTENTE ROBOT" + giocatore);
+        }
+
+        GiocatoreHandler handler = new GiocatoreHandler();
+        handler.salva(giocatore, username);
+        return handler.carica(username);
+    }
+
+    public AbstractGiocatore creaUtenteRobot(String username) {
         // TODO da mettere il tipo di utente robot
         AbstractGiocatore giocatore = new AbstractGiocatore(username);
         giocatoreHandler.salva(giocatore, username);
+        return giocatore;
     }
 
     public AbstractGiocatore caricaUtente(String username) {
