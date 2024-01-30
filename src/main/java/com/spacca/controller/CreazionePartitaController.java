@@ -66,8 +66,7 @@ public class CreazionePartitaController implements Initializable {
             }
             return null;
         });
-        codiceField.setTextFormatter(textFormatter); // Assicurati di usare lo stesso identificatore
-
+        codiceField.setTextFormatter(textFormatter); // Assicurati di usare lo stesso identificatori
         creaButton.setDisable(true); // Disabilita il bottone
     }
 
