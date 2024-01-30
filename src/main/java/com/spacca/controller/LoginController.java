@@ -61,8 +61,8 @@ public class LoginController {
                 usernameField.setStyle("-fx-border-color:darkorange");
             } else if (userFile.exists() && userFile.isFile()) { // Verifica se il file esiste
 
-                Handler handler = new GiocatoreHandler();
-                Giocatore utente = (Giocatore) handler.carica(username);
+                GiocatoreHandler file = new GiocatoreHandler();
+                Giocatore utente = (Giocatore) file.carica(username);
 
                 if (utente.getUsername().equals(username) && utente.getPassword().equals(password)) {
 

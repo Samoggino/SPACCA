@@ -11,7 +11,7 @@ public class Giocatore extends AbstractGiocatore {
     String email;
 
     public Giocatore(String username, String password, String email) {
-        super(username);
+        super(username, "Giocatore");
         this.email = email;
         this.password = password;
     }

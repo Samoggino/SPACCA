@@ -11,13 +11,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
+import com.spacca.asset.utente.giocatore.SmartCPU;
 import com.spacca.asset.utente.giocatore.StupidCPU;
 
 public class GiocatoreHandler implements Handler {
@@ -53,19 +56,35 @@ public class GiocatoreHandler implements Handler {
     }
 
     @Override
-    public Giocatore carica(String username) {
+    public AbstractGiocatore carica(String username) {
+
+        AbstractGiocatore giocatoreVero = null;
 
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
-        Giocatore giocatore = null;
-        try {
 
+        try {
             Reader fileReader = new FileReader(path);
+
             Gson gson = new Gson();
 
-            giocatore = gson.fromJson(fileReader, Giocatore.class);
-            System.out.println("Giocatore:" + giocatore + " caricato correttamente in formato JSON.\n\n\n\n");
+            // Lettura del file JSON
+            JsonObject jsonObject = gson.fromJson(fileReader, JsonObject.class);
+
+            // Ottieni il valore del campo "type"
+            String type = jsonObject.get("type").getAsString();
+
+            if (type.equals("Giocatore")) {
+                giocatoreVero = gson.fromJson(jsonObject, Giocatore.class);
+            } else if (type.equals("SmartCPU")) {
+                giocatoreVero = gson.fromJson(jsonObject, SmartCPU.class);
+            } else if (type.equals("StupidCPU")) {
+                giocatoreVero = gson.fromJson(jsonObject, StupidCPU.class);
+            } else {
+                System.err.println("ERRORE: Tipo di giocatore non riconosciuto");
+            }
 
             fileReader.close();
+
         } catch (JsonIOException e) {
             System.err.println("ERRORE: Errore durante la lettura del file JSON" + e.getMessage());
         } catch (FileNotFoundException e) {
@@ -73,22 +92,20 @@ public class GiocatoreHandler implements Handler {
         } catch (IOException e) {
             System.err.println("ERRORE: Errore durante la lettura del file JSON" + e.getMessage());
         } catch (Exception e) {
-            System.err.println("ERRORE: Errore generico in" + e.getMessage());
+            System.err.println("ERRORE: Errore generico in " + e.getMessage());
         }
 
-        System.out.println("Giocatore:" + giocatore);
-        return giocatore;
+        return giocatoreVero;
+
     }
 
     @Override
     public void elimina(String username) {
-        System.out.println("\n" + //
-                " SIAMO IN ELIMINA UTENTE HANDLER \n" + username);
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
 
         File file = new File(path);
 
-        Giocatore giocatoreEliminato = this.carica(username);
+        Giocatore giocatoreEliminato = (Giocatore) this.carica(username);
 
         List<String> listaCodici = giocatoreEliminato.getListaCodiciPartite();
 
@@ -101,26 +118,23 @@ public class GiocatoreHandler implements Handler {
                     // giocatore
                     Partita partita = (Partita) handlerPartita.carica(codice);
                     // rimuovo il giocatore nella lista dei giocatori della partita
-                    partita.getListaDeiGiocatori().remove(username);
+                    int posizioneVecchioUtente = partita.getListaDeiGiocatori().indexOf(username);
+
                     // creo un nuovo giocatore stupido e lo sostituisco con un giocatore robot
                     // stupido
                     Handler handlerGiocatore = new GiocatoreHandler();
                     String usernameStupid = "RS-" + username;
-                    StupidCPU giocatoreSostituto = new StupidCPU(usernameStupid);
-                    partita.getListaDeiGiocatori().add(usernameStupid);
+                    AbstractGiocatore giocatoreSostituto = new StupidCPU(usernameStupid);
+
+                    partita.getListaDeiGiocatori().set(posizioneVecchioUtente, usernameStupid);
                     // salvo su file il nuovo giocatore stupido
                     handlerGiocatore.salva(giocatoreSostituto, usernameStupid);
 
                     // salvo la partita modificata
                     handlerPartita.salva(partita, codice);
 
-                    System.out
-                            .println("Eliminato utente " + username + " dalla partita " + codice);
-                    System.out.println(
-                            "Codici partita di " + username + " " + giocatoreEliminato.getListaCodiciPartite());
                 }
 
-                System.out.println("Il giocatore con username " + username + " è stato eliminato correttamente.");
             } else {
                 System.err.println("Errore durante l'eliminazione del giocatore  " + username);
             }

@@ -67,7 +67,7 @@ public class PartitaController {
     @FXML
     void risultatoPartita() {
         System.out.println(partita.getCarteSulTavolo());
-        System.out.println(partita.getRisultato());
+        System.out.println(partita.getClassifica());
     }
 
     @FXML
