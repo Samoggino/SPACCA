@@ -92,9 +92,9 @@ public class Amministratore extends AbstractGiocatore {
         giocatoreHandler.salva(giocatore, username);
     }
 
-    public void creaUtenteRobot(String username) {
+    public void creaUtenteRobot(String username, String type) {
         // TODO da mettere il tipo di utente robot
-        AbstractGiocatore giocatore = new AbstractGiocatore(username);
+        AbstractGiocatore giocatore = new AbstractGiocatore(username, type);
         giocatoreHandler.salva(giocatore, username);
     }
 

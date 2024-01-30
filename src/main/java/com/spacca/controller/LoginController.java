@@ -63,6 +63,8 @@ public class LoginController {
                 GiocatoreHandler file = new GiocatoreHandler();
                 Giocatore utente = (Giocatore) file.carica(username);
 
+                System.out.println("\n SONO IN HANDLE LOGIN \n" + utente);
+
                 if (utente.getUsername().equals(username) && utente.getPassword().equals(password)) {
 
                     if (username.equals("admin")) {

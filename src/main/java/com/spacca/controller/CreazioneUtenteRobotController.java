@@ -4,7 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.spacca.asset.utente.Amministratore;
-import com.spacca.asset.utente.giocatore.Giocatore;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.database.GiocatoreHandler;
 
 import javafx.fxml.FXML;
@@ -60,7 +60,7 @@ public class CreazioneUtenteRobotController implements Initializable {
                     // SmartCPU utenteSmartCPU = new SmartCPU(username);
                     // Per ora carica e salva un abstract, manca il tipo
                     // TODO
-                    admin.creaUtenteRobot(username);
+                    admin.creaUtenteRobot(username, "SmartCPU");
 
                     showAlert("Utente Robot Intelligente" + username + "\n salvato con successo!", "",
                             AlertType.INFORMATION);
@@ -73,7 +73,7 @@ public class CreazioneUtenteRobotController implements Initializable {
                     // StupidCPU utenteStupidCPU = new StupidCPU(username);
                     // System.out.println("utenteSmartCPU " + utenteStupidCPU);
 
-                    admin.creaUtenteRobot(username);
+                    admin.creaUtenteRobot(username, "StupidPU");
 
                     showAlert("Utente Robot Basico" + username + "\n salvato con successo!", "", AlertType.INFORMATION);
                     admin.ritornaBenvenutoAdmin(creaButton.getScene());
@@ -112,7 +112,7 @@ public class CreazioneUtenteRobotController implements Initializable {
                 // Verifica se il file esiste
                 if (file.VerificaEsistenzaFile(username)) {
 
-                    Giocatore utente = file.carica(username);
+                    AbstractGiocatore utente = file.carica(username);
                     System.out.println("GIOCATORE" + utente);
 
                     if (utente.getUsername().equals(username)) {

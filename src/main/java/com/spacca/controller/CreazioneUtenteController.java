@@ -102,7 +102,7 @@ public class CreazioneUtenteController implements Initializable {
                 // Verifica se il file esiste
                 if (file.VerificaEsistenzaFile(username)) {
 
-                    Giocatore utente = file.carica(username);
+                    Giocatore utente = (Giocatore) file.carica(username);
                     System.out.println("USERNAME: " + username);
                     System.out.println("UTENTE USERNAME: " + utente.getUsername());
 
