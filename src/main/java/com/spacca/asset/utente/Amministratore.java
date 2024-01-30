@@ -106,6 +106,14 @@ public class Amministratore {
         return torneo;
     }
 
+    public Torneo creaTorneo(List<String> giocatoriScelti) {
+        // TODO
+        Torneo torneo = new Torneo(generaNumeroCasualeTorneo(), giocatoriScelti);
+        // TODOO creare anche le partite
+        torneoHandler.salva(torneo, torneo.getCodice());
+        return torneo;
+    }
+
     public void ritornaBenvenutoAdmin(Scene currentScene) {
         try {
             String path = "/com/spacca/pages/benvenutoAdmin.fxml";

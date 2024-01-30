@@ -76,9 +76,9 @@ public class CreazionePartitaController implements Initializable {
     @FXML
     public void handleGenera() {
         if (generaCodiceRadioButton.isSelected()) {
-
             this.codicePartita = admin.generaNumeroCasualePartita();
             codiceField.setText(codicePartita);
+            labelCodice.setText("");
             this.codicePartita = "P" + codicePartita;
         } else if (!generaCodiceRadioButton.isSelected()) {
             codiceField.setText("");

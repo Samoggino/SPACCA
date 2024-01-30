@@ -77,13 +77,16 @@
       <Label fx:id="labelCodice" layoutX="80.0" layoutY="144.0" prefHeight="17.0" prefWidth="228.0">
          <font>
             <Font size="9.0" />
-         </font></Label>
+         </font>
+      </Label>
+      <RadioButton fx:id="generaCodiceRadioButton" layoutX="80.0" layoutY="180.0" mnemonicParsing="false" onMouseClicked="#handleGenera" prefHeight="3.0" prefWidth="148.0" text="Genera codice Partita" />
+   
       <Label layoutX="80.0" layoutY="161.0" prefHeight="19.0" prefWidth="228.0" text="Nota: puoi inserire solo numeri interi">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <RadioButton fx:id="modDueGiocatori" onMouseClicked="#handleCheckBoxAction" contentDisplay="CENTER" layoutX="390.0" layoutY="123.0" mnemonicParsing="false" text="Due Giocatori" />
-      <RadioButton fx:id="modQuattroGiocatori" onMouseClicked="#handleCheckBoxAction" contentDisplay="CENTER" layoutX="509.0" layoutY="123.0" mnemonicParsing="false" text="Quattro Giocatori" />
+      <RadioButton fx:id="modDueGiocatori" contentDisplay="CENTER" layoutX="390.0" layoutY="123.0" mnemonicParsing="false" onMouseClicked="#handleCheckBoxAction" text="Due Giocatori" />
+      <RadioButton fx:id="modQuattroGiocatori" contentDisplay="CENTER" layoutX="509.0" layoutY="123.0" mnemonicParsing="false" onMouseClicked="#handleCheckBoxAction" text="Quattro Giocatori" />
    </children>
 </Pane>
