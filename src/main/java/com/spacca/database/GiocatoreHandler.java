@@ -11,7 +11,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -166,7 +165,7 @@ public class GiocatoreHandler implements Handler {
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + oldGiocatore + ".json";
 
         System.out.println("Giocatore scelto " + oldGiocatore);
-        Giocatore vecchioGiocatore = carica(oldGiocatore);
+        Giocatore vecchioGiocatore = (Giocatore) carica(oldGiocatore);
         System.out.println("\n Vacchio giocatore " + vecchioGiocatore + " \n ");
         System.out.println("\n Nuovo giocatore " + newGiocatore + " \n ");
 
