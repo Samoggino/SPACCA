@@ -19,32 +19,6 @@
 
 <StackPane xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="com.spacca.controller.TavoloController">
    <children>
-      <GridPane fx:id="overlay" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1281.0" style="-fx-background-color: lightgray;">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Il vincitore è" textAlignment="CENTER" wrappingWidth="1282.1300010681152">
-               <font>
-                  <Font size="55.0" />
-               </font>
-            </Text>
-            <Text fx:id="andTheWinnerIs" strokeType="OUTSIDE" strokeWidth="0.0" text="nome del giocatore" textAlignment="CENTER" wrappingWidth="1282.1300010681152" GridPane.rowIndex="1">
-               <font>
-                  <Font size="44.0" />
-               </font>
-            </Text>
-            <Text fx:id="risultatoOverlay" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="1283.1300010681152" GridPane.rowIndex="2">
-               <font>
-                  <Font size="40.0" />
-               </font></Text>
-         </children>
-      </GridPane>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1290.0" style="-fx-background-color: #696969;">
          <center>
             <Pane id="tavolo" fx:id="tavolo" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: lightgreen;" BorderPane.alignment="CENTER">
@@ -174,5 +148,31 @@
             </VBox>
          </right>
       </BorderPane>
+      <GridPane fx:id="overlay" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1281.0" style="-fx-background-color: lightgray;">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Il vincitore è" textAlignment="CENTER" wrappingWidth="1282.1300010681152">
+               <font>
+                  <Font size="55.0" />
+               </font>
+            </Text>
+            <Text fx:id="andTheWinnerIs" strokeType="OUTSIDE" strokeWidth="0.0" text="nome del giocatore" textAlignment="CENTER" wrappingWidth="1282.1300010681152" GridPane.rowIndex="1">
+               <font>
+                  <Font size="44.0" />
+               </font>
+            </Text>
+            <Text fx:id="risultatoOverlay" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="1283.1300010681152" GridPane.rowIndex="2">
+               <font>
+                  <Font size="40.0" />
+               </font></Text>
+         </children>
+      </GridPane>
    </children>
 </StackPane>

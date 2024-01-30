@@ -7,6 +7,8 @@ import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
+import com.spacca.asset.utente.giocatore.SmartCPU;
+import com.spacca.asset.utente.giocatore.StupidCPU;
 import com.spacca.controller.TavoloController;
 
 import javafx.application.Application;
@@ -26,15 +28,13 @@ public class App extends Application {
 
         try {
             AbstractGiocatore YOSHI = new Giocatore("yoshi", "ciao", "");
-            AbstractGiocatore MARIO = new Giocatore("mario", "ciao", "");
-            AbstractGiocatore LUIGI = new Giocatore("luigi", "ciao", "");
-            AbstractGiocatore WARIO = new Giocatore("wario", "ciao", "");
+            // AbstractGiocatore MARIO = new Giocatore("mario", "ciao", "");
+            AbstractGiocatore LUIGI = new SmartCPU("luigi");
+            // AbstractGiocatore WARIO = new StupidCPU("wario");
 
-            // AbstractGiocatore StupidCPU = new StupidCPU("CPU");
-            // AbstractGiocatore SmartCPU = new SmartCPU("smartCPU");
             Amministratore amministratore = new Amministratore();
 
-            List<AbstractGiocatore> giocatoriDellaPartita = List.of(YOSHI, MARIO, LUIGI, WARIO);
+            List<AbstractGiocatore> giocatoriDellaPartita = List.of(YOSHI, LUIGI);
             Partita partita = amministratore.creaPartita(giocatoriDellaPartita);
             partita.nuovoTurno();
 

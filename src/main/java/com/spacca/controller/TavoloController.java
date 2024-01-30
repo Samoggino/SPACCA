@@ -1,8 +1,13 @@
 package com.spacca.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Nome;
 import com.spacca.asset.match.Partita;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.database.GiocatoreHandler;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -22,9 +27,6 @@ import javafx.scene.text.TextFlow;
 
 public class TavoloController {
 
-    private Partita partita;
-    private Carta cartaDelTavolo, cartaDellaMano;
-
     @FXML
     public Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane, overlay, tavolo;
 
@@ -40,6 +42,12 @@ public class TavoloController {
     @FXML
     public Text andTheWinnerIs, risultatoOverlay;
 
+    private Partita partita;
+    private Carta cartaDelTavolo, cartaDellaMano;
+    List<AbstractGiocatore> giocatori = new ArrayList<>();
+    String giocatoreCorrente;
+    AbstractGiocatore abstractGiocatoreCorrente;
+
     public void initController(Partita partita) {
         try {
 
@@ -54,12 +62,71 @@ public class TavoloController {
         }
     }
 
+    private void checkGiocatoreCorrente() {
+
+        this.abstractGiocatoreCorrente = new GiocatoreHandler().carica(partita.getGiocatoreCorrente());
+
+        switch (this.abstractGiocatoreCorrente.getType()) {
+            case "SmartCPU":
+                System.out.println("SmartCPU: " + this.abstractGiocatoreCorrente);
+
+                boolean cartaPresa = false;
+                Carta dellaMano = null;
+                Carta delTavolo = null;
+
+                // la CPU intelligente scarta solo se non può prendere
+                if (partita.getCarteSulTavolo().size() == 0) {
+                    cartaPresa = false;
+                } else {
+                    for (Carta cartaSulTavolo : partita.getCarteSulTavolo().getCarteNelMazzo()) {
+                        for (Carta cartaDellaMano : partita.getManoDellUtente(giocatoreCorrente).getCarteNelMazzo()) {
+
+                            if (cartaDellaMano.getNome().equals(Nome.ASSO)) {
+                                assoPrendeTuttoHandler(cartaDellaMano);
+                                return;
+                            }
+
+                            if (cartaDellaMano.getNome().equals(cartaSulTavolo.getNome())) {
+                                cartaPresa = true;
+                                dellaMano = cartaDellaMano;
+                                delTavolo = cartaSulTavolo;
+                            }
+                        }
+                    }
+                }
+
+                if (cartaPresa) {
+                    System.out.println(partita.getGiocatoreCorrente() + " prende " + delTavolo + " con " + dellaMano);
+                    partita.prendi(giocatoreCorrente, delTavolo, dellaMano);
+                    cambiaTurno();
+                } else {
+                    if (partita.getManoDellUtente(giocatoreCorrente).getCarteNelMazzo().size() > 0) {
+                        scartaCartaHandler(partita.getManoDellUtente(giocatoreCorrente).getCarteNelMazzo().get(0));
+                    }
+                }
+
+                break;
+
+            case "StupidCPU":
+                // la CPU stupida scarta e basta
+                if (partita.getManoDellUtente(giocatoreCorrente).getCarteNelMazzo().size() > 0) {
+                    scartaCartaHandler(partita.getManoDellUtente(giocatoreCorrente).getCarteNelMazzo().get(0));
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
     void buildView() {
+        giocatoreCorrente = partita.getGiocatoreCorrente();
         overlay.setVisible(false);
         try {
             if (partita.giocatoriNonHannoCarteInMano()) {
                 partita.nuovoTurno();
             }
+            checkGiocatoreCorrente();
 
             buildGiocatore();
             buildHand();
@@ -78,7 +145,7 @@ public class TavoloController {
     void buildHand() {
         playerHand.getChildren().clear();
 
-        for (Carta cartaDellaMano : partita.getManoDellUtente(partita.getGiocatoreCorrente()).getCarteNelMazzo()) {
+        for (Carta cartaDellaMano : partita.getManoDellUtente(giocatoreCorrente).getCarteNelMazzo()) {
             ImageView cartaView = createCartaImageView(cartaDellaMano);
             cartaView.setFitWidth(0.5 * cartaView.getImage().getWidth());
             cartaView.setFitHeight(0.5 * cartaView.getImage().getHeight());
@@ -256,7 +323,6 @@ public class TavoloController {
 
     void cartaLasciataSuTavolo(Node nodoColpito) {
         if (nodoColpito instanceof GridPane) {
-            // System.out.println("Puoi scartare " + this.cartaDellaMano);
             scartaCartaHandler(this.cartaDellaMano);
         }
     }
@@ -278,7 +344,7 @@ public class TavoloController {
             if (partita.getCarteSulTavolo().size() == 0) {
                 scartaCartaHandler(cartaDellaMano);
             } else {
-                partita.assoPrendeTutto(partita.getGiocatoreCorrente(), cartaDellaMano);
+                partita.assoPrendeTutto(giocatoreCorrente, cartaDellaMano);
                 System.out.println("Prendi tutto con " + cartaDellaMano + "!");
                 cambiaTurno();
             }
@@ -287,7 +353,7 @@ public class TavoloController {
 
     void prendiCartaHandler(Carta cartaDiDestinazione, Carta cartaDallaManoDellUtente) {
 
-        boolean cartaPresa = partita.prendi(partita.getGiocatoreCorrente(), cartaDiDestinazione,
+        boolean cartaPresa = partita.prendi(giocatoreCorrente, cartaDiDestinazione,
                 cartaDallaManoDellUtente);
         if (cartaPresa) {
             cambiaTurno();
@@ -295,15 +361,15 @@ public class TavoloController {
     }
 
     void scartaCartaHandler(Carta cartaDellaMano) {
-        partita.scarta(partita.getGiocatoreCorrente(), cartaDellaMano);
+        partita.scarta(giocatoreCorrente, cartaDellaMano);
         cambiaTurno();
     }
 
     void cambiaTurno() {
-        for (String giocatore : partita.getListaDeiGiocatori()) {
-            System.out.println(giocatore);
-        }
-        System.out.println("Turno di " + partita.getGiocatoreCorrente() + "\n");
+        // for (String giocatore : partita.getListaDeiGiocatori()) {
+        // System.out.println(giocatore);
+        // }
+        // System.out.println("Turno di " + giocatoreCorrente + "\n");
         partita.passaTurno();
         refreshData();
     }
@@ -323,7 +389,7 @@ public class TavoloController {
         try {
             String giocatoreDelPane = (String) containerPane.getUserData();
 
-            boolean isCurrentPlayer = giocatoreDelPane.equals(partita.getGiocatoreCorrente());
+            boolean isCurrentPlayer = giocatoreDelPane.equals(giocatoreCorrente);
 
             getNomeCorrente(containerPane)
                     .setText(giocatoreDelPane + "\n" + partita.getPreseDellUtente(giocatoreDelPane).size() + " carte");
@@ -340,7 +406,7 @@ public class TavoloController {
                 getImmagineCorrente(containerPane).setOnMouseDragReleased(event -> {
                     if (isCardOnTop(getImmagineCorrente(containerPane), containerPane)
                             && !isCurrentPlayer) {
-                        rubaUnMazzoHandler(partita.getGiocatoreCorrente(), giocatoreDelPane,
+                        rubaUnMazzoHandler(giocatoreCorrente, giocatoreDelPane,
                                 cartaDellaMano, cartaInCimaCarta);
                     }
                 });

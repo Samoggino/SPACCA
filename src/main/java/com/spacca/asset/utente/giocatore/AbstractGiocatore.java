@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 import com.spacca.database.GiocatoreHandler;
 
-public class AbstractGiocatore extends Object implements GiocatoreInterface {
+public class AbstractGiocatore extends Object {
 
     @SerializedName("username")
     String username;
@@ -14,28 +14,23 @@ public class AbstractGiocatore extends Object implements GiocatoreInterface {
     @SerializedName("listaCodiciPartite")
     List<String> listaCodiciPartite = new ArrayList<>();
 
-    private GiocatoreHandler handlerGiocatore = new GiocatoreHandler();
+    @SerializedName("type")
+    String type;
 
-    public AbstractGiocatore(String username) {
+    transient private GiocatoreHandler handlerGiocatore = new GiocatoreHandler();
+    
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+
+    public AbstractGiocatore(String username, String type) {
         this.username = username;
-    }
-
-    @Override
-    public void scarta() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'gioca'");
-    }
-
-    @Override
-    public void prendi() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'prendi'");
-    }
-
-    @Override
-    public void prendiTuttoIlTavolo() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'prendiTutto'");
+        this.type = type;
     }
 
     public String getUsername() {
@@ -43,7 +38,7 @@ public class AbstractGiocatore extends Object implements GiocatoreInterface {
     }
 
     String stampa() {
-        return "Giocatore: " + this.username;
+        return "Giocatore: " + this.username + "\tType: " + this.type;
     }
 
     @Override
@@ -75,17 +70,4 @@ public class AbstractGiocatore extends Object implements GiocatoreInterface {
             System.err.println("Errore nel salvare la partita" + e.getMessage());
         }
     }
-
-    @Override
-    public void prendiTuttoIlMazzoDiUnAltroUtente(AbstractGiocatore giocatore) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'prendiTuttoIlMazzoDiUnAltroUtente'");
-    }
-
-    @Override
-    public void prendiMezzoMazzoDiUnAltroUtente(AbstractGiocatore giocatore) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'prendiMezzoMazzoDiUnAltroUtente'");
-    }
-
 }

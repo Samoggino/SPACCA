@@ -3,6 +3,7 @@ package com.spacca.asset.match;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -535,5 +536,71 @@ public class Partita extends Object {
         }
         return false;
     }
+
+    public void mossaSmartCPU() {
+        // la CPU intelligente scarta e prende le carte se può
+        boolean haPreso = false;
+        List<Carta> carteSulTavolo = getCarteSulTavolo().getCarteNelMazzo();
+        List<Carta> carteDellaMano = getManoDellUtente(giocatoreCorrente).getCarteNelMazzo();
+
+        // prende le carte se può
+        Iterator<Carta> tavoloIterator = carteSulTavolo.iterator();
+        while (tavoloIterator.hasNext()) {
+            Carta cartaSulTavolo = tavoloIterator.next();
+            Iterator<Carta> manoIterator = carteDellaMano.iterator();
+            while (manoIterator.hasNext()) {
+                Carta cartaDellaMano = manoIterator.next();
+                if (cartaSulTavolo.getNome().equals(cartaDellaMano.getNome())) {
+                    prendi(giocatoreCorrente, cartaSulTavolo, cartaDellaMano);
+                    manoIterator.remove(); // Rimuove la carta dalla mano
+                    haPreso = true;
+                    break; // Esci dal loop interno
+                }
+            }
+            if (haPreso) {
+                break; // Esci dal loop esterno se hai già preso una carta
+            }
+        }
+
+        // se non ha preso le carte scarta
+        if (!haPreso) {
+            scarta(giocatoreCorrente, carteDellaMano.get(carteDellaMano.size() - 1));
+        }
+    }
+
+    // public void gestisciSmartCPU() {
+    //     // la CPU intelligente scarta e prende le carte se può
+    //     boolean haPreso = false;
+
+    //     // prende le carte se può
+    //     Iterator<Carta> tavoloIterator = getCarteSulTavolo().getCarteNelMazzo().iterator();
+    //     while (tavoloIterator.hasNext()) {
+    //         Carta cartaSulTavolo = tavoloIterator.next();
+    //         Iterator<Carta> manoIterator = getManoDellUtente(giocatoreCorrente).getCarteNelMazzo()
+    //                 .iterator();
+    //         while (manoIterator.hasNext()) {
+    //             Carta cartaDellaMano = manoIterator.next();
+    //             if (cartaSulTavolo.getNome().equals(cartaDellaMano.getNome())) {
+    //                 prendi(giocatoreCorrente, cartaSulTavolo, cartaDellaMano);
+    //                 manoIterator.remove(); // Rimuove la carta dalla mano
+    //                 haPreso = true;
+    //                 return;
+    //             }
+    //         }
+    //     }
+
+    //     // se non ha preso le carte scarta
+    //     if (!haPreso) {
+    //         scarta(giocatoreCorrente,
+    //                 getManoDellUtente(giocatoreCorrente).getCarteNelMazzo()
+    //                         .get(getManoDellUtente(giocatoreCorrente).size() - 1));
+    //     }
+    // }
+
+    // public void gestisciStupidCPU() {
+    //     scarta(giocatoreCorrente,
+    //             getManoDellUtente(giocatoreCorrente).getCarteNelMazzo()
+    //                     .get(getManoDellUtente(giocatoreCorrente).size() - 1);
+    // }
 
 }
