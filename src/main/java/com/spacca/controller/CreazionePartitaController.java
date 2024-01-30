@@ -16,6 +16,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Spinner;
@@ -37,6 +38,8 @@ public class CreazionePartitaController implements Initializable {
     private Button procButton;
     @FXML
     private TextField codiceField;
+    @FXML
+    private RadioButton generaCodiceRadioButton;
 
     private String codicePartita;
 
@@ -71,18 +74,34 @@ public class CreazionePartitaController implements Initializable {
     }
 
     @FXML
+    public void handleGenera() {
+        if (generaCodiceRadioButton.isSelected()) {
+
+            this.codicePartita = admin.generaNumeroCasualePartita();
+            codiceField.setText(codicePartita);
+            this.codicePartita = "P" + codicePartita;
+        } else if (!generaCodiceRadioButton.isSelected()) {
+            codiceField.setText("");
+            codiceField.setDisable(false);
+        }
+    }
+
+    @FXML
     private void handleMostra() {
         System.out.println("SIAMO IN MOSTRA PARTITA ");
 
-        this.codicePartita = codiceField.getText().trim();
-
-        Boolean controlloCodice = controllaCodice(codiceField.getText().trim());
-
-        if (controlloCodice) {
-            // Inizializza le liste delle ComboBox
+        if (generaCodiceRadioButton.isSelected()) {
             comboBoxes = inizializeComboBoxandLayout();
             popola();
-            creaButton.setDisable(false); // Abilita il bottone
+            creaButton.setDisable(false);
+        } else if (!generaCodiceRadioButton.isSelected()) {
+            if (controllaCodice(codiceField.getText().trim())) {
+                // Inizializza le liste delle ComboBox
+                this.codicePartita = codiceField.getText().trim();
+                comboBoxes = inizializeComboBoxandLayout();
+                popola();
+                creaButton.setDisable(false); // Abilita il bottone
+            }
         } else {
             showAlert("Per procedere devi compilare correttamente tutti i campi", "Mancato inserimento",
                     AlertType.ERROR);
