@@ -38,6 +38,8 @@ public class CreazioneTorneoController implements Initializable {
     private Button procButton;
     @FXML
     private TextField codiceField;
+    @FXML
+    private RadioButton generaCodiceRadioButton;
 
     private String codiceTorneo;
 
@@ -67,16 +69,40 @@ public class CreazioneTorneoController implements Initializable {
     }
 
     @FXML
+    public void handleGenera() {
+        if (generaCodiceRadioButton.isSelected()) {
+            this.codiceTorneo = admin.generaNumeroCasualeTorneo();
+            codiceField.setText(codiceTorneo);
+            labelCodice.setText("");
+            this.codiceTorneo = "T" + codiceTorneo;
+            // popola();
+            codiceField.setDisable(true);
+        } else if (!generaCodiceRadioButton.isSelected()) {
+            codiceField.setText("");
+            codiceField.setDisable(false);
+        }
+    }
+
+    @FXML
     private void handleMostra() {
         System.out.println("SIAMO IN MOSTRA TORNEO ");
-        this.codiceTorneo = codiceField.getText().trim();
+
+        String codice = codiceField.getText().trim();
 
         // se il codice non è stato inserito correttamente e/0 il radio botton
         // selezionato
-        if (controllaCodice(codiceTorneo) || controllaSelezione()) {
+        if (generaCodiceRadioButton.isSelected() && controllaSelezione()) {
             comboBoxes = inizializeComboBoxandLayout();
             popola();
-            creaButton.setDisable(false); // Abilita il bottone
+            creaButton.setDisable(false);
+
+        } else if (!generaCodiceRadioButton.isSelected()) {
+            if (controllaCodice(codice) && controllaSelezione()) {
+                this.codiceTorneo = codice;
+                comboBoxes = inizializeComboBoxandLayout();
+                popola();
+                creaButton.setDisable(false); // Abilita il bottone
+            }
         } else {
             showAlert("Per procedere devi compilare correttamente tutti i campi", "Mancato inserimento di un campo",
                     AlertType.ERROR);
@@ -135,7 +161,6 @@ public class CreazioneTorneoController implements Initializable {
     }
 
     private List<ComboBox<String>> inizializeComboBoxandLayout() throws NullPointerException {
-
         comboBoxes.clear();
         // imposto i valori di default ovvero spinner = 2
 
@@ -153,11 +178,18 @@ public class CreazioneTorneoController implements Initializable {
             comboBoxes.add(sceltaGiocatore1);
             comboBoxes.add(sceltaGiocatore2);
         } else if (modQuattroGiocatori.isSelected()) {
-            sceltaGiocatore3.setVisible(true);
-            sceltaGiocatore4.setVisible(true);
+            label1.setVisible(true);
+            label2.setVisible(true);
             label3.setVisible(true);
             label4.setVisible(true);
 
+            sceltaGiocatore1.setVisible(true);
+            sceltaGiocatore2.setVisible(true);
+            sceltaGiocatore3.setVisible(true);
+            sceltaGiocatore4.setVisible(true);
+
+            comboBoxes.add(sceltaGiocatore1);
+            comboBoxes.add(sceltaGiocatore2);
             comboBoxes.add(sceltaGiocatore3);
             comboBoxes.add(sceltaGiocatore4);
         }

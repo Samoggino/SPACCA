@@ -27,19 +27,19 @@ public class Amministratore {
     transient TorneoHandler torneoHandler = new TorneoHandler();
     transient GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
 
-    void eliminaPartita(String codice) {
+    public void eliminaPartita(String codice) {
         partitaHandler.elimina(codice);
     }
 
-    void eliminaTorneo(String codice) {
+    public void eliminaTorneo(String codice) {
         torneoHandler.elimina(codice);
     }
 
-    void modificaProfiloGiocatore(String oldGiocatore, Object newGiocatore) {
+    public void modificaProfiloGiocatore(String oldGiocatore, Object newGiocatore) {
         giocatoreHandler.modifica(oldGiocatore, newGiocatore);
     }
 
-    protected static String generaNumeroCasuale() {
+    public String generaNumeroCasualePartita() {
         Random random = new Random();
         // Genera un numero casuale compreso tra 1000 e 9999
         String numero = String.valueOf(random.nextInt(9000) + 1000);
@@ -47,7 +47,20 @@ public class Amministratore {
         if (!partitaHandler.VerificaEsistenzaFile(numero)) {
             return numero;
         } else {
-            return generaNumeroCasuale();
+            return generaNumeroCasualePartita();
+        }
+
+    }
+
+    public String generaNumeroCasualeTorneo() {
+        Random random = new Random();
+        // Genera un numero casuale compreso tra 1000 e 9999
+        String numero = String.valueOf(random.nextInt(9000) + 1000);
+
+        if (!torneoHandler.VerificaEsistenzaFile(numero)) {
+            return numero;
+        } else {
+            return generaNumeroCasualeTorneo();
         }
 
     }
@@ -67,7 +80,7 @@ public class Amministratore {
     }
 
     public Partita caricaPartita(List<String> giocatoriDellaPartita) {
-        return creaPartita(generaNumeroCasuale(), giocatoriDellaPartita);
+        return creaPartita(generaNumeroCasualePartita(), giocatoriDellaPartita);
     }
 
     public void creaUtenteFisico(String username, String password, String email) {
@@ -90,6 +103,14 @@ public class Amministratore {
         Torneo torneo = new Torneo(codiceTorneo, giocatoriScelti);
         // TODOO creare anche le partite
         torneoHandler.salva(torneo, codiceTorneo);
+        return torneo;
+    }
+
+    public Torneo creaTorneo(List<String> giocatoriScelti) {
+        // TODO
+        Torneo torneo = new Torneo(generaNumeroCasualeTorneo(), giocatoriScelti);
+        // TODOO creare anche le partite
+        torneoHandler.salva(torneo, torneo.getCodice());
         return torneo;
     }
 
