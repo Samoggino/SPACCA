@@ -20,8 +20,6 @@ public class AbstractGiocatore extends Object {
     @SerializedName("type")
     String type;
 
-    transient private GiocatoreHandler handlerGiocatore = new GiocatoreHandler();
-
     public String getType() {
         return type;
     }

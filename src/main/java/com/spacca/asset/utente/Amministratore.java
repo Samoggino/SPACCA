@@ -13,7 +13,6 @@ import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.asset.utente.giocatore.SmartCPU;
 import com.spacca.asset.utente.giocatore.StupidCPU;
 import com.spacca.database.GiocatoreHandler;
-import com.spacca.database.Handler;
 import com.spacca.database.PartitaHandler;
 import com.spacca.database.TorneoHandler;
 
@@ -50,7 +49,7 @@ public class Amministratore extends AbstractGiocatore {
     public String generaNumeroCasualePartita() {
         Random random = new Random();
         // Genera un numero casuale compreso tra 1000 e 9999
-        String numero = String.valueOf(random.nextInt(9000) + 1000);
+        String numero = "P" + String.valueOf(random.nextInt(9000) + 1000);
 
         if (!partitaHandler.VerificaEsistenzaFile(numero)) {
             return numero;
@@ -63,12 +62,12 @@ public class Amministratore extends AbstractGiocatore {
     public String generaNumeroCasualeTorneo() {
         Random random = new Random();
         // Genera un numero casuale compreso tra 1000 e 9999
-        String numero = String.valueOf(random.nextInt(9000) + 1000);
+        String numero = "T" + String.valueOf(random.nextInt(9000) + 1000);
 
         if (!torneoHandler.VerificaEsistenzaFile(numero)) {
             return numero;
         } else {
-            return generaNumeroCasualeTorneo();
+            return "T" + generaNumeroCasualeTorneo();
         }
 
     }

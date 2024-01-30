@@ -111,7 +111,6 @@ public class PartitaHandler implements Handler {
     }
 
     public Partita creaPartita(String codice, List<AbstractGiocatore> giocatori) {
-        GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
 
         List<String> listaDeiGiocatori = new ArrayList<>();
         // aggiungo a tutti i giocatori il codice della partita
