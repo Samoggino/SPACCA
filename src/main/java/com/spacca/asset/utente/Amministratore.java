@@ -22,10 +22,15 @@ import javafx.stage.Stage;
 /**
  * AmministratoreI
  */
-public class Amministratore {
+public class Amministratore extends AbstractGiocatore {
+    
     transient static PartitaHandler partitaHandler = new PartitaHandler();
     transient TorneoHandler torneoHandler = new TorneoHandler();
     transient GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
+
+    public Amministratore() {
+        super("admin", "admin");
+    }
 
     public void eliminaPartita(String codice) {
         partitaHandler.elimina(codice);

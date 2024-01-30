@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
+import com.spacca.asset.carte.Carta;
+import com.spacca.asset.match.Partita;
 import com.spacca.controller.BenvenutoAdminController;
 import com.spacca.database.GiocatoreHandler;
 
-public class AbstractGiocatore extends Object implements GiocatoreInterface {
+public class AbstractGiocatore extends Object {
 
     @SerializedName("username")
     String username;
@@ -15,28 +17,26 @@ public class AbstractGiocatore extends Object implements GiocatoreInterface {
     @SerializedName("listaCodiciPartite")
     List<String> listaCodiciPartite = new ArrayList<>();
 
-    private GiocatoreHandler handlerGiocatore;
+    @SerializedName("type")
+    String type;
+
+    transient private GiocatoreHandler handlerGiocatore = new GiocatoreHandler();
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public AbstractGiocatore(String username, String type) {
+        this.username = username;
+        this.type = type;
+    }
 
     public AbstractGiocatore(String username) {
         this.username = username;
-    }
-
-    @Override
-    public void scarta() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'gioca'");
-    }
-
-    @Override
-    public void prendi() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'prendi'");
-    }
-
-    @Override
-    public void prendiTuttoIlTavolo() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'prendiTutto'");
     }
 
     public String getUsername() {
@@ -44,7 +44,7 @@ public class AbstractGiocatore extends Object implements GiocatoreInterface {
     }
 
     String stampa() {
-        return "Giocatore: " + this.username;
+        return "Giocatore: " + this.username + "\tType: " + this.type;
     }
 
     @Override
@@ -77,21 +77,120 @@ public class AbstractGiocatore extends Object implements GiocatoreInterface {
         }
     }
 
-    @Override
-    public void prendiTuttoIlMazzoDiUnAltroUtente(AbstractGiocatore giocatore) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'prendiTuttoIlMazzoDiUnAltroUtente'");
+    public boolean prendi(Partita partita, Carta cartaSulTavolo, Carta cartaDellaMano) {
+
+        try {
+
+            // la carta sul tavolo dev'essere sul tavolo
+            if (!partita.getCarteSulTavolo().getCarteNelMazzo().contains(cartaSulTavolo)) {
+                System.out.println("La carta selezionata non è sul tavolo");
+                return false;
+            }
+
+            if (cartaSulTavolo.getNome() == cartaDellaMano.getNome()) {
+                partita.getManoDellUtente(this.username).rimuoviCartaDalMazzo(cartaDellaMano);
+                partita.getCarteSulTavolo().rimuoviCartaDalMazzo(cartaSulTavolo);
+                partita.getPreseDellUtente(this.username).aggiungiCarteAlMazzo(cartaDellaMano, cartaSulTavolo);
+                partita.setUltimoGiocatoreCheHapreso(this.username);
+                return true;
+            }
+
+        } catch (IndexOutOfBoundsException e) {
+            System.err.println("Sul tavolo non ci sono carte!" + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore nella ricerca della carta sul tavolo" + e.getMessage());
+        }
+        System.out.println("Non puoi prendere la carta");
+        return false;
     }
 
-    @Override
-    public void prendiMezzoMazzoDiUnAltroUtente(AbstractGiocatore giocatore) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'prendiMezzoMazzoDiUnAltroUtente'");
+    public void rubaUnMazzo(Partita partita, String scammato, Carta cartaCheRuba) {
+
+        try {
+
+            if (partita.getPreseDellUtente(scammato).size() > 0) {
+
+                partita.getPreseDellUtente(this.username)
+                        .aggiungiListaCarteAdAltroMazzo(
+                                partita.getPreseDellUtente(scammato).getCarteNelMazzo());
+
+                partita.getPreseDellUtente(scammato).getCarteNelMazzo().clear();
+
+                partita.getManoDellUtente(this.username).rimuoviCartaDalMazzo(cartaCheRuba);
+                partita.getPreseDellUtente(this.username).aggiungiCarteAlMazzo(cartaCheRuba);
+
+                partita.salvaPartita();
+            } else {
+                System.out.println("L'utente non ha carte da rubare!");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void rubaMezzoMazzo(Partita partita, String scammato, Carta cartaCheRuba) {
+
+        // Aggiungi il controllo solo se il mazzo dello scammato ha un numero dispari di
+        // carte
+        boolean arrotondaPerDifetto = partita.getPreseDellUtente(scammato).size() % 2 != 0;
+
+        try {
+
+            if (partita.getPreseDellUtente(scammato).size() > 0) {
+                int metaMazzo = partita.getPreseDellUtente(scammato).size() / 2;
+
+                // Aggiungi l'arrotondamento per difetto se necessario
+                if (arrotondaPerDifetto) {
+                    metaMazzo = (int) Math.floor(metaMazzo);
+                }
+
+                partita.getPreseDellUtente(this.username)
+                        .aggiungiListaCarteAdAltroMazzo(
+                                partita.getPreseDellUtente(scammato)
+                                        .getCarteNelMazzo()
+                                        .subList(0, metaMazzo));
+
+                partita.getPreseDellUtente(scammato)
+                        .getCarteNelMazzo()
+                        .subList(0, metaMazzo)
+                        .clear();
+
+                partita.getManoDellUtente(this.username).rimuoviCartaDalMazzo(cartaCheRuba);
+                partita.getPreseDellUtente(this.username).aggiungiCarteAlMazzo(cartaCheRuba);
+                partita.salvaPartita();
+            } else {
+                System.out.println("L'utente non ha carte da rubare!");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void scarta(Partita partita, Carta cartaScartata) {
+
+        partita.getManoDellUtente(this.username).rimuoviCartaDalMazzo(cartaScartata);
+        partita.getCarteSulTavolo().aggiungiCarteAlMazzo(cartaScartata);
+        partita.salvaPartita();
+
+    }
+
+    public void assoPrendeTutto(Partita partita, Carta carta) {
+        // l'asso prende tutto quello che c'è sul tavolo
+
+        partita.getManoDellUtente(this.username).rimuoviCartaDalMazzo(carta);
+        partita.getPreseDellUtente(this.username)
+                .aggiungiListaCarteAdAltroMazzo(partita.getCarteSulTavolo().getCarteNelMazzo());
+        partita.getPreseDellUtente(this.username).aggiungiCarteAlMazzo(carta);
+        // sposta tutte le carte del tavolo nelle prese dell'utente
+
+        partita.getCarteSulTavolo().getCarteNelMazzo().clear();
+        partita.setUltimoGiocatoreCheHapreso(this.username);
+        partita.salvaPartita();
     }
 
     public void initController(BenvenutoAdminController benvenutoAdminController) {
         benvenutoAdminController.giocatoreCorrente = this;
-
     }
-
 }

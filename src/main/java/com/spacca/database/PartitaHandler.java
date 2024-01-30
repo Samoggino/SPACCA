@@ -1,6 +1,7 @@
 package com.spacca.database;
 
 import java.io.File;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -68,8 +69,6 @@ public class PartitaHandler implements Handler {
             Gson gson = new Gson();
 
             partita = gson.fromJson(fileReader, Partita.class);
-            System.out.println("\n" + //
-                    " SIAMO P HANDLER: lista giocatori \n" + partita.getListaDeiGiocatori());
 
             fileReader.close();
             System.out.println("\n" + //
@@ -92,8 +91,6 @@ public class PartitaHandler implements Handler {
 
     @Override
     public void elimina(String codice) {
-        System.out.println("\n" + //
-                " SIAMO IN ELIMINA PARTITA HANDLER \n" + codice);
         String path = "src/main/resources/com/spacca/database/partite/" + codice + ".json";
         File file = new File(path);
         Partita partita = this.carica(codice);
@@ -107,12 +104,8 @@ public class PartitaHandler implements Handler {
                     AbstractGiocatore giocatore = (AbstractGiocatore) handler.carica(username);
                     giocatore.getListaCodiciPartite().remove(codice);
                     handler.salva(giocatore, username);
-                    System.out
-                            .println("Rimosso il codice " + codice + " dalla lista dei codici partite di " + username);
-                    System.out.println("Codici partita di " + username + " " + giocatore.getListaCodiciPartite());
                 }
 
-                System.out.println("Il giocatore con codice " + codice + " è stato eliminato correttamente.");
             } else {
                 System.err.println("Errore durante l'eliminazione del giocatore con codice " + codice);
             }
