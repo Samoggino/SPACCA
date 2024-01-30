@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 
 public class RegistrazioneController implements Initializable {
 
-    GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
+    private transient GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
 
     @FXML
     private Button save;
@@ -98,7 +98,7 @@ public class RegistrazioneController implements Initializable {
             if (controlloData & controlloEmail & controlloPassword & controlloUsername) {
                 giocatoreHandler.salva(utente, utente.getUsername());
                 if (username.equals("admin")) {
-                    changeSceneAdmin("/com/spacca/pages/benvenutoAdmin.fxml", utente);
+                    App.setRoot("benvenutoAdmin");
                 } else {
                     changeSceneUtente("/com/spacca/pages/benvenutoUtente.fxml", utente);
                 }
@@ -119,24 +119,6 @@ public class RegistrazioneController implements Initializable {
             loader.setController(prePartita);
 
             prePartita.initController((Giocatore) controllerData);
-
-            Stage currentStage = (Stage) App.getScene().getWindow();
-
-            currentStage.setScene(new Scene(root));
-            currentStage.show();
-        } catch (IOException e) {
-            System.err.println("Errore (changeScene registrazione controller): \n" + e.getMessage());
-        }
-
-    }
-
-    public static void changeSceneAdmin(String fxmlPath, Object controllerData) {
-        try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
-            Parent root = loader.load();
-            // Logica per inizializzare il controller se necessario
-            BenvenutoAdminController prePartita = loader.getController();
-            loader.setController(prePartita);
 
             Stage currentStage = (Stage) App.getScene().getWindow();
 
@@ -169,18 +151,13 @@ public class RegistrazioneController implements Initializable {
                 } else {
                     // Mostra un avviso e passa alla schermata di login in caso di età insufficiente
                     showAlert("Non hai diciotto anni, non puoi registrarti");
-                    try {
-                        // Utilizzo serRotto perchè non mi servono parametri
-                        App.setRoot("login");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    tornaIndietro();
                     labelData.setText("");
                     return false;
                 }
             }
         } catch (Exception e) {
-            System.err.println("Errore (Login controller): \n" + e.getMessage());
+            System.err.println("Errore controlla data: \n" + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -222,7 +199,7 @@ public class RegistrazioneController implements Initializable {
                 }
 
             } catch (Exception e) {
-                System.err.println("ERRORE: Errore generico in\n" + e.getMessage());
+                System.err.println("ERRORE: Errore generico in controllaInserimentoUsername\n" + e.getMessage());
             }
         }
         return controllo;
@@ -263,7 +240,7 @@ public class RegistrazioneController implements Initializable {
                 return false;
             }
         } catch (Exception e) {
-            System.err.println("Errore (Login controller): \n" + e.getMessage());
+            System.err.println("Errore controllo password: \n" + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -288,7 +265,7 @@ public class RegistrazioneController implements Initializable {
                 return false;
             }
         } catch (Exception e) {
-            System.err.println("Errore (Login controller): \n" + e.getMessage());
+            System.err.println("Errore controllaInserimentoEmail: \n" + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -312,7 +289,7 @@ public class RegistrazioneController implements Initializable {
             alert.setContentText(content);
             alert.showAndWait();
         } catch (Exception e) {
-            System.err.println("Errore (Login controller): \n" + e.getMessage());
+            System.err.println("Errore showAlert: \n" + e.getMessage());
             e.printStackTrace();
         }
     }

@@ -1,21 +1,17 @@
 package com.spacca.controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import com.spacca.App;
 import com.spacca.asset.match.Torneo;
+import com.spacca.asset.utente.Amministratore;
 import com.spacca.database.GiocatoreHandler;
 import com.spacca.database.TorneoHandler;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -25,7 +21,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 public class CreazioneTorneoController implements Initializable {
     @FXML
@@ -44,6 +39,8 @@ public class CreazioneTorneoController implements Initializable {
     private TextField codiceField;
 
     private String codiceTorneo;
+
+    private transient Amministratore admin = new Amministratore();
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -74,7 +71,7 @@ public class CreazioneTorneoController implements Initializable {
 
         List<String> giocatoriSelezionati = new ArrayList<>();
 
-        Boolean controlloCodice = controllaCodcie(codiceField.getText().trim());
+        Boolean controlloCodice = controllaCodice(codiceField.getText().trim());
 
         if (controlloCodice) {
             // Inizializza le liste delle ComboBox
@@ -160,7 +157,7 @@ public class CreazioneTorneoController implements Initializable {
         return comboBoxes;
     }
 
-    public boolean controllaCodcie(String codice) {
+    public boolean controllaCodice(String codice) {
         Boolean controllo = true;
         System.out.println("\n \n CONTROLLO INSERIMENTO CODICE T + " + codice + "\n \n");
 
@@ -213,8 +210,6 @@ public class CreazioneTorneoController implements Initializable {
 
         List<String> giocatoriScelti = new ArrayList<>();
 
-        TorneoHandler torneoHandler = new TorneoHandler();
-
         // trovo la lista dei giocatori selezionati
         // Itera tutte le ComboBox per aggiungere i giocatori selezionati alla lista
         for (ComboBox<String> comboBox : comboBoxes) {
@@ -229,15 +224,14 @@ public class CreazioneTorneoController implements Initializable {
             System.out.println("GIOCATORI SCELTI : " + giocatoriScelti);
             System.out.println("CODICE : " + codiceTorneo);
 
-            Torneo torneo = new Torneo(codiceTorneo, giocatoriScelti);
-            torneoHandler.salva(torneo, codiceTorneo);
+            admin.creaTorneo(codiceTorneo, giocatoriScelti);
 
-            // Torneo torneo = new Torneo();
-            // partitaHandler.salva(partita, codicePartita);
+            // TODOO creare anche le partite
+
             showAlert("Creazione del torneo andato a buon fine", "Torneo " + codiceTorneo + " creato",
                     AlertType.INFORMATION);
 
-            changeScene("/com/spacca/pages/benvenutoAdmin.fxml");
+            handleIndietro();
 
         } else {
             showAlert("Non hai scelto tutti i giocatori", "Mancata scelta di un giocatore", AlertType.ERROR);
@@ -253,31 +247,7 @@ public class CreazioneTorneoController implements Initializable {
 
     @FXML
     public void handleIndietro() {
-        changeScene("/com/spacca/pages/benvenutoAdmin.fxml");
-    }
-
-    public void changeScene(String fxmlPath) {
-        try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
-            Parent root = loader.load();
-
-            Scene currentScene = procButton.getScene();
-
-            // Ottieni lo Stage dalla scena corrente
-            Stage currentStage = (Stage) currentScene.getWindow();
-
-            currentStage.setTitle("Benvenuto Admin ! ");
-            currentStage.setScene(new Scene(root));
-            currentStage.show();
-
-        } catch (NullPointerException e) {
-            System.out.println("Login avvenuto con successo!");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("IO Errore (Benvenuto Admin controller): \n" + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
-        }
+        admin.ritornaBenvenutoAdmin(procButton.getScene());
     }
 
 }

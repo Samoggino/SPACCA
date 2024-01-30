@@ -9,8 +9,10 @@ import com.spacca.App;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.match.Torneo;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.database.GiocatoreHandler;
 import com.spacca.database.PartitaHandler;
+import com.spacca.database.TorneoHandler;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,20 +23,97 @@ import javafx.stage.Stage;
  * AmministratoreI
  */
 public class Amministratore {
-    transient PartitaHandler partitaHandler = new PartitaHandler();
+    transient static PartitaHandler partitaHandler = new PartitaHandler();
+    transient TorneoHandler torneoHandler = new TorneoHandler();
+    transient GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
 
-    GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
-
-    void creaTorneo() {
-        // TODO
+    void eliminaPartita(String codice) {
+        partitaHandler.elimina(codice);
     }
 
-    void eliminaPartita() {
-        // TODO
+    void eliminaTorneo(String codice) {
+        torneoHandler.elimina(codice);
     }
 
-    void eliminaTorneo() {
+    void modificaProfiloGiocatore(String oldGiocatore, Object newGiocatore) {
+        giocatoreHandler.modifica(oldGiocatore, newGiocatore);
+    }
+
+    protected static String generaNumeroCasuale() {
+        Random random = new Random();
+        // Genera un numero casuale compreso tra 1000 e 9999
+        String numero = String.valueOf(random.nextInt(9000) + 1000);
+
+        if (!partitaHandler.VerificaEsistenzaFile(numero)) {
+            return numero;
+        } else {
+            return generaNumeroCasuale();
+        }
+
+    }
+
+    public Partita creaPartita(String codicePartita, List<String> giocatoriScelti) {
+
+        List<AbstractGiocatore> giocatori = new ArrayList<>();
+
+        for (String username : giocatoriScelti) {
+            giocatori.add(giocatoreHandler.carica(username));
+        }
+        System.out.println("SIAMO DENTRO AMMINISTRATORE CREA PARTITA " + giocatori);
+        // la crea e la salva in automatico
+
+        partitaHandler.creaPartita(codicePartita, giocatori);
+        return partitaHandler.carica(codicePartita);
+    }
+
+    public Partita caricaPartita(List<String> giocatoriDellaPartita) {
+        return creaPartita(generaNumeroCasuale(), giocatoriDellaPartita);
+    }
+
+    public void creaUtenteFisico(String username, String password, String email) {
+        Giocatore giocatore = new Giocatore(username, password, email);
+        giocatoreHandler.salva(giocatore, username);
+    }
+
+    public void creaUtenteRobot(String username) {
+        // TODO da mettere il tipo di utente robot
+        AbstractGiocatore giocatore = new AbstractGiocatore(username);
+        giocatoreHandler.salva(giocatore, username);
+    }
+
+    public AbstractGiocatore caricaUtente(String username) {
+        return giocatoreHandler.carica(username);
+    }
+
+    public Torneo creaTorneo(String codiceTorneo, List<String> giocatoriScelti) {
         // TODO
+        Torneo torneo = new Torneo(codiceTorneo, giocatoriScelti);
+        // TODOO creare anche le partite
+        torneoHandler.salva(torneo, codiceTorneo);
+        return torneo;
+    }
+
+    public void ritornaBenvenutoAdmin(Scene currentScene) {
+        try {
+            String path = "/com/spacca/pages/benvenutoAdmin.fxml";
+
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(path));
+            Parent root = loader.load();
+
+            Stage currentStage = (Stage) currentScene.getWindow();
+
+            currentStage.setTitle("Benvenuto Admin ! ");
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+
+        } catch (NullPointerException e) {
+            System.out.println("Login avvenuto con successo!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("IO Errore (Benvenuto Admin controller): \n" + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
+        }
     }
 
     void login() {
@@ -52,66 +131,4 @@ public class Amministratore {
     void creaProfiloGiocatore() {
         // TODO
     }
-
-    void modificaProfiloGiocatore() {
-        // TODO
-    }
-
-    public Torneo creaNuovoTorneo() {
-        return null;
-        // return new Torneo("T" + generaNumeroCasuale());
-    }
-
-    protected static String generaNumeroCasuale() {
-        // FIXME: non deve generare numeri uguali
-        Random random = new Random();
-        // Genera un numero casuale compreso tra 1000 e 9999
-        String numero = String.valueOf(random.nextInt(9000) + 1000);
-        return numero;
-    }
-
-    public Partita creaPartita(String codicePartita, List<String> giocatoriScelti) {
-
-        List<AbstractGiocatore> giocatori = new ArrayList<>();
-
-        for (String username : giocatoriScelti) {
-            giocatori.add(giocatoreHandler.carica(username));
-        }
-        System.out.println("SIAMO DENTRO AMMINISTRATORE CREA PARTITA " + giocatori);
-        // la crea e la salva in automatico
-
-        partitaHandler.creaPartita(codicePartita, giocatori);
-        return partitaHandler.carica(codicePartita);
-    }
-
-    public void ritornaBenvenutoAdmin() {
-        try {
-            String path = "/com/spacca/pages/benvenutoAdmin.fxml";
-
-            FXMLLoader loader = new FXMLLoader(App.class.getResource(path));
-            Parent root = loader.load();
-
-            Scene currentScene = App.getScene();
-
-            // Ottieni lo Stage dalla scena corrente
-            Stage currentStage = (Stage) currentScene.getWindow();
-
-            currentStage.setTitle("Benvenuto Admin ! ");
-            currentStage.setScene(new Scene(root));
-            currentStage.show();
-
-        } catch (NullPointerException e) {
-            System.out.println("Login avvenuto con successo!");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("IO Errore (Benvenuto Admin controller): \n" + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
-        }
-    }
-
-    public Partita caricaPartita(List<String> giocatoriDellaPartita) {
-        return creaPartita(generaNumeroCasuale(), giocatoriDellaPartita);
-    }
-
 }

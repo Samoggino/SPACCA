@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.spacca.App;
+import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.database.GiocatoreHandler;
 
@@ -19,6 +20,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 
 public class SelezionaUtenteController implements Initializable {
+    transient private Amministratore admin = new Amministratore();
 
     @FXML
     private AbstractGiocatore giocatoreCorrente;
@@ -52,7 +54,7 @@ public class SelezionaUtenteController implements Initializable {
     }
 
     public void handleIndietro() {
-        changeScene("/com/spacca/pages/benvenutoAdmin.fxml");
+        admin.ritornaBenvenutoAdmin(indietro.getScene());
     }
 
     public void handleProcedi() {
@@ -70,7 +72,6 @@ public class SelezionaUtenteController implements Initializable {
 
     private void changeSceneModificaUTente(String username) {
         try {
-            System.out.println("SIMO" + username + "\n\n\n\n");
 
             // Carica il nuovo layout FXML per il PartitaController
             FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/modificaUtente.fxml"));
@@ -92,36 +93,14 @@ public class SelezionaUtenteController implements Initializable {
             currentStage.show();
 
         } catch (NullPointerException e) {
-            System.out.println("Login avvenuto con successo!");
+            System.out.println("NullpointerException in selezione utente!");
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("IO Errore (Benvenuto Admin controller): \n" + e.getMessage());
+            System.err.println("IO Errore (Selezione utente controller): \n" + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
-        }
-    }
-
-    public void changeScene(String fxmlPath) {
-        try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
-            Parent root = loader.load();
-
-            Scene currentScene = procedi.getScene();
-
-            // Ottieni lo Stage dalla scena corrente
-            Stage currentStage = (Stage) currentScene.getWindow();
-
-            currentStage.setTitle("Benvenuto Admin! ");
-            currentStage.setScene(new Scene(root));
-            currentStage.show();
-
-        } catch (NullPointerException e) {
-            System.out.println("Login avvenuto con successo!");
-        } catch (IOException e) {
+            System.err.println("Errore (Selezione utente controller): \n" + e.getMessage());
             e.printStackTrace();
-            System.err.println("IO Errore (Benvenuto Admin controller): \n" + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
         }
     }
 

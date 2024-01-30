@@ -1,20 +1,14 @@
 package com.spacca.controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.spacca.App;
+import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.Giocatore;
-import com.spacca.asset.utente.giocatore.SmartCPU;
-import com.spacca.asset.utente.giocatore.StupidCPU;
 import com.spacca.database.GiocatoreHandler;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -23,11 +17,10 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 public class CreazioneUtenteRobotController implements Initializable {
 
-    private GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
+    transient private Amministratore admin = new Amministratore();
 
     @FXML
     private Button creaButton;
@@ -49,11 +42,7 @@ public class CreazioneUtenteRobotController implements Initializable {
 
     @FXML
     private void handleIndietro() {
-        try {
-            changeSceneAdmin();
-        } catch (Exception e) {
-            System.err.println("Cambio scena in benvenuto admin errato");
-        }
+        admin.ritornaBenvenutoAdmin(indietroButton.getScene());
     }
 
     @FXML
@@ -65,29 +54,35 @@ public class CreazioneUtenteRobotController implements Initializable {
 
             String username = usernameField.getText();
 
-            if (sceltaRobotIntelligente.isSelected()) {
-                System.out.println("crea robot intelligente selezionato ");
-                controllaInserimentoUsername(username);
-                SmartCPU utenteSmartCPU = new SmartCPU(username);
-                giocatoreHandler.salva(utenteSmartCPU, username);
-                showAlert("Utente Robot Intelligente" + username + "\n salvato con successo!", "",
-                        AlertType.INFORMATION);
-                changeSceneAdmin();
+            if (controllaInserimentoUsername(username)) {
+                if (sceltaRobotIntelligente.isSelected()) {
+                    System.out.println("crea robot intelligente selezionato ");
+                    // SmartCPU utenteSmartCPU = new SmartCPU(username);
+                    // Per ora carica e salva un abstract, manca il tipo
+                    // TODO
+                    admin.creaUtenteRobot(username);
 
-            } else if (sceltaRobotBasico.isSelected()) {
+                    showAlert("Utente Robot Intelligente" + username + "\n salvato con successo!", "",
+                            AlertType.INFORMATION);
+                    admin.ritornaBenvenutoAdmin(creaButton.getScene());
 
-                System.out.println("crea robot stupido selezionato ");
-                controllaInserimentoUsername(username);
-                StupidCPU utenteStupidCPU = new StupidCPU(username);
-                System.out.println("utenteSmartCPU " + utenteStupidCPU);
-                giocatoreHandler.salva(utenteStupidCPU, username);
-                showAlert("Utente Robot Basico" + username + "\n salvato con successo!", "", AlertType.INFORMATION);
-                changeSceneAdmin();
-            } else {
+                } else if (sceltaRobotBasico.isSelected()) {
 
-                showAlert(
-                        "Non puoi creare alcun Utente Robot \n se non selezioni il tipo!",
-                        "Mancata selezione del tipo di utente robot ", AlertType.ERROR);
+                    System.out.println("crea robot stupido selezionato ");
+                    // TODO
+                    // StupidCPU utenteStupidCPU = new StupidCPU(username);
+                    // System.out.println("utenteSmartCPU " + utenteStupidCPU);
+
+                    admin.creaUtenteRobot(username);
+
+                    showAlert("Utente Robot Basico" + username + "\n salvato con successo!", "", AlertType.INFORMATION);
+                    admin.ritornaBenvenutoAdmin(creaButton.getScene());
+                } else {
+
+                    showAlert(
+                            "Non puoi creare alcun Utente Robot \n se non selezioni il tipo!",
+                            "Mancata selezione del tipo di utente robot ", AlertType.ERROR);
+                }
             }
 
         } catch (Exception e) {
@@ -136,26 +131,6 @@ public class CreazioneUtenteRobotController implements Initializable {
             }
         }
         return controllo;
-    }
-
-    private void changeSceneAdmin() {
-        try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/benvenutoAdmin.fxml"));
-            Parent root = loader.load();
-
-            Scene currentScene = indietroButton.getScene();
-
-            BenvenutoAdminController benvenutoAdminController = loader.getController();
-            loader.setController(benvenutoAdminController);
-
-            // Ottieni lo Stage dalla scena corrente
-            Stage currentStage = (Stage) currentScene.getWindow();
-            currentStage.setTitle("Benvenuto Admin !");
-            currentStage.setScene(new Scene(root));
-            currentStage.show();
-        } catch (IOException e) {
-            System.err.println("File benvenuto admin non torvato");
-        }
     }
 
     @FXML

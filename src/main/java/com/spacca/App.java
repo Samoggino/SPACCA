@@ -20,7 +20,7 @@ public class App extends Application {
 
         try {
             Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
-            scene = new Scene(loadFXML("creazioneTorneo"), 700, 500);
+            scene = new Scene(loadFXML("login"), 700, 500);
 
             stage.setTitle("Login APP");
             stage.getIcons().add(icon);

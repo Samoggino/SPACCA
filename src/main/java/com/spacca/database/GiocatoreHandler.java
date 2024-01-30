@@ -132,17 +132,11 @@ public class GiocatoreHandler implements Handler {
     @Override
     public Boolean VerificaEsistenzaFile(String username) {
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
-        String pathRI = "src/main/resources/com/spacca/database/giocatori/user-RI-" + username + ".json";
-        String pathRS = "src/main/resources/com/spacca/database/giocatori/user-RS-" + username + ".json";
 
         File userFile = new File(path);
-        File userFileRI = new File(pathRI);
-        File userFileRS = new File(pathRS);
 
         // Verifica se il file esiste
-        if (userFile.exists() && userFile.isFile()
-                || userFileRI.exists() && userFileRI.isFile()
-                || userFileRS.exists() && userFileRS.isFile()) {
+        if (userFile.exists() && userFile.isFile()) {
             System.out.println("VerificaEsistenzaFile: " + true);
             return true;
         } else {

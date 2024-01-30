@@ -40,11 +40,11 @@ public class CreazionePartitaController implements Initializable {
 
     private String codicePartita;
 
-    Amministratore admin = new Amministratore();
+    transient Amministratore admin = new Amministratore();
 
-    GiocatoreHandler handler = new GiocatoreHandler();
+    transient GiocatoreHandler handler = new GiocatoreHandler();
 
-    PartitaHandler partitafile = new PartitaHandler();
+    transient PartitaHandler partitafile = new PartitaHandler();
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -230,7 +230,7 @@ public class CreazionePartitaController implements Initializable {
             showAlert("Creazione della partita andata a buon fine", "Partita " + codicePartita + " creata",
                     AlertType.INFORMATION);
 
-            admin.ritornaBenvenutoAdmin();
+            admin.ritornaBenvenutoAdmin(creaButton.getScene());
 
         } else {
             showAlert("Non hai scelto tutti i giocatori", "Mancata scelta di un giocatore", AlertType.ERROR);
@@ -246,7 +246,7 @@ public class CreazionePartitaController implements Initializable {
 
     @FXML
     public void handleIndietro() {
-        admin.ritornaBenvenutoAdmin();
+        admin.ritornaBenvenutoAdmin(procButton.getScene());
     }
 
 }

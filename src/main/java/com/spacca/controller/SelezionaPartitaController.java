@@ -11,15 +11,10 @@ import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.database.PartitaHandler;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.stage.Stage;
-
 import java.nio.file.*;
 
 public class SelezionaPartitaController implements Initializable {
@@ -45,7 +40,7 @@ public class SelezionaPartitaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            String folderPath = "/com/spacca/database/partite";
+            String folderPath = "/com/spacca/database/partite/";
 
             // Ottieni il percorso completo della cartella delle risorse
             Path resourceFolder = Paths.get(getClass().getResource(folderPath).toURI());
@@ -77,11 +72,11 @@ public class SelezionaPartitaController implements Initializable {
         }
     }
 
-    public void handleIndietro() {
-        changeScene("/com/spacca/pages/benvenutoAdmin.fxml");
+    public void handleIndietro() throws IOException {
+        App.setRoot("benvenutoAdmin");
     }
 
-    public void handleProcedi() {
+    public void handleProcedi() throws IOException {
         System.out.println("Siamo in procedi all'eliminazione della partita " + nomeFilePartitaScelto);
         if (nomeFilePartitaScelto == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -104,29 +99,4 @@ public class SelezionaPartitaController implements Initializable {
             handleIndietro();
         }
     }
-
-    public void changeScene(String fxmlPath) {
-        try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
-            Parent root = loader.load();
-
-            Scene currentScene = procedi.getScene();
-
-            // Ottieni lo Stage dalla scena corrente
-            Stage currentStage = (Stage) currentScene.getWindow();
-
-            currentStage.setTitle("Benvenuto Admin ! ");
-            currentStage.setScene(new Scene(root));
-            currentStage.show();
-
-        } catch (NullPointerException e) {
-            System.out.println("Login avvenuto con successo!");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("IO Errore (Benvenuto Admin controller): \n" + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
-        }
-    }
-
 }

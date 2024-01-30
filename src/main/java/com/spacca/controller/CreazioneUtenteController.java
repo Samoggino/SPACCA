@@ -4,15 +4,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.spacca.App;
+import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.database.GiocatoreHandler;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,34 +17,23 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 public class CreazioneUtenteController implements Initializable {
 
     GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
 
     @FXML
-    private Button registra;
+    private Button registra, indietro;
     @FXML
-    private Button indietro;
+    private Label labelUsername, labelEmail, labelPassword, labelConfermaPassword;
     @FXML
-    private Label labelUsername;
+    private TextField usernameField, emailField;
     @FXML
-    private Label labelEmail;
-    @FXML
-    private Label labelPassword;
-    @FXML
-    private Label labelConfermaPassword;
-    @FXML
-    private TextField usernameField;
-    @FXML
-    private TextField emailField;
-    @FXML
-    private PasswordField confermaPasswordField;
-    @FXML
-    private PasswordField passwordField;
+    private PasswordField confermaPasswordField, passwordField;
     @FXML
     private Giocatore giocatoreCorrente;
+
+    transient private Amministratore admin = new Amministratore();
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -85,8 +71,8 @@ public class CreazioneUtenteController implements Initializable {
             // Fai qualcosa se tutte le condizioni sono vere
             if (controlloEmail & controlloPassword & controlloUsername) {
 
-                Giocatore utente = new Giocatore(username, password, email);
-                giocatoreHandler.salva(utente, utente.getUsername());
+                admin.creaUtenteFisico(username, password, email);
+
                 showAlert("Utente " + username + " salvato correttamente !", AlertType.INFORMATION);
                 tornaIndietro();
             }
@@ -174,7 +160,7 @@ public class CreazioneUtenteController implements Initializable {
                 return false;
             }
         } catch (Exception e) {
-            System.err.println("Errore (Login controller): \n" + e.getMessage());
+            System.err.println("Errore controllo password: \n" + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -199,7 +185,7 @@ public class CreazioneUtenteController implements Initializable {
                 return false;
             }
         } catch (Exception e) {
-            System.err.println("Errore (Login controller): \n" + e.getMessage());
+            System.err.println("Errore controllaInserimentoEmail: \n" + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -207,24 +193,7 @@ public class CreazioneUtenteController implements Initializable {
     }
 
     public void tornaIndietro() throws IOException {
-        giocatoreCorrente = giocatoreHandler.carica("admin");
-        changeSceneAdmin("/com/spacca/pages/benvenutoAdmin.fxml");
-    }
-
-    private void changeSceneAdmin(String fxmlPath) throws IOException {
-        FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
-        Parent root = loader.load();
-
-        Scene currentScene = indietro.getScene();
-
-        BenvenutoAdminController benvenutoAdminController = loader.getController();
-        loader.setController(benvenutoAdminController);
-
-        // Ottieni lo Stage dalla scena corrente
-        Stage currentStage = (Stage) currentScene.getWindow();
-        currentStage.setTitle("Benvenuto Admin !");
-        currentStage.setScene(new Scene(root));
-        currentStage.show();
+        admin.ritornaBenvenutoAdmin(indietro.getScene());
     }
 
     private void showAlert(String content, AlertType tipo) {

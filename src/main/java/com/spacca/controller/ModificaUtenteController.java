@@ -54,7 +54,7 @@ public class ModificaUtenteController {
     @FXML
     private Label title;
 
-    private GiocatoreHandler handler = new GiocatoreHandler();
+    transient private GiocatoreHandler handler = new GiocatoreHandler();
 
     @FXML
     private void procediModifica() {

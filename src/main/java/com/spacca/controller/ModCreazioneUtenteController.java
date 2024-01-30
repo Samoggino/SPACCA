@@ -3,6 +3,7 @@ package com.spacca.controller;
 import java.io.IOException;
 
 import com.spacca.App;
+import com.spacca.asset.utente.Amministratore;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,45 +18,17 @@ import javafx.stage.Stage;
 
 public class ModCreazioneUtenteController {
 
-    @FXML
-    private Button procediButton;
+    transient private Amministratore admin = new Amministratore();
 
     @FXML
-    private Button indietroButton;
+    private Button procediButton, indietroButton;
 
     @FXML
-    private CheckBox sceltaRobot;
-
-    @FXML
-    private CheckBox sceltaUtente;
+    private CheckBox sceltaRobot, sceltaUtente;
 
     @FXML
     private void handleIndietro() {
-        try {
-            changeSceneAdmin();
-        } catch (Exception e) {
-            System.err.println("Cambio scena in benvenuto admin errato");
-        }
-    }
-
-    private void changeSceneAdmin() {
-        try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/benvenutoAdmin.fxml"));
-            Parent root = loader.load();
-
-            Scene currentScene = indietroButton.getScene();
-
-            BenvenutoAdminController benvenutoAdminController = loader.getController();
-            loader.setController(benvenutoAdminController);
-
-            // Ottieni lo Stage dalla scena corrente
-            Stage currentStage = (Stage) currentScene.getWindow();
-            currentStage.setTitle("Benvenuto Admin !");
-            currentStage.setScene(new Scene(root));
-            currentStage.show();
-        } catch (IOException e) {
-            System.err.println("File benvenuto admin non torvato");
-        }
+        admin.ritornaBenvenutoAdmin(indietroButton.getScene());
     }
 
     @FXML
