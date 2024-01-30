@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import com.spacca.App;
+import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.database.PartitaHandler;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -32,6 +30,8 @@ public class SelezionaPartitaController implements Initializable {
 
     @FXML
     private String nomeFilePartitaScelto;
+
+    transient private Amministratore admin = new Amministratore();
 
     @FXML
     public void initController() {
@@ -73,7 +73,7 @@ public class SelezionaPartitaController implements Initializable {
     }
 
     public void handleIndietro() throws IOException {
-        App.setRoot("benvenutoAdmin");
+        admin.ritornaBenvenutoAdmin(indietro.getScene());
     }
 
     public void handleProcedi() throws IOException {
@@ -87,9 +87,8 @@ public class SelezionaPartitaController implements Initializable {
         } else {
             System.out.println("Parita selezionata " + nomeFilePartitaScelto);
 
-            PartitaHandler partitaHandler = new PartitaHandler();
             System.out.print("nomeFilePartitaScelto" + nomeFilePartitaScelto);
-            partitaHandler.elimina(nomeFilePartitaScelto);
+            admin.eliminaPartita(nomeFilePartitaScelto);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("");
