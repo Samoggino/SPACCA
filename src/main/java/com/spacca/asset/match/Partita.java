@@ -3,7 +3,6 @@ package com.spacca.asset.match;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -288,96 +287,6 @@ public class Partita extends Object {
         }
     }
 
-    public void rubaUnMazzo(String ladroGiocatoreCorrente, String scammatoAltroGiocatore, Carta cartaCheRuba) {
-
-        try {
-
-            if (getPreseDellUtente(scammatoAltroGiocatore).size() > 0) {
-
-                getPreseDellUtente(ladroGiocatoreCorrente)
-                        .aggiungiListaCarteAdAltroMazzo(getPreseDellUtente(scammatoAltroGiocatore).getCarteNelMazzo());
-
-                getPreseDellUtente(scammatoAltroGiocatore).getCarteNelMazzo().clear();
-
-                getManoDellUtente(ladroGiocatoreCorrente).rimuoviCartaDalMazzo(cartaCheRuba);
-                getPreseDellUtente(ladroGiocatoreCorrente).aggiungiCarteAlMazzo(cartaCheRuba);
-
-                salvaPartita();
-            } else {
-                System.out.println("L'utente non ha carte da rubare!");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void trascinoUnSette(String ladroGiocatoreCorrente, String scammatoAltroGiocatore, Carta cartaCheRuba) {
-        switch (cartaCheRuba.getSeme()) {
-
-            case DENARA:
-                System.out.println("Ruba mezzo mazzo con 7 di denara");
-                rubaMezzoMazzo(ladroGiocatoreCorrente, scammatoAltroGiocatore, cartaCheRuba);
-                break;
-
-            case SPADE:
-                System.out.println("Ruba mezzo mazzo con 7 di spade");
-                rubaMezzoMazzo(ladroGiocatoreCorrente, scammatoAltroGiocatore, cartaCheRuba);
-                break;
-
-            case BASTONI:
-                System.out.println("Ruba tutto il mazzo con 7 di bastoni");
-                rubaUnMazzo(ladroGiocatoreCorrente, scammatoAltroGiocatore, cartaCheRuba);
-                break;
-
-            case COPPE:
-                System.out.println("Ruba tutto il mazzo con 7 di coppe");
-                rubaUnMazzo(ladroGiocatoreCorrente, scammatoAltroGiocatore, cartaCheRuba);
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    public void rubaMezzoMazzo(String ladroGiocatoreCorrente, String scammato, Carta cartaCheRuba) {
-
-        // Aggiungi il controllo solo se il mazzo dello scammato ha un numero dispari di
-        // carte
-        boolean arrotondaPerDifetto = getPreseDellUtente(scammato).size() % 2 != 0;
-
-        try {
-
-            if (getPreseDellUtente(scammato).size() > 0) {
-                int metaMazzo = getPreseDellUtente(scammato).size() / 2;
-
-                // Aggiungi l'arrotondamento per difetto se necessario
-                if (arrotondaPerDifetto) {
-                    metaMazzo = (int) Math.floor(metaMazzo);
-                }
-
-                getPreseDellUtente(ladroGiocatoreCorrente)
-                        .aggiungiListaCarteAdAltroMazzo(
-                                getPreseDellUtente(scammato)
-                                        .getCarteNelMazzo()
-                                        .subList(0, metaMazzo));
-                getPreseDellUtente(scammato)
-                        .getCarteNelMazzo()
-                        .subList(0, metaMazzo)
-                        .clear();
-
-                getManoDellUtente(ladroGiocatoreCorrente).rimuoviCartaDalMazzo(cartaCheRuba);
-                getPreseDellUtente(ladroGiocatoreCorrente).aggiungiCarteAlMazzo(cartaCheRuba);
-                salvaPartita();
-            } else {
-                System.out.println("L'utente non ha carte da rubare!");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public String stampaManoDeiGiocatori() {
         String stampa = "\n";
         int i = 0;
@@ -390,53 +299,6 @@ public class Partita extends Object {
             i++;
         }
         return stampa;
-    }
-
-    public void assoPrendeTutto(String username, Carta carta) {
-        // l'asso prende tutto quello che c'è sul tavolo
-
-        getManoDellUtente(username).rimuoviCartaDalMazzo(carta);
-        getPreseDellUtente(username).aggiungiListaCarteAdAltroMazzo(getCarteSulTavolo().getCarteNelMazzo());
-        getPreseDellUtente(username).aggiungiCarteAlMazzo(carta);
-        // sposta tutte le carte del tavolo nelle prese dell'utente
-
-        getCarteSulTavolo().getCarteNelMazzo().clear();
-        this.ultimoGiocatoreCheHapreso = username;
-        salvaPartita();
-    }
-
-    /**
-     * Questo metodo sarà probabilmente utilizzato solo dagli utenti CPU e andrà
-     * modificato.
-     * 
-     * @param cartaSulTavolo
-     * @param username
-     */
-    public boolean prendi(String username, Carta cartaSulTavolo, Carta cartaDellaMano) {
-
-        try {
-
-            // la carta sul tavolo dev'essere sul tavolo
-            if (!getCarteSulTavolo().getCarteNelMazzo().contains(cartaSulTavolo)) {
-                System.out.println("La carta selezionata non è sul tavolo");
-                return false;
-            }
-
-            if (cartaSulTavolo.getNome() == cartaDellaMano.getNome()) {
-                getManoDellUtente(username).rimuoviCartaDalMazzo(cartaDellaMano);
-                getCarteSulTavolo().rimuoviCartaDalMazzo(cartaSulTavolo);
-                getPreseDellUtente(username).aggiungiCarteAlMazzo(cartaDellaMano, cartaSulTavolo);
-                this.ultimoGiocatoreCheHapreso = username;
-                return true;
-            }
-
-        } catch (IndexOutOfBoundsException e) {
-            System.err.println("Sul tavolo non ci sono carte!" + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Errore nella ricerca della carta sul tavolo" + e.getMessage());
-        }
-        System.out.println("Non puoi prendere la carta");
-        return false;
     }
 
     public Carta getCartaInCima(String username) {
@@ -463,14 +325,6 @@ public class Partita extends Object {
 
     private void setListaDeiGiocatori(List<String> localListGiocatori) {
         this.listaDeiGiocatori = localListGiocatori;
-    }
-
-    public void scarta(String username, Carta cartaScartata) {
-
-        getManoDellUtente(username).rimuoviCartaDalMazzo(cartaScartata);
-        getCarteSulTavolo().aggiungiCarteAlMazzo(cartaScartata);
-        salvaPartita();
-
     }
 
     // calcolo quando devo ridistribuire le carte
@@ -537,70 +391,8 @@ public class Partita extends Object {
         return false;
     }
 
-    public void mossaSmartCPU() {
-        // la CPU intelligente scarta e prende le carte se può
-        boolean haPreso = false;
-        List<Carta> carteSulTavolo = getCarteSulTavolo().getCarteNelMazzo();
-        List<Carta> carteDellaMano = getManoDellUtente(giocatoreCorrente).getCarteNelMazzo();
-
-        // prende le carte se può
-        Iterator<Carta> tavoloIterator = carteSulTavolo.iterator();
-        while (tavoloIterator.hasNext()) {
-            Carta cartaSulTavolo = tavoloIterator.next();
-            Iterator<Carta> manoIterator = carteDellaMano.iterator();
-            while (manoIterator.hasNext()) {
-                Carta cartaDellaMano = manoIterator.next();
-                if (cartaSulTavolo.getNome().equals(cartaDellaMano.getNome())) {
-                    prendi(giocatoreCorrente, cartaSulTavolo, cartaDellaMano);
-                    manoIterator.remove(); // Rimuove la carta dalla mano
-                    haPreso = true;
-                    break; // Esci dal loop interno
-                }
-            }
-            if (haPreso) {
-                break; // Esci dal loop esterno se hai già preso una carta
-            }
-        }
-
-        // se non ha preso le carte scarta
-        if (!haPreso) {
-            scarta(giocatoreCorrente, carteDellaMano.get(carteDellaMano.size() - 1));
-        }
+    public void setUltimoGiocatoreCheHapreso(String username) {
+        this.ultimoGiocatoreCheHapreso = username;
     }
-
-    // public void gestisciSmartCPU() {
-    //     // la CPU intelligente scarta e prende le carte se può
-    //     boolean haPreso = false;
-
-    //     // prende le carte se può
-    //     Iterator<Carta> tavoloIterator = getCarteSulTavolo().getCarteNelMazzo().iterator();
-    //     while (tavoloIterator.hasNext()) {
-    //         Carta cartaSulTavolo = tavoloIterator.next();
-    //         Iterator<Carta> manoIterator = getManoDellUtente(giocatoreCorrente).getCarteNelMazzo()
-    //                 .iterator();
-    //         while (manoIterator.hasNext()) {
-    //             Carta cartaDellaMano = manoIterator.next();
-    //             if (cartaSulTavolo.getNome().equals(cartaDellaMano.getNome())) {
-    //                 prendi(giocatoreCorrente, cartaSulTavolo, cartaDellaMano);
-    //                 manoIterator.remove(); // Rimuove la carta dalla mano
-    //                 haPreso = true;
-    //                 return;
-    //             }
-    //         }
-    //     }
-
-    //     // se non ha preso le carte scarta
-    //     if (!haPreso) {
-    //         scarta(giocatoreCorrente,
-    //                 getManoDellUtente(giocatoreCorrente).getCarteNelMazzo()
-    //                         .get(getManoDellUtente(giocatoreCorrente).size() - 1));
-    //     }
-    // }
-
-    // public void gestisciStupidCPU() {
-    //     scarta(giocatoreCorrente,
-    //             getManoDellUtente(giocatoreCorrente).getCarteNelMazzo()
-    //                     .get(getManoDellUtente(giocatoreCorrente).size() - 1);
-    // }
 
 }

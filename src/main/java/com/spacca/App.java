@@ -30,11 +30,11 @@ public class App extends Application {
             AbstractGiocatore YOSHI = new Giocatore("yoshi", "ciao", "");
             // AbstractGiocatore MARIO = new Giocatore("mario", "ciao", "");
             AbstractGiocatore LUIGI = new SmartCPU("luigi");
-            // AbstractGiocatore WARIO = new StupidCPU("wario");
+            AbstractGiocatore WARIO = new StupidCPU("wario");
 
             Amministratore amministratore = new Amministratore();
 
-            List<AbstractGiocatore> giocatoriDellaPartita = List.of(YOSHI, LUIGI);
+            List<AbstractGiocatore> giocatoriDellaPartita = List.of(YOSHI, LUIGI, WARIO);
             Partita partita = amministratore.creaPartita(giocatoriDellaPartita);
             partita.nuovoTurno();
 

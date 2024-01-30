@@ -11,7 +11,12 @@ import com.spacca.database.PartitaHandler;
 /**
  * AmministratoreI
  */
-public class Amministratore {
+public class Amministratore extends AbstractGiocatore {
+
+    public Amministratore() {
+        super("admin", "admin");
+    }
+
     transient PartitaHandler partitaHandler = new PartitaHandler();;
 
     void creaTorneo() {
