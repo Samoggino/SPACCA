@@ -46,6 +46,8 @@ public class CreazionePartitaController implements Initializable {
 
     transient PartitaHandler partitafile = new PartitaHandler();
 
+    private List<ComboBox<String>> comboBoxes = new ArrayList<>();
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         sceltaGiocatore1.setVisible(false);
@@ -65,63 +67,73 @@ public class CreazionePartitaController implements Initializable {
             return null;
         });
         codiceField.setTextFormatter(textFormatter); // Assicurati di usare lo stesso identificatore
+
+        creaButton.setDisable(true); // Disabilita il bottone
     }
 
     @FXML
     private void handleMostra() {
         System.out.println("SIAMO IN MOSTRA PARTITA ");
 
-        List<String> giocatoriSelezionati = new ArrayList<>();
+        this.codicePartita = codiceField.getText().trim();
 
         Boolean controlloCodice = controllaCodice(codiceField.getText().trim());
 
         if (controlloCodice) {
             // Inizializza le liste delle ComboBox
-            List<ComboBox<String>> comboBoxes = inizializeComboBoxandLayout();
-            // popolo i combo box
-            System.out.println("LISTA COMBO BOX " + comboBoxes.size());
+            comboBoxes = inizializeComboBoxandLayout();
+            popola();
+            creaButton.setDisable(false); // Abilita il bottone
+        } else {
+            showAlert("Per procedere devi compilare correttamente tutti i campi", "Mancato inserimento",
+                    AlertType.ERROR);
+        }
+    }
 
-            // Inizializza tutte le ComboBox con l'elenco completo dei giocatori
-            for (ComboBox<String> comboBox : comboBoxes) {
-                comboBox.getItems().addAll(handler.getAllGiocatoriWithRobot());
-                comboBox.setVisibleRowCount(3);
+    private void popola() {
+        GiocatoreHandler handler = new GiocatoreHandler();
+        List<String> giocatoriSelezionati = new ArrayList<>();
 
-                // Aggiungi un listener per la selezione di ogni ComboBox
-                comboBox.getSelectionModel().selectedItemProperty().addListener((observable,
-                        oldValue, newValue) -> {
-                    if (newValue != null) {
-                        // Rimuovi l'utente selezionato dalle altre ComboBox
-                        for (ComboBox<String> otherComboBox : comboBoxes) {
-                            if (otherComboBox != comboBox) {
-                                otherComboBox.getItems().remove(newValue);
-                            }
-                        }
-                        // Aggiungi l'utente selezionato alla lista degli utenti selezionati
-                        giocatoriSelezionati.add(newValue);
-                    }
-                    if (oldValue != null) {
-                        // Rimuovi l'utente deselezionato dalla lista degli utenti selezionati
-                        giocatoriSelezionati.remove(oldValue);
-                        // Aggiungi l'utente deselezionato alle altre ComboBox
-                        for (ComboBox<String> otherComboBox : comboBoxes) {
-                            if (otherComboBox != comboBox &&
-                                    !otherComboBox.getItems().contains(oldValue)) {
-                                otherComboBox.getItems().add(oldValue);
-                            }
+        // Inizializza tutte le ComboBox con l'elenco completo dei giocatori
+        for (ComboBox<String> comboBox : comboBoxes) {
+            comboBox.getItems().addAll(handler.getAllGiocatoriWithRobot());
+            comboBox.setVisibleRowCount(3);
+
+            // Aggiungi un listener per la selezione di ogni ComboBox
+            comboBox.getSelectionModel().selectedItemProperty().addListener((observable,
+                    oldValue, newValue) -> {
+                if (newValue != null) {
+                    // Rimuovi l'utente selezionato dalle altre ComboBox
+                    for (ComboBox<String> otherComboBox : comboBoxes) {
+                        if (otherComboBox != comboBox) {
+                            otherComboBox.getItems().remove(newValue);
                         }
                     }
-                });
-            }
-            this.codicePartita = "P" + codiceField.getText().trim();
+                    // Aggiungi l'utente selezionato alla lista degli utenti selezionati
+                    giocatoriSelezionati.add(newValue);
+                }
+                if (oldValue != null) {
+                    // Rimuovi l'utente deselezionato dalla lista degli utenti selezionati
+                    giocatoriSelezionati.remove(oldValue);
+                    // Aggiungi l'utente deselezionato alle altre ComboBox
+                    for (ComboBox<String> otherComboBox : comboBoxes) {
+                        if (otherComboBox != comboBox &&
+                                !otherComboBox.getItems().contains(oldValue)) {
+                            otherComboBox.getItems().add(oldValue);
+                        }
+                    }
+                }
+            });
+
         }
     }
 
     private List<ComboBox<String>> inizializeComboBoxandLayout() throws NullPointerException {
 
+        comboBoxes.clear();
+
         int num = numeroGiocatoriSpinner.getValue();
         System.out.println("NUM = " + num);
-
-        List<ComboBox<String>> comboBoxes = new ArrayList<>();
 
         // imposto i valori di default ovvero spinner = 2
 
@@ -171,9 +183,6 @@ public class CreazionePartitaController implements Initializable {
             labelCodice.setText("Non ha inserito il codice!");
             codiceField.setStyle("-fx-border-color:darkorange");
 
-            showAlert("Per procedere devi compilare correttamente tutti i campi", "Mancato inserimento del codice",
-                    AlertType.ERROR);
-
             controllo = false;
         } else {
             try {
@@ -206,8 +215,6 @@ public class CreazionePartitaController implements Initializable {
     @FXML
     public void handleCrea() {
         System.out.println("GIOCATORI SCELTI  : ");
-
-        List<ComboBox<String>> comboBoxes = inizializeComboBoxandLayout();
 
         List<String> giocatoriScelti = new ArrayList<>();
 

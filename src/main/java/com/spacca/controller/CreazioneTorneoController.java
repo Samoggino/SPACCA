@@ -16,15 +16,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
 public class CreazioneTorneoController implements Initializable {
     @FXML
-    private Spinner<Integer> numeroGiocatoriSpinner;
+    private RadioButton modDueGiocatori, modQuattroGiocatori;
     @FXML
     private ComboBox<String> sceltaGiocatore1, sceltaGiocatore2, sceltaGiocatore3, sceltaGiocatore4;
     @FXML
@@ -41,6 +42,7 @@ public class CreazioneTorneoController implements Initializable {
     private String codiceTorneo;
 
     private transient Amministratore admin = new Amministratore();
+    private List<ComboBox<String>> comboBoxes = new ArrayList<>();
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -61,90 +63,96 @@ public class CreazioneTorneoController implements Initializable {
             return null;
         });
         codiceField.setTextFormatter(textFormatter); // Assicurati di usare lo stesso identificatore
+        creaButton.setDisable(true); // Disabilita il bottone
     }
 
     @FXML
     private void handleMostra() {
         System.out.println("SIAMO IN MOSTRA TORNEO ");
+        this.codiceTorneo = codiceField.getText().trim();
 
+        // se il codice non è stato inserito correttamente e/0 il radio botton
+        // selezionato
+        if (controllaCodice(codiceTorneo) || controllaSelezione()) {
+            comboBoxes = inizializeComboBoxandLayout();
+            popola();
+            creaButton.setDisable(false); // Abilita il bottone
+        } else {
+            showAlert("Per procedere devi compilare correttamente tutti i campi", "Mancato inserimento di un campo",
+                    AlertType.ERROR);
+        }
+
+    }
+
+    private void popola() {
         GiocatoreHandler handler = new GiocatoreHandler();
-
         List<String> giocatoriSelezionati = new ArrayList<>();
 
-        Boolean controlloCodice = controllaCodice(codiceField.getText().trim());
+        // Inizializza tutte le ComboBox con l'elenco completo dei giocatori
+        for (ComboBox<String> comboBox : comboBoxes) {
+            comboBox.getItems().addAll(handler.getAllGiocatoriWithRobot());
+            comboBox.setVisibleRowCount(3);
 
-        if (controlloCodice) {
-            // Inizializza le liste delle ComboBox
-            List<ComboBox<String>> comboBoxes = inizializeComboBoxandLayout();
-            // popolo i combo box
-            System.out.println("LISTA COMBO BOX " + comboBoxes.size());
-
-            // Inizializza tutte le ComboBox con l'elenco completo dei giocatori
-            for (ComboBox<String> comboBox : comboBoxes) {
-                comboBox.getItems().addAll(handler.getAllGiocatoriWithRobot());
-                comboBox.setVisibleRowCount(3);
-
-                // Aggiungi un listener per la selezione di ogni ComboBox
-                comboBox.getSelectionModel().selectedItemProperty().addListener((observable,
-                        oldValue, newValue) -> {
-                    if (newValue != null) {
-                        // Rimuovi l'utente selezionato dalle altre ComboBox
-                        for (ComboBox<String> otherComboBox : comboBoxes) {
-                            if (otherComboBox != comboBox) {
-                                otherComboBox.getItems().remove(newValue);
-                            }
-                        }
-                        // Aggiungi l'utente selezionato alla lista degli utenti selezionati
-                        giocatoriSelezionati.add(newValue);
-                    }
-                    if (oldValue != null) {
-                        // Rimuovi l'utente deselezionato dalla lista degli utenti selezionati
-                        giocatoriSelezionati.remove(oldValue);
-                        // Aggiungi l'utente deselezionato alle altre ComboBox
-                        for (ComboBox<String> otherComboBox : comboBoxes) {
-                            if (otherComboBox != comboBox &&
-                                    !otherComboBox.getItems().contains(oldValue)) {
-                                otherComboBox.getItems().add(oldValue);
-                            }
+            // Aggiungi un listener per la selezione di ogni ComboBox
+            comboBox.getSelectionModel().selectedItemProperty().addListener((observable,
+                    oldValue, newValue) -> {
+                if (newValue != null) {
+                    // Rimuovi l'utente selezionato dalle altre ComboBox
+                    for (ComboBox<String> otherComboBox : comboBoxes) {
+                        if (otherComboBox != comboBox) {
+                            otherComboBox.getItems().remove(newValue);
                         }
                     }
-                });
-            }
-            this.codiceTorneo = "T" + codiceField.getText().trim();
+                    // Aggiungi l'utente selezionato alla lista degli utenti selezionati
+                    giocatoriSelezionati.add(newValue);
+                }
+                if (oldValue != null) {
+                    // Rimuovi l'utente deselezionato dalla lista degli utenti selezionati
+                    giocatoriSelezionati.remove(oldValue);
+                    // Aggiungi l'utente deselezionato alle altre ComboBox
+                    for (ComboBox<String> otherComboBox : comboBoxes) {
+                        if (otherComboBox != comboBox &&
+                                !otherComboBox.getItems().contains(oldValue)) {
+                            otherComboBox.getItems().add(oldValue);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private Boolean controllaSelezione() {
+        System.out.println("CONTROLLA SELEZIONE");
+        if (modDueGiocatori.isSelected()) {
+            System.out.println("modDueGiocatori SELEZIONE");
+            return true;
+        } else if (modQuattroGiocatori.isSelected()) {
+            System.out.println("modQuattroGiocatori SELEZIONE");
+            return true;
+        } else {
+            return false;
         }
     }
 
     private List<ComboBox<String>> inizializeComboBoxandLayout() throws NullPointerException {
 
-        int num = numeroGiocatoriSpinner.getValue();
-        System.out.println("NUM = " + num);
-
-        List<ComboBox<String>> comboBoxes = new ArrayList<>();
-
+        comboBoxes.clear();
         // imposto i valori di default ovvero spinner = 2
 
-        label1.setVisible(true);
-        label2.setVisible(true);
-        label3.setVisible(false);
-        label4.setVisible(false);
-
-        sceltaGiocatore1.setVisible(true);
-        sceltaGiocatore2.setVisible(true);
-        sceltaGiocatore3.setVisible(false);
-        sceltaGiocatore4.setVisible(false);
-
-        comboBoxes.add(sceltaGiocatore1);
-        comboBoxes.add(sceltaGiocatore2);
-
-        if (num == 3) {
-            sceltaGiocatore3.setVisible(true);
-            sceltaGiocatore4.setVisible(false);
-
-            label3.setVisible(true);
+        if (modDueGiocatori.isSelected()) {
+            label1.setVisible(true);
+            label2.setVisible(true);
+            label3.setVisible(false);
             label4.setVisible(false);
 
-            comboBoxes.add(sceltaGiocatore3);
-        } else if (num == 4) {
+            sceltaGiocatore1.setVisible(true);
+            sceltaGiocatore2.setVisible(true);
+            sceltaGiocatore3.setVisible(false);
+            sceltaGiocatore4.setVisible(false);
+
+            comboBoxes.add(sceltaGiocatore1);
+            comboBoxes.add(sceltaGiocatore2);
+        } else if (modQuattroGiocatori.isSelected()) {
             sceltaGiocatore3.setVisible(true);
             sceltaGiocatore4.setVisible(true);
             label3.setVisible(true);
@@ -168,10 +176,6 @@ public class CreazioneTorneoController implements Initializable {
         if (codice.trim().isEmpty()) {
             labelCodice.setText("Non ha inserito il codice!");
             codiceField.setStyle("-fx-border-color:darkorange");
-
-            showAlert("Per procedere devi compilare correttamente tutti i campi", "Mancato inserimento del codice",
-                    AlertType.ERROR);
-
             controllo = false;
         } else {
             try {
@@ -204,9 +208,7 @@ public class CreazioneTorneoController implements Initializable {
 
     @FXML
     public void handleCrea() {
-        System.out.println("GIOCATORI SCELTI  : ");
-
-        List<ComboBox<String>> comboBoxes = inizializeComboBoxandLayout();
+        System.out.println("CREA TORNEO CONTROLLER  : ");
 
         List<String> giocatoriScelti = new ArrayList<>();
 
@@ -225,8 +227,6 @@ public class CreazioneTorneoController implements Initializable {
             System.out.println("CODICE : " + codiceTorneo);
 
             admin.creaTorneo(codiceTorneo, giocatoriScelti);
-
-            // TODOO creare anche le partite
 
             showAlert("Creazione del torneo andato a buon fine", "Torneo " + codiceTorneo + " creato",
                     AlertType.INFORMATION);
@@ -250,4 +250,17 @@ public class CreazioneTorneoController implements Initializable {
         admin.ritornaBenvenutoAdmin(procButton.getScene());
     }
 
+    @FXML
+    private void handleCheckBoxAction(MouseEvent event) {
+        if (event.getSource() instanceof RadioButton) {
+            RadioButton clickedRadioButton = (RadioButton) event.getSource();
+            if (clickedRadioButton.isSelected()) {
+                if (clickedRadioButton == modDueGiocatori) {
+                    modQuattroGiocatori.setSelected(false);
+                } else if (clickedRadioButton == modQuattroGiocatori) {
+                    modDueGiocatori.setSelected(false);
+                }
+            }
+        }
+    }
 }
