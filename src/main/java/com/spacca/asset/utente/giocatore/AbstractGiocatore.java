@@ -34,6 +34,10 @@ public class AbstractGiocatore extends Object {
         this.type = type;
     }
 
+    public AbstractGiocatore(String username) {
+        this.username = username;
+    }
+
     public String getUsername() {
         return username;
     }

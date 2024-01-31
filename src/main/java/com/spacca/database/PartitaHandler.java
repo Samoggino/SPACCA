@@ -31,6 +31,7 @@ public class PartitaHandler implements Handler {
     public void salva(Object partitaObject, String codicePartita) {
 
         Partita partita = (Partita) partitaObject;
+        codicePartita = codicePartita.toUpperCase();
         codicePartita = "src/main/resources/com/spacca/database/partite/" + codicePartita + ".json";
 
         try (JsonWriter writer = new JsonWriter(new FileWriter(codicePartita))) {
@@ -114,7 +115,6 @@ public class PartitaHandler implements Handler {
     }
 
     public Partita creaPartita(String codice, List<AbstractGiocatore> giocatori) {
-        GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
 
         List<String> listaDeiGiocatori = new ArrayList<>();
         // aggiungo a tutti i giocatori il codice della partita
@@ -124,7 +124,8 @@ public class PartitaHandler implements Handler {
         for (AbstractGiocatore abstractGiocatore : giocatori) {
             abstractGiocatore.addCodicePartita(codice);
             listaDeiGiocatori.add(abstractGiocatore.getUsername());
-            giocatoreHandler.modifica(abstractGiocatore.getUsername(), abstractGiocatore);
+            new GiocatoreHandler().salva(abstractGiocatore, abstractGiocatore.getUsername());
+            // giocatoreHandler.modifica(abstractGiocatore.getUsername(), abstractGiocatore);
         }
         System.out.println("LISTA GIOCATORI" + listaDeiGiocatori);
 

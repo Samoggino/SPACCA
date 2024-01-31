@@ -1,6 +1,13 @@
 package com.spacca;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.spacca.asset.match.Partita;
+import com.spacca.asset.utente.Amministratore;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.controller.TavoloController;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +34,34 @@ public class App extends Application {
 
             stage.setScene(scene);
             stage.show();
+
+            // Amministratore admin = new Amministratore();
+            // AbstractGiocatore koopa, peach, toad, bowser;
+            // koopa = admin.creaGiocatore("koopa", "Giocatore");
+            // peach = admin.creaGiocatore("peach", "SmartCPU");
+            // toad = admin.creaGiocatore("toad", "StupidCPU");
+            // bowser = admin.creaGiocatore("bowser", "SmartCPU");
+            //
+            // List<String> listaGiocatori = new ArrayList<>();
+            // listaGiocatori.add(koopa.getUsername());
+            // listaGiocatori.add(peach.getUsername());
+            // listaGiocatori.add(toad.getUsername());
+            // listaGiocatori.add(bowser.getUsername());
+            //
+            // Partita partita = admin.creaPartita(listaGiocatori);
+            // partita.nuovoTurno();
+            //
+            // FXMLLoader loader = new
+            // FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
+            // Parent root = loader.load();
+            // TavoloController tavolo = loader.getController();
+            // loader.setController(tavolo);
+            //
+            // tavolo.initController(partita);
+            //
+            // stage.setTitle(partita.getCodice());
+            // stage.setScene(new Scene(root));
+            // stage.show();
 
         } catch (IOException e) {
             System.err.println("ERRORE (app IO exception):\t\t " + e.getMessage());

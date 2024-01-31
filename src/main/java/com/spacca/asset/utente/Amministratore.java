@@ -10,6 +10,8 @@ import com.spacca.asset.match.Partita;
 import com.spacca.asset.match.Torneo;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
+import com.spacca.asset.utente.giocatore.SmartCPU;
+import com.spacca.asset.utente.giocatore.StupidCPU;
 import com.spacca.database.GiocatoreHandler;
 import com.spacca.database.PartitaHandler;
 import com.spacca.database.TorneoHandler;
@@ -69,6 +71,10 @@ public class Amministratore extends AbstractGiocatore {
 
     }
 
+    public Partita creaPartita(List<String> giocatoriScelti) {
+        return creaPartita("P" + generaNumeroCasualePartita(), giocatoriScelti);
+    }
+
     public Partita creaPartita(String codicePartita, List<String> giocatoriScelti) {
 
         List<AbstractGiocatore> giocatori = new ArrayList<>();
@@ -90,6 +96,31 @@ public class Amministratore extends AbstractGiocatore {
     public void creaUtenteFisico(String username, String password, String email) {
         Giocatore giocatore = new Giocatore(username, password, email);
         giocatoreHandler.salva(giocatore, username);
+    }
+
+    public AbstractGiocatore creaGiocatore(String username, String type) {
+
+        AbstractGiocatore giocatore = null;
+
+        switch (type) {
+            case "Giocatore":
+                giocatore = new Giocatore(username, "password", "email");
+                break;
+
+            case "SmartCPU":
+                giocatore = new SmartCPU(username);
+                break;
+
+            case "StupidCPU":
+                giocatore = new StupidCPU(username);
+                break;
+            default:
+                break;
+        }
+
+        System.out.println("Classe del giocatore: " + giocatore.getClass().getName());
+        new GiocatoreHandler().salva(giocatore, username);
+        return new GiocatoreHandler().carica(username);
     }
 
     public void creaUtenteRobot(String username, String type) {
