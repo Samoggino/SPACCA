@@ -205,7 +205,6 @@ public class GiocatoreHandler implements Handler {
             // escludo gli amministratori e gli utenti robot
             List<String> fileNames = Files.list(resourceFolder)
                     .filter(path -> path.toString().endsWith(".json") && Files.isRegularFile(path))
-                    .filter(path -> !path.getFileName().toString().equals("user-admin.json"))
                     .map(path -> path.getFileName().toString())
                     .collect(Collectors.toList());
 

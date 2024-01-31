@@ -56,7 +56,7 @@ public class BenvenutoAdminController {
     private void handleElimnaPartita() {
         System.out.println("Siamo in Elimina partita" + giocatoreCorrente);
         String titlePages = "Elimina partita ";
-        changeSceneEliminaPartita("/com/spacca/pages/selezionaPartita.fxml", titlePages);
+        changeSceneEliminaPartita("/com/spacca/pages/eliminaPartita.fxml", titlePages);
     }
 
     @FXML
@@ -169,7 +169,7 @@ public class BenvenutoAdminController {
 
             Scene currentScene = bottoneModificaUtente.getScene();
 
-            SelezionaPartitaController selezionaUenteController = loader.getController();
+            EliminaPartitaController selezionaUenteController = loader.getController();
             loader.setController(selezionaUenteController);
 
             // Ottieni lo Stage dalla scena corrente

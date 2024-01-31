@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import com.spacca.App;
 import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import javafx.fxml.FXML;
@@ -13,9 +14,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+
 import java.nio.file.*;
 
-public class SelezionaPartitaController implements Initializable {
+public class EliminaPartitaController implements Initializable {
 
     @FXML
     private AbstractGiocatore giocatoreCorrente;
@@ -35,6 +37,7 @@ public class SelezionaPartitaController implements Initializable {
 
     @FXML
     public void initController() {
+
     }
 
     @Override
@@ -65,6 +68,16 @@ public class SelezionaPartitaController implements Initializable {
                 // Salva il valore selezionato nella variabile globale
                 this.nomeFilePartitaScelto = newValue;
             });
+
+            if (modifiedFileNames.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("");
+                alert.setHeaderText("Al momento non sono presenti partite.");
+                alert.setContentText("Non puoi eliminare alcuna partita.");
+                alert.showAndWait();
+                App.setRoot("benvenutoAdmin");
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
