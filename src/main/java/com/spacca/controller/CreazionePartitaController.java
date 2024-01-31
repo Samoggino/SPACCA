@@ -97,7 +97,7 @@ public class CreazionePartitaController implements Initializable {
         } else if (!generaCodiceRadioButton.isSelected()) {
             if (controllaCodice(codiceField.getText().trim())) {
                 // Inizializza le liste delle ComboBox
-                this.codicePartita = codiceField.getText().trim();
+                this.codicePartita = "P" + codiceField.getText().trim();
                 comboBoxes = inizializeComboBoxandLayout();
                 popola();
                 creaButton.setDisable(false); // Abilita il bottone

@@ -96,11 +96,11 @@ public class PartitaHandler implements Handler {
         Partita partita = this.carica(codice);
         List<String> listaDeiGiocatori = partita.getListaDeiGiocatori();
 
-        if (file.exists() && file.isFile()) {
+        if (VerificaEsistenzaFile(codice)) {
             if (file.delete()) {
 
                 for (String username : listaDeiGiocatori) {
-                    Handler handler = new GiocatoreHandler();
+                    GiocatoreHandler handler = new GiocatoreHandler();
                     AbstractGiocatore giocatore = (AbstractGiocatore) handler.carica(username);
                     giocatore.getListaCodiciPartite().remove(codice);
                     handler.salva(giocatore, username);
@@ -125,7 +125,8 @@ public class PartitaHandler implements Handler {
             abstractGiocatore.addCodicePartita(codice);
             listaDeiGiocatori.add(abstractGiocatore.getUsername());
             new GiocatoreHandler().salva(abstractGiocatore, abstractGiocatore.getUsername());
-            // giocatoreHandler.modifica(abstractGiocatore.getUsername(), abstractGiocatore);
+            // giocatoreHandler.modifica(abstractGiocatore.getUsername(),
+            // abstractGiocatore);
         }
         System.out.println("LISTA GIOCATORI" + listaDeiGiocatori);
 

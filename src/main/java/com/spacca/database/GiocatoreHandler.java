@@ -28,6 +28,8 @@ public class GiocatoreHandler implements Handler {
     @Override
     public void salva(Object utenteObject, String username) {
 
+        System.out.println("SIAMO IN SALVA");
+
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
 
         try (JsonWriter writer = new JsonWriter(new FileWriter(path))) {
@@ -79,6 +81,7 @@ public class GiocatoreHandler implements Handler {
                 giocatoreVero = gson.fromJson(jsonObject, SmartCPU.class);
             } else if (type.equals("StupidCPU")) {
                 giocatoreVero = gson.fromJson(jsonObject, StupidCPU.class);
+
             } else {
                 System.err.println("ERRORE: Tipo di giocatore non riconosciuto");
             }
@@ -122,7 +125,7 @@ public class GiocatoreHandler implements Handler {
 
                     // creo un nuovo giocatore stupido e lo sostituisco con un giocatore robot
                     // stupido
-                    Handler handlerGiocatore = new GiocatoreHandler();
+                    GiocatoreHandler handlerGiocatore = new GiocatoreHandler();
                     String usernameStupid = "RS-" + username;
                     AbstractGiocatore giocatoreSostituto = new StupidCPU(usernameStupid);
 
@@ -132,7 +135,6 @@ public class GiocatoreHandler implements Handler {
 
                     // salvo la partita modificata
                     handlerPartita.salva(partita, codice);
-
                 }
 
             } else {
