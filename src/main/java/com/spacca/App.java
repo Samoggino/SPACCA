@@ -20,7 +20,7 @@ public class App extends Application {
 
         try {
             Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
-            scene = new Scene(loadFXML("benvenutoAdmin"), 600, 500);
+            scene = new Scene(loadFXML("login"), 600, 500);
 
             stage.setTitle("Login APP");
             stage.getIcons().add(icon);
@@ -34,24 +34,27 @@ public class App extends Application {
             // peach = admin.creaGiocatore("peach", "SmartCPU");
             // toad = admin.creaGiocatore("toad", "StupidCPU");
             // bowser = admin.creaGiocatore("bowser", "SmartCPU");
-            //
+
             // List<String> listaGiocatori = new ArrayList<>();
             // listaGiocatori.add(koopa.getUsername());
             // listaGiocatori.add(peach.getUsername());
             // listaGiocatori.add(toad.getUsername());
             // listaGiocatori.add(bowser.getUsername());
-            //
-            // Partita partita = admin.creaPartita(listaGiocatori);
+
+            // // Torneo torneo = admin.caricaTorneo("T2656");
+            // Torneo torneo = admin.creaTorneo(listaGiocatori);
+
+            // Partita partita = admin.caricaPartita(torneo.getCodiciPartite().get(0));
             // partita.nuovoTurno();
-            //
+
             // FXMLLoader loader = new
             // FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
             // Parent root = loader.load();
             // TavoloController tavolo = loader.getController();
             // loader.setController(tavolo);
-            //
+
             // tavolo.initController(partita);
-            //
+
             // stage.setTitle(partita.getCodice());
             // stage.setScene(new Scene(root));
             // stage.show();

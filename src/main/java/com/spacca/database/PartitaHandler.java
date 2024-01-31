@@ -31,10 +31,21 @@ public class PartitaHandler implements Handler {
     public void salva(Object partitaObject, String codicePartita) {
 
         Partita partita = (Partita) partitaObject;
-        codicePartita = codicePartita.toUpperCase();
-        codicePartita = "src/main/resources/com/spacca/database/partite/" + codicePartita + ".json";
 
-        try (JsonWriter writer = new JsonWriter(new FileWriter(codicePartita))) {
+        String path = "src/main/resources/com/spacca/database/partite/" + codicePartita + ".json";
+
+        System.out.println("codice partita: " + codicePartita + "prima della modifica in salva");
+
+        if (!codicePartita.startsWith("P")) {
+            path = "src/main/resources/com/spacca/database/" + codicePartita + ".json";
+            // dopo aver sistemato il path, devo sistemare il codicePartita, ovvero
+            // dev'essere
+            // presa solo la parte che è compresa tra l'ultimo / e il .json
+            codicePartita = codicePartita.substring(codicePartita.lastIndexOf("P"));
+            System.out.println("codice partita: " + codicePartita + "dopo la modifica in salva");
+        }
+        try (JsonWriter writer = new JsonWriter(new FileWriter(path))) {
+
             Gson gson = new Gson();
             gson.toJson(partita, Partita.class, writer);
 
@@ -60,19 +71,23 @@ public class PartitaHandler implements Handler {
     public Partita carica(String codicePartita) {
         Partita partita = null;
         try {
-            System.out.println("\n" + //
-                    " SIAMO P HANDLER : codice\n" + codicePartita);
-            codicePartita = codicePartita.toUpperCase();
+            String path = "src/main/resources/com/spacca/database/partite/" + codicePartita + ".json";
 
-            Reader fileReader = new FileReader(
-                    "src/main/resources/com/spacca/database/partite/" + codicePartita + ".json");
+            if (!codicePartita.startsWith("P")) {
+                path = "src/main/resources/com/spacca/database/" + codicePartita + ".json";
+                // dopo aver sistemato il path, devo sistemare il codicePartita, ovvero
+                // dev'essere
+                // presa solo la parte che è compresa tra l'ultimo / e il .json
+                codicePartita = codicePartita.substring(codicePartita.lastIndexOf("/"));
+            }
+
+            Reader fileReader = new FileReader(path);
             Gson gson = new Gson();
 
             partita = gson.fromJson(fileReader, Partita.class);
 
             fileReader.close();
-            System.out.println("\n" + //
-                    " PARTITA SALVATA \n" + partita.getCodice());
+
         } catch (JsonIOException e) {
             System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" +
                     this.getClass().getName() + e.getMessage());
@@ -91,7 +106,19 @@ public class PartitaHandler implements Handler {
 
     @Override
     public void elimina(String codice) {
+
         String path = "src/main/resources/com/spacca/database/partite/" + codice + ".json";
+
+        if (!codice.startsWith("P")) {
+            path = "src/main/resources/com/spacca/database/" + codice + ".json";
+            // dopo aver sistemato il path, devo sistemare il codice, ovvero dev'essere
+            // presa solo la parte che è compresa tra l'ultimo / e il .json
+            codice = codice.substring(codice.lastIndexOf("/"));
+        }
+
+        // controllo che il codice cominci per P, altrimenti quello non è un codice
+        // partita ma un path di una partita di un torneo
+
         File file = new File(path);
         Partita partita = this.carica(codice);
         List<String> listaDeiGiocatori = partita.getListaDeiGiocatori();
@@ -114,27 +141,46 @@ public class PartitaHandler implements Handler {
         }
     }
 
+    public void eliminaPartitaDaTorneo(String codicePartita, String codiceTorneo) {
+        String path = "tornei/" + codiceTorneo + "/" + codicePartita + ".json";
+        elimina(path);
+    }
+
     public Partita creaPartita(String codice, List<AbstractGiocatore> giocatori) {
+        Partita partita = null;
 
-        List<String> listaDeiGiocatori = new ArrayList<>();
-        // aggiungo a tutti i giocatori il codice della partita
-        // e creo la lista con solo gli username per la creazione della partita
-        System.out.println("SONO IN CREA PARTITA HANDLER" + giocatori);
+        try {
+            // if (!codice.startsWith("P")) {
+            //     // dopo aver sistemato il path, devo sistemare il codice, ovvero dev'essere
+            //     // presa solo la parte che è compresa tra l'ultimo / e il .json
+            //     codice = codice.substring(codice.lastIndexOf("P"));
+            //     System.out.println("codice partita: " + codice + "dopo la modifica in creaPartita");
+            // }
 
-        for (AbstractGiocatore abstractGiocatore : giocatori) {
-            abstractGiocatore.addCodicePartita(codice);
-            listaDeiGiocatori.add(abstractGiocatore.getUsername());
-            new GiocatoreHandler().salva(abstractGiocatore, abstractGiocatore.getUsername());
-            // giocatoreHandler.modifica(abstractGiocatore.getUsername(),
-            // abstractGiocatore);
+            List<String> listaDeiGiocatori = new ArrayList<>();
+            // aggiungo a tutti i giocatori il codice della partita
+            // e creo la lista con solo gli username per la creazione della partita
+
+            for (AbstractGiocatore abstractGiocatore : giocatori) {
+                abstractGiocatore.addCodicePartita(codice);
+                listaDeiGiocatori.add(abstractGiocatore.getUsername());
+                new GiocatoreHandler().salva(abstractGiocatore, abstractGiocatore.getUsername());
+                // giocatoreHandler.modifica(abstractGiocatore.getUsername(),
+                // abstractGiocatore);
+            }
+
+            partita = new Partita(codice, listaDeiGiocatori);
+            System.out.println("codice partita: " + codice + " in creaPartita");
+
+            // salva(partita, codice);
+
+        } catch (Exception e) {
+            System.err.println(
+                    "ERRORE (in PartitaHandler:creaPartita) durante la creazione della partita " + e.getMessage());
+            e.printStackTrace();
         }
-        System.out.println("LISTA GIOCATORI" + listaDeiGiocatori);
-
-        Partita partita = new Partita(codice, listaDeiGiocatori);
-
-        // salva(partita, codice);
-
         return partita;
+
     }
 
     @Override
@@ -158,10 +204,7 @@ public class PartitaHandler implements Handler {
 
         Partita newPartita = (Partita) partita;
 
-        System.out.println("Partita scelto " + oldPartita);
-        Partita vecchiaPartita = carica(oldPartita);
-        System.out.println("\n Vacchio partita" + vecchiaPartita + " \n ");
-        System.out.println("\n Nuovo partita" + newPartita + " \n ");
+        // Partita vecchiaPartita = carica(oldPartita);
 
         // se è stato modificato lo username creo il nuovo file ed elimino il vecchio
         if (!oldPartita.equals(newPartita.getCodice())) {
@@ -178,9 +221,9 @@ public class PartitaHandler implements Handler {
                 Files.write(playerFilePath, updatedJsonContent.getBytes());
 
             } catch (IOException e) {
-                System.out.println("File non trovato " + e);
+                System.err.println("File non trovato " + e.getMessage());
             } catch (Exception e) {
-                System.out.println("Eccezione nella modifica del giocatore handler " + e);
+                System.err.println("Eccezione nella modifica del giocatore handler " + e);
                 e.printStackTrace();
 
             }

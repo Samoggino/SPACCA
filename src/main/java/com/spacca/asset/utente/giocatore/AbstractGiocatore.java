@@ -19,8 +19,6 @@ public class AbstractGiocatore extends Object {
     @SerializedName("type")
     String type;
 
-    transient private GiocatoreHandler handlerGiocatore = new GiocatoreHandler();
-
     public String getType() {
         return type;
     }
@@ -70,9 +68,9 @@ public class AbstractGiocatore extends Object {
 
     public void salvaGiocatore() {
         try {
-            this.handlerGiocatore.salva(this, username);
+            new GiocatoreHandler().salva(this, username);
         } catch (Exception e) {
-            System.err.println("Errore nel salvare la partita" + e.getMessage());
+            System.err.println("Errore nell'utente " + e.getMessage());
         }
     }
 

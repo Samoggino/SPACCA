@@ -25,7 +25,7 @@ public class TorneoHandler implements Handler {
     @Override // passare il codice per esteso
     public void salva(Object torneoObject, String codiceTorneo) {
         Torneo torneo = (Torneo) torneoObject;
-        codiceTorneo = "src/main/resources/com/spacca/database/tornei/" + codiceTorneo + ".json";
+        codiceTorneo = "src/main/resources/com/spacca/database/tornei/" + codiceTorneo + "/" + codiceTorneo + ".json";
 
         /* Implementare creazione partite anche? */
 
@@ -49,18 +49,13 @@ public class TorneoHandler implements Handler {
     @Override
     public Object carica(String codice) {
         Torneo torneo = null;
+        String path = "src/main/resources/com/spacca/database/tornei/" + codice + "/" + codice + ".json";
         try {
-            System.out.println("\n" + //
-                    " SIAMO IN CARICA TORNEO HANDLER \n" + codice);
-            codice = codice.toUpperCase();
 
-            Reader fileReader = new FileReader(
-                    "src/main/resources/com/spacca/database/tornei/" + codice + ".json");
+            Reader fileReader = new FileReader(path);
             Gson gson = new Gson();
 
             torneo = gson.fromJson(fileReader, Torneo.class);
-            System.out.println("\n" + //
-                    " SIAMO IN CARICA TORNEO HANDLER \n" + torneo.getCodice());
 
             fileReader.close();
         } catch (JsonIOException e) {
@@ -103,6 +98,13 @@ public class TorneoHandler implements Handler {
     public void modifica(String oldFileName, Object newObject) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'modifica'");
+    }
+
+    public void mkdir(String codice) {
+
+        File dir = new File("src/main/resources/com/spacca/database/tornei/" + codice);
+        dir.mkdir();
+
     }
 
 }

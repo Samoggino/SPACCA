@@ -68,7 +68,6 @@ public class Partita extends Object {
     }
 
     public Partita(String codice, List<String> giocatori) {
-
         this.codice = codice;
         this.listaDeiGiocatori = giocatori;
 
@@ -104,7 +103,7 @@ public class Partita extends Object {
             if (this.handlerPartita == null) {
                 this.handlerPartita = new PartitaHandler();
             }
-            this.handlerPartita.salva(this, this.codice);
+            new PartitaHandler().salva(this, this.codice);
         } catch (Exception e) {
             System.err.println("Errore nel salvare la partita" + e.getMessage());
         }

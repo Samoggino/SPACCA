@@ -28,8 +28,6 @@ public class GiocatoreHandler implements Handler {
     @Override
     public void salva(Object utenteObject, String username) {
 
-        System.out.println("SIAMO IN SALVA");
-
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
 
         try (JsonWriter writer = new JsonWriter(new FileWriter(path))) {
@@ -44,7 +42,6 @@ public class GiocatoreHandler implements Handler {
                 giocatore = (AbstractGiocatore) utenteObject;
                 gson.toJson(giocatore, AbstractGiocatore.class, writer);
             }
-            System.out.println("Utente salvato correttamente in formato JSON.");
 
         } catch (JsonIOException e) {
             System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" + e.getMessage());

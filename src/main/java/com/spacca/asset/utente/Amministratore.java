@@ -82,7 +82,7 @@ public class Amministratore extends AbstractGiocatore {
         for (String username : giocatoriScelti) {
             giocatori.add(giocatoreHandler.carica(username));
         }
-        System.out.println("SIAMO DENTRO AMMINISTRATORE CREA PARTITA " + giocatori);
+        // System.out.println("SIAMO DENTRO AMMINISTRATORE CREA PARTITA " + giocatori);
         // la crea e la salva in automatico
 
         partitaHandler.creaPartita(codicePartita, giocatori);
@@ -91,6 +91,10 @@ public class Amministratore extends AbstractGiocatore {
 
     public Partita caricaPartita(List<String> giocatoriDellaPartita) {
         return creaPartita(generaNumeroCasualePartita(), giocatoriDellaPartita);
+    }
+
+    public Partita caricaPartita(String codicePartita) {
+        return partitaHandler.carica(codicePartita);
     }
 
     public void creaUtenteFisico(String username, String password, String email) {
@@ -118,7 +122,8 @@ public class Amministratore extends AbstractGiocatore {
                 break;
         }
 
-        System.out.println("Classe del giocatore: " + giocatore.getClass().getName());
+        // System.out.println("Classe del giocatore: " +
+        // giocatore.getClass().getName());
         new GiocatoreHandler().salva(giocatore, username);
         return new GiocatoreHandler().carica(username);
     }
@@ -133,20 +138,33 @@ public class Amministratore extends AbstractGiocatore {
         return giocatoreHandler.carica(username);
     }
 
-    public Torneo creaTorneo(String codiceTorneo, List<String> giocatoriScelti) {
+    public Torneo creaTorneo(String codiceTorneo, List<String> partecipanti) {
         // TODO
-        Torneo torneo = new Torneo(codiceTorneo, giocatoriScelti);
+        Torneo torneo = new Torneo(codiceTorneo, partecipanti);
+
+        // crei partecipanti/2 partite e le aggiungi al torneo
+        // Creazione delle partite
+        System.out.println("codice torneo " + codiceTorneo);
+
+        for (int i = 0; i < partecipanti.size(); i += 2) {
+            if (i + 1 < partecipanti.size()) {
+                List<String> listaDeiGiocatori = new ArrayList<>();
+                listaDeiGiocatori.add(partecipanti.get(i));
+                listaDeiGiocatori.add(partecipanti.get(i + 1));
+                torneo.getCodiciPartite().add(
+                        creaPartita("tornei/" + codiceTorneo + "/P" + generaNumeroCasualePartita(), listaDeiGiocatori)
+                                .getCodice());
+            }
+        }
+
         // TODOO creare anche le partite
-        torneoHandler.salva(torneo, codiceTorneo);
+        torneoHandler.salva(torneo, torneo.getCodice());
+
         return torneo;
     }
 
-    public Torneo creaTorneo(List<String> giocatoriScelti) {
-        // TODO
-        Torneo torneo = new Torneo(generaNumeroCasualeTorneo(), giocatoriScelti);
-        // TODOO creare anche le partite
-        torneoHandler.salva(torneo, torneo.getCodice());
-        return torneo;
+    public Torneo creaTorneo(List<String> partecipanti) {
+        return creaTorneo("T" + generaNumeroCasualeTorneo(), partecipanti);
     }
 
     public void ritornaBenvenutoAdmin(Scene currentScene) {
@@ -163,7 +181,7 @@ public class Amministratore extends AbstractGiocatore {
             currentStage.show();
 
         } catch (NullPointerException e) {
-            System.out.println("Login avvenuto con successo!");
+            System.err.println("Login avvenuto con successo!");
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("IO Errore (Benvenuto Admin controller): \n" + e.getMessage());
@@ -186,5 +204,9 @@ public class Amministratore extends AbstractGiocatore {
 
     void creaProfiloGiocatore() {
         // TODO
+    }
+
+    public Torneo caricaTorneo(String codiceTorneo) {
+        return (Torneo) new TorneoHandler().carica(codiceTorneo);
     }
 }

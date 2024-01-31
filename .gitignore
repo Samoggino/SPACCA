@@ -43,7 +43,6 @@ target/*
 
 
 # Json #
-/src/main/resources/com/spacca/database/partite/P*.json
-/src/main/resources/com/spacca/database/partite/T*.json
-/src/main/resources/com/spacca/database/partite/TP*.json
+/src/main/resources/com/spacca/database/partite/
+/src/main/resources/com/spacca/database/tornei/
 /src/main/resources/com/spacca/database/giocatori/user-*.json
