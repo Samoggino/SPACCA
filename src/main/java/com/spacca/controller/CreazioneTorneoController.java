@@ -116,7 +116,7 @@ public class CreazioneTorneoController implements Initializable {
 
         // Inizializza tutte le ComboBox con l'elenco completo dei giocatori
         for (ComboBox<String> comboBox : comboBoxes) {
-            comboBox.getItems().addAll(handler.getAllGiocatoriWithRobot());
+            comboBox.getItems().addAll(handler.getAllGiocatori());
             comboBox.setVisibleRowCount(3);
 
             // Aggiungi un listener per la selezione di ogni ComboBox

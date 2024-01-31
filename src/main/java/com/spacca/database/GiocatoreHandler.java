@@ -9,6 +9,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -192,38 +193,7 @@ public class GiocatoreHandler implements Handler {
         }
     }
 
-    public List<String> getAllGiocatoriUtenti() {
-        List<String> modifiedFileNames = null;
-        try {
-            String folderPath = "/com/spacca/database/giocatori/";
-
-            // Ottieni il percorso completo della cartella delle risorse
-            Path resourceFolder = Paths.get(getClass().getResource(folderPath).toURI());
-
-            // Ottieni la lista dei nomi dei file JSON presenti nella cartella
-            // escludo gli amministratori e gli utenti robot
-            List<String> fileNames = Files.list(resourceFolder)
-                    .filter(path -> path.toString().endsWith(".json") && Files.isRegularFile(path))
-                    .filter(path -> !path.getFileName().toString().equals("user-admin.json"))
-                    .filter(path -> !path.getFileName().toString().startsWith("user-RS-"))
-                    .filter(path -> !path.getFileName().toString().startsWith("user-RI-"))
-                    .map(path -> path.getFileName().toString())
-                    .collect(Collectors.toList());
-
-            // Rimuovi "user-" e ".json" dai nomi dei file
-            modifiedFileNames = fileNames.stream()
-                    .map(fileName -> fileName.replace("user-", "").replace(".json", ""))
-                    .collect(Collectors.toList());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return modifiedFileNames;
-    }
-
-    public List<String> getAllGiocatoriWithRobot() {
+    public List<String> getAllGiocatori() {
         List<String> modifiedFileNames = null;
         try {
             String folderPath = "/com/spacca/database/giocatori/";
@@ -252,4 +222,22 @@ public class GiocatoreHandler implements Handler {
         return modifiedFileNames;
     }
 
+    // trasformo la lista di username in giocatori per filtrare in base al tipo
+    // ritorno la lista di stringhe filtrate
+    public List<String> filtraListaGiocatori(String typeString) {
+
+        List<String> giocatori = getAllGiocatori();
+        List<AbstractGiocatore> listaUtenti = new ArrayList<>();
+        for (int i = 0; i < giocatori.size(); i++) {
+            AbstractGiocatore user = carica(giocatori.get(i));
+            if (user.getType().equals(typeString)) {
+                listaUtenti.add(user);
+            } else {
+                giocatori.remove(i);
+            }
+        }
+
+        return giocatori;
+
+    }
 }

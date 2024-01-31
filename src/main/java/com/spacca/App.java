@@ -1,13 +1,6 @@
 package com.spacca;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.spacca.asset.match.Partita;
-import com.spacca.asset.utente.Amministratore;
-import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.controller.TavoloController;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +20,7 @@ public class App extends Application {
 
         try {
             Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
-            scene = new Scene(loadFXML("login"), 600, 500);
+            scene = new Scene(loadFXML("benvenutoAdmin"), 600, 500);
 
             stage.setTitle("Login APP");
             stage.getIcons().add(icon);

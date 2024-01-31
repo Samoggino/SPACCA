@@ -42,8 +42,8 @@ public class SelezionaUtenteController implements Initializable {
 
         GiocatoreHandler handler = new GiocatoreHandler();
 
-        // Popola il ChoiceBox con la lista dei nomi dei file con i robot
-        listaUtenti.getItems().addAll(handler.getAllGiocatoriUtenti());
+        // Popola il ChoiceBox con la lista dei nomi dei file senza robot
+        listaUtenti.getItems().addAll(handler.filtraListaGiocatori("Giocatore"));
 
         listaUtenti.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
