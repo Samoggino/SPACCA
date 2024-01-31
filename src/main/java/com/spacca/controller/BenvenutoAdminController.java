@@ -60,6 +60,39 @@ public class BenvenutoAdminController {
     }
 
     @FXML
+    private void handleElimnaTorneo() {
+        System.out.println("Siamo in Elimina Torneo" + giocatoreCorrente);
+        String titlePages = "Elimina Torneo ";
+        changeSceneEliminaTorneo("/com/spacca/pages/eliminaTorneo.fxml", titlePages);
+    }
+
+    private void changeSceneEliminaTorneo(String fxmlPath, String titlePages) {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxmlPath));
+            Parent root = loader.load();
+
+            Scene currentScene = bottoneModificaUtente.getScene();
+
+            EliminaTorneoController selezionaUenteController = loader.getController();
+            loader.setController(selezionaUenteController);
+
+            // Ottieni lo Stage dalla scena corrente
+            Stage currentStage = (Stage) currentScene.getWindow();
+            currentStage.setTitle(titlePages);
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+
+        } catch (NullPointerException e) {
+            System.out.println("Elimina partita nullpointerexception! " + e);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("IO Errore (Benvenuto Admin controller per elimina partita): \n" + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore (Benvenuto Admin controller elimina partita): \n" + e.getMessage());
+        }
+    }
+
+    @FXML
     private void handleCreazioneUtente() {
         System.out.println("Siamo in Creazione utente");
         String titlePages = "Creazione nuovo utente ";
