@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import com.spacca.App;
 import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.database.TorneoHandler;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -49,16 +51,13 @@ public class EliminaTorneoController implements Initializable {
             Path resourceFolder = Paths.get(getClass().getResource(folderPath).toURI());
 
             // Ottieni la lista dei nomi dei file JSON presenti nella cartella
-            List<String> fileNames = Files.walk(resourceFolder, 1)
-                    .filter(path -> !path.getFileName().toString().equals("torneo.json"))
-                    .filter(path -> path.toString().endsWith(".json") && Files.isRegularFile(path))
-                    .map(path -> path.getFileName().toString())
-                    .collect(Collectors.toList());
+            List<String> fileNames = new TorneoHandler().mostraTuttiITornei();
 
             // Rimuovi "user-" e ".json" dai nomi dei file
-            List<String> modifiedFileNames = fileNames.stream()
-                    .map(fileName -> fileName.replace(".json", ""))
-                    .collect(Collectors.toList());
+            List<String> modifiedFileNames = fileNames;
+            // fileNames.stream()
+            // .map(fileName -> fileName.replace(".json", ""))
+            // .collect(Collectors.toList());
 
             // Popola il ChoiceBox con la lista dei nomi dei file
             listaUtenti.getItems().addAll(modifiedFileNames);
@@ -103,7 +102,7 @@ public class EliminaTorneoController implements Initializable {
             System.out.print("nomeFileTorneoScelto" + nomeFileTorneoScelto);
 
             // TODO elimina torneo
-            // admin.eliminaTorneo(nomeFileTorneoScelto);
+            admin.eliminaTorneo(nomeFileTorneoScelto);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("");
