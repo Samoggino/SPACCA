@@ -9,13 +9,13 @@ import java.util.stream.Collectors;
 import com.spacca.App;
 import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.database.PartitaHandler;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-
-import java.nio.file.*;
 
 public class EliminaPartitaController implements Initializable {
 
@@ -43,25 +43,15 @@ public class EliminaPartitaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            String folderPath = "/com/spacca/database/partite/";
-
-            // Ottieni il percorso completo della cartella delle risorse
-            Path resourceFolder = Paths.get(getClass().getResource(folderPath).toURI());
-
+            PartitaHandler partitaHandler = new PartitaHandler();
             // Ottieni la lista dei nomi dei file JSON presenti nella cartella
-            List<String> fileNames = Files.walk(resourceFolder, 1)
-                    .filter(path -> !path.getFileName().toString().equals("template-partita.json"))
-                    .filter(path -> path.toString().endsWith(".json") && Files.isRegularFile(path))
-                    .map(path -> path.getFileName().toString())
-                    .collect(Collectors.toList());
-
-            // Rimuovi "user-" e ".json" dai nomi dei file
-            List<String> modifiedFileNames = fileNames.stream()
+            List<String> fileNames = partitaHandler.getAllPartite()
+                    .stream()
                     .map(fileName -> fileName.replace(".json", ""))
                     .collect(Collectors.toList());
 
             // Popola il ChoiceBox con la lista dei nomi dei file
-            listaUtenti.getItems().addAll(modifiedFileNames);
+            listaUtenti.getItems().addAll(fileNames);
 
             listaUtenti.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 System.out.println("Partita selezionata: " + newValue);
@@ -69,7 +59,7 @@ public class EliminaPartitaController implements Initializable {
                 this.nomeFilePartitaScelto = newValue;
             });
 
-            if (modifiedFileNames.isEmpty()) {
+            if (fileNames.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("");
                 alert.setHeaderText("Al momento non sono presenti partite.");
@@ -78,6 +68,8 @@ public class EliminaPartitaController implements Initializable {
                 App.setRoot("benvenutoAdmin");
             }
 
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
