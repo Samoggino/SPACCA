@@ -21,7 +21,7 @@ public class App extends Application {
 
         try {
             Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
-            scene = new Scene(loadFXML("benvenutoAdmin"), 600, 500);
+            scene = new Scene(loadFXML("login"), 600, 500);
 
             System.out.println(new TorneoHandler().mostraTuttiITornei());
 

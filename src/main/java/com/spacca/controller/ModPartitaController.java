@@ -1,8 +1,10 @@
 package com.spacca.controller;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import com.spacca.App;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
@@ -10,16 +12,19 @@ import com.spacca.asset.utente.giocatore.Giocatore;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class ModPartitaController {
+public class ModPartitaController implements Initializable {
 
     List<AbstractGiocatore> giocatoriDellaPartita = new ArrayList<>(); // Inizializzazione della lista
     AbstractGiocatore giocatoreCorrente;
@@ -27,9 +32,6 @@ public class ModPartitaController {
 
     @FXML
     private VBox buttonContainer;
-
-    // Lista degli utenti
-    // private List<String> userList = new ArrayList<>();
 
     @FXML
     private CheckBox singolaScelta;
@@ -40,22 +42,40 @@ public class ModPartitaController {
     @FXML
     private Button avvioButton;
 
-    // @FXML
-    // private ChoiceBox menuTendina;
+    @FXML
+    private ComboBox<String> listaCodici;
 
     @FXML
-    private Button indietro;
+    private Button indietroButton;
 
-    // private Stage popupStage;
+    @FXML
+    private Label labelSelezione;
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        try {
+            labelSelezione.setVisible(false);
+            listaCodici.setVisible(false);
+            avvioButton.setDisable(true);
+        } catch (NullPointerException e) {
+            System.out.println("Elementi grafici null " + e);
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Errore nell'init del modPartitaController " + e.getLocalizedMessage());
+        }
+
+    }
 
     @FXML
     private void handleAvviaButton() {
         try {
             if (singolaScelta.isSelected()) {
+                labelSelezione.setText("Selezione il codice della parita alla quale vuoi giocare : ");
                 System.out.println("Scelta singola selezionata");
                 // devo andare a prendere il file con il codice della
                 // partita selezionato nel menu a tendina dall'utente
             } else if (torneoScelta.isSelected()) {
+                labelSelezione.setText("Selezione il codice del torneo a cui vuoi giocare : ");
                 System.out.println("Scelta torneo selezionata");
                 changeScene();
             } else {
@@ -95,7 +115,7 @@ public class ModPartitaController {
         partitaController.initController(giocatoreCorrente, giocatoriDellaPartita);
 
         // Ottieni la scena corrente
-        Scene currentScene = indietro.getScene();
+        Scene currentScene = indietroButton.getScene();
 
         // Ottieni lo Stage dalla scena corrente
         Stage currentStage = (Stage) currentScene.getWindow();
@@ -107,9 +127,17 @@ public class ModPartitaController {
 
     @FXML
     private void handleIndietroButton() {
-        changeSceneUtente(("Benvenuto " + giocatoreCorrente.getUsername() + " !"),
-                "/com/spacca/pages/benvenutoUtente.fxml",
-                giocatoreCorrente);
+        try {
+            changeSceneUtente(("Benvenuto " + giocatoreCorrente.getUsername() + " !"),
+                    "/com/spacca/pages/benvenutoUtente.fxml",
+                    giocatoreCorrente);
+
+        } catch (NullPointerException e) {
+            System.out.println("Erorre nel passaggio del giocatore ! " + e.getLocalizedMessage());
+        } catch (Exception e) {
+            System.err.println("Errore (changeScene mod partita): \n" + e.getMessage());
+        }
+
     }
 
     public void changeSceneUtente(String titolo, String fxmlPath, Object controllerData) {
@@ -121,7 +149,7 @@ public class ModPartitaController {
             loader.setController(prePartita);
             prePartita.initController((Giocatore) controllerData);
 
-            Scene currentScene = indietro.getScene();
+            Scene currentScene = indietroButton.getScene();
 
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
@@ -141,14 +169,20 @@ public class ModPartitaController {
     @FXML
     private void handleCheckBoxAction(MouseEvent event) {
         if (event.getSource() instanceof CheckBox) {
-            CheckBox clickedCheckBox = (CheckBox) event.getSource();
-            if (clickedCheckBox.isSelected()) {
-                if (clickedCheckBox == singolaScelta) {
+            CheckBox clickedComboBox = (CheckBox) event.getSource();
+            if (clickedComboBox.isSelected()) {
+                labelSelezione.setVisible(true);
+                listaCodici.setVisible(true);
+                if (clickedComboBox == singolaScelta) {
+                    labelSelezione.setText("Seleziona il codice della  partita da giocare : ");
                     torneoScelta.setSelected(false);
-                } else if (clickedCheckBox == torneoScelta) {
+                } else if (clickedComboBox == torneoScelta) {
+                    labelSelezione.setText("Seleziona il codice del torneo da giocare : ");
                     singolaScelta.setSelected(false);
                 }
             }
+        } else {
+
         }
     }
 
