@@ -29,7 +29,7 @@ public class PartitaHandler implements Handler {
      *                      salvataggio
      */
     @Override
-    public void salva(Object partitaObject, String codicePartita) {
+    public boolean salva(Object partitaObject, String codicePartita) {
 
         Partita partita = (Partita) partitaObject;
 
@@ -46,7 +46,7 @@ public class PartitaHandler implements Handler {
 
             Gson gson = new Gson();
             gson.toJson(partita, Partita.class, writer);
-
+            return true;
         } catch (JsonIOException e) {
             System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +
                     this.getClass().getName() + "\n" + e.getMessage());
@@ -58,6 +58,7 @@ public class PartitaHandler implements Handler {
         } catch (Exception e) {
             System.err.println("ERRORE: Errore generico in salva partita\n" + "\n" + e.getMessage());
         }
+        return false;
     }
 
     /**
@@ -103,7 +104,7 @@ public class PartitaHandler implements Handler {
     }
 
     @Override
-    public void elimina(String codice) {
+    public boolean elimina(String codice) {
 
         String path = "src/main/resources/com/spacca/database/partite/" + codice + ".json";
 
@@ -132,13 +133,14 @@ public class PartitaHandler implements Handler {
                     giocatore.getListaCodiciPartite().remove(codice);
                     handler.salva(giocatore, username);
                 }
-
+                return true;
             } else {
                 System.err.println("Errore durante l'eliminazione del giocatore con codice " + codice);
             }
         } else {
             System.err.println("La partita con codice " + codice + " non esiste o non è un file.");
         }
+        return false;
     }
 
     public void eliminaPartitaDaTorneo(String codicePartita, String codiceTorneo) {
@@ -256,6 +258,7 @@ public class PartitaHandler implements Handler {
                     .map(path -> path.getFileName().toString())
                     .collect(Collectors.toList());
             return fileNames;
+
         } catch (NullPointerException e) {
             System.err.println("Caricamento nullo " + e.getMessage());
             e.printStackTrace();

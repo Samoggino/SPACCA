@@ -26,7 +26,7 @@ import com.spacca.asset.utente.giocatore.StupidCPU;
 public class GiocatoreHandler implements Handler {
 
     @Override
-    public void salva(Object utenteObject, String username) {
+    public boolean salva(Object utenteObject, String username) {
 
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
 
@@ -42,7 +42,7 @@ public class GiocatoreHandler implements Handler {
                 giocatore = (AbstractGiocatore) utenteObject;
                 gson.toJson(giocatore, AbstractGiocatore.class, writer);
             }
-
+            return true;
         } catch (JsonIOException e) {
             System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" + e.getMessage());
         } catch (FileNotFoundException e) {
@@ -52,6 +52,7 @@ public class GiocatoreHandler implements Handler {
         } catch (Exception e) {
             System.err.println("ERRORE: Errore generico in\n" + e.getMessage());
         }
+        return false;
     }
 
     @Override
@@ -100,7 +101,7 @@ public class GiocatoreHandler implements Handler {
     }
 
     @Override
-    public void elimina(String username) {
+    public boolean elimina(String username) {
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
 
         File file = new File(path);
@@ -133,13 +134,14 @@ public class GiocatoreHandler implements Handler {
                     // salvo la partita modificata
                     handlerPartita.salva(partita, codice);
                 }
-
+                return true;
             } else {
                 System.err.println("Errore durante l'eliminazione del giocatore  " + username);
             }
         } else {
             System.err.println("Il giocatore con username " + username + " non esiste o non è un file.");
         }
+        return false;
     }
 
     @Override

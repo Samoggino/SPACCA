@@ -30,7 +30,7 @@ public class TorneoHandler implements Handler {
      */
 
     @Override // passare il codice per esteso
-    public void salva(Object torneoObject, String codiceTorneo) {
+    public boolean salva(Object torneoObject, String codiceTorneo) {
         Torneo torneo = (Torneo) torneoObject;
         codiceTorneo = "src/main/resources/com/spacca/database/tornei/" + codiceTorneo + "/" + codiceTorneo + ".json";
 
@@ -39,7 +39,7 @@ public class TorneoHandler implements Handler {
         try (JsonWriter writer = new JsonWriter(new FileWriter(codiceTorneo))) {
             Gson gson = new Gson();
             gson.toJson(torneo, Torneo.class, writer);
-
+            return true;
         } catch (JsonIOException e) {
             System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +
                     this.getClass().getName() + "\n" + e.getMessage());
@@ -51,6 +51,7 @@ public class TorneoHandler implements Handler {
         } catch (Exception e) {
             System.err.println("ERRORE: Errore generico nel salvataggio torneo in\n" + "\n" + e.getMessage());
         }
+        return false;
     }
 
     @Override
@@ -82,7 +83,7 @@ public class TorneoHandler implements Handler {
     }
 
     @Override
-    public void elimina(String codice) {
+    public boolean elimina(String codice) {
 
         try {
             String path = "src/main/resources/com/spacca/database/tornei/" + codice;
@@ -104,13 +105,17 @@ public class TorneoHandler implements Handler {
                     }
                 }
                 rmdir(path);
-
+                return true;
             }
         } catch (Exception e) {
             System.err.println("ERRORE (elimina): " + e.getMessage());
             e.printStackTrace();
         }
+        return false;
+    }
 
+    public boolean elimina(Torneo torneo) {
+        return elimina(torneo.getCodice());
     }
 
     @Override

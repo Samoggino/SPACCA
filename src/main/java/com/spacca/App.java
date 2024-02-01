@@ -29,7 +29,28 @@ public class App extends Application {
             Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
             scene = new Scene(loadFXML("login"), 600, 500);
 
-            System.out.println(new TorneoHandler().mostraTuttiITornei());
+            Amministratore admin = new Amministratore();
+            AbstractGiocatore koopa, peach, toad, bowser;
+
+            koopa = admin.creaGiocatore("koopa", "Giocatore");
+            peach = admin.creaGiocatore("peach", "SmartCPU");
+            toad = admin.creaGiocatore("toad", "StupidCPU");
+            bowser = admin.creaGiocatore("bowser", "SmartCPU");
+
+            List<String> listaGiocatori = new ArrayList<>();
+            listaGiocatori.add(koopa.getUsername());
+            listaGiocatori.add(peach.getUsername());
+            listaGiocatori.add(toad.getUsername());
+            listaGiocatori.add(bowser.getUsername());
+
+            TorneoHandler torneoHandler = new TorneoHandler();
+
+            Torneo torneo = admin.creaTorneo(listaGiocatori);
+
+            System.out.println(torneoHandler.mostraTuttiITornei());
+            
+            torneoHandler.elimina(torneo.getCodice());
+            System.out.println(torneoHandler.mostraTuttiITornei());
 
             stage.setTitle("Login APP");
             stage.getIcons().add(icon);
