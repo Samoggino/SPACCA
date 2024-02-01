@@ -73,7 +73,7 @@ public class CreazioneUtenteRobotController implements Initializable {
                     // StupidCPU utenteStupidCPU = new StupidCPU(username);
                     // System.out.println("utenteSmartCPU " + utenteStupidCPU);
 
-                    admin.creaUtenteRobot(username, "StupidPU");
+                    admin.creaUtenteRobot(username, "StupidCPU");
 
                     showAlert("Utente Robot Basico" + username + "\n salvato con successo!", "", AlertType.INFORMATION);
                     admin.ritornaBenvenutoAdmin(creaButton.getScene());

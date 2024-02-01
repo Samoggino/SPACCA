@@ -71,14 +71,14 @@ public class CreazioneTorneoController implements Initializable {
     @FXML
     public void handleGenera() {
         if (generaCodiceRadioButton.isSelected()) {
+            codiceField.setText("");
             this.codiceTorneo = admin.generaNumeroCasualeTorneo();
-            codiceField.setText(codiceTorneo);
+            codiceField.setPromptText(codiceTorneo);
             labelCodice.setText("");
-            this.codiceTorneo = "T" + codiceTorneo;
-            // popola();
             codiceField.setDisable(true);
         } else if (!generaCodiceRadioButton.isSelected()) {
             codiceField.setText("");
+            codiceField.setPromptText("");
             codiceField.setDisable(false);
         }
     }

@@ -224,19 +224,26 @@ public class GiocatoreHandler implements Handler {
     // trasformo la lista di username in giocatori per filtrare in base al tipo
     // ritorno la lista di stringhe filtrate
     public List<String> filtraListaGiocatori(String typeString) {
-
-        List<String> giocatori = getAllGiocatori();
         List<AbstractGiocatore> listaUtenti = new ArrayList<>();
-        for (int i = 0; i < giocatori.size(); i++) {
-            AbstractGiocatore user = carica(giocatori.get(i));
-            if (user.getType().equals(typeString)) {
-                listaUtenti.add(user);
-            } else {
-                giocatori.remove(i);
+        List<String> giocatori = new ArrayList<>();
+        try {
+            giocatori = getAllGiocatori();
+            for (int i = 0; i < giocatori.size(); i++) {
+                AbstractGiocatore user = carica(giocatori.get(i));
+                if (user.getType().equals(typeString)) {
+                    listaUtenti.add(user);
+                } else {
+                    giocatori.remove(i);
+                }
             }
+
+        } catch (NullPointerException e) {
+            System.err.println("NullPointerException : " + e);
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("NullPointerException : " + e);
+            e.printStackTrace();
         }
-
         return giocatori;
-
     }
 }
