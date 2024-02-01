@@ -74,7 +74,7 @@ public class CreazioneTorneoController implements Initializable {
             this.codiceTorneo = admin.generaNumeroCasualeTorneo();
             codiceField.setText(codiceTorneo);
             labelCodice.setText("");
-            this.codiceTorneo = "T" + codiceTorneo;
+            // this.codiceTorneo = "T" + codiceTorneo;
             // popola();
             codiceField.setDisable(true);
         } else if (!generaCodiceRadioButton.isSelected()) {

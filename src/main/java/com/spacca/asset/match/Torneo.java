@@ -66,12 +66,12 @@ public class Torneo {
         }
     }
 
-    public List<Partita> getPartite() {
-        if (this.partite == null) {
-            this.partite = new ArrayList<>();
-        }
-        return this.partite;
-    }
+    // public List<Partita> getPartite() {
+    //     if (this.partite == null) {
+    //         this.partite = new ArrayList<>();
+    //     }
+    //     return this.partite;
+    // }
 
     public List<String> getCodiciPartite() {
         if (this.codiciPartite == null) {
@@ -139,6 +139,18 @@ public class Torneo {
     private Torneo salvaToreno() {
         new TorneoHandler().salva(this, this.codice);
         return this;
+    }
+
+    public void calcolaClassifica() {
+
+    }
+
+    public void addCodicePartitaAlTorneo(String codicePartita) {
+        if (this.codiciPartite == null) {
+            this.codiciPartite = new ArrayList<>();
+        }
+        this.codiciPartite.add(codicePartita);
+        salvaToreno();
     }
 
 }

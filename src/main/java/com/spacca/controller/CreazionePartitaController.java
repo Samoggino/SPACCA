@@ -205,7 +205,7 @@ public class CreazionePartitaController implements Initializable {
         } else {
             try {
 
-                codice = "P" + codice;
+                // codice = "P" + codice;
                 // Verifica se il file esiste
                 if (partitafile.VerificaEsistenzaFile(codice)) {
 
