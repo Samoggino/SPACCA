@@ -30,11 +30,11 @@ public class PartitaHandler implements Handler {
     @Override
     public void salva(Object partitaObject, String codicePartita) {
 
+        System.out.println("Salvo la partita");
         Partita partita = (Partita) partitaObject;
 
         String path = "src/main/resources/com/spacca/database/partite/" + codicePartita + ".json";
-
-        System.out.println("codice partita: " + codicePartita + "prima della modifica in salva");
+        System.out.println("path partita: " + path + " prima della modifica in salva partita");
 
         if (!codicePartita.startsWith("P")) {
             path = "src/main/resources/com/spacca/database/" + codicePartita + ".json";
@@ -42,7 +42,7 @@ public class PartitaHandler implements Handler {
             // dev'essere
             // presa solo la parte che è compresa tra l'ultimo / e il .json
             codicePartita = codicePartita.substring(codicePartita.lastIndexOf("P"));
-            System.out.println("codice partita: " + codicePartita + "dopo la modifica in salva");
+            System.out.println("codice partita: " + codicePartita + " dopo la modifica in salva partita");
         }
         try (JsonWriter writer = new JsonWriter(new FileWriter(path))) {
 
@@ -69,6 +69,7 @@ public class PartitaHandler implements Handler {
      */
     @Override
     public Partita carica(String codicePartita) {
+        System.out.println("Carico la partita");
         Partita partita = null;
         try {
             String path = "src/main/resources/com/spacca/database/partite/" + codicePartita + ".json";
@@ -106,21 +107,27 @@ public class PartitaHandler implements Handler {
 
     @Override
     public void elimina(String codice) {
+        System.out.println("Elimino la partita");
 
         String path = "src/main/resources/com/spacca/database/partite/" + codice + ".json";
+
+        Partita partita = null;
+        partita = this.carica(codice);
 
         if (!codice.startsWith("P")) {
             path = "src/main/resources/com/spacca/database/" + codice + ".json";
             // dopo aver sistemato il path, devo sistemare il codice, ovvero dev'essere
             // presa solo la parte che è compresa tra l'ultimo / e il .json
-            codice = codice.substring(codice.lastIndexOf("/"));
+            partita = this.carica(codice);
+            System.out.println("codice partita: " + partita.getCodice() + " dopo la modifica in elimina");
         }
+        System.out.println("path partita: " + path + " prima della modifica in elimina");
 
         // controllo che il codice cominci per P, altrimenti quello non è un codice
         // partita ma un path di una partita di un torneo
 
         File file = new File(path);
-        Partita partita = this.carica(codice);
+        System.out.println("Elimino la partita " + codice);
         List<String> listaDeiGiocatori = partita.getListaDeiGiocatori();
 
         if (VerificaEsistenzaFile(codice)) {
@@ -130,6 +137,7 @@ public class PartitaHandler implements Handler {
                     GiocatoreHandler handler = new GiocatoreHandler();
                     AbstractGiocatore giocatore = (AbstractGiocatore) handler.carica(username);
                     giocatore.getListaCodiciPartite().remove(codice);
+                    System.out.println("Elimino la partita " + codice + " dal giocatore " + giocatore.getUsername());
                     handler.salva(giocatore, username);
                 }
 
@@ -137,7 +145,7 @@ public class PartitaHandler implements Handler {
                 System.err.println("Errore durante l'eliminazione del giocatore con codice " + codice);
             }
         } else {
-            System.err.println("Il giocatore con codice " + codice + " non esiste o non è un file.");
+            System.err.println("La partita con codice " + codice + " non esiste o non è un file.");
         }
     }
 
@@ -147,14 +155,16 @@ public class PartitaHandler implements Handler {
     }
 
     public Partita creaPartita(String codice, List<AbstractGiocatore> giocatori) {
+        System.out.println("Creo la partita");
         Partita partita = null;
 
         try {
             // if (!codice.startsWith("P")) {
-            //     // dopo aver sistemato il path, devo sistemare il codice, ovvero dev'essere
-            //     // presa solo la parte che è compresa tra l'ultimo / e il .json
-            //     codice = codice.substring(codice.lastIndexOf("P"));
-            //     System.out.println("codice partita: " + codice + "dopo la modifica in creaPartita");
+            // // dopo aver sistemato il path, devo sistemare il codice, ovvero dev'essere
+            // // presa solo la parte che è compresa tra l'ultimo / e il .json
+            // codice = codice.substring(codice.lastIndexOf("/"));
+            // System.out.println("codice partita: " + codice + "dopo la modifica in
+            // creaPartita");
             // }
 
             List<String> listaDeiGiocatori = new ArrayList<>();
@@ -170,7 +180,7 @@ public class PartitaHandler implements Handler {
             }
 
             partita = new Partita(codice, listaDeiGiocatori);
-            System.out.println("codice partita: " + codice + " in creaPartita");
+            System.out.println("codice partita: " + partita.getCodice() + " dopo la modifica in creaPartita");
 
             // salva(partita, codice);
 
@@ -185,16 +195,32 @@ public class PartitaHandler implements Handler {
 
     @Override
     public Boolean VerificaEsistenzaFile(String codice) {
-        String path = "src/main/resources/com/spacca/database/partite/" + codice + ".json";
+        System.out.println("Verifico l'esistenza della partita");
+        try {
+            String path = "src/main/resources/com/spacca/database/partite/" + codice + ".json";
+            System.out.println("path partita: " + path + " prima della modifica in creaPartita");
 
-        File userFile = new File(path);
+            if (!codice.startsWith("P")) {
+                path = "src/main/resources/com/spacca/database/" + codice + ".json";
+                // dopo aver sistemato il path, devo sistemare il codice, ovvero dev'essere
+                // presa solo la parte che è compresa tra l'ultimo / e il .json
+                System.out.println("codice partita: " + codice + " prima della modifica in creaPartita");
+                codice = codice.substring(codice.lastIndexOf("P"));
+                System.out.println("codice partita: " + codice + "dopo la modifica in creaPartita");
+            }
 
-        // Verifica se il file esiste
-        if (userFile.exists() && userFile.isFile()) {
-            return true;
-        } else {
-            return false;
+            File userFile = new File(path);
+
+            // Verifica se il file esiste
+            if (userFile.exists() && userFile.isFile()) {
+                return true;
+            }
+
+        } catch (Exception e) {
+            System.err.println("ERRORE (VerificaEsistenzaFile): " + e.getMessage());
+            e.printStackTrace();
         }
+        return false;
     }
 
     @Override

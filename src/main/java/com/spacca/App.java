@@ -1,6 +1,13 @@
 package com.spacca;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.spacca.asset.match.Torneo;
+import com.spacca.asset.utente.Amministratore;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.database.TorneoHandler;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +29,8 @@ public class App extends Application {
             Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
             scene = new Scene(loadFXML("login"), 600, 500);
 
+            System.out.println(new TorneoHandler().mostraTuttiITornei());
+
             stage.setTitle("Login APP");
             stage.getIcons().add(icon);
 
@@ -30,6 +39,7 @@ public class App extends Application {
 
             // Amministratore admin = new Amministratore();
             // AbstractGiocatore koopa, peach, toad, bowser;
+
             // koopa = admin.creaGiocatore("koopa", "Giocatore");
             // peach = admin.creaGiocatore("peach", "SmartCPU");
             // toad = admin.creaGiocatore("toad", "StupidCPU");
@@ -40,21 +50,29 @@ public class App extends Application {
             // listaGiocatori.add(peach.getUsername());
             // listaGiocatori.add(toad.getUsername());
             // listaGiocatori.add(bowser.getUsername());
-
             // // Torneo torneo = admin.caricaTorneo("T2656");
+
+            // Partita partita = null;
+            // try {
             // Torneo torneo = admin.creaTorneo(listaGiocatori);
+            // partita = admin.caricaPartita(torneo.getCodiciPartite().get(0));
+            // System.out.println("Codice partita: " + partita.getCodice());
+            // System.out.println("Codice torneo: " + torneo.getCodice());
+            // // new TorneoHandler().elimina(torneo.getCodice());
+            // System.out.println("Torneo eliminato");
 
-            // Partita partita = admin.caricaPartita(torneo.getCodiciPartite().get(0));
-            // partita.nuovoTurno();
+            // } catch (Exception e) {
+            // System.err.println("ERRORE (ziopera):\t\t " + e.getMessage());
+            // e.printStackTrace();
+            // }
 
+            // // partita.nuovoTurno();
             // FXMLLoader loader = new
             // FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
             // Parent root = loader.load();
             // TavoloController tavolo = loader.getController();
             // loader.setController(tavolo);
-
             // tavolo.initController(partita);
-
             // stage.setTitle(partita.getCodice());
             // stage.setScene(new Scene(root));
             // stage.show();

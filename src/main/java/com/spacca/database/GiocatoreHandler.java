@@ -144,6 +144,7 @@ public class GiocatoreHandler implements Handler {
 
     @Override
     public Boolean VerificaEsistenzaFile(String username) {
+        System.out.println("Verifica esistenza file in giocatore");
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
 
         File userFile = new File(path);

@@ -48,7 +48,7 @@ public class Amministratore extends AbstractGiocatore {
     public String generaNumeroCasualePartita() {
         Random random = new Random();
         // Genera un numero casuale compreso tra 1000 e 9999
-        String numero = String.valueOf(random.nextInt(9000) + 1000);
+        String numero = "P" + String.valueOf(random.nextInt(9000) + 1000);
 
         if (!partitaHandler.VerificaEsistenzaFile(numero)) {
             return numero;
@@ -61,7 +61,7 @@ public class Amministratore extends AbstractGiocatore {
     public String generaNumeroCasualeTorneo() {
         Random random = new Random();
         // Genera un numero casuale compreso tra 1000 e 9999
-        String numero = String.valueOf(random.nextInt(9000) + 1000);
+        String numero = "T" + String.valueOf(random.nextInt(9000) + 1000);
 
         if (!torneoHandler.VerificaEsistenzaFile(numero)) {
             return numero;
@@ -72,25 +72,26 @@ public class Amministratore extends AbstractGiocatore {
     }
 
     public Partita creaPartita(List<String> giocatoriScelti) {
-        return creaPartita("P" + generaNumeroCasualePartita(), giocatoriScelti);
+        return creaPartita(generaNumeroCasualePartita(), giocatoriScelti);
     }
 
     public Partita creaPartita(String codicePartita, List<String> giocatoriScelti) {
 
         List<AbstractGiocatore> giocatori = new ArrayList<>();
 
-        for (String username : giocatoriScelti) {
-            giocatori.add(giocatoreHandler.carica(username));
+        try {
+            for (String username : giocatoriScelti) {
+                giocatori.add(giocatoreHandler.carica(username));
+            }
+            // System.out.println("SIAMO DENTRO AMMINISTRATORE CREA PARTITA " + giocatori);
+            // la crea e la salva in automatico
+            System.out.println("codice partita nell'amministratore " + codicePartita);
+            new PartitaHandler().creaPartita(codicePartita, giocatori);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-        // System.out.println("SIAMO DENTRO AMMINISTRATORE CREA PARTITA " + giocatori);
-        // la crea e la salva in automatico
-
-        partitaHandler.creaPartita(codicePartita, giocatori);
-        return partitaHandler.carica(codicePartita);
-    }
-
-    public Partita caricaPartita(List<String> giocatoriDellaPartita) {
-        return creaPartita(generaNumeroCasualePartita(), giocatoriDellaPartita);
+        return new PartitaHandler().carica(codicePartita);
     }
 
     public Partita caricaPartita(String codicePartita) {
@@ -152,8 +153,9 @@ public class Amministratore extends AbstractGiocatore {
                 listaDeiGiocatori.add(partecipanti.get(i));
                 listaDeiGiocatori.add(partecipanti.get(i + 1));
                 torneo.getCodiciPartite().add(
-                        creaPartita("tornei/" + codiceTorneo + "/P" + generaNumeroCasualePartita(), listaDeiGiocatori)
+                        creaPartita("tornei/" + codiceTorneo + "/T" + generaNumeroCasualePartita(), listaDeiGiocatori)
                                 .getCodice());
+                System.out.println("codice partita " + torneo.getCodiciPartite().get(i / 2));
             }
         }
 
@@ -164,7 +166,7 @@ public class Amministratore extends AbstractGiocatore {
     }
 
     public Torneo creaTorneo(List<String> partecipanti) {
-        return creaTorneo("T" + generaNumeroCasualeTorneo(), partecipanti);
+        return creaTorneo(generaNumeroCasualeTorneo(), partecipanti);
     }
 
     public void ritornaBenvenutoAdmin(Scene currentScene) {

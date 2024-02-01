@@ -51,7 +51,7 @@ public class PartitaController {
             usernameLsit.add(utente.getUsername());
         }
 
-        partita = amministratore.caricaPartita(usernameLsit); // crea e salva la partita con un codice casuale
+        partita = amministratore.creaPartita(usernameLsit); // crea e salva la partita con un codice casuale
         partita.setGiocatoreCorrente(giocatoreCorrente.getUsername());
         partita.nuovoTurno();
         System.out.println(partita);

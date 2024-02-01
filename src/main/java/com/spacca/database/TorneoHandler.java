@@ -6,10 +6,17 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.stream.JsonWriter;
+import com.spacca.asset.match.Partita;
 import com.spacca.asset.match.Torneo;
 
 public class TorneoHandler implements Handler {
@@ -63,7 +70,7 @@ public class TorneoHandler implements Handler {
                     this.getClass().getName() + e.getMessage());
             // e.printStackTrace();
         } catch (FileNotFoundException e) {
-            System.err.println("ERRORE: Questo codice partita non è valido." + e.getMessage());
+            System.err.println("ERRORE: Questo codice torneo non è valido." + e.getMessage());
         } catch (IOException e) {
             System.err.println("ERRORE: Errore durante la lettura del file JSON in\n" +
                     this.getClass().getName() + "\n" + e.getMessage());
@@ -76,35 +83,89 @@ public class TorneoHandler implements Handler {
 
     @Override
     public void elimina(String codice) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'elimina'");
+
+        try {
+            String path = "src/main/resources/com/spacca/database/tornei/" + codice;
+
+            if (VerificaEsistenzaFile(codice)) {
+
+                Torneo torneo = (Torneo) carica(codice);
+                for (String codicePartita : torneo.getCodiciPartite()) {
+                    System.out.println("Codice partita: " + codicePartita);
+                    Partita partita = new PartitaHandler().carica(codicePartita);
+                    System.out.println("Elimino la partita " + partita.getCodice());
+                    // System.out.println("Elimino la partita " + codicePartita);
+
+                    try {
+                        new PartitaHandler().elimina(partita.getCodice());
+                    } catch (Exception e) {
+                        System.err.println("ERRORE (elimina): nell'eliminare la partita " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                }
+                rmdir(path);
+
+            }
+        } catch (Exception e) {
+            System.err.println("ERRORE (elimina): " + e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 
-    @Override // passare solo il codice per esteso
+    @Override
     public Boolean VerificaEsistenzaFile(String codice) {
-        String path = "src/main/resources/com/spacca/database/tornei/" + codice + ".json";
+        System.out.println("Verifica esistenza file ma in torneo" + codice);
+        try {
+            String path = "src/main/resources/com/spacca/database/tornei/" + codice + "/" + codice + ".json";
 
-        File userFile = new File(path);
+            File userFile = new File(path);
 
-        // Verifica se il file esiste
-        if (userFile.exists() && userFile.isFile()) {
-            return true;
-        } else {
-            return false;
+            // Verifica se il file esiste
+            if (userFile.exists() && userFile.isFile()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return false;
     }
 
     @Override
     public void modifica(String oldFileName, Object newObject) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'modifica'");
     }
 
     public void mkdir(String codice) {
 
         File dir = new File("src/main/resources/com/spacca/database/tornei/" + codice);
         dir.mkdir();
+    }
 
+    public void rmdir(String directoryPath) {
+        Path path = Paths.get(directoryPath);
+        try {
+            Files.walk(path)
+                    .sorted(Collections.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+            System.out.println("Cartella eliminata con successo.");
+        } catch (IOException e) {
+            System.err.println("Errore durante l'eliminazione della cartella: " + e.getMessage());
+        }
+    }
+
+    public List<String> mostraTuttiITornei() {
+        String path = "src/main/resources/com/spacca/database/tornei/";
+        File dir = new File(path);
+        String[] files = dir.list();
+        List<String> listaTornei = new ArrayList<>();
+        for (String file : files) {
+            if (file.startsWith("T")) {
+                listaTornei.add(file);
+            }
+        }
+        return listaTornei;
     }
 
 }
