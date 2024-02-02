@@ -16,7 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
 public class SelezionaUtenteController implements Initializable {
@@ -25,7 +25,7 @@ public class SelezionaUtenteController implements Initializable {
     @FXML
     private AbstractGiocatore giocatoreCorrente;
     @FXML
-    private ChoiceBox<String> listaUtenti;
+    private ComboBox<String> listaUtenti;
 
     @FXML
     private Button indietro, procedi;
@@ -51,6 +51,7 @@ public class SelezionaUtenteController implements Initializable {
                     // Salva il valore selezionato nella variabile globale
                     this.username = newValue;
                 });
+        listaUtenti.setVisibleRowCount(3);
     }
 
     public void handleIndietro() {

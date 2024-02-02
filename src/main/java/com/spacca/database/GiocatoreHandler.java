@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -226,19 +227,28 @@ public class GiocatoreHandler implements Handler {
     // trasformo la lista di username in giocatori per filtrare in base al tipo
     // ritorno la lista di stringhe filtrate
     public List<String> filtraListaGiocatori(String typeString) {
+        List<String> giocatori = new ArrayList<>();
+        List<String> appoggio = new ArrayList<>();
+        try {
+            appoggio = getAllGiocatori();
 
-        List<String> giocatori = getAllGiocatori();
-        List<AbstractGiocatore> listaUtenti = new ArrayList<>();
-        for (int i = 0; i < giocatori.size(); i++) {
-            AbstractGiocatore user = carica(giocatori.get(i));
-            if (user.getType().equals(typeString)) {
-                listaUtenti.add(user);
-            } else {
-                giocatori.remove(i);
+            for (String username : appoggio) {
+                AbstractGiocatore user = carica(username);
+                if (user.getType().equals(typeString)) {
+                    giocatori.add(username);
+                }
             }
+
+        } catch (ConcurrentModificationException e) {
+            System.out.println("Problema con l'iterazione della lista nel ciclo " + e);
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            System.err.println("NullPointerException : " + e);
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("NullPointerException : " + e);
+            e.printStackTrace();
         }
-
         return giocatori;
-
     }
 }
