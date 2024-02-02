@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gson.annotations.SerializedName;
+import com.spacca.database.PartitaHandler;
 import com.spacca.database.TorneoHandler;
 
 public class Torneo {
@@ -13,7 +14,7 @@ public class Torneo {
     @SerializedName("codiceTorneo")
     String codice;
 
-    transient List<Partita> partite;
+    transient List<Partita> partite = new ArrayList<>();
 
     @SerializedName("codiciPartite")
     List<String> codiciPartite;
@@ -66,12 +67,14 @@ public class Torneo {
         }
     }
 
-    // public List<Partita> getPartite() {
-    // if (this.partite == null) {
-    // this.partite = new ArrayList<>();
-    // }
-    // return this.partite;
-    // }
+    public List<Partita> getPartite() {
+        if (getCodiciPartite().size() > 1) {
+            for (String codicePartita : getCodiciPartite()) {
+                partite.add(new PartitaHandler().carica(codicePartita));
+            }
+        }
+        return this.partite;
+    }
 
     public List<String> getCodiciPartite() {
         if (this.codiciPartite == null) {
@@ -106,7 +109,7 @@ public class Torneo {
         // voglio creare delle partite di un torneo con due giocatori per ogni partita
         // e poi aggiungere le partite al torneo
 
-        // le dalle partite esce uno sconfitto, questo sconfitto viene eliminato dalla
+        // dalle partite esce uno sconfitto, questo sconfitto viene eliminato dalla
         // classifica, in modo da avere sempre il record dei giocatori che hanno
         // partecipato al torneo
     }
@@ -142,7 +145,14 @@ public class Torneo {
     }
 
     public void calcolaClassifica() {
-        // TODO: calcola la classifica
+        for (Partita partita : partite) {
+            String vincitore = partita.getVincitore();
+            if (classifica.containsKey(vincitore)) {
+                classifica.put(vincitore, classifica.get(vincitore) + 1);
+            } else {
+                classifica.put(vincitore, 1);
+            }
+        }
     }
 
     public void addCodicePartitaAlTorneo(String codicePartita) {
@@ -150,6 +160,7 @@ public class Torneo {
             this.codiciPartite = new ArrayList<>();
         }
         this.codiciPartite.add(codicePartita);
+        this.partite.add(new PartitaHandler().carica(codicePartita));
         salvaToreno();
     }
 
@@ -177,8 +188,6 @@ public class Torneo {
         for (String perdente : perdenti) {
             partecipanti.remove(perdente);
         }
-
-        
 
         return this;
 

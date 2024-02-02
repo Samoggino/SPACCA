@@ -45,18 +45,23 @@ public class App extends Application {
             listaGiocatori.add(bowser.getUsername());
 
             Torneo torneo = admin.creaTorneo(listaGiocatori);
+            // Torneo torneo = admin.caricaTorneo("T5283");
 
-            Partita partita = admin.caricaPartita(torneo.getCodiciPartite().get(0));
+            for (String codicePartita : torneo.getCodiciPartite()) {
+                Partita partita = admin.caricaPartita(codicePartita);
 
-            partita.nuovoTurno();
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
-            Parent root = loader.load();
-            TavoloController tavolo = loader.getController();
-            loader.setController(tavolo);
-            tavolo.initController(partita, false);
-            stage.setTitle(partita.getCodice());
-            stage.setScene(new Scene(root));
-            stage.show();
+                FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
+                Parent root = loader.load();
+                TavoloController tavolo = loader.getController();
+                loader.setController(tavolo);
+                tavolo.initController(partita, true);
+
+                stage = new Stage(); // Creare una nuova finestra per ogni partita
+                stage.setTitle(partita.getCodice());
+                stage.setScene(new Scene(root));
+                stage.show();
+            }
+            // admin.eliminaTorneo(torneo.getCodice());
 
         } catch (IOException e) {
             System.err.println("ERRORE (app IO exception):\t\t " + e.getMessage());

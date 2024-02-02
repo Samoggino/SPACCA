@@ -146,6 +146,10 @@ public class Amministratore extends AbstractGiocatore {
         // TODO
         Torneo torneo = new Torneo(codiceTorneo, partecipanti);
 
+        for (String username : partecipanti) {
+            new GiocatoreHandler().carica(username).addCodiceTorneo(codiceTorneo);
+        }
+
         // crei partecipanti/2 partite e le aggiungi al torneo
         // Creazione delle partite
         System.out.println("codice torneo " + codiceTorneo);
@@ -155,10 +159,10 @@ public class Amministratore extends AbstractGiocatore {
                 List<String> listaDeiGiocatori = new ArrayList<>();
                 listaDeiGiocatori.add(partecipanti.get(i));
                 listaDeiGiocatori.add(partecipanti.get(i + 1));
-                torneo.getCodiciPartite().add(
+                if (torneo.getCodiciPartite().add(
                         creaPartita("tornei/" + codiceTorneo + "/T" + generaNumeroCasualePartita(), listaDeiGiocatori)
-                                .getCodice());
-                System.out.println("codice partita " + torneo.getCodiciPartite().get(i / 2));
+                                .getCodice())) {
+                }
             }
         }
 

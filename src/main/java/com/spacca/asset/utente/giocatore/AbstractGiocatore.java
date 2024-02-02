@@ -16,6 +16,9 @@ public class AbstractGiocatore extends Object {
     @SerializedName("listaCodiciPartite")
     List<String> listaCodiciPartite = new ArrayList<>();
 
+    @SerializedName("listaCodiciTornei")
+    List<String> listaCodiciTornei = new ArrayList<>();
+
     @SerializedName("type")
     String type;
 
@@ -53,12 +56,17 @@ public class AbstractGiocatore extends Object {
         this.username = username;
     }
 
-    public List<String> getListaCodiciPartite() {
-        return listaCodiciPartite;
+    public List<String> getListaCodiciTornei() {
+        return this.listaCodiciTornei;
     }
 
-    public void setListaCodiciPartite(List<String> listaCodiciPartite) {
-        this.listaCodiciPartite = listaCodiciPartite;
+    public List<String> getListaCodiciPartite() {
+        return this.listaCodiciPartite;
+    }
+
+    public void addCodiceTorneo(String codiceTorneo) {
+        this.listaCodiciTornei.add(codiceTorneo);
+        salvaGiocatore();
     }
 
     public void addCodicePartita(String codicePartita) {

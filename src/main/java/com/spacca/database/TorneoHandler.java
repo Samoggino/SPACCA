@@ -18,6 +18,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.stream.JsonWriter;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.match.Torneo;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 
 public class TorneoHandler implements Handler {
 
@@ -96,14 +97,19 @@ public class TorneoHandler implements Handler {
                     Partita partita = new PartitaHandler().carica(codicePartita);
                     System.out.println("Elimino la partita " + partita.getCodice());
                     // System.out.println("Elimino la partita " + codicePartita);
-
-                    try {
-                        new PartitaHandler().elimina(partita.getCodice());
-                    } catch (Exception e) {
-                        System.err.println("ERRORE (elimina): nell'eliminare la partita " + e.getMessage());
-                        e.printStackTrace();
-                    }
+                    new PartitaHandler().elimina(partita.getCodice());
                 }
+
+                // rimuovi il codice del torneo da tutti i partecipanti
+
+                for (String giocatore : torneo.getPartecipanti()) {
+                    GiocatoreHandler handler = new GiocatoreHandler();
+                    AbstractGiocatore giocatoreObject = handler.carica(giocatore);
+                    giocatoreObject.getListaCodiciTornei().remove(torneo.getCodice());
+
+                    handler.salva(giocatoreObject, giocatore);
+                }
+
                 rmdir(path);
                 return true;
             }
