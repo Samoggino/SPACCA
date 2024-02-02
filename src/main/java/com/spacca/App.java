@@ -9,7 +9,6 @@ import com.spacca.asset.match.Torneo;
 import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.controller.TavoloController;
-import com.spacca.database.TorneoHandler;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -35,24 +34,26 @@ public class App extends Application {
             AbstractGiocatore koopa, peach, toad, bowser;
 
             koopa = admin.creaGiocatore("koopa", "Giocatore");
-            peach = admin.creaGiocatore("peach", "Giocatore");
-            toad = admin.creaGiocatore("toad", "Giocatore");
-            bowser = admin.creaGiocatore("bowser", "SmartCPU");
+            peach = admin.creaGiocatore("peach", "SmartCPU");
+            toad = admin.creaGiocatore("toad", "SmartCPU");
+            bowser = admin.creaGiocatore("bowser", "StupidCPU");
 
             List<String> listaGiocatori = new ArrayList<>();
             listaGiocatori.add(koopa.getUsername());
             listaGiocatori.add(peach.getUsername());
             listaGiocatori.add(toad.getUsername());
-            // listaGiocatori.add(bowser.getUsername());
+            listaGiocatori.add(bowser.getUsername());
 
-            Partita partita = admin.creaPartita(listaGiocatori);
+            Torneo torneo = admin.creaTorneo(listaGiocatori);
+
+            Partita partita = admin.caricaPartita(torneo.getCodiciPartite().get(0));
 
             partita.nuovoTurno();
             FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
             Parent root = loader.load();
             TavoloController tavolo = loader.getController();
             loader.setController(tavolo);
-            tavolo.initController(partita);
+            tavolo.initController(partita, false);
             stage.setTitle(partita.getCodice());
             stage.setScene(new Scene(root));
             stage.show();

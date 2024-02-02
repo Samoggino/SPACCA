@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -42,6 +43,9 @@ public class TavoloController {
     public FlowPane playerHand;
 
     @FXML
+    public Button eliminaPartitaButton = new Button("Elimina partita");
+
+    @FXML
     public Text andTheWinnerIs, risultatoOverlay;
 
     private Partita partita;
@@ -49,10 +53,12 @@ public class TavoloController {
     List<AbstractGiocatore> giocatori = new ArrayList<>();
     String userCorrente;
     AbstractGiocatore giocatoreCorrente;
+    boolean isTorneo;
+    int preventLoop = 0;
 
-    public void initController(Partita partita) {
+    public void initController(Partita partita, boolean isTorneo) {
         try {
-
+            this.isTorneo = isTorneo;
             this.partita = partita;
             System.out.println("Partita: " + partita.getCodice());
 
@@ -66,19 +72,28 @@ public class TavoloController {
 
     private void checkCPU() {
 
-        switch (this.giocatoreCorrente.getType()) {
-            case "SmartCPU":
-                ((SmartCPU) giocatoreCorrente).gioca(partita);
-                cambiaTurno();
-                break;
+        try {
+            preventLoop++;
+            if (preventLoop < 35)
+                switch (this.giocatoreCorrente.getType()) {
+                    case "SmartCPU":
+                        ((SmartCPU) giocatoreCorrente).gioca(partita);
 
-            case "StupidCPU":
-                ((StupidCPU) giocatoreCorrente).gioca(partita);
-                cambiaTurno();
-                break;
+                        cambiaTurno();
+                        break;
 
-            default:
-                break;
+                    case "StupidCPU":
+                        ((StupidCPU) giocatoreCorrente).gioca(partita);
+                        cambiaTurno();
+                        break;
+
+                    default:
+                        break;
+                }
+            System.out.println("Prevent loop: " + preventLoop);
+        } catch (Exception e) {
+            System.err.println("ERRORE (checkCPU):\t\t " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -234,13 +249,24 @@ public class TavoloController {
                 risultatoOverlay.setText(classifica);
                 risultatoOverlay.setTextAlignment(TextAlignment.CENTER);
 
-                partita.fine();
+                if (isTorneo) {
+                    eliminaPartitaButton.setVisible(false);
+                }
+                preventLoop = 100;
+
+                // partita.fine
             }
 
         } catch (Exception e) {
             System.err.println("ERRORE (buildOverlay):\t\t " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void eliminaPartita() {
+        partita.fine();
+        eliminaPartitaButton.setVisible(false);
     }
 
     void iniziaTrascinamento(Carta cartaDellaMano, ImageView cartaView) {

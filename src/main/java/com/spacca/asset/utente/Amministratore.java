@@ -71,7 +71,10 @@ public class Amministratore extends AbstractGiocatore {
 
     }
 
-    public Partita creaPartita(List<String> giocatoriScelti) {
+    public Partita creaPartita(List<String> giocatoriScelti) throws IllegalArgumentException {
+        if (giocatoriScelti.size() < 2) {
+            throw new IllegalArgumentException("Devi selezionare almeno due giocatori");
+        }
         return creaPartita(generaNumeroCasualePartita(), giocatoriScelti);
     }
 

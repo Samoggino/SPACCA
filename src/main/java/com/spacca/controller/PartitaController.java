@@ -118,7 +118,7 @@ public class PartitaController {
             TavoloController tavolo = loader.getController();
             loader.setController(tavolo);
 
-            tavolo.initController(this.partita);
+            tavolo.initController(this.partita, false);
 
             Stage currentStage = (Stage) partitaControllerVBox.getScene().getWindow();
 
