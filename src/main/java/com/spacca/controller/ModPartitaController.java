@@ -3,6 +3,7 @@ package com.spacca.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -27,7 +28,9 @@ import javafx.stage.Stage;
 public class ModPartitaController implements Initializable {
 
     List<AbstractGiocatore> giocatoriDellaPartita = new ArrayList<>(); // Inizializzazione della lista
+
     AbstractGiocatore giocatoreCorrente;
+
     PartitaController partitaController;
 
     @FXML
@@ -51,6 +54,9 @@ public class ModPartitaController implements Initializable {
     @FXML
     private Label labelSelezione;
 
+    @FXML
+    private String codicePartita;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -69,14 +75,24 @@ public class ModPartitaController implements Initializable {
     @FXML
     private void handleAvviaButton() {
         try {
+            this.codicePartita = listaCodici.getValue();
+            System.out.println("CODICE PARTITA" + codicePartita);
             if (singolaScelta.isSelected()) {
                 labelSelezione.setText("Selezione il codice della parita alla quale vuoi giocare : ");
                 System.out.println("Scelta singola selezionata");
-                // devo andare a prendere il file con il codice della
-                // partita selezionato nel menu a tendina dall'utente
+                // TODO caricare la partita con il codice
             } else if (torneoScelta.isSelected()) {
                 labelSelezione.setText("Selezione il codice del torneo a cui vuoi giocare : ");
                 System.out.println("Scelta torneo selezionata");
+
+                for (String partitaTorneo : giocatoreCorrente.getListaCodiciPartite()) {
+                    if (partitaTorneo.contains(codicePartita)) {
+                        this.codicePartita = partitaTorneo;
+                        break; // Esci dal ciclo una volta trovata la partita desiderata
+                    }
+                }
+                System.out.println("codice torneo " + codicePartita);
+                // TODO caricare il torneo con il codice della partita selezionato
                 changeScene();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -167,29 +183,92 @@ public class ModPartitaController implements Initializable {
     }
 
     @FXML
-    private void handleCheckBoxAction(MouseEvent event) {
+    private void handleCheckBoxAction(MouseEvent event) throws IOException {
         if (event.getSource() instanceof CheckBox) {
             CheckBox clickedComboBox = (CheckBox) event.getSource();
             if (clickedComboBox.isSelected()) {
                 labelSelezione.setVisible(true);
                 listaCodici.setVisible(true);
+                listaCodici.getItems().clear();
+                avvioButton.setDisable(false);
+                // inizializza
                 if (clickedComboBox == singolaScelta) {
                     labelSelezione.setText("Seleziona il codice della  partita da giocare : ");
                     torneoScelta.setSelected(false);
+                    // popola il combox con i codici delle partite singole
+                    popolaListaPartite();
                 } else if (clickedComboBox == torneoScelta) {
                     labelSelezione.setText("Seleziona il codice del torneo da giocare : ");
                     singolaScelta.setSelected(false);
+                    // popola il combox con i codici del torneo
+                    popolaListaTorneo();
+                }
+            } else {
+                labelSelezione.setVisible(false);
+                listaCodici.setVisible(false);
+                avvioButton.setDisable(true);
+            }
+        }
+    }
+
+    private void popolaListaTorneo() throws IOException {
+        try {
+            // devo filtrare togliendo le partite non del torneo
+            List<String> listaPartite = new ArrayList<>();
+            for (String partita : giocatoreCorrente.getListaCodiciPartite()) {
+                if (partita.contains("tornei/")) {
+                    String[] tokens = partita.split("/");
+                    if (tokens.length >= 2) {
+                        listaPartite.add(tokens[1]); // Aggiungi il secondo elemento (il codice del torneo) alla lista
+                    }
                 }
             }
-        } else {
+            listaCodici.getItems().addAll(listaPartite);
 
+        } catch (NullPointerException e) {
+            System.err.println("" + e);
+            e.printStackTrace();
+        } catch (ConcurrentModificationException e) {
+            System.err.println("Errore nella modifica corrente della lista " + e);
+            e.printStackTrace();
+
+        } catch (Exception e) {
+            System.err.println("" + e);
+            e.printStackTrace();
+        }
+    }
+
+    private void popolaListaPartite() throws IOException {
+        try {
+            // devo filtrare togliendo le partite del torneo
+            List<String> listaPartite = new ArrayList<>();
+            for (String partita : giocatoreCorrente.getListaCodiciPartite()) {
+                if (!partita.contains("tornei/")) {
+                    listaPartite.add(partita);
+                }
+            }
+            listaCodici.getItems().addAll(listaPartite);
+
+        } catch (NullPointerException e) {
+            System.err.println("" + e);
+            e.printStackTrace();
+        } catch (ConcurrentModificationException e) {
+            System.err.println("Errore nella modifica corrente della lista " + e);
+            e.printStackTrace();
+
+        } catch (Exception e) {
+            System.err.println("" + e);
+            e.printStackTrace();
         }
     }
 
     public void initController(AbstractGiocatore giocatoreCorrente) {
-
-        this.giocatoreCorrente = giocatoreCorrente;
-        // TOO-DOO popolaChoiceBoxConUtenti();
+        try {
+            this.giocatoreCorrente = giocatoreCorrente;
+        } catch (NullPointerException e) {
+            System.err.println("Il giocatore corrente passato è nullo " + e);
+            e.printStackTrace();
+        }
     }
 
 }
