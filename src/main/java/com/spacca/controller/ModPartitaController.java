@@ -21,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -75,32 +76,37 @@ public class ModPartitaController implements Initializable {
     @FXML
     private void handleAvviaButton() {
         try {
-            this.codicePartita = listaCodici.getValue();
-            System.out.println("CODICE PARTITA" + codicePartita);
-            if (singolaScelta.isSelected()) {
-                labelSelezione.setText("Selezione il codice della parita alla quale vuoi giocare : ");
-                System.out.println("Scelta singola selezionata");
-                // TODO caricare la partita con il codice
-            } else if (torneoScelta.isSelected()) {
-                labelSelezione.setText("Selezione il codice del torneo a cui vuoi giocare : ");
-                System.out.println("Scelta torneo selezionata");
-
-                for (String partitaTorneo : giocatoreCorrente.getListaCodiciPartite()) {
-                    if (partitaTorneo.contains(codicePartita)) {
-                        this.codicePartita = partitaTorneo;
-                        break; // Esci dal ciclo una volta trovata la partita desiderata
-                    }
+            if (listaCodici.getValue() == null) {
+                avvioButton.setDisable(true);
+                if (listaCodici.getItems().isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, "Non ci sono partite da selezionare",
+                            "Ci dispiaca, ma non possiedi alcun codice per giocare !");
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Errore",
+                            "Non hai selezionato alcun codice");
                 }
-                System.out.println("codice torneo " + codicePartita);
-                // TODO caricare il torneo con il codice della partita selezionato
-                changeScene();
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Errore");
-                alert.setHeaderText(null);
-                alert.setContentText("Per avviare una partita devi per forza selezionare un'opzione");
-                alert.showAndWait();
+                avvioButton.setDisable(false);
+                this.codicePartita = listaCodici.getValue();
+                if (singolaScelta.isSelected()) {
+                    labelSelezione.setText("Selezione il codice della parita alla quale vuoi giocare : ");
+                    System.out.println("Scelta singola selezionata");
+                    // TODO caricare la partita con il codice
+                } else if (torneoScelta.isSelected()) {
+                    labelSelezione.setText("Selezione il codice del torneo a cui vuoi giocare : ");
+                    System.out.println("Scelta torneo selezionata");
+
+                    for (String partitaTorneo : giocatoreCorrente.getListaCodiciPartite()) {
+                        if (partitaTorneo.contains(codicePartita)) {
+                            this.codicePartita = partitaTorneo;
+                            break; // Esci dal ciclo una volta trovata la partita desiderata
+                        }
+                    }
+                    // TODO caricare il torneo con il codice della partita selezionato
+                    changeScene();
+                }
             }
+
         } catch (IOException e) {
             System.err.println("Errore durante il caricamento di partita.fxml: " + e.getMessage());
             e.printStackTrace();
@@ -108,6 +114,14 @@ public class ModPartitaController implements Initializable {
             e.printStackTrace();
         }
 
+    }
+
+    private void showAlert(AlertType tipo, String titolo, String contenuto) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titolo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenuto);
+        alert.showAndWait();
     }
 
     private void changeScene() throws IOException {
@@ -200,6 +214,8 @@ public class ModPartitaController implements Initializable {
                 } else if (clickedComboBox == torneoScelta) {
                     labelSelezione.setText("Seleziona il codice del torneo da giocare : ");
                     singolaScelta.setSelected(false);
+
+                    avvioButton.setDisable(false);
                     // popola il combox con i codici del torneo
                     popolaListaTorneo();
                 }
