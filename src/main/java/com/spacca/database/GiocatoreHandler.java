@@ -147,17 +147,14 @@ public class GiocatoreHandler implements Handler {
 
     @Override
     public Boolean VerificaEsistenzaFile(String username) {
-        System.out.println("Verifica esistenza file in giocatore");
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
 
         File userFile = new File(path);
 
         // Verifica se il file esiste
         if (userFile.exists() && userFile.isFile()) {
-            System.out.println("VerificaEsistenzaFile: " + true);
             return true;
         } else {
-            System.out.println("VerificaEsistenzaFile: " + false);
             return false;
         }
     }
@@ -167,11 +164,6 @@ public class GiocatoreHandler implements Handler {
         Giocatore newGiocatore = (Giocatore) newObject;
         // Percorso del file JSON dell'oldGiocatore
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + oldGiocatore + ".json";
-
-        System.out.println("Giocatore scelto " + oldGiocatore);
-        Giocatore vecchioGiocatore = (Giocatore) carica(oldGiocatore);
-        System.out.println("\n Vacchio giocatore " + vecchioGiocatore + " \n ");
-        System.out.println("\n Nuovo giocatore " + newGiocatore + " \n ");
 
         // se è stato modificato lo username creo il nuovo file ed elimino il vecchio
         if (!oldGiocatore.equals(newGiocatore.getUsername())) {
@@ -187,9 +179,9 @@ public class GiocatoreHandler implements Handler {
                 String updatedJsonContent = gson.toJson(newGiocatore);
                 Files.write(playerFilePath, updatedJsonContent.getBytes());
             } catch (IOException e) {
-                System.out.println("File non trovato " + e);
+                System.err.println("File non trovato " + e);
             } catch (Exception e) {
-                System.out.println("Eccezione nella modifica del giocatore handler " + e);
+                System.err.println("Eccezione nella modifica del giocatore handler " + e);
                 e.printStackTrace();
 
             }
@@ -240,7 +232,7 @@ public class GiocatoreHandler implements Handler {
             }
 
         } catch (ConcurrentModificationException e) {
-            System.out.println("Problema con l'iterazione della lista nel ciclo " + e);
+            System.err.println("Problema con l'iterazione della lista nel ciclo " + e);
             e.printStackTrace();
         } catch (NullPointerException e) {
             System.err.println("NullPointerException : " + e);

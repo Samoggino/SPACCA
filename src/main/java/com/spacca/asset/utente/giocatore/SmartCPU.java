@@ -12,8 +12,6 @@ public class SmartCPU extends AbstractGiocatore {
 
     public void gioca(Partita partita) {
 
-        System.out.println("SmartCPU: " + this.username);
-
         boolean cartaPresa = false;
         Carta dellaMano = null;
         Carta delTavolo = null;
@@ -41,9 +39,7 @@ public class SmartCPU extends AbstractGiocatore {
         }
 
         if (cartaPresa) {
-            System.out.println(partita.getGiocatoreCorrente() + " prende " + delTavolo + " con " + dellaMano);
             prendi(partita, delTavolo, dellaMano);
-
         } else {
             if (partita.getManoDellUtente(getUsername()).getCarteNelMazzo().size() > 0) {
                 scarta(partita, partita.getManoDellUtente(getUsername()).getCarteNelMazzo().get(0));

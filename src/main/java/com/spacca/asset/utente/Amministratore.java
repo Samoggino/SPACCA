@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.spacca.App;
+import com.spacca.asset.match.CreatoreDiTorneo;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.match.Torneo;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
@@ -82,16 +83,18 @@ public class Amministratore extends AbstractGiocatore {
 
         List<AbstractGiocatore> giocatori = new ArrayList<>();
 
+        if (giocatoriScelti.size() < 2) {
+            throw new IllegalArgumentException("Devi selezionare almeno due giocatori");
+        }
         try {
             for (String username : giocatoriScelti) {
                 giocatori.add(giocatoreHandler.carica(username));
             }
             // System.out.println("SIAMO DENTRO AMMINISTRATORE CREA PARTITA " + giocatori);
             // la crea e la salva in automatico
-            System.out.println("codice partita nell'amministratore " + codicePartita);
             new PartitaHandler().creaPartita(codicePartita, giocatori);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
+            System.err.println("Errore (Amministratore creaPartita): \n" + e.getMessage());
             e.printStackTrace();
         }
         return new PartitaHandler().carica(codicePartita);
@@ -143,7 +146,7 @@ public class Amministratore extends AbstractGiocatore {
     }
 
     public Torneo creaTorneo(String codiceTorneo, List<String> partecipanti) {
-        // TODO
+
         Torneo torneo = new Torneo(codiceTorneo, partecipanti);
 
         for (String username : partecipanti) {
@@ -154,22 +157,16 @@ public class Amministratore extends AbstractGiocatore {
         // Creazione delle partite
         System.out.println("codice torneo " + codiceTorneo);
 
-        for (int i = 0; i < partecipanti.size(); i += 2) {
-            if (i + 1 < partecipanti.size()) {
-                List<String> listaDeiGiocatori = new ArrayList<>();
-                listaDeiGiocatori.add(partecipanti.get(i));
-                listaDeiGiocatori.add(partecipanti.get(i + 1));
-                if (torneo.getCodiciPartite().add(
-                        creaPartita("tornei/" + codiceTorneo + "/T" + generaNumeroCasualePartita(), listaDeiGiocatori)
-                                .getCodice())) {
-                }
-            }
-        }
+        torneo = CreatoreDiTorneo.strutturaTorneo(codiceTorneo, partecipanti, torneo, this);
 
-        // TODOO creare anche le partite
         torneoHandler.salva(torneo, torneo.getCodice());
 
         return torneo;
+    }
+
+    public String creaPartitaPerTorneo(String codiceTorneo, List<String> listaDeiGiocatori) {
+        return creaPartita("tornei/" + codiceTorneo + "/T" + generaNumeroCasualePartita(), listaDeiGiocatori)
+                .getCodice();
     }
 
     public Torneo creaTorneo(List<String> partecipanti) {

@@ -18,7 +18,6 @@ import com.google.gson.JsonIOException;
 import com.google.gson.stream.JsonWriter;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.match.Torneo;
-import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 
 public class TorneoHandler implements Handler {
 
@@ -56,7 +55,7 @@ public class TorneoHandler implements Handler {
     }
 
     @Override
-    public Object carica(String codice) {
+    public Torneo carica(String codice) {
         Torneo torneo = null;
         String path = "src/main/resources/com/spacca/database/tornei/" + codice + "/" + codice + ".json";
         try {
@@ -93,21 +92,14 @@ public class TorneoHandler implements Handler {
 
                 Torneo torneo = (Torneo) carica(codice);
                 for (String codicePartita : torneo.getCodiciPartite()) {
-                    System.out.println("Codice partita: " + codicePartita);
                     Partita partita = new PartitaHandler().carica(codicePartita);
-                    System.out.println("Elimino la partita " + partita.getCodice());
-                    // System.out.println("Elimino la partita " + codicePartita);
                     new PartitaHandler().elimina(partita.getCodice());
                 }
 
                 // rimuovi il codice del torneo da tutti i partecipanti
 
                 for (String giocatore : torneo.getPartecipanti()) {
-                    GiocatoreHandler handler = new GiocatoreHandler();
-                    AbstractGiocatore giocatoreObject = handler.carica(giocatore);
-                    giocatoreObject.getListaCodiciTornei().remove(torneo.getCodice());
-
-                    handler.salva(giocatoreObject, giocatore);
+                    new GiocatoreHandler().carica(giocatore).removeCodiceTorneo(codice);
                 }
 
                 rmdir(path);
@@ -126,18 +118,13 @@ public class TorneoHandler implements Handler {
 
     @Override
     public Boolean VerificaEsistenzaFile(String codice) {
-        System.out.println("Verifica esistenza file ma in torneo" + codice);
-        try {
-            String path = "src/main/resources/com/spacca/database/tornei/" + codice + "/" + codice + ".json";
+        String path = "src/main/resources/com/spacca/database/tornei/" + codice + "/" + codice + ".json";
 
-            File userFile = new File(path);
+        File userFile = new File(path);
 
-            // Verifica se il file esiste
-            if (userFile.exists() && userFile.isFile()) {
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Verifica se il file esiste
+        if (userFile.exists() && userFile.isFile()) {
+            return true;
         }
         return false;
     }

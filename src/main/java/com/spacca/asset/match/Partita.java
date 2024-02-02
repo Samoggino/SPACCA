@@ -44,7 +44,7 @@ public class Partita extends Object {
     private String giocatoreCorrente = "nessuno";
 
     @SerializedName("vincitore")
-    private String vincitore;
+    private String vincitore = null;
 
     @SerializedName("ultimo giocatore che ha preso")
     private String ultimoGiocatoreCheHapreso = "";
@@ -175,7 +175,6 @@ public class Partita extends Object {
 
         boolean enoughMazzo = abbastanzaCarteNelMazzo();
         boolean notEnoughMano = giocatoriNonHannoCarteInMano();
-        System.out.println("Carte rimanenti: " + (lunghezzaMazzoDiGiocoCorrente()));
 
         if (notEnoughMano && enoughMazzo) {
             distribuisciLeCarteAiGiocatori(enoughMazzo);
@@ -188,14 +187,11 @@ public class Partita extends Object {
         } else {
             // dai le carte rimaste sul tavolo all'ultimo giocatore che ha fatto una presa
 
-            System.out
-                    .println("Che fortuna! \n" + ultimoGiocatoreCheHapreso + " ha preso le carte rimaste sul tavolo!");
             getPreseDellUtente(this.ultimoGiocatoreCheHapreso).aggiungiListaCarteAdAltroMazzo(
                     getCarteSulTavolo().getCarteNelMazzo());
 
             getCarteSulTavolo().getCarteNelMazzo().clear();
 
-            System.out.println("Partita finita!");
         }
         salvaPartita();
     }
@@ -207,7 +203,6 @@ public class Partita extends Object {
 
         // per farlo devo ciclare la lista dei giocatori e per ogni giocatore gli do una
         // carta
-        System.out.println("Distribuisco le carte ai giocatori uno per uno!");
 
         if (getListaDeiGiocatori().size() == 3 && lunghezzaMazzoDiGiocoCorrente() == 1) {
             // do la carta al giocatore corrente
@@ -250,7 +245,6 @@ public class Partita extends Object {
 
     void distribuisciLeCarteAiGiocatoriNormalmente() {
         // distribuisce le carte ai giocatori
-        System.out.println("Distribuisco le carte ai giocatori normalmente!");
 
         for (String username : getManoDeiGiocatori().keySet()) {
             Mazzo mazzoGiocatore = getManoDellUtente(username);
@@ -353,10 +347,8 @@ public class Partita extends Object {
     boolean abbastanzaCarteNelMazzo() {
 
         if (getMazzoDiGioco().size() < 3 * getListaDeiGiocatori().size()) {
-            System.out.println("Non ci sono abbastanza carte nel mazzo per distribuire le carte!");
             return false;
         }
-        System.out.println("Ci sono abbastanza carte nel mazzo per distribuire le carte!");
         return true;
     }
 
@@ -364,6 +356,12 @@ public class Partita extends Object {
 
         this.classifica = UpdateClassifica.aggiornaClassifica(getPreseDeiGiocatori(), this.classifica);
         salvaPartita();
+    }
+
+    public boolean hasWinner() {
+        if (this.vincitore != null) {
+        }
+        return this.vincitore != null;
     }
 
     public String getVincitore() {
@@ -391,8 +389,6 @@ public class Partita extends Object {
             for (String giocatore : getListaDeiGiocatori()) {
                 if (!giocatore.equals(this.ultimoGiocatoreCheHapreso)) {
                     this.vincitore = giocatore;
-                    System.out.println(this.ultimoGiocatoreCheHapreso + " ha preso l'ultima presa, ma " + giocatore
-                            + " è il vincitore!");
                     return this.vincitore;
                 }
             }
@@ -408,19 +404,6 @@ public class Partita extends Object {
             }
         }
         return false;
-    }
-
-    Partita(Partita partita) {
-        this.codice = partita.getCodice();
-        this.listaDeiGiocatori = partita.getListaDeiGiocatori();
-        this.manoDeiGiocatori = partita.getManoDeiGiocatori();
-        this.preseDeiGiocatori = partita.getPreseDeiGiocatori();
-        this.mazzoDiGioco = partita.getMazzoDiGioco();
-        this.carteSulTavolo = partita.getCarteSulTavolo();
-        this.giocatoreCorrente = partita.getGiocatoreCorrente();
-        this.vincitore = partita.getVincitore();
-        this.ultimoGiocatoreCheHapreso = partita.getUltimoGiocatoreCheHapreso();
-        this.classifica = partita.getClassifica();
     }
 
     public String getUltimoGiocatoreCheHapreso() {

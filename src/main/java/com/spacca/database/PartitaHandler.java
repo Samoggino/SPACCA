@@ -128,10 +128,7 @@ public class PartitaHandler implements Handler {
             if (file.delete()) {
 
                 for (String username : listaDeiGiocatori) {
-                    GiocatoreHandler handler = new GiocatoreHandler();
-                    AbstractGiocatore giocatore = (AbstractGiocatore) handler.carica(username);
-                    giocatore.getListaCodiciPartite().remove(codice);
-                    handler.salva(giocatore, username);
+                    new GiocatoreHandler().carica(username).removeCodicePartita(codice);
                 }
                 return true;
             } else {

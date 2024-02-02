@@ -69,8 +69,18 @@ public class AbstractGiocatore extends Object {
         salvaGiocatore();
     }
 
+    public void removeCodiceTorneo(String codiceTorneo) {
+        this.listaCodiciTornei.remove(codiceTorneo);
+        salvaGiocatore();
+    }
+
     public void addCodicePartita(String codicePartita) {
         this.listaCodiciPartite.add(codicePartita);
+        salvaGiocatore();
+    }
+
+    public void removeCodicePartita(String codicePartita) {
+        this.listaCodiciPartite.remove(codicePartita);
         salvaGiocatore();
     }
 
@@ -88,7 +98,6 @@ public class AbstractGiocatore extends Object {
 
             // la carta sul tavolo dev'essere sul tavolo
             if (!partita.getCarteSulTavolo().getCarteNelMazzo().contains(cartaSulTavolo)) {
-                System.out.println("La carta selezionata non è sul tavolo");
                 return false;
             }
 
@@ -105,7 +114,6 @@ public class AbstractGiocatore extends Object {
         } catch (Exception e) {
             System.err.println("Errore nella ricerca della carta sul tavolo" + e.getMessage());
         }
-        System.out.println("Non puoi prendere la carta");
         return false;
     }
 
@@ -125,8 +133,6 @@ public class AbstractGiocatore extends Object {
                 partita.getPreseDellUtente(this.username).aggiungiCarteAlMazzo(cartaCheRuba);
 
                 partita.salvaPartita();
-            } else {
-                System.out.println("L'utente non ha carte da rubare!");
             }
 
         } catch (Exception e) {
@@ -164,8 +170,6 @@ public class AbstractGiocatore extends Object {
                 partita.getManoDellUtente(this.username).rimuoviCartaDalMazzo(cartaCheRuba);
                 partita.getPreseDellUtente(this.username).aggiungiCarteAlMazzo(cartaCheRuba);
                 partita.salvaPartita();
-            } else {
-                System.out.println("L'utente non ha carte da rubare!");
             }
 
         } catch (Exception e) {

@@ -29,9 +29,7 @@ public class Mazzo {
     public Mazzo creaMazzoDiPartenza() {
         try {
             this.carteNelMazzo = new ArrayList<>(Arrays.asList(prendiLeCarteDalJson()));
-
             Collections.shuffle(this.carteNelMazzo);
-            System.out.println("Mazzo iniziale creato con successo!");
         } catch (NullPointerException e) {
             System.err.println("Errore nel creare il mazzo di partenza\n\n" + e.getMessage());
         } catch (Exception e) {

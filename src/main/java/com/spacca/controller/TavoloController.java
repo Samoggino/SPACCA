@@ -60,7 +60,6 @@ public class TavoloController {
         try {
             this.isTorneo = isTorneo;
             this.partita = partita;
-            System.out.println("Partita: " + partita.getCodice());
 
             buildView();
 
@@ -90,7 +89,6 @@ public class TavoloController {
                     default:
                         break;
                 }
-            System.out.println("Prevent loop: " + preventLoop);
         } catch (Exception e) {
             System.err.println("ERRORE (checkCPU):\t\t " + e.getMessage());
             e.printStackTrace();
@@ -326,7 +324,6 @@ public class TavoloController {
                 scartaCartaHandler(cartaDellaMano);
             } else {
                 giocatoreCorrente.assoPrendeTutto(partita, cartaDellaMano);
-                System.out.println("Prendi tutto con " + cartaDellaMano + "!");
                 cambiaTurno();
             }
         }
@@ -417,10 +414,7 @@ public class TavoloController {
             cambiaTurno();
         } else if (cartaCheRuba.getNome().equals(cartaInCima.getNome()) && userCorrente != scammato) {
             giocatoreCorrente.rubaUnMazzo(partita, scammato, cartaCheRuba);
-            System.out.println("Hai rubato mezzo mazzo a " + scammato);
             cambiaTurno();
-        } else {
-            System.out.println("Non puoi rubare il mazzo a " + scammato + " con " + cartaCheRuba);
         }
     }
 

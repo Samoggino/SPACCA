@@ -16,14 +16,6 @@ public class Giocatore extends AbstractGiocatore {
         this.password = password;
     }
 
-    public void mostraLeaderboard() {
-        // TODO: mostra la leaderboard della partita
-    }
-
-    public void mostraPartite() {
-        System.out.println("Partite di " + this.getUsername() + ":" + this.listaCodiciPartite);
-    }
-
     @Override
     String stampa() {
         return super.stampa() + " con password: " + this.password;
