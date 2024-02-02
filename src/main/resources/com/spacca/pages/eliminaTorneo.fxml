@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.ComboBox?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.EliminaTorneoController">
    <children>
@@ -25,7 +25,7 @@
       </Label>
       <Button fx:id="indietro" layoutX="191.0" layoutY="306.0" mnemonicParsing="false" onMouseClicked="#handleIndietro" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: orange;" text="Indietro" />
       <Button fx:id="procedi" layoutX="347.0" layoutY="306.0" mnemonicParsing="false" onMouseClicked="#handleProcedi" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: orange;" text="Procedi" />
-      <ChoiceBox fx:id="listaUtenti" layoutX="191.0" layoutY="188.0" prefHeight="25.0" prefWidth="228.0" />
+      <ComboBox fx:id="listaUtenti" layoutX="191.0" layoutY="188.0" prefHeight="25.0" prefWidth="228.0" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="191.0" layoutY="139.0" prefHeight="36.0" prefWidth="228.0" text="Seleziona l'utente da modificare ">
          <font>
             <Font size="15.0" />

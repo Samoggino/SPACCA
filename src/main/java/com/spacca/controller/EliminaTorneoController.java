@@ -14,14 +14,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 
 public class EliminaTorneoController implements Initializable {
 
     @FXML
     private AbstractGiocatore giocatoreCorrente;
     @FXML
-    private ChoiceBox<String> listaUtenti;
+    private ComboBox<String> listaUtenti;
 
     @FXML
     private Button indietro;
@@ -52,6 +52,7 @@ public class EliminaTorneoController implements Initializable {
             // .collect(Collectors.toList());
 
             // Popola il ChoiceBox con la lista dei nomi dei file
+            listaUtenti.setVisibleRowCount(3);
             listaUtenti.getItems().addAll(modifiedFileNames);
 
             listaUtenti.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
