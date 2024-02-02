@@ -67,10 +67,10 @@ public class Torneo {
     }
 
     // public List<Partita> getPartite() {
-    //     if (this.partite == null) {
-    //         this.partite = new ArrayList<>();
-    //     }
-    //     return this.partite;
+    // if (this.partite == null) {
+    // this.partite = new ArrayList<>();
+    // }
+    // return this.partite;
     // }
 
     public List<String> getCodiciPartite() {
@@ -142,7 +142,7 @@ public class Torneo {
     }
 
     public void calcolaClassifica() {
-
+        // TODO: calcola la classifica
     }
 
     public void addCodicePartitaAlTorneo(String codicePartita) {
@@ -151,6 +151,37 @@ public class Torneo {
         }
         this.codiciPartite.add(codicePartita);
         salvaToreno();
+    }
+
+    public Torneo nuovoTurnoDelTorneo() {
+        // un nuovo turno del torneo consiste nel calcolare i vincitori di ogni partita
+        // e metterli in una lista,
+        // e cancellare i perdenti dalla lista dei partecipanti e le vecchie partite.
+
+        // poi si creano nuove partite con i vincitori e si aggiungono al torneo
+        // e si salva il torneo
+
+        // poi si restituisce il torneo
+
+        calcolaClassifica();
+
+        List<String> vincitori = new ArrayList<>();
+        List<String> perdenti = new ArrayList<>();
+
+        for (Partita partita : partite) {
+            vincitori.add(partita.getVincitore());
+            partita.getListaDeiGiocatori().remove(partita.getVincitore());
+            perdenti.addAll(partita.getListaDeiGiocatori());
+        }
+
+        for (String perdente : perdenti) {
+            partecipanti.remove(perdente);
+        }
+
+        
+
+        return this;
+
     }
 
 }

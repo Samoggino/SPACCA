@@ -175,6 +175,7 @@ public class Partita extends Object {
 
         boolean enoughMazzo = abbastanzaCarteNelMazzo();
         boolean notEnoughMano = giocatoriNonHannoCarteInMano();
+        System.out.println("Carte rimanenti: " + (lunghezzaMazzoDiGiocoCorrente()));
 
         if (notEnoughMano && enoughMazzo) {
             distribuisciLeCarteAiGiocatori(enoughMazzo);
@@ -206,8 +207,14 @@ public class Partita extends Object {
 
         // per farlo devo ciclare la lista dei giocatori e per ogni giocatore gli do una
         // carta
-
         System.out.println("Distribuisco le carte ai giocatori uno per uno!");
+
+        if (getListaDeiGiocatori().size() == 3 && lunghezzaMazzoDiGiocoCorrente() == 1) {
+            // do la carta al giocatore corrente
+            getManoDellUtente(getGiocatoreCorrente()).aggiungiCarteAlMazzo(
+                    this.mazzoDiGioco.getCarteNelMazzo().remove(mazzoDiGioco.size() - 1));
+            return;
+        }
 
         int lunghezzaMazzo = lunghezzaMazzoDiGiocoCorrente();
 
@@ -217,11 +224,10 @@ public class Partita extends Object {
                     if (lunghezzaMazzo <= 0) {
                         break;
                     }
-                    Mazzo mazzoGiocatore = getManoDellUtente(username);
                     Carta cartaDaDare = this.mazzoDiGioco
                             .getCarteNelMazzo()
                             .remove(lunghezzaMazzoDiGiocoCorrente() - 1);
-                    mazzoGiocatore.aggiungiCarteAlMazzo(cartaDaDare);
+                    getManoDellUtente(username).aggiungiCarteAlMazzo(cartaDaDare);
                     lunghezzaMazzo--;
                 }
             }
@@ -272,7 +278,7 @@ public class Partita extends Object {
 
         int carteDaDistribuire = 4;
         // Ottieni il numero di carte nel mazzo di gioco
-        int carteRimanenti = lunghezzaMazzoDiGiocoCorrente() - 1;
+        int carteRimanenti = lunghezzaMazzoDiGiocoCorrente();
 
         // Determina il numero di carte da distribuire in questo turno
         int carteDaDistribuireQuestoTurno = Math.min(carteDaDistribuire, carteRimanenti);
@@ -368,13 +374,27 @@ public class Partita extends Object {
         // classifica e così via
 
         int punteggioMassimo = 0;
+        int numeroVincitori = 0;
 
         for (Map.Entry<String, Integer> entry : this.classifica.entrySet()) {
             if (entry.getValue() > punteggioMassimo) {
                 punteggioMassimo = entry.getValue();
                 this.vincitore = entry.getKey();
+                numeroVincitori++;
             } else if (entry.getValue() == punteggioMassimo) {
                 this.vincitore += " e " + entry.getKey();
+                numeroVincitori++;
+            }
+        }
+
+        if (getListaDeiGiocatori().size() == 2 && numeroVincitori > 1) {
+            for (String giocatore : getListaDeiGiocatori()) {
+                if (!giocatore.equals(this.ultimoGiocatoreCheHapreso)) {
+                    this.vincitore = giocatore;
+                    System.out.println(this.ultimoGiocatoreCheHapreso + " ha preso l'ultima presa, ma " + giocatore
+                            + " è il vincitore!");
+                    return this.vincitore;
+                }
             }
         }
 
