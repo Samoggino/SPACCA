@@ -5,12 +5,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import com.google.gson.annotations.SerializedName;
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Mazzo;
 import com.spacca.asset.carte.Nome;
 import com.spacca.asset.carte.Seme;
+import com.spacca.database.GiocatoreHandler;
 import com.spacca.database.Handler;
 import com.spacca.database.PartitaHandler;
 
@@ -176,7 +178,10 @@ public class Partita extends Object {
         boolean enoughMazzo = abbastanzaCarteNelMazzo();
         boolean notEnoughMano = giocatoriNonHannoCarteInMano();
 
-        if (notEnoughMano && enoughMazzo) {
+        if (getCarteSulTavolo().size() == 40) {
+            this.vincitore = getGiocatoreCorrente();
+
+        } else if (notEnoughMano && enoughMazzo) {
             distribuisciLeCarteAiGiocatori(enoughMazzo);
             mettiCarteSulTavolo();
         } else if (notEnoughMano && !enoughMazzo && lunghezzaMazzoDiGiocoCorrente() > 0) {
@@ -186,6 +191,10 @@ public class Partita extends Object {
             distribuisciLeCarteAiGiocatori(enoughMazzo);
         } else {
             // dai le carte rimaste sul tavolo all'ultimo giocatore che ha fatto una presa
+
+            if (this.ultimoGiocatoreCheHapreso.equals("")) {
+                this.ultimoGiocatoreCheHapreso = getGiocatoreCorrente();
+            }
 
             getPreseDellUtente(this.ultimoGiocatoreCheHapreso).aggiungiListaCarteAdAltroMazzo(
                     getCarteSulTavolo().getCarteNelMazzo());
@@ -365,6 +374,21 @@ public class Partita extends Object {
     }
 
     public String getVincitore() {
+
+        boolean tuttiStupidi = true;
+        // se tutti i giocatori sono stupidi, allora il vincitore è un giocatore a caso
+        for (String giocatore : listaDeiGiocatori) {
+            if (!new GiocatoreHandler().carica(giocatore).getType().equals("StupidCPU")) {
+                tuttiStupidi = false;
+            }
+        }
+
+        if (tuttiStupidi) {
+            System.out.println("Tutti i giocatori sono stupidi, quindi il vincitore è un giocatore a caso");
+            Random random = new Random();
+            return listaDeiGiocatori.get(random.nextInt(listaDeiGiocatori.size()));
+        }
+
         aggiornaClassifica();
 
         // devi prendere il primo elemento della classifica se il successivo ha un

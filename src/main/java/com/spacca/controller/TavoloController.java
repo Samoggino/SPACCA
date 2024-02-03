@@ -77,7 +77,6 @@ public class TavoloController {
                 switch (this.giocatoreCorrente.getType()) {
                     case "SmartCPU":
                         ((SmartCPU) giocatoreCorrente).gioca(partita);
-
                         cambiaTurno();
                         break;
 
@@ -89,6 +88,7 @@ public class TavoloController {
                     default:
                         break;
                 }
+            System.out.println("preventLoop: " + preventLoop);
         } catch (Exception e) {
             System.err.println("ERRORE (checkCPU):\t\t " + e.getMessage());
             e.printStackTrace();
@@ -104,7 +104,14 @@ public class TavoloController {
             if (partita.giocatoriNonHannoCarteInMano()) {
                 partita.nuovoTurno();
             }
-            checkCPU();
+
+            if (partita.getCarteSulTavolo().size() == 40) {
+                partita.fine();
+                System.out.println("Partita finita");
+                return;
+            } else {
+                checkCPU();
+            }
 
             buildGiocatore();
             buildMano();
