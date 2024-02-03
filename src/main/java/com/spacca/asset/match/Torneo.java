@@ -26,17 +26,7 @@ public class Torneo extends Object {
         this.codice = codice;
 
         // i partecipanti devono essere fare parte della curva esponenziale 2^n
-        // quindi 2, 4, 8, 16...
-
-        if (partecipanti.size() < 2) {
-            throw new IllegalArgumentException("Non è possibile creare un torneo con meno di due giocatori");
-        }
-
-        if (((partecipanti.size() & (partecipanti.size() - 1)) == 0) == false) {
-            // se il numero di partecipanti non è una potenza di 2 allora non è possibile
-            // creare un torneo (molto carino questo controllo, non lo conoscevo)
-            throw new IllegalArgumentException("Non è possibile creare un torneo con questo numero di giocatori");
-        }
+        // quindi 2, 4, 8, 16...        
 
         this.partecipanti = partecipanti;
 
