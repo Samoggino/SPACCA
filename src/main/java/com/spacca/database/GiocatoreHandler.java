@@ -223,12 +223,22 @@ public class GiocatoreHandler implements Handler {
         List<String> appoggio = new ArrayList<>();
         try {
             appoggio = getAllGiocatori();
+            if (appoggio != null) {
+                for (String username : appoggio) {
+                    try {
+                        AbstractGiocatore user = carica(username);
 
-            for (String username : appoggio) {
-                AbstractGiocatore user = carica(username);
-                if (user.getType().equals(typeString)) {
-                    giocatori.add(username);
+                        if (user.getType().equals(typeString)) {
+                            giocatori.add(username);
+                        }
+                    } catch (NullPointerException e) {
+                        System.out.println("Giocatore caricato contiente elementi null");
+
+                        e.printStackTrace();
+                    }
                 }
+            } else {
+                System.out.println("La lista dei giocatori è null (getallgiocatori)");
             }
 
         } catch (ConcurrentModificationException e) {

@@ -42,16 +42,24 @@ public class SelezionaUtenteController implements Initializable {
 
         GiocatoreHandler handler = new GiocatoreHandler();
 
-        // Popola il ChoiceBox con la lista dei nomi dei file senza robot
-        listaUtenti.getItems().addAll(handler.filtraListaGiocatori("Giocatore"));
+        // Popola il ComboBox con la lista dei nomi dei file senza robot
+        try {
+            listaUtenti.getItems().addAll(handler.filtraListaGiocatori("Giocatore"));
 
-        listaUtenti.getSelectionModel().selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> {
-                    System.out.println("Utente selezionato: " + newValue);
-                    // Salva il valore selezionato nella variabile globale
-                    this.username = newValue;
-                });
-        listaUtenti.setVisibleRowCount(3);
+            listaUtenti.getSelectionModel().selectedItemProperty()
+                    .addListener((observable, oldValue, newValue) -> {
+                        System.out.println("Utente selezionato: " + newValue);
+                        // Salva il valore selezionato nella variabile globale
+                        this.username = newValue;
+                    });
+            listaUtenti.setVisibleRowCount(3);
+        } catch (NullPointerException e) {
+            System.out.println("Elementi nulli " + e);
+
+        } catch (Exception e) {
+            System.out.println("File non trovati causati da getAllgiocatori" + e);
+
+        }
     }
 
     public void handleIndietro() {
