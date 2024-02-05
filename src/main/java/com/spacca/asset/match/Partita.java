@@ -384,7 +384,6 @@ public class Partita extends Object {
         }
 
         if (tuttiStupidi) {
-            System.out.println("Tutti i giocatori sono stupidi, quindi il vincitore è un giocatore a caso");
             Random random = new Random();
             return listaDeiGiocatori.get(random.nextInt(listaDeiGiocatori.size()));
         }

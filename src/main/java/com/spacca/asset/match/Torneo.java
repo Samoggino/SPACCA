@@ -23,10 +23,16 @@ public class Torneo extends Object {
     @SerializedName("codiciPartite")
     List<String> codiciPartite = new ArrayList<>();
 
+    @SerializedName("giocatori rimasti")
+    List<String> giocatoriRimasti = new ArrayList<>();
+
     @SerializedName("partecipanti")
     List<String> partecipanti = new ArrayList<>();
 
     transient List<Partita> partite = new ArrayList<>();
+
+    @SerializedName("leaderboard")
+    String leaderboard = "";
 
     @SerializedName("vincitore")
     String vincitore;
@@ -34,17 +40,18 @@ public class Torneo extends Object {
     public Torneo(String codice, List<String> partecipanti) {
 
         this.codice = codice;
+        this.giocatoriRimasti = partecipanti;
         this.partecipanti = partecipanti;
 
         new TorneoHandler().mkdir(codice);
     }
 
-    public List<String> getPartecipanti() {
-        return this.partecipanti;
+    public List<String> getGiocatoriRimasti() {
+        return this.giocatoriRimasti;
     }
 
-    public void setPartecipanti(List<String> partecipanti) {
-        this.partecipanti = partecipanti;
+    public void setGiocatoriRimasti(List<String> partecipanti) {
+        this.giocatoriRimasti = partecipanti;
         // salvaToreno();
     }
 
@@ -62,20 +69,6 @@ public class Torneo extends Object {
 
     public List<String> getCodiciPartite() {
         return this.codiciPartite;
-    }
-
-    // risultato partite
-    public List<String> getLeaderboard() {
-
-        /**
-         * //FIXME: probabilmente la leaderboard non è una stringa, ma un oggetto
-         * che contiene i risultati delle partite e i giocatori che hanno partecipato
-         */
-        List<String> leaderboard = new ArrayList<>();
-        for (Partita partita : partite) {
-            leaderboard.addAll(partita.getListaDeiGiocatori());
-        }
-        return leaderboard;
     }
 
     public String getCodice() {
@@ -107,6 +100,21 @@ public class Torneo extends Object {
         this.partite = partite;
     }
 
+    public String aggiornaLeaderboard() {
+
+        String dettaglio = "";
+        if (giocatoriRimasti.size() == 1) {
+            dettaglio = "\t\t\tIl vincitore";
+        } else if (giocatoriRimasti.size() == partecipanti.size()) {
+            dettaglio = "\tPartecipanti";
+        }
+
+        return this.leaderboard = this.giocatoriRimasti + dettaglio + "\n" + this.leaderboard;
+    }
+
+    public String getLeaderboard() {
+        return this.leaderboard;
+    }
     // public List<String> addGiocatoreAlTorneo(String username) {
     // if (this.partecipanti == null) {
     // this.partecipanti = new ArrayList<>();
@@ -172,6 +180,8 @@ public class Torneo extends Object {
 
             // se non posso passare al turno successivo, restituisco il torneo stesso
 
+            aggiornaLeaderboard();
+
             if (this.vincitore != null) {
                 return this;
             }
@@ -189,11 +199,11 @@ public class Torneo extends Object {
                 new PartitaHandler().elimina(partita.getCodice());
             }
 
-            for (String username : this.partecipanti) {
+            for (String username : this.giocatoriRimasti) {
                 new GiocatoreHandler().carica(username).removeCodiceTorneo(this.codice);
             }
 
-            this.partecipanti = vincitori;
+            this.giocatoriRimasti = vincitori;
 
             this.codiciPartite = new ArrayList<>();
 
@@ -202,9 +212,9 @@ public class Torneo extends Object {
                 CreatoreDiTorneo.strutturaTorneo(codice, vincitori, this, new Amministratore());
             }
 
-            if (this.partecipanti.size() == 1) {
-                System.out.println("Il vincitore del torneo è: " + partecipanti);
-                this.vincitore = partecipanti.get(0);
+            if (this.giocatoriRimasti.size() == 1) {
+                System.out.println("Il vincitore del torneo è: " + giocatoriRimasti);
+                this.vincitore = giocatoriRimasti.get(0);
             }
 
         } catch (Exception e) {
@@ -227,7 +237,6 @@ public class Torneo extends Object {
             loader.setController(tavolo);
 
             for (String codicePartita : getCodiciPartite()) {
-                System.out.println("Carico la partita: " + codicePartita);
                 Partita partita = new PartitaHandler().carica(codicePartita);
                 boolean containsRealPlayer = false;
                 for (String username : partita.getListaDeiGiocatori()) {
@@ -238,7 +247,6 @@ public class Torneo extends Object {
                 }
 
                 if (!containsRealPlayer) {
-                    System.out.println("Simulo la partita: " + codicePartita);
                     if (!partita.hasWinner()) {
                         tavolo.initController(partita, true);
                     }
@@ -251,7 +259,7 @@ public class Torneo extends Object {
     }
 
     public String stampa() {
-        return "Torneo: " + this.codice + " partecipanti: " + this.partecipanti + " partite: " + this.codiciPartite;
+        return "Torneo: " + this.codice + " partecipanti: " + this.giocatoriRimasti + " partite: " + this.codiciPartite;
     }
 
     @Override

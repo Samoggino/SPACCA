@@ -178,7 +178,6 @@ public class AbstractGiocatore extends Object {
     }
 
     public void scarta(Partita partita, Carta cartaScartata) {
-        System.out.println("Giocatore corrente " + username + "\tScarta: " + cartaScartata);
 
         partita.getManoDellUtente(this.username).rimuoviCartaDalMazzo(cartaScartata);
         partita.getCarteSulTavolo().aggiungiCarteAlMazzo(cartaScartata);

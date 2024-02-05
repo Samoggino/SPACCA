@@ -75,10 +75,10 @@ public class App extends Application {
             // listaGiocatori.add(rosalina.getUsername());
 
             // Torneo torneo = admin.creaTorneo(listaGiocatori);
-            Torneo torneo = admin.caricaTorneo("T" + "3285").nuovoTurnoDelTorneo();
+            Torneo torneo = admin.caricaTorneo("T" + "4734").nuovoTurnoDelTorneo();
 
-            System.out.println("Partecipanti al torneo:\n" + torneo.getPartecipanti());
-            System.out.println(yoshi);
+            torneo.aggiornaLeaderboard();
+            System.out.println(torneo.getLeaderboard());
 
             // torneo.simulaPartiteCPU();
 
@@ -89,9 +89,7 @@ public class App extends Application {
             Parent root = loader.load();
             TavoloController tavolo = loader.getController();
             loader.setController(tavolo);
-            if (partita == null) {
-                System.out.println("Partita non ancora creata");
-            } else {
+            if (partita != null) {
                 tavolo.initController(partita, true);
                 stage.setTitle(partita.getCodice());
                 stage.getIcons().add(icon);

@@ -98,7 +98,7 @@ public class TorneoHandler implements Handler {
 
                 // rimuovi il codice del torneo da tutti i partecipanti
 
-                for (String giocatore : torneo.getPartecipanti()) {
+                for (String giocatore : torneo.getGiocatoriRimasti()) {
                     new GiocatoreHandler().carica(giocatore).removeCodiceTorneo(codice);
                 }
 
