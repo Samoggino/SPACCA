@@ -28,12 +28,12 @@ public class Torneo extends Object {
 
     transient List<Partita> partite = new ArrayList<>();
 
+    @SerializedName("vincitore")
+    String vincitore;
+
     public Torneo(String codice, List<String> partecipanti) {
+
         this.codice = codice;
-
-        // i partecipanti devono essere fare parte della curva esponenziale 2^n
-        // quindi 2, 4, 8, 16...
-
         this.partecipanti = partecipanti;
 
         new TorneoHandler().mkdir(codice);
@@ -124,6 +124,8 @@ public class Torneo extends Object {
     public boolean possoPassareAlTurnoSuccessivo() {
         // TUTTE le partite devono avere un vincitore
 
+        simulaPartiteCPU();
+
         for (String codice : this.codiciPartite) {
             Partita partita = new PartitaHandler().carica(codice);
             if (!partita.hasWinner()) {
@@ -170,12 +172,11 @@ public class Torneo extends Object {
 
             // se non posso passare al turno successivo, restituisco il torneo stesso
 
-            if (!possoPassareAlTurnoSuccessivo()) {
+            if (this.vincitore != null) {
                 return this;
             }
 
-            if (this.partecipanti.size() == 1) {
-                System.out.println("Il vincitore del torneo è: " + partecipanti);
+            if (!possoPassareAlTurnoSuccessivo()) {
                 return this;
             }
 
@@ -200,6 +201,12 @@ public class Torneo extends Object {
                 System.out.println("Passano al turno successivo: " + vincitori);
                 CreatoreDiTorneo.strutturaTorneo(codice, vincitori, this, new Amministratore());
             }
+
+            if (this.partecipanti.size() == 1) {
+                System.out.println("Il vincitore del torneo è: " + partecipanti);
+                this.vincitore = partecipanti.get(0);
+            }
+
         } catch (Exception e) {
             System.err.println("Errore nel nuovo turno del torneo: " + e.getMessage());
             e.printStackTrace();

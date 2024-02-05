@@ -114,7 +114,6 @@ public class TavoloController {
                 if (partita.getCarteSulTavolo().size() == 40) {
                     partita.getVincitore();
                     attesaEventoHandler();
-                    System.out.println("Partita finita");
                     return;
                 } else {
                     checkCPU();
@@ -135,12 +134,13 @@ public class TavoloController {
 
     }
 
+    /**
+     * Questo metodo serve per evitare un loop infinito nelle chiamate della CPU
+     */
     void attesaEventoHandler() {
-        System.out.println("Attendo evento ma fuori");
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
             // Questo è l'evento che viene eseguito dopo 5 secondi
             // Non esegue nulla qui, solo perde del tempo
-            System.out.println("Attendo evento");
         }));
 
         // Impostazione del ciclo dell'animazione a INDEFINITE per far sì che l'evento

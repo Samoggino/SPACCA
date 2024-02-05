@@ -31,15 +31,16 @@ public class App extends Application {
             scene = new Scene(loadFXML("login"), 600, 500);
 
             Amministratore admin = new Amministratore();
-            AbstractGiocatore koopa, peach, toad, bowser, mario, luigi, yoshi, wario,
+            AbstractGiocatore koopa, peach, toad, yoshi,
+                    bowser, mario, luigi, wario,
                     donkeyKong, daisy, boo, birdo,
                     dryBones, hammerBro, blooper, diddyKong, rosalina, larry, wendy, ludwig,
                     iggy, morton, lemmy;
 
-            koopa = admin.creaGiocatore("koopa", "SmartCPU");
-            peach = admin.creaGiocatore("peach", "SmartCPU");
-            toad = admin.creaGiocatore("toad", "SmartCPU");
-            yoshi = admin.creaGiocatore("yoshi", "Giocatore");
+            koopa = admin.creaGiocatore("koopa", "StupidCPU");
+            peach = admin.creaGiocatore("peach", "StupidCPU");
+            toad = admin.creaGiocatore("toad", "StupidCPU");
+            yoshi = admin.creaGiocatore("yoshi", "StupidCPU");
             // bowser = admin.creaGiocatore("bowser", "StupidCPU");
             // mario = admin.creaGiocatore("mario", "StupidCPU");
             // luigi = admin.creaGiocatore("luigi", "StupidCPU");
@@ -74,12 +75,12 @@ public class App extends Application {
             // listaGiocatori.add(rosalina.getUsername());
 
             // Torneo torneo = admin.creaTorneo(listaGiocatori);
-            Torneo torneo = admin.caricaTorneo("T" + "6495").nuovoTurnoDelTorneo();
+            Torneo torneo = admin.caricaTorneo("T" + "3285").nuovoTurnoDelTorneo();
 
             System.out.println("Partecipanti al torneo:\n" + torneo.getPartecipanti());
             System.out.println(yoshi);
 
-            torneo.simulaPartiteCPU();
+            // torneo.simulaPartiteCPU();
 
             Partita partita = torneo.getPartitaDelGiocatore(yoshi);
             // admin.caricaPartita(torneo.getCodiciPartite().get(0));
@@ -95,7 +96,9 @@ public class App extends Application {
                 stage.setTitle(partita.getCodice());
                 stage.getIcons().add(icon);
                 stage.setScene(new Scene(root));
-                stage.show();
+                if (!yoshi.isCPU()) {
+                    stage.show();
+                }
             }
 
             // System.out.println("Partecipanti al torneo:\n" + torneo.getPartecipanti());
@@ -107,14 +110,6 @@ public class App extends Application {
         }
 
     }
-    // Image icon = new
-    // Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
-    // scene = new Scene(loadFXML("login"), 600, 500);
-
-    // stage.setTitle("Login APP");
-    // stage.getIcons().add(icon);
-
-    //
 
     public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
