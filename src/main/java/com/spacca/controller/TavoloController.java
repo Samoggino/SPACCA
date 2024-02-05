@@ -1,5 +1,6 @@
 package com.spacca.controller;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -269,7 +270,7 @@ public class TavoloController {
     }
 
     @FXML
-    public void eliminaPartita() {
+    public void eliminaPartita() throws FileNotFoundException {
         partita.fine();
         eliminaPartitaButton.setVisible(false);
     }

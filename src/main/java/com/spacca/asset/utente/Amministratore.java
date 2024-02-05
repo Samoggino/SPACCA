@@ -1,5 +1,6 @@
 package com.spacca.asset.utente;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class Amministratore extends AbstractGiocatore {
         torneoHandler.elimina(codice);
     }
 
-    public void modificaProfiloGiocatore(String oldGiocatore, Object newGiocatore) {
+    public void modificaProfiloGiocatore(String oldGiocatore, Object newGiocatore) throws FileNotFoundException {
         giocatoreHandler.modifica(oldGiocatore, newGiocatore);
     }
 

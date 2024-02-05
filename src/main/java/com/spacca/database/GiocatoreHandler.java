@@ -102,45 +102,64 @@ public class GiocatoreHandler implements Handler {
     }
 
     @Override
-    public boolean elimina(String username) {
+    public boolean elimina(String username) throws FileNotFoundException {
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
+        try {
 
-        File file = new File(path);
+            File file = new File(path);
 
-        Giocatore giocatoreEliminato = (Giocatore) this.carica(username);
+            Giocatore giocatoreEliminato = (Giocatore) this.carica(username);
 
-        List<String> listaCodici = giocatoreEliminato.getListaCodiciPartite();
+            List<String> listaCodici = giocatoreEliminato.getListaCodiciPartite();
 
-        if (file.exists() && file.isFile()) {
-            if (file.delete()) {
+            if (file.exists() && file.isFile()) {
+                if (file.delete()) {
 
-                for (String codice : listaCodici) {
-                    Handler handlerPartita = new PartitaHandler();
-                    // carico la partita con il codice presente nella lista per eliminare il
-                    // giocatore
-                    Partita partita = (Partita) handlerPartita.carica(codice);
-                    // rimuovo il giocatore nella lista dei giocatori della partita
-                    int posizioneVecchioUtente = partita.getListaDeiGiocatori().indexOf(username);
+                    for (String codice : listaCodici) {
+                        Handler handlerPartita = new PartitaHandler();
+                        // carico la partita con il codice presente nella lista per eliminare il
+                        // giocatore
+                        Partita partita = (Partita) handlerPartita.carica(codice);
+                        // rimuovo il giocatore nella lista dei giocatori della partita
+                        int posizioneVecchioUtente = partita.getListaDeiGiocatori().indexOf(username);
 
-                    // creo un nuovo giocatore stupido e lo sostituisco con un giocatore robot
-                    // stupido
-                    GiocatoreHandler handlerGiocatore = new GiocatoreHandler();
-                    String usernameStupid = "RS-" + username;
-                    AbstractGiocatore giocatoreSostituto = new StupidCPU(usernameStupid);
+                        // creo un nuovo giocatore stupido e lo sostituisco con un giocatore robot
+                        // stupido
+                        GiocatoreHandler handlerGiocatore = new GiocatoreHandler();
+                        String usernameStupid = "RS-" + username;
+                        AbstractGiocatore giocatoreSostituto = new StupidCPU(usernameStupid);
 
-                    partita.getListaDeiGiocatori().set(posizioneVecchioUtente, usernameStupid);
-                    // salvo su file il nuovo giocatore stupido
-                    handlerGiocatore.salva(giocatoreSostituto, usernameStupid);
+                        partita.getListaDeiGiocatori().set(posizioneVecchioUtente, usernameStupid);
+                        // salvo su file il nuovo giocatore stupido
+                        handlerGiocatore.salva(giocatoreSostituto, usernameStupid);
 
-                    // salvo la partita modificata
-                    handlerPartita.salva(partita, codice);
+                        // salvo la partita modificata
+                        handlerPartita.salva(partita, codice);
+                    }
+                    return true;
+                } else {
+                    System.err.println("Errore durante l'eliminazione del giocatore  " + username);
                 }
-                return true;
             } else {
-                System.err.println("Errore durante l'eliminazione del giocatore  " + username);
+                System.err.println("Il giocatore con username " + username + " non esiste o non è un file.");
             }
-        } else {
-            System.err.println("Il giocatore con username " + username + " non esiste o non è un file.");
+        } catch (IOException e) {
+            System.err.println("Errore di I/O durante l'operazione di eliminazione per il giocatore " + username + ": "
+                    + e.getMessage());
+        } catch (NullPointerException e) {
+            System.err.println("Eccezione di puntatore nullo durante l'operazione di eliminazione per il giocatore "
+                    + username + ": " + e.getMessage());
+        } catch (SecurityException e) {
+            System.err.println("Permesso negato per accedere al file: " + e.getMessage());
+        } catch (ClassCastException e) {
+            System.err.println("Errore durante il cast dell'oggetto caricato: " + e.getMessage());
+        } catch (UnsupportedOperationException e) {
+            System.err.println("Operazione non supportata: " + e.getMessage());
+        } catch (IndexOutOfBoundsException e) {
+            System.err.println("Indice fuori dai limiti: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore sconosciuto durante l'operazione di eliminazione per il giocatore " + username
+                    + ": " + e.getMessage());
         }
         return false;
     }
@@ -160,7 +179,7 @@ public class GiocatoreHandler implements Handler {
     }
 
     @Override
-    public void modifica(String oldGiocatore, Object newObject) {
+    public void modifica(String oldGiocatore, Object newObject) throws FileNotFoundException {
         Giocatore newGiocatore = (Giocatore) newObject;
         // Percorso del file JSON dell'oldGiocatore
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + oldGiocatore + ".json";
