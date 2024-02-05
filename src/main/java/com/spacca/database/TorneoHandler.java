@@ -31,25 +31,35 @@ public class TorneoHandler implements Handler {
 
     @Override // passare il codice per esteso
     public boolean salva(Object torneoObject, String codiceTorneo) {
-        Torneo torneo = (Torneo) torneoObject;
-        codiceTorneo = "src/main/resources/com/spacca/database/tornei/" + codiceTorneo + "/" + codiceTorneo + ".json";
+        try {
+            Torneo torneo = (Torneo) torneoObject;
 
-        /* Implementare creazione partite anche? */
+            if (torneoObject == null || codiceTorneo == null) {
+                throw new NullPointerException("L'oggetto torneo o il codice del torneo non possono essere nulli.");
+            }
 
-        try (JsonWriter writer = new JsonWriter(new FileWriter(codiceTorneo))) {
-            Gson gson = new Gson();
-            gson.toJson(torneo, Torneo.class, writer);
-            return true;
-        } catch (JsonIOException e) {
-            System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +
-                    this.getClass().getName() + "\n" + e.getMessage());
-        } catch (FileNotFoundException e) {
-            System.err.println("ERRORE: File non trovato in\n" + "\n" + e.getMessage());
-        } catch (IOException e) {
-            System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +
-                    this.getClass().getName() + "\n" + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("ERRORE: Errore generico nel salvataggio torneo in\n" + "\n" + e.getMessage());
+            codiceTorneo = "src/main/resources/com/spacca/database/tornei/" + codiceTorneo + "/" + codiceTorneo
+                    + ".json";
+
+            /* Implementare creazione partite anche? */
+
+            try (JsonWriter writer = new JsonWriter(new FileWriter(codiceTorneo))) {
+                Gson gson = new Gson();
+                gson.toJson(torneo, Torneo.class, writer);
+                return true;
+            } catch (JsonIOException e) {
+                System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +
+                        this.getClass().getName() + "\n" + e.getMessage());
+            } catch (FileNotFoundException e) {
+                System.err.println("ERRORE: File non trovato in\n" + "\n" + e.getMessage());
+            } catch (IOException e) {
+                System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +
+                        this.getClass().getName() + "\n" + e.getMessage());
+            } catch (Exception e) {
+                System.err.println("ERRORE: Errore generico nel salvataggio torneo in\n" + "\n" + e.getMessage());
+            }
+        } catch (NullPointerException e) {
+            System.err.println("L'oggetto torneo o il codice del torneo sono nulli");
         }
         return false;
     }
@@ -57,8 +67,11 @@ public class TorneoHandler implements Handler {
     @Override
     public Torneo carica(String codice) {
         Torneo torneo = null;
-        String path = "src/main/resources/com/spacca/database/tornei/" + codice + "/" + codice + ".json";
         try {
+            if (codice == null) {
+                throw new NullPointerException("Il codice del torneo non può essere nullo.");
+            }
+            String path = "src/main/resources/com/spacca/database/tornei/" + codice + "/" + codice + ".json";
 
             Reader fileReader = new FileReader(path);
             Gson gson = new Gson();
@@ -86,6 +99,9 @@ public class TorneoHandler implements Handler {
     public boolean elimina(String codice) {
 
         try {
+            if (codice == null) {
+                throw new IllegalArgumentException("Il codice del torneo non può essere nullo.");
+            }
             String path = "src/main/resources/com/spacca/database/tornei/" + codice;
 
             if (VerificaEsistenzaFile(codice)) {
@@ -105,6 +121,8 @@ public class TorneoHandler implements Handler {
                 rmdir(path);
                 return true;
             }
+        } catch (IllegalArgumentException e) {
+            System.err.println("ERRORE (elimina): Il codice del torneo non può essere nullo.");
         } catch (Exception e) {
             System.err.println("ERRORE (elimina): " + e.getMessage());
             e.printStackTrace();
@@ -119,12 +137,19 @@ public class TorneoHandler implements Handler {
     @Override
     public Boolean VerificaEsistenzaFile(String codice) {
         String path = "src/main/resources/com/spacca/database/tornei/" + codice + "/" + codice + ".json";
+        try {
+            if (codice == null) {
+                throw new NullPointerException("Il codice del torneo non può essere nullo.");
+            }
+            File userFile = new File(path);
 
-        File userFile = new File(path);
-
-        // Verifica se il file esiste
-        if (userFile.exists() && userFile.isFile()) {
-            return true;
+            // Verifica se il file esiste
+            if (userFile.exists() && userFile.isFile()) {
+                return true;
+            }
+        } catch (NullPointerException e) {
+            System.err.println("ERRORE: Codice nullo in VerificaEsistenzaFile.");
+            return false; // O gestire diversamente l'eccezione a seconda delle esigenze
         }
         return false;
     }
@@ -155,13 +180,22 @@ public class TorneoHandler implements Handler {
 
     public List<String> mostraTuttiITornei() {
         String path = "src/main/resources/com/spacca/database/tornei/";
-        File dir = new File(path);
-        String[] files = dir.list();
         List<String> listaTornei = new ArrayList<>();
-        for (String file : files) {
-            if (file.startsWith("T")) {
-                listaTornei.add(file);
+        try {
+            File dir = new File(path);
+            String[] files = dir.list();
+
+            for (String file : files) {
+                if (file.startsWith("T")) {
+                    listaTornei.add(file);
+                }
             }
+        } catch (NullPointerException e) {
+            System.err.println("Errore: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.err.println("Argomento non valido: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore generico: " + e.getMessage());
         }
         return listaTornei;
     }
