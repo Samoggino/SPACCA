@@ -11,6 +11,9 @@ import com.spacca.asset.utente.giocatore.SmartCPU;
 import com.spacca.asset.utente.giocatore.StupidCPU;
 import com.spacca.database.GiocatoreHandler;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
@@ -27,6 +30,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
+import javafx.util.Duration;
 
 public class TavoloController {
 
@@ -88,7 +92,6 @@ public class TavoloController {
                     default:
                         break;
                 }
-            System.out.println("preventLoop: " + preventLoop);
         } catch (Exception e) {
             System.err.println("ERRORE (checkCPU):\t\t " + e.getMessage());
             e.printStackTrace();
@@ -96,35 +99,56 @@ public class TavoloController {
     }
 
     void buildView() {
-        giocatoreCorrente = new GiocatoreHandler().carica(partita.getGiocatoreCorrente());
-        userCorrente = giocatoreCorrente.getUsername();
 
-        overlay.setVisible(false);
-        try {
-            if (partita.giocatoriNonHannoCarteInMano()) {
-                partita.nuovoTurno();
+        if (!partita.hasWinner()) {
+
+            giocatoreCorrente = new GiocatoreHandler().carica(partita.getGiocatoreCorrente());
+            userCorrente = giocatoreCorrente.getUsername();
+
+            overlay.setVisible(false);
+            try {
+                if (partita.giocatoriNonHannoCarteInMano()) {
+                    partita.nuovoTurno();
+                }
+
+                if (partita.getCarteSulTavolo().size() == 40) {
+                    partita.getVincitore();
+                    attesaEventoHandler();
+                    System.out.println("Partita finita");
+                    return;
+                } else {
+                    checkCPU();
+                }
+
+                buildGiocatore();
+                buildMano();
+                buildTavolo();
+                buildClassifica();
+
+                buildOverlay();
+
+            } catch (Exception e) {
+                System.err.println("ERRORE (buildView):\t\t " + e.getMessage());
+                e.printStackTrace();
             }
-
-            if (partita.getCarteSulTavolo().size() == 40) {
-                partita.fine();
-                System.out.println("Partita finita");
-                return;
-            } else {
-                checkCPU();
-            }
-
-            buildGiocatore();
-            buildMano();
-            buildTavolo();
-            buildClassifica();
-
-            buildOverlay();
-
-        } catch (Exception e) {
-            System.err.println("ERRORE (buildView):\t\t " + e.getMessage());
-            e.printStackTrace();
         }
 
+    }
+
+    void attesaEventoHandler() {
+        System.out.println("Attendo evento ma fuori");
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+            // Questo è l'evento che viene eseguito dopo 5 secondi
+            // Non esegue nulla qui, solo perde del tempo
+            System.out.println("Attendo evento");
+        }));
+
+        // Impostazione del ciclo dell'animazione a INDEFINITE per far sì che l'evento
+        // si ripeta all'infinito
+        timeline.setCycleCount(Animation.INDEFINITE);
+
+        // Avvio dell'animazione
+        timeline.play();
     }
 
     void buildMano() {
@@ -259,7 +283,6 @@ public class TavoloController {
                 }
                 preventLoop = 100;
 
-                // partita.fine
             }
 
         } catch (Exception e) {

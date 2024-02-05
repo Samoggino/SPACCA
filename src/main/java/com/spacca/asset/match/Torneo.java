@@ -1,13 +1,19 @@
 package com.spacca.asset.match;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
+import com.spacca.App;
 import com.spacca.asset.utente.Amministratore;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.controller.TavoloController;
 import com.spacca.database.GiocatoreHandler;
 import com.spacca.database.PartitaHandler;
 import com.spacca.database.TorneoHandler;
+
+import javafx.fxml.FXMLLoader;
 
 public class Torneo extends Object {
 
@@ -26,7 +32,7 @@ public class Torneo extends Object {
         this.codice = codice;
 
         // i partecipanti devono essere fare parte della curva esponenziale 2^n
-        // quindi 2, 4, 8, 16...        
+        // quindi 2, 4, 8, 16...
 
         this.partecipanti = partecipanti;
 
@@ -43,6 +49,9 @@ public class Torneo extends Object {
     }
 
     public List<Partita> getPartite() {
+        if (this.partite == null) {
+            this.partite = new ArrayList<>();
+        }
         if (getCodiciPartite().size() > 0) {
             for (String codicePartita : getCodiciPartite()) {
                 this.partite.add(new PartitaHandler().carica(codicePartita));
@@ -133,50 +142,105 @@ public class Torneo extends Object {
         salvaToreno();
     }
 
+    public Partita getPartitaDelGiocatore(String username) {
+
+        for (Partita partita : getPartite()) {
+            if (partita.getListaDeiGiocatori().contains(username)) {
+                return partita;
+            }
+        }
+        return null;
+    }
+
+    public Partita getPartitaDelGiocatore(AbstractGiocatore giocatore) {
+        return getPartitaDelGiocatore(giocatore.getUsername());
+    }
+
     public Torneo nuovoTurnoDelTorneo() {
         // un nuovo turno del torneo consiste nel calcolare i vincitori di ogni partita
         // e metterli in una lista,
         // e cancellare i perdenti dalla lista dei partecipanti e le vecchie partite.
 
-        // poi si creano nuove partite con i vincitori e si aggiungono al torneo
-        // e si salva il torneo
+        try {
 
-        // poi si restituisce il torneo
+            // poi si creano nuove partite con i vincitori e si aggiungono al torneo
+            // e si salva il torneo
 
-        // se non posso passare al turno successivo, restituisco il torneo stesso
-        if (!possoPassareAlTurnoSuccessivo()) {
-            return this;
-        }
-        if (this.partecipanti.size() == 1) {
-            System.out.println("Il vincitore del torneo è: " + partecipanti);
-            return this;
-        }
+            // poi si restituisce il torneo
 
-        // altrimenti calcolo i vincitori e creo nuove partite
-        List<String> vincitori = new ArrayList<>();
+            // se non posso passare al turno successivo, restituisco il torneo stesso
 
-        for (String codicePartita : this.codiciPartite) {
-            Partita partita = new PartitaHandler().carica(codicePartita);
-            vincitori.add(partita.getVincitore());
-            new PartitaHandler().elimina(partita.getCodice());
-        }
+            if (!possoPassareAlTurnoSuccessivo()) {
+                return this;
+            }
 
-        for (String username : this.partecipanti) {
-            new GiocatoreHandler().carica(username).removeCodiceTorneo(this.codice);
-        }
+            if (this.partecipanti.size() == 1) {
+                System.out.println("Il vincitore del torneo è: " + partecipanti);
+                return this;
+            }
 
-        this.partecipanti = vincitori;
+            // altrimenti calcolo i vincitori e creo nuove partite
+            List<String> vincitori = new ArrayList<>();
 
-        this.codiciPartite = new ArrayList<>();
+            for (String codicePartita : this.codiciPartite) {
+                Partita partita = new PartitaHandler().carica(codicePartita);
+                vincitori.add(partita.getVincitore());
+                new PartitaHandler().elimina(partita.getCodice());
+            }
 
-        if (vincitori.size() > 1) {
-            System.out.println("Passano al turno successivo: " + vincitori);
-            CreatoreDiTorneo.strutturaTorneo(codice, vincitori, this, new Amministratore());
+            for (String username : this.partecipanti) {
+                new GiocatoreHandler().carica(username).removeCodiceTorneo(this.codice);
+            }
+
+            this.partecipanti = vincitori;
+
+            this.codiciPartite = new ArrayList<>();
+
+            if (vincitori.size() > 1) {
+                System.out.println("Passano al turno successivo: " + vincitori);
+                CreatoreDiTorneo.strutturaTorneo(codice, vincitori, this, new Amministratore());
+            }
+        } catch (Exception e) {
+            System.err.println("Errore nel nuovo turno del torneo: " + e.getMessage());
+            e.printStackTrace();
         }
 
         // creo nuove partite
         return salvaToreno();
 
+    }
+
+    public void simulaPartiteCPU() {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
+
+            loader.load();
+
+            TavoloController tavolo = loader.getController();
+            loader.setController(tavolo);
+
+            for (String codicePartita : getCodiciPartite()) {
+                System.out.println("Carico la partita: " + codicePartita);
+                Partita partita = new PartitaHandler().carica(codicePartita);
+                boolean containsRealPlayer = false;
+                for (String username : partita.getListaDeiGiocatori()) {
+                    if (!new GiocatoreHandler().carica(username).isCPU()) {
+                        containsRealPlayer = true;
+                        break;
+                    }
+                }
+
+                if (!containsRealPlayer) {
+                    System.out.println("Simulo la partita: " + codicePartita);
+                    if (!partita.hasWinner()) {
+                        tavolo.initController(partita, true);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Errore nella simulazione delle partite: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public String stampa() {
