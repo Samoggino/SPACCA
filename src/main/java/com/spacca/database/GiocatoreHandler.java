@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonWriter;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
@@ -149,8 +150,6 @@ public class GiocatoreHandler implements Handler {
         } catch (NullPointerException e) {
             System.err.println("Eccezione di puntatore nullo durante l'operazione di eliminazione per il giocatore "
                     + username + ": " + e.getMessage());
-        } catch (SecurityException e) {
-            System.err.println("Permesso negato per accedere al file: " + e.getMessage());
         } catch (ClassCastException e) {
             System.err.println("Errore durante il cast dell'oggetto caricato: " + e.getMessage());
         } catch (UnsupportedOperationException e) {
@@ -167,29 +166,43 @@ public class GiocatoreHandler implements Handler {
     @Override
     public Boolean VerificaEsistenzaFile(String username) {
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
+        try {
+            File userFile = new File(path);
 
-        File userFile = new File(path);
+            // Verifica se il file esiste
+            if (userFile.exists() && userFile.isFile()) {
+                return true;
+            } else {
+                return false;
+            }
 
-        // Verifica se il file esiste
-        if (userFile.exists() && userFile.isFile()) {
-            return true;
-        } else {
-            return false;
+        } catch (NullPointerException e) {
+            System.err
+                    .println("Eccezione durante l'operazione di ottenimento del percorso della cartella delle risorse: "
+                            + e.getMessage());
+        } catch (Exception e) {
+            // Gestione di altre eccezioni non previste
+            System.err.println(
+                    "Errore generico durante l'operazione di ottenimento dei nomi dei file: " + e.getMessage());
+            e.printStackTrace();
         }
+        return false;
     }
 
     @Override
     public void modifica(String oldGiocatore, Object newObject) throws FileNotFoundException {
         Giocatore newGiocatore = (Giocatore) newObject;
         // Percorso del file JSON dell'oldGiocatore
-        String path = "src/main/resources/com/spacca/database/giocatori/user-" + oldGiocatore + ".json";
+        try {
 
-        // se è stato modificato lo username creo il nuovo file ed elimino il vecchio
-        if (!oldGiocatore.equals(newGiocatore.getUsername())) {
-            salva(newGiocatore, newGiocatore.getUsername());
-            elimina(oldGiocatore);
-        } else { // se non è stato modificato lo username ricarico il file
-            try {
+            String path = "src/main/resources/com/spacca/database/giocatori/user-" + oldGiocatore + ".json";
+
+            // se è stato modificato lo username creo il nuovo file ed elimino il vecchio
+            if (!oldGiocatore.equals(newGiocatore.getUsername())) {
+                salva(newGiocatore, newGiocatore.getUsername());
+                elimina(oldGiocatore);
+            } else { // se non è stato modificato lo username ricarico il file
+
                 Path playerFilePath = Paths.get(path);
                 // Leggi il contenuto del file JSON e deserializza in un oggetto Giocatore
                 Gson gson = new Gson();
@@ -197,13 +210,21 @@ public class GiocatoreHandler implements Handler {
                 // Sovrascrivi il contenuto del file JSON con il nuovo JSON
                 String updatedJsonContent = gson.toJson(newGiocatore);
                 Files.write(playerFilePath, updatedJsonContent.getBytes());
-            } catch (IOException e) {
-                System.err.println("File non trovato " + e);
-            } catch (Exception e) {
-                System.err.println("Eccezione nella modifica del giocatore handler " + e);
-                e.printStackTrace();
 
             }
+        } catch (NullPointerException | ClassCastException e) {
+            System.err.println("Eccezione durante l'operazione di modifica del giocatore: " + e.getMessage());
+        } catch (IOException e) {
+            System.err
+                    .println("Eccezione di I/O durante l'operazione di modifica del giocatore: " + e.getMessage());
+        } catch (JsonSyntaxException e) {
+            System.err.println("Eccezione durante la deserializzazione del file JSON: " + e.getMessage());
+        } catch (IllegalStateException e) {
+            System.err.println("Eccezione di stato illegale durante l'operazione di modifica del giocatore: "
+                    + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore generico durante l'operazione di modifica del giocatore: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -227,9 +248,16 @@ public class GiocatoreHandler implements Handler {
                     .map(fileName -> fileName.replace("user-", "").replace(".json", ""))
                     .collect(Collectors.toList());
 
+        } catch (NullPointerException e) {
+            System.err
+                    .println("Eccezione durante l'operazione di ottenimento del percorso della cartella delle risorse: "
+                            + e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(
+                    "Eccezione di I/O durante l'operazione di lettura della cartella delle risorse: " + e.getMessage());
         } catch (Exception e) {
+            System.err.println(
+                    "Errore generico durante l'operazione di ottenimento dei nomi dei file: " + e.getMessage());
             e.printStackTrace();
         }
         return modifiedFileNames;

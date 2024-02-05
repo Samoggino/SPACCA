@@ -197,10 +197,8 @@ public class PartitaHandler implements Handler {
             // salva(partita, codice);
 
         } catch (NullPointerException | IndexOutOfBoundsException | IllegalArgumentException e) {
-            // Gestione delle eccezioni
             System.err.println("Eccezione durante l'operazione di creazione della partita: " + e.getMessage());
         } catch (Exception e) {
-            // Gestione di altre eccezioni non previste
             System.err.println("Errore generico durante l'operazione di creazione della partita: " + e.getMessage());
             e.printStackTrace();
         }
@@ -269,17 +267,13 @@ public class PartitaHandler implements Handler {
                 }
             }
         } catch (NullPointerException | ClassCastException e) {
-            // Gestione delle eccezioni
             System.err.println("Eccezione durante l'operazione di modifica della partita: " + e.getMessage());
         } catch (JsonSyntaxException e) {
-            // Gestione delle eccezioni specifiche
             System.err.println("Eccezione durante la deserializzazione del file JSON: " + e.getMessage());
         } catch (IllegalStateException e) {
-            // Gestione delle eccezioni specifiche
             System.err.println(
                     "Eccezione di stato illegale durante l'operazione di modifica della partita: " + e.getMessage());
         } catch (Exception e) {
-            // Gestione di altre eccezioni non previste
             System.err.println("Errore generico durante l'operazione di modifica della partita: " + e.getMessage());
             e.printStackTrace();
         }
