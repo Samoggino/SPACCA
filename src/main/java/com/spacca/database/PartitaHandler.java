@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonWriter;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
@@ -35,12 +36,17 @@ public class PartitaHandler implements Handler {
 
         String path = "src/main/resources/com/spacca/database/partite/" + codicePartita + ".json";
 
-        if (!codicePartita.startsWith("P")) {
-            path = "src/main/resources/com/spacca/database/" + codicePartita + ".json";
-            // dopo aver sistemato il path, devo sistemare il codicePartita, ovvero
-            // dev'essere
-            // presa solo la parte che è compresa tra l'ultimo / e il .json
-            codicePartita = codicePartita.substring(codicePartita.lastIndexOf("P"));
+        try {
+            if (!codicePartita.startsWith("P")) {
+                path = "src/main/resources/com/spacca/database/" + codicePartita + ".json";
+                // dopo aver sistemato il path, devo sistemare il codicePartita, ovvero
+                // dev'essere
+                // presa solo la parte che è compresa tra l'ultimo / e il .json
+                codicePartita = codicePartita.substring(codicePartita.lastIndexOf("P"));
+            }
+        } catch (StringIndexOutOfBoundsException | NullPointerException | IllegalArgumentException e) {
+            // Gestione delle eccezioni
+            System.err.println("Eccezione durante l'elaborazione del codicePartita: " + e.getMessage());
         }
         try (JsonWriter writer = new JsonWriter(new FileWriter(path))) {
 
@@ -162,7 +168,7 @@ public class PartitaHandler implements Handler {
         elimina(path);
     }
 
-    public Partita creaPartita(String codice, List<AbstractGiocatore> giocatori) {
+    public Partita creaPartita(String codice, List<AbstractGiocatore> giocatori) throws IOException {
         Partita partita = null;
 
         try {
@@ -190,9 +196,12 @@ public class PartitaHandler implements Handler {
 
             // salva(partita, codice);
 
+        } catch (NullPointerException | IndexOutOfBoundsException | IllegalArgumentException e) {
+            // Gestione delle eccezioni
+            System.err.println("Eccezione durante l'operazione di creazione della partita: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println(
-                    "ERRORE (in PartitaHandler:creaPartita) durante la creazione della partita " + e.getMessage());
+            // Gestione di altre eccezioni non previste
+            System.err.println("Errore generico durante l'operazione di creazione della partita: " + e.getMessage());
             e.printStackTrace();
         }
         return partita;
@@ -230,33 +239,49 @@ public class PartitaHandler implements Handler {
     @Override
     public void modifica(String oldPartita, Object partita) {
         // Percorso del file JSON dell'oldGiocatore
-        String path = "src/main/resources/com/spacca/database/partite/" + oldPartita + ".json";
+        try {
+            String path = "src/main/resources/com/spacca/database/partite/" + oldPartita + ".json";
 
-        Partita newPartita = (Partita) partita;
+            Partita newPartita = (Partita) partita;
 
-        // Partita vecchiaPartita = carica(oldPartita);
+            // Partita vecchiaPartita = carica(oldPartita);
 
-        // se è stato modificato lo username creo il nuovo file ed elimino il vecchio
-        if (!oldPartita.equals(newPartita.getCodice())) {
-            salva(newPartita, newPartita.getCodice());
-            elimina(oldPartita);
-        } else { // se non è stato modificato lo username ricarico il file
-            try {
-                Path playerFilePath = Paths.get(path);
-                // Leggi il contenuto del file JSON e deserializza in un oggetto Giocatore
-                Gson gson = new Gson();
+            // se è stato modificato lo username creo il nuovo file ed elimino il vecchio
+            if (!oldPartita.equals(newPartita.getCodice())) {
+                salva(newPartita, newPartita.getCodice());
+                elimina(oldPartita);
+            } else { // se non è stato modificato lo username ricarico il file
+                try {
+                    Path playerFilePath = Paths.get(path);
+                    // Leggi il contenuto del file JSON e deserializza in un oggetto Giocatore
+                    Gson gson = new Gson();
 
-                // Sovrascrivi il contenuto del file JSON con il nuovo JSON
-                String updatedJsonContent = gson.toJson(newPartita);
-                Files.write(playerFilePath, updatedJsonContent.getBytes());
+                    // Sovrascrivi il contenuto del file JSON con il nuovo JSON
+                    String updatedJsonContent = gson.toJson(newPartita);
+                    Files.write(playerFilePath, updatedJsonContent.getBytes());
 
-            } catch (IOException e) {
-                System.err.println("File non trovato " + e.getMessage());
-            } catch (Exception e) {
-                System.err.println("Eccezione nella modifica del giocatore handler " + e);
-                e.printStackTrace();
+                } catch (IOException e) {
+                    System.err.println("File non trovato " + e.getMessage());
+                } catch (Exception e) {
+                    System.err.println("Eccezione nella modifica del giocatore handler " + e);
+                    e.printStackTrace();
 
+                }
             }
+        } catch (NullPointerException | ClassCastException e) {
+            // Gestione delle eccezioni
+            System.err.println("Eccezione durante l'operazione di modifica della partita: " + e.getMessage());
+        } catch (JsonSyntaxException e) {
+            // Gestione delle eccezioni specifiche
+            System.err.println("Eccezione durante la deserializzazione del file JSON: " + e.getMessage());
+        } catch (IllegalStateException e) {
+            // Gestione delle eccezioni specifiche
+            System.err.println(
+                    "Eccezione di stato illegale durante l'operazione di modifica della partita: " + e.getMessage());
+        } catch (Exception e) {
+            // Gestione di altre eccezioni non previste
+            System.err.println("Errore generico durante l'operazione di modifica della partita: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
