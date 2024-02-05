@@ -10,9 +10,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.stream.JsonWriter;
@@ -109,33 +109,50 @@ public class PartitaHandler implements Handler {
         String path = "src/main/resources/com/spacca/database/partite/" + codice + ".json";
 
         Partita partita = null;
-        partita = this.carica(codice);
 
-        if (!codice.startsWith("P")) {
-            path = "src/main/resources/com/spacca/database/" + codice + ".json";
-            // dopo aver sistemato il path, devo sistemare il codice, ovvero dev'essere
-            // presa solo la parte che è compresa tra l'ultimo / e il .json
+        try {
             partita = this.carica(codice);
-        }
-
-        // controllo che il codice cominci per P, altrimenti quello non è un codice
-        // partita ma un path di una partita di un torneo
-
-        File file = new File(path);
-        List<String> listaDeiGiocatori = partita.getListaDeiGiocatori();
-
-        if (VerificaEsistenzaFile(codice)) {
-            if (file.delete()) {
-
-                for (String username : listaDeiGiocatori) {
-                    new GiocatoreHandler().carica(username).removeCodicePartita(codice);
-                }
-                return true;
-            } else {
-                System.err.println("Errore durante l'eliminazione del giocatore con codice " + codice);
+            if (!codice.startsWith("P")) {
+                path = "src/main/resources/com/spacca/database/" + codice + ".json";
+                // dopo aver sistemato il path, devo sistemare il codice, ovvero dev'essere
+                // presa solo la parte che è compresa tra l'ultimo / e il .json
+                partita = this.carica(codice);
             }
-        } else {
-            System.err.println("La partita con codice " + codice + " non esiste o non è un file.");
+
+            // controllo che il codice cominci per P, altrimenti quello non è un codice
+            // partita ma un path di una partita di un torneo
+
+            File file = new File(path);
+            List<String> listaDeiGiocatori = partita.getListaDeiGiocatori();
+
+            if (VerificaEsistenzaFile(codice)) {
+                if (file.delete()) {
+
+                    for (String username : listaDeiGiocatori) {
+                        GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
+                        try {
+                            giocatoreHandler.carica(username).removeCodicePartita(codice);
+                        } catch (NullPointerException e) {
+                            System.err.println("Giocatore non trovato" + username);
+                        }
+
+                    }
+                    return true;
+                } else {
+                    System.err.println("Errore durante l'eliminazione del giocatore con codice " + codice);
+                }
+            } else {
+                System.err.println("La partita con codice " + codice + " non esiste o non è un file.");
+            }
+        } catch (NullPointerException e) {
+            System.err.println("Elemento null " + e.getMessage());
+            e.printStackTrace();
+        } catch (ConcurrentModificationException e) {
+            System.err.println("Problema con il prefisso della partita perchè file non trovato" + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Eccezione in partita handler " + e.getMessage());
+            e.printStackTrace();
         }
         return false;
     }
@@ -201,6 +218,8 @@ public class PartitaHandler implements Handler {
                 return true;
             }
 
+        } catch (IndexOutOfBoundsException e) {
+            System.err.println("Il prefisso non è stato trovato");
         } catch (Exception e) {
             System.err.println("ERRORE (VerificaEsistenzaFile): " + e.getMessage());
             e.printStackTrace();

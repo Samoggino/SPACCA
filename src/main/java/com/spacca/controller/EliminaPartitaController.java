@@ -94,7 +94,16 @@ public class EliminaPartitaController implements Initializable {
             System.out.println("Parita selezionata " + nomeFilePartitaScelto);
 
             System.out.print("nomeFilePartitaScelto" + nomeFilePartitaScelto);
-            admin.eliminaPartita(nomeFilePartitaScelto);
+            try {
+                admin.eliminaPartita(nomeFilePartitaScelto);
+            } catch (NullPointerException e) {
+                // Gestione specifica per la NullPointerException
+                System.err.println("NullPointerException: " + e.getMessage());
+                e.printStackTrace();
+            } catch (Exception e) {
+                System.err.println("Exception: " + e.getMessage());
+                e.printStackTrace();
+            }
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("");
