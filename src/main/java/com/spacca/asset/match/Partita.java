@@ -201,6 +201,7 @@ public class Partita extends Object {
 
             getCarteSulTavolo().getCarteNelMazzo().clear();
 
+            getVincitore();
         }
         salvaPartita();
     }

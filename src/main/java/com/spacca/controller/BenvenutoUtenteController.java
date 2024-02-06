@@ -18,7 +18,7 @@ public class BenvenutoUtenteController {
 
     List<AbstractGiocatore> giocatoriDellaPartita = new ArrayList<>(); // Inizializzazione della lista
     AbstractGiocatore giocatoreCorrente;
-    PartitaController partitaController;
+    TavoloController partitaController;
 
     @FXML
     private Button gioca;
