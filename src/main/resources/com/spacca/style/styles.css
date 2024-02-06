@@ -1,22 +1,22 @@
 /* styles.css */
 .root {
     -fx-background-color: #696969;
-    background-color: #696969; /* vendor prefix per background-color */
+    background-color: #696969; 
 }
 
 #tavolo {
-    -fx-background-color: lightgreen;
-    background-color: lightgreen; /* vendor prefix per background-color */
+    -fx-background-color: yellow;
+    background-color: yellow; 
 }
 
 .text-flow {
     -fx-background-color: green;
-    background-color: green; /* vendor prefix per background-color */
+    background-color: green;
 }
 
 .player-pane {
     -fx-background-color: lightgray;
-    background-color: lightgray; /* vendor prefix per background-color */
+    background-color: lightgray; 
 }
 
 .text-style {
