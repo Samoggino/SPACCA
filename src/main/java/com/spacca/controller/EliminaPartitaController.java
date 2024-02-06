@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 import com.spacca.App;
 import com.spacca.asset.utente.Amministratore;
@@ -43,13 +42,13 @@ public class EliminaPartitaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            PartitaHandler partitaHandler = new PartitaHandler();
             // Ottieni la lista dei nomi dei file JSON presenti nella cartella
-            List<String> fileNames = partitaHandler.getAllPartite()
-                    .stream()
-                    .map(fileName -> fileName.replace(".json", ""))
-                    .collect(Collectors.toList());
+            // List<String> fileNames = new PartitaHandler().getAllPartite()
+            // .stream()
+            // .map(fileName -> fileName.replace(".json", ""))
+            // .collect(Collectors.toList());
 
+            List<String> fileNames = new PartitaHandler().mostraTutteLePartite();
             // Popola il ComboBox con la lista dei nomi dei file
             listaUtenti.getItems().addAll(fileNames);
 

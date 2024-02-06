@@ -28,7 +28,7 @@ public class App extends Application {
 
             // Amministratore admin = new Amministratore();
             // AbstractGiocatore yoshi = admin.caricaUtente("yoshi");
-            // AbstractGiocatore koopa = admin.caricaUtente("koopa");
+            // AbstractGiocatore koopa = admin.caricaUtente("koopa")    ;
 
             // List<String> listaGiocatori = new ArrayList<>();
             // listaGiocatori.add(yoshi.getUsername());

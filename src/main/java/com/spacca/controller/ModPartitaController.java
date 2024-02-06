@@ -11,6 +11,7 @@ import com.spacca.App;
 import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
+import com.spacca.database.GiocatoreHandler;
 import com.spacca.database.PartitaHandler;
 
 import javafx.fxml.FXML;
@@ -149,6 +150,9 @@ public class ModPartitaController implements Initializable {
 
             // Imposta la nuova scena sulla finestra di scena corrente
             currentStage.setScene(new Scene(root));
+
+            listaCodici.getItems().clear();
+
             currentStage.show();
         } catch (IOException e) {
             System.err.println("Errore durante il caricamento del file FXML: " + e.getMessage());
@@ -193,6 +197,8 @@ public class ModPartitaController implements Initializable {
 
             currentStage.setTitle(titolo);
             currentStage.setScene(new Scene(root));
+
+            listaCodici.getItems().clear();
             currentStage.show();
         } catch (NullPointerException e) {
             System.out.println("mmod partita non trovato !");
@@ -237,7 +243,8 @@ public class ModPartitaController implements Initializable {
     private void popolaListaTorneo() throws IOException {
         try {
             // devo filtrare togliendo le partite non del torneo
-            List<String> listaPartite = giocatoreCorrente.getListaCodiciTornei();
+            List<String> listaPartite = new GiocatoreHandler().carica(giocatoreCorrente.getUsername())
+                    .getListaCodiciTornei();
             listaCodici.getItems().addAll(listaPartite);
 
         } catch (NullPointerException e) {
@@ -257,7 +264,9 @@ public class ModPartitaController implements Initializable {
         try {
             // devo filtrare togliendo le partite del torneo
             List<String> listaPartite = new ArrayList<>();
-            for (String partita : giocatoreCorrente.getListaCodiciPartite()) {
+            for (String partita : new GiocatoreHandler()
+                    .carica(giocatoreCorrente.getUsername())
+                    .getListaCodiciPartite()) {
                 if (!partita.contains("tornei/")) {
                     listaPartite.add(partita);
                 }
