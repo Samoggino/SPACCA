@@ -1,5 +1,6 @@
 package com.spacca.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import com.spacca.App;
@@ -57,7 +58,7 @@ public class ModificaUtenteController {
     transient private GiocatoreHandler handler = new GiocatoreHandler();
 
     @FXML
-    private void procediModifica() {
+    private void procediModifica() throws FileNotFoundException {
 
         System.out.println("\n PROCEDI MODIFICA \n ");
         System.out.println("Utente corrente " + giocatoreScelto);

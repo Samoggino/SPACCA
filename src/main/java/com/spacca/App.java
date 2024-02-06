@@ -50,14 +50,15 @@ public class App extends Application {
             // Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
             // scene = new Scene(loadFXML("login"), 600, 500);
 
-            // Amministratore admin = new Amministratore();
-            // AbstractGiocatore koopa, peach, toad, yoshi,
+            //  Amministratore admin = new Amministratore();
+            //  AbstractGiocatore koopa;
+            //  , peach, toad, yoshi,
             // bowser, mario, luigi, wario,
             // donkeyKong, daisy, boo, birdo,
             // dryBones, hammerBro, blooper, diddyKong, rosalina, larry, wendy, ludwig,
             // iggy, morton, lemmy;
 
-            // koopa = admin.creaGiocatore("koopa", "StupidCPU");
+            //  koopa = admin.creaGiocatore("koopa", "Giocatore");
             // peach = admin.creaGiocatore("peach", "StupidCPU");
             // toad = admin.creaGiocatore("toad", "StupidCPU");
             // yoshi = admin.creaGiocatore("yoshi", "StupidCPU");
@@ -82,20 +83,20 @@ public class App extends Application {
             // listaGiocatori.add(toad.getUsername());
             // listaGiocatori.add(bowser.getUsername());
             // listaGiocatori.add(mario.getUsername());
-            // listaGiocatori.add(luigi.getUsername());
-            // listaGiocatori.add(wario.getUsername());
-            // listaGiocatori.add(donkeyKong.getUsername());
-            // listaGiocatori.add(daisy.getUsername());
-            // listaGiocatori.add(boo.getUsername());
-            // listaGiocatori.add(birdo.getUsername());
-            // listaGiocatori.add(dryBones.getUsername());
-            // listaGiocatori.add(hammerBro.getUsername());
-            // listaGiocatori.add(blooper.getUsername());
-            // listaGiocatori.add(diddyKong.getUsername());
-            // listaGiocatori.add(rosalina.getUsername());
+            // // listaGiocatori.add(luigi.getUsername());
+            // // listaGiocatori.add(wario.getUsername());
+            // // listaGiocatori.add(donkeyKong.getUsername());
+            // // listaGiocatori.add(daisy.getUsername());
+            // // listaGiocatori.add(boo.getUsername());
+            // // listaGiocatori.add(birdo.getUsername());
+            // // listaGiocatori.add(dryBones.getUsername());
+            // // listaGiocatori.add(hammerBro.getUsername());
+            // // listaGiocatori.add(blooper.getUsername());
+            // // listaGiocatori.add(diddyKong.getUsername());
+            // // listaGiocatori.add(rosalina.getUsername());
 
-            // Torneo torneo = admin.creaTorneo(listaGiocatori);
-            // Torneo torneo = admin.caricaTorneo("T" + "4734").nuovoTurnoDelTorneo();
+            // // Torneo torneo = admin.creaTorneo(listaGiocatori);
+            // Torneo torneo = admin.caricaTorneo("T" + "7413").nuovoTurnoDelTorneo();
 
             // torneo.aggiornaLeaderboard();
             // System.out.println(torneo.getLeaderboard());
@@ -103,7 +104,9 @@ public class App extends Application {
             // torneo.simulaPartiteCPU();
 
             // Partita partita = torneo.getPartitaDelGiocatore(yoshi);
-            // // admin.caricaPartita(torneo.getCodiciPartite().get(0));
+            // if (torneo.getCodiciPartite().size() > 0) {
+            // admin.caricaPartita(torneo.getCodiciPartite().get(0));
+            // }
 
             // FXMLLoader loader = new
             // FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
@@ -113,14 +116,15 @@ public class App extends Application {
             // if (partita != null) {
             // tavolo.initController(partita, true);
             // stage.setTitle(partita.getCodice());
-            // stage.getIcons().add(icon);
+            // // stage.getIcons().add(icon);
             // stage.setScene(new Scene(root));
             // if (!yoshi.isCPU()) {
             // stage.show();
             // }
             // }
 
-            // System.out.println("Partecipanti al torneo:\n" + torneo.getPartecipanti());
+            // // System.out.println("Partecipanti al torneo:\n" +
+            // torneo.getPartecipanti());
 
         } catch (IOException e) {
             System.err.println("ERRORE (app IO exception):\t\t " + e.getMessage());

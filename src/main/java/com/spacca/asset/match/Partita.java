@@ -1,5 +1,6 @@
 package com.spacca.asset.match;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -111,7 +112,7 @@ public class Partita extends Object {
         }
     }
 
-    public void fine() {
+    public void fine() throws FileNotFoundException {
         this.handlerPartita.elimina(this.codice);
     }
 

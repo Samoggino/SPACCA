@@ -267,4 +267,8 @@ public class Torneo extends Object {
         return stampa();
     }
 
+    public List<String> getPartecipanti() {
+        return this.partecipanti;
+    }
+
 }
