@@ -148,7 +148,7 @@ public class Amministratore extends AbstractGiocatore {
 
     public Torneo creaTorneo(String codiceTorneo, List<String> partecipanti) {
 
-        Torneo torneo = new Torneo(codiceTorneo, partecipanti);
+        Torneo torneo = new Torneo(codiceTorneo, CreatoreDiTorneo.controllaNumeroGiocatori(partecipanti));
 
         for (String username : partecipanti) {
             new GiocatoreHandler().carica(username).addCodiceTorneo(codiceTorneo);
