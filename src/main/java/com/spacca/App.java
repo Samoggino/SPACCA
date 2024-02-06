@@ -1,20 +1,11 @@
 package com.spacca;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.spacca.asset.match.Partita;
-import com.spacca.asset.match.Torneo;
-import com.spacca.asset.utente.Amministratore;
-import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.controller.TavoloController;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -27,20 +18,27 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
 
         try {
-            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
+
             scene = new Scene(loadFXML("login"), 600, 500);
+            stage.setTitle("login");
+            stage.setScene(scene);
+            stage.show();
 
-            Amministratore admin = new Amministratore();
-            AbstractGiocatore koopa, peach, toad, yoshi,
-                    bowser, mario, luigi, wario,
-                    donkeyKong, daisy, boo, birdo,
-                    dryBones, hammerBro, blooper, diddyKong, rosalina, larry, wendy, ludwig,
-                    iggy, morton, lemmy;
+            // Image icon = new
+            // Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
+            // scene = new Scene(loadFXML("login"), 600, 500);
 
-            koopa = admin.creaGiocatore("koopa", "StupidCPU");
-            peach = admin.creaGiocatore("peach", "StupidCPU");
-            toad = admin.creaGiocatore("toad", "StupidCPU");
-            yoshi = admin.creaGiocatore("yoshi", "StupidCPU");
+            // Amministratore admin = new Amministratore();
+            // AbstractGiocatore koopa, peach, toad, yoshi,
+            // bowser, mario, luigi, wario,
+            // donkeyKong, daisy, boo, birdo,
+            // dryBones, hammerBro, blooper, diddyKong, rosalina, larry, wendy, ludwig,
+            // iggy, morton, lemmy;
+
+            // koopa = admin.creaGiocatore("koopa", "StupidCPU");
+            // peach = admin.creaGiocatore("peach", "StupidCPU");
+            // toad = admin.creaGiocatore("toad", "StupidCPU");
+            // yoshi = admin.creaGiocatore("yoshi", "StupidCPU");
             // bowser = admin.creaGiocatore("bowser", "StupidCPU");
             // mario = admin.creaGiocatore("mario", "StupidCPU");
             // luigi = admin.creaGiocatore("luigi", "StupidCPU");
@@ -55,11 +53,11 @@ public class App extends Application {
             // diddyKong = admin.creaGiocatore("diddyKong", "StupidCPU");
             // rosalina = admin.creaGiocatore("rosalina", "StupidCPU");
 
-            List<String> listaGiocatori = new ArrayList<>();
-            listaGiocatori.add(koopa.getUsername());
-            listaGiocatori.add(peach.getUsername());
-            listaGiocatori.add(yoshi.getUsername());
-            listaGiocatori.add(toad.getUsername());
+            // List<String> listaGiocatori = new ArrayList<>();
+            // listaGiocatori.add(koopa.getUsername());
+            // listaGiocatori.add(peach.getUsername());
+            // listaGiocatori.add(yoshi.getUsername());
+            // listaGiocatori.add(toad.getUsername());
             // listaGiocatori.add(bowser.getUsername());
             // listaGiocatori.add(mario.getUsername());
             // listaGiocatori.add(luigi.getUsername());
@@ -75,29 +73,30 @@ public class App extends Application {
             // listaGiocatori.add(rosalina.getUsername());
 
             // Torneo torneo = admin.creaTorneo(listaGiocatori);
-            Torneo torneo = admin.caricaTorneo("T" + "4734").nuovoTurnoDelTorneo();
+            // Torneo torneo = admin.caricaTorneo("T" + "4734").nuovoTurnoDelTorneo();
 
-            torneo.aggiornaLeaderboard();
-            System.out.println(torneo.getLeaderboard());
+            // torneo.aggiornaLeaderboard();
+            // System.out.println(torneo.getLeaderboard());
 
             // torneo.simulaPartiteCPU();
 
-            Partita partita = torneo.getPartitaDelGiocatore(yoshi);
-            // admin.caricaPartita(torneo.getCodiciPartite().get(0));
+            // Partita partita = torneo.getPartitaDelGiocatore(yoshi);
+            // // admin.caricaPartita(torneo.getCodiciPartite().get(0));
 
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
-            Parent root = loader.load();
-            TavoloController tavolo = loader.getController();
-            loader.setController(tavolo);
-            if (partita != null) {
-                tavolo.initController(partita, true);
-                stage.setTitle(partita.getCodice());
-                stage.getIcons().add(icon);
-                stage.setScene(new Scene(root));
-                if (!yoshi.isCPU()) {
-                    stage.show();
-                }
-            }
+            // FXMLLoader loader = new
+            // FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
+            // Parent root = loader.load();
+            // TavoloController tavolo = loader.getController();
+            // loader.setController(tavolo);
+            // if (partita != null) {
+            // tavolo.initController(partita, true);
+            // stage.setTitle(partita.getCodice());
+            // stage.getIcons().add(icon);
+            // stage.setScene(new Scene(root));
+            // if (!yoshi.isCPU()) {
+            // stage.show();
+            // }
+            // }
 
             // System.out.println("Partecipanti al torneo:\n" + torneo.getPartecipanti());
 
