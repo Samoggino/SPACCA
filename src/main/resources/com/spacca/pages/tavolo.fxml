@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<StackPane xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="com.spacca.controller.TavoloController">
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.TavoloController">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1290.0" style="-fx-background-color: #696969;">
          <center>
@@ -174,6 +174,7 @@
                   <Font size="40.0" />
                </font></Text>
             <Button fx:id="eliminaPartitaButton" mnemonicParsing="false" onAction="#eliminaPartita" text="Elimina partita" translateX="1130.0" translateY="10.0" GridPane.rowIndex="2" />
+            <Button fx:id="goToMenuButton" mnemonicParsing="false" onAction="#goToMenu" prefHeight="26.0" prefWidth="107.0" text="Vai al menù" translateX="1130.0" translateY="-50.0" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </children>

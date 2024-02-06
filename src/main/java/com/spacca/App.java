@@ -34,31 +34,31 @@ public class App extends Application {
             // listaGiocatori.add(yoshi.getUsername());
             // listaGiocatori.add(koopa.getUsername());
             // Partita partita = admin.creaPartita(listaGiocatori);
-            // FXMLLoader loader = new
-            // FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
+            // FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
             // Parent root = loader.load();
             // TavoloController tavolo = loader.getController();
             // loader.setController(tavolo);
-            // tavolo.initController(partita, false);
+            // tavolo.initController(partita, false, yoshi);
 
             scene = new Scene(loadFXML("login"), 600, 500);
             // stage.setTitle(partita.getCodice());
-            stage.setScene(scene);
+            // stage.setScene(new Scene(root));
+            stage.setScene(scene);            
             stage.show();
 
             // Image icon = new
             // Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
             // scene = new Scene(loadFXML("login"), 600, 500);
 
-            //  Amministratore admin = new Amministratore();
-            //  AbstractGiocatore koopa;
-            //  , peach, toad, yoshi,
+            // Amministratore admin = new Amministratore();
+            // AbstractGiocatore koopa;
+            // , peach, toad, yoshi,
             // bowser, mario, luigi, wario,
             // donkeyKong, daisy, boo, birdo,
             // dryBones, hammerBro, blooper, diddyKong, rosalina, larry, wendy, ludwig,
             // iggy, morton, lemmy;
 
-            //  koopa = admin.creaGiocatore("koopa", "Giocatore");
+            // koopa = admin.creaGiocatore("koopa", "Giocatore");
             // peach = admin.creaGiocatore("peach", "StupidCPU");
             // toad = admin.creaGiocatore("toad", "StupidCPU");
             // yoshi = admin.creaGiocatore("yoshi", "StupidCPU");

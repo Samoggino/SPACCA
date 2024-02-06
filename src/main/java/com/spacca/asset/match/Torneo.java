@@ -248,7 +248,7 @@ public class Torneo extends Object {
 
                 if (!containsRealPlayer) {
                     if (!partita.hasWinner()) {
-                        tavolo.initController(partita, true);
+                        tavolo.initController(partita, true, null);
                     }
                 }
             }

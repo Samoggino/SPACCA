@@ -96,7 +96,6 @@ public class ModPartitaController implements Initializable {
                     labelSelezione.setText("Selezione il codice della parita alla quale vuoi giocare : ");
                     System.out.println("Scelta singola selezionata");
                     partita = partitaHandler.carica(codicePartita);
-                    partita.setGiocatoreCorrente(giocatoreCorrente.getUsername());
                     // isTorneo false
                     changeScene(partita, false);
 
@@ -113,7 +112,6 @@ public class ModPartitaController implements Initializable {
                         }
                     }
                     partita = partitaHandler.carica(codicePartita);
-                    partita.setGiocatoreCorrente(giocatoreCorrente.getUsername());
                     // isTorneo true
                     changeScene(partita, true);
                 }
@@ -141,7 +139,7 @@ public class ModPartitaController implements Initializable {
             Parent root = loader.load();
             TavoloController tavolo = loader.getController();
             loader.setController(tavolo);
-            tavolo.initController(partita, tipoPartita);
+            tavolo.initController(partita, tipoPartita, giocatoreCorrente);
 
             // Ottieni la scena corrente
             Scene currentScene = indietroButton.getScene();
