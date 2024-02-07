@@ -276,7 +276,6 @@ public class RegistrazioneController implements Initializable {
         try {
             App.setRoot("login");
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

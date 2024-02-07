@@ -137,7 +137,6 @@ public class Amministratore extends AbstractGiocatore {
     }
 
     public void creaUtenteRobot(String username, String type) {
-        // TODO da mettere il tipo di utente robot
         AbstractGiocatore giocatore = new AbstractGiocatore(username, type);
         giocatoreHandler.salva(giocatore, username);
     }
@@ -149,10 +148,6 @@ public class Amministratore extends AbstractGiocatore {
     public Torneo creaTorneo(String codiceTorneo, List<String> partecipanti) {
 
         Torneo torneo = new Torneo(codiceTorneo, CreatoreDiTorneo.controllaNumeroGiocatori(partecipanti));
-
-        for (String username : partecipanti) {
-            new GiocatoreHandler().carica(username).addCodiceTorneo(codiceTorneo);
-        }
 
         // crei partecipanti/2 partite e le aggiungi al torneo
         // Creazione delle partite
@@ -195,22 +190,6 @@ public class Amministratore extends AbstractGiocatore {
         } catch (Exception e) {
             System.err.println("Errore (Benvenuto Admin controller): \n" + e.getMessage());
         }
-    }
-
-    void login() {
-        // TODO
-    }
-
-    void logout() {
-        // TODO
-    }
-
-    void aggiungiGiocatoreAlTorneo() {
-        // TODO
-    }
-
-    void creaProfiloGiocatore() {
-        // TODO
     }
 
     public Torneo caricaTorneo(String codiceTorneo) {

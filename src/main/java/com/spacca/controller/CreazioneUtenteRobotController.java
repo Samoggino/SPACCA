@@ -57,9 +57,6 @@ public class CreazioneUtenteRobotController implements Initializable {
             if (controllaInserimentoUsername(username)) {
                 if (sceltaRobotIntelligente.isSelected()) {
                     System.out.println("crea robot intelligente selezionato ");
-                    // SmartCPU utenteSmartCPU = new SmartCPU(username);
-                    // Per ora carica e salva un abstract, manca il tipo
-                    // TODO
                     admin.creaUtenteRobot(username, "SmartCPU");
 
                     showAlert("Utente Robot Intelligente" + username + "\n salvato con successo!", "",
@@ -69,9 +66,6 @@ public class CreazioneUtenteRobotController implements Initializable {
                 } else if (sceltaRobotBasico.isSelected()) {
 
                     System.out.println("crea robot stupido selezionato ");
-                    // TODO
-                    // StupidCPU utenteStupidCPU = new StupidCPU(username);
-                    // System.out.println("utenteSmartCPU " + utenteStupidCPU);
 
                     admin.creaUtenteRobot(username, "StupidCPU");
 

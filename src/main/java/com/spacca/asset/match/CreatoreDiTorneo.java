@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.spacca.asset.utente.Amministratore;
+import com.spacca.database.GiocatoreHandler;
 
 public class CreatoreDiTorneo {
 
@@ -21,6 +22,10 @@ public class CreatoreDiTorneo {
                 }
             }
         }
+        for (String giocatore : partecipanti) {
+            new GiocatoreHandler().carica(giocatore).addCodiceTorneo(codiceTorneo);
+        }
+
         return torneo;
     }
 

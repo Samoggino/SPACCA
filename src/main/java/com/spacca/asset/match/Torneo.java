@@ -37,6 +37,10 @@ public class Torneo extends Object {
     @SerializedName("vincitore")
     String vincitore;
 
+    public String getVincitore() {
+        return this.vincitore;
+    }
+
     public Torneo(String codice, List<String> partecipanti) {
 
         this.codice = codice;
@@ -88,14 +92,6 @@ public class Torneo extends Object {
         // partecipato al torneo
     }
 
-    void accediPartita(String codicePartita) {
-        if (codicePartita.equals(this.codice)) {
-            // TODO: accedi alla partita
-        } else {
-            // TODO: mostra pagina che dice che il codice è sbagliato
-        }
-    }
-
     public void setPartite(List<Partita> partite) {
         this.partite = partite;
     }
@@ -108,11 +104,16 @@ public class Torneo extends Object {
         } else if (giocatoriRimasti.size() == partecipanti.size()) {
             dettaglio = "\tPartecipanti";
         }
+        this.leaderboard = this.giocatoriRimasti + dettaglio + "\n" + this.leaderboard;
+        salvaToreno();
 
-        return this.leaderboard = this.giocatoriRimasti + dettaglio + "\n" + this.leaderboard;
+        return this.leaderboard;
     }
 
     public String getLeaderboard() {
+        if (this.leaderboard.equals("")) {
+            aggiornaLeaderboard();
+        }
         return this.leaderboard;
     }
     // public List<String> addGiocatoreAlTorneo(String username) {
@@ -271,4 +272,11 @@ public class Torneo extends Object {
         return this.partecipanti;
     }
 
+    public Torneo caricaTorneo(String codice) {
+        return new TorneoHandler().carica(codice);
+    }
+
+    public boolean hasWinner() {
+        return this.vincitore != null;
+    }
 }

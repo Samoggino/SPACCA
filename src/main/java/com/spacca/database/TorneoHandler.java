@@ -156,7 +156,6 @@ public class TorneoHandler implements Handler {
 
     @Override
     public void modifica(String oldFileName, Object newObject) {
-        // TODO Auto-generated method stub
     }
 
     public void mkdir(String codice) {

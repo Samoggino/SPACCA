@@ -1,13 +1,6 @@
 package com.spacca;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.spacca.asset.match.Partita;
-import com.spacca.asset.utente.Amministratore;
-import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.controller.TavoloController;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
