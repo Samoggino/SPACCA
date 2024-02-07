@@ -7,7 +7,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.BenvenutoAdminController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="com.spacca.controller.BenvenutoAdminController">
    <children>
       <Label layoutX="51.0" layoutY="304.0" prefHeight="82.0" prefWidth="488.0" text="Sei Pronto A Combattere Contro i tuoi Avversari ? " textAlignment="CENTER" wrapText="true">
          <textFill>
@@ -40,7 +40,8 @@
       <Button fx:id="bottoneCreaUtente" onMouseClicked="#handleCreazioneUtente" layoutX="60.0" layoutY="207.0" mnemonicParsing="false"  prefHeight="25.0" prefWidth="214.0" text="Creazione utente" /><!--onMouseClicked="#creaUtente"-->
       <Button fx:id="bottoneEliminaSingola" onMouseClicked="#handleElimnaPartita" layoutX="316.0" layoutY="207.0" mnemonicParsing="false"  prefHeight="25.0" prefWidth="214.0" text="Eliminazione partita singola" /><!--onMouseClicked="#eliminaPartitaSingola"-->
       <Button fx:id="bottoneModificaUtente" onMouseClicked="#handleModificaUtente" layoutX="60.0" layoutY="244.0" mnemonicParsing="false"  prefHeight="25.0" prefWidth="214.0" text="Modifica utente" /><!---->
-      <Button fx:id="bottoneEliminaTorneo" onMouseClicked="#handleElimnaTorneo" layoutX="316.0" layoutY="244.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="214.0" text="Eliminazione torneo " /><!--onMouseClicked="#eliminaTorneo" -->
+      <Button fx:id="bottoneEliminaTorneo" onMouseClicked="#handleElimnaTorneo" layoutX="316.0" layoutY="244.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="214.0" text="Eliminazione torneo" /><!--onMouseClicked="#eliminaTorneo" -->
+      <Button fx:id="bottoneModPartita" onMouseClicked="#gioca" layoutX="189.0" layoutY="281.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="214.0" text="Gioca" /><!--onMouseClicked="#eliminaTorneo" -->
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="114.0" prefHeight="17.0" prefWidth="488.0" text="Scegli l'operazione che vuoi effetturare :" textAlignment="CENTER"><!---->
          <font>
             <Font size="14.0" />

@@ -95,7 +95,6 @@ public class EliminaTorneoController implements Initializable {
 
             System.out.print("nomeFileTorneoScelto" + nomeFileTorneoScelto);
 
-            // TODO elimina torneo
             admin.eliminaTorneo(nomeFileTorneoScelto);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

@@ -370,8 +370,6 @@ public class Partita extends Object {
     }
 
     public boolean hasWinner() {
-        if (this.vincitore != null) {
-        }
         return this.vincitore != null;
     }
 

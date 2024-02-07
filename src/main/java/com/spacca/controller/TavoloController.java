@@ -9,10 +9,12 @@ import com.spacca.App;
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Nome;
 import com.spacca.asset.match.Partita;
+import com.spacca.asset.match.Torneo;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.SmartCPU;
 import com.spacca.asset.utente.giocatore.StupidCPU;
 import com.spacca.database.GiocatoreHandler;
+import com.spacca.database.TorneoHandler;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -24,6 +26,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -69,12 +72,22 @@ public class TavoloController {
     AbstractGiocatore giocatoreCorrente, giocatoreLoggato;
     boolean isTorneo;
     int preventLoop = 0;
+    Torneo torneo;
 
     public void initController(Partita partita, boolean isTorneo, AbstractGiocatore giocatoreLoggato) {
         try {
             this.isTorneo = isTorneo;
             this.partita = partita;
             this.giocatoreLoggato = giocatoreLoggato;
+
+            if (isTorneo) {
+                // il codice è fatto tornei/T1234/TP1234
+                String codiceTorneo = partita.getCodice().split("/")[1];
+                System.out.println("Codice torneo: " + codiceTorneo);
+                this.torneo = new TorneoHandler().carica(codiceTorneo);
+                System.out.println("Torneo: " + torneo);
+                System.out.println("Leaderboard: " + torneo.getLeaderboard());
+            }
 
             buildView();
 
@@ -135,13 +148,12 @@ public class TavoloController {
                 buildTavolo();
                 buildClassifica();
 
-                buildOverlay();
-
             } catch (Exception e) {
                 System.err.println("ERRORE (buildView):\t\t " + e.getMessage());
                 e.printStackTrace();
             }
         }
+        buildOverlay();
 
     }
 
@@ -276,9 +288,11 @@ public class TavoloController {
 
     void buildOverlay() {
         try {
-            if (partita.getCarteSulTavolo().size() == 0
-                    && partita.getMazzoDiGioco().size() == 0
-                    && partita.giocatoriNonHannoCarteInMano()) {
+            if (partita.hasWinner()
+            // partita.getCarteSulTavolo().size() == 0
+            // && partita.getMazzoDiGioco().size() == 0
+            // && partita.giocatoriNonHannoCarteInMano()
+            ) {
                 overlay.setVisible(true);
                 andTheWinnerIs.setText(partita.getVincitore());
 
@@ -291,6 +305,20 @@ public class TavoloController {
 
                 if (isTorneo) {
                     eliminaPartitaButton.setVisible(false);
+                    torneo.simulaPartiteCPU();
+                    torneo.nuovoTurnoDelTorneo();
+
+                    if (torneo.possoPassareAlTurnoSuccessivo()) {
+                        System.out.println("Dovrei elimnare la partita e passare al turno successivo");
+                    }
+
+                    if (torneo.hasWinner()) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Fine torneo");
+                        alert.setHeaderText("Il vincitore del torneo è: " + torneo.getVincitore());
+                        alert.showAndWait();
+                    }
+
                 }
                 preventLoop = 100;
 
@@ -303,9 +331,17 @@ public class TavoloController {
     }
 
     @FXML
-    public void eliminaPartita() throws FileNotFoundException {
-        partita.fine();
-        eliminaPartitaButton.setVisible(false);
+    public void eliminaPartita() {
+        try {
+            partita.fine();
+        } catch (FileNotFoundException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Errore");
+            alert.setHeaderText("Errore nell'eliminazione della partita");
+            alert.setContentText("La partita è già stata eliminata");
+        } finally {
+            eliminaPartitaButton.setVisible(false);
+        }
     }
 
     @FXML

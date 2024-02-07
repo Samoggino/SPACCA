@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.spacca.asset.match.Partita;
+import com.spacca.asset.match.Torneo;
 import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.controller.TavoloController;
@@ -28,40 +29,40 @@ public class App extends Application {
 
             // Amministratore admin = new Amministratore();
             // AbstractGiocatore yoshi = admin.caricaUtente("yoshi");
-            // AbstractGiocatore koopa = admin.caricaUtente("koopa")    ;
+            // AbstractGiocatore koopa = admin.caricaUtente("koopa");
 
             // List<String> listaGiocatori = new ArrayList<>();
             // listaGiocatori.add(yoshi.getUsername());
             // listaGiocatori.add(koopa.getUsername());
             // Partita partita = admin.creaPartita(listaGiocatori);
-            // FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
+            // FXMLLoader loader = new
+            // FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
             // Parent root = loader.load();
             // TavoloController tavolo = loader.getController();
             // loader.setController(tavolo);
             // tavolo.initController(partita, false, yoshi);
 
-            scene = new Scene(loadFXML("login"), 600, 500);
-            // stage.setTitle(partita.getCodice());
-            // stage.setScene(new Scene(root));
-            stage.setScene(scene);            
-            stage.show();
+            // scene = new Scene(loadFXML("login"), 600, 500);
+            // // stage.setTitle(partita.getCodice());
+            // // stage.setScene(new Scene(root));
+            // stage.setScene(scene);
+            // stage.show();
 
             // Image icon = new
             // Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
             // scene = new Scene(loadFXML("login"), 600, 500);
 
             // Amministratore admin = new Amministratore();
-            // AbstractGiocatore koopa;
-            // , peach, toad, yoshi,
-            // bowser, mario, luigi, wario,
-            // donkeyKong, daisy, boo, birdo,
-            // dryBones, hammerBro, blooper, diddyKong, rosalina, larry, wendy, ludwig,
-            // iggy, morton, lemmy;
+            // AbstractGiocatore koopa, peach, toad, yoshi,
+            //         bowser, mario, luigi, wario,
+            //         donkeyKong, daisy, boo, birdo,
+            //         dryBones, hammerBro, blooper, diddyKong, rosalina, larry, wendy, ludwig,
+            //         iggy, morton, lemmy;
 
-            // koopa = admin.creaGiocatore("koopa", "Giocatore");
+            // koopa = admin.creaGiocatore("koopa", "StupidCPU");
             // peach = admin.creaGiocatore("peach", "StupidCPU");
             // toad = admin.creaGiocatore("toad", "StupidCPU");
-            // yoshi = admin.creaGiocatore("yoshi", "StupidCPU");
+            // yoshi = admin.creaGiocatore("yoshi", "Giocatore");
             // bowser = admin.creaGiocatore("bowser", "StupidCPU");
             // mario = admin.creaGiocatore("mario", "StupidCPU");
             // luigi = admin.creaGiocatore("luigi", "StupidCPU");
@@ -83,23 +84,23 @@ public class App extends Application {
             // listaGiocatori.add(toad.getUsername());
             // listaGiocatori.add(bowser.getUsername());
             // listaGiocatori.add(mario.getUsername());
-            // // listaGiocatori.add(luigi.getUsername());
-            // // listaGiocatori.add(wario.getUsername());
-            // // listaGiocatori.add(donkeyKong.getUsername());
-            // // listaGiocatori.add(daisy.getUsername());
-            // // listaGiocatori.add(boo.getUsername());
-            // // listaGiocatori.add(birdo.getUsername());
-            // // listaGiocatori.add(dryBones.getUsername());
-            // // listaGiocatori.add(hammerBro.getUsername());
-            // // listaGiocatori.add(blooper.getUsername());
-            // // listaGiocatori.add(diddyKong.getUsername());
-            // // listaGiocatori.add(rosalina.getUsername());
+            // listaGiocatori.add(luigi.getUsername());
+            // listaGiocatori.add(wario.getUsername());
+            // listaGiocatori.add(donkeyKong.getUsername());
+            // listaGiocatori.add(daisy.getUsername());
+            // listaGiocatori.add(boo.getUsername());
+            // listaGiocatori.add(birdo.getUsername());
+            // listaGiocatori.add(dryBones.getUsername());
+            // listaGiocatori.add(hammerBro.getUsername());
+            // listaGiocatori.add(blooper.getUsername());
+            // listaGiocatori.add(diddyKong.getUsername());
+            // listaGiocatori.add(rosalina.getUsername());
 
-            // // Torneo torneo = admin.creaTorneo(listaGiocatori);
-            // Torneo torneo = admin.caricaTorneo("T" + "7413").nuovoTurnoDelTorneo();
+            // //Torneo torneo = admin.creaTorneo(listaGiocatori);
+            // Torneo torneo = admin.caricaTorneo("T" + "2897").nuovoTurnoDelTorneo();
 
             // torneo.aggiornaLeaderboard();
-            // System.out.println(torneo.getLeaderboard());
+            // // System.out.println(torneo.getLeaderboard());
 
             // torneo.simulaPartiteCPU();
 
@@ -114,7 +115,7 @@ public class App extends Application {
             // TavoloController tavolo = loader.getController();
             // loader.setController(tavolo);
             // if (partita != null) {
-            // tavolo.initController(partita, true);
+            // tavolo.initController(partita, true, yoshi);
             // stage.setTitle(partita.getCodice());
             // // stage.getIcons().add(icon);
             // stage.setScene(new Scene(root));
@@ -123,7 +124,13 @@ public class App extends Application {
             // }
             // }
 
-            // // System.out.println("Partecipanti al torneo:\n" +
+            scene = new Scene(loadFXML("login"), 600, 500);
+            // stage.setTitle(partita.getCodice());
+            // stage.setScene(new Scene(root));
+            stage.setScene(scene);
+            stage.show();
+
+            // System.out.println("Partecipanti al torneo:\n" +
             // torneo.getPartecipanti());
 
         } catch (IOException e) {

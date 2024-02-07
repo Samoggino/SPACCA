@@ -16,30 +16,16 @@ import javafx.stage.Stage;
 public class BenvenutoAdminController {
 
     @FXML
-    private Button bottoneCreaSingola;
+    private Button bottoneCreaSingola, bottoneCreaTorneo, bottoneCreaUtente, bottoneEliminaSingola,
+            bottoneModificaUtente, bottoneEliminaTorneo, bottoneModPartita;
 
     @FXML
-    private Button bottoneCreaTorneo;
-
-    @FXML
-    private Button bottoneCreaUtente;
-
-    @FXML
-    private Button bottoneEliminaSingola;
-
-    @FXML
-    private Button bottoneModificaUtente;
-
-    @FXML
-    private Button bottoneEliminaTorneo;
-
-    @FXML
-    public AbstractGiocatore giocatoreCorrente;
+    public AbstractGiocatore amministratore;
 
     @FXML
     private void initialize() throws IOException {
         GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
-        giocatoreCorrente = giocatoreHandler.carica("admin");
+        amministratore = giocatoreHandler.carica("admin");
     }
 
     public void initController() {
@@ -54,14 +40,14 @@ public class BenvenutoAdminController {
 
     @FXML
     private void handleElimnaPartita() {
-        System.out.println("Siamo in Elimina partita" + giocatoreCorrente);
+        System.out.println("Siamo in Elimina partita" + amministratore);
         String titlePages = "Elimina partita ";
         changeSceneEliminaPartita("/com/spacca/pages/eliminaPartita.fxml", titlePages);
     }
 
     @FXML
     private void handleElimnaTorneo() {
-        System.out.println("Siamo in Elimina Torneo" + giocatoreCorrente);
+        System.out.println("Siamo in Elimina Torneo" + amministratore);
         String titlePages = "Elimina Torneo ";
         changeSceneEliminaTorneo("/com/spacca/pages/eliminaTorneo.fxml", titlePages);
     }
@@ -113,6 +99,12 @@ public class BenvenutoAdminController {
         String titlePages = "Creazione nuovo torneo ";
         changeSceneCreazioneTorneo("/com/spacca/pages/creazioneTorneo.fxml", titlePages);
 
+    }
+
+    @FXML
+    private void gioca() {
+        System.out.println("Siamo in creazione singola");
+        changeSceneGioca();
     }
 
     public void changeSceneCreazioneTorneo(String fxmlPath, String titlePages) {
@@ -241,6 +233,23 @@ public class BenvenutoAdminController {
             System.err.println("IO Errore (Benvenuto Admin controller per creazione utente ): \n" + e.getMessage());
         } catch (Exception e) {
             System.err.println("Errore (Benvenuto Admin controller creazione utente): \n" + e.getMessage());
+        }
+    }
+
+    public void changeSceneGioca() {
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/modpartita.fxml"));
+        try {
+            Parent root = loader.load();
+            Scene currentScene = bottoneModificaUtente.getScene();
+            ModPartitaController controller = loader.getController();
+            loader.setController(controller);
+            controller.initController(amministratore);
+            Stage currentStage = (Stage) currentScene.getWindow();
+            currentStage.setTitle("Gioca");
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
