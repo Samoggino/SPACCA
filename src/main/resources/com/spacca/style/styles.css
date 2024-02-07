@@ -1,31 +1,39 @@
 /* styles.css */
-.root {
-    -fx-background-color: #696969;
-    background-color: #696969; 
+#tavolo{
+    -fx-alignment: center;
+    background-size: cover;
+    -fx-background-size: cover;
+    background-position: center ;
+    -fx-background-position: center; 
+    -fx-alignment: center;
+    align-content:center;
+    background-repeat: no-repeat;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url("../images/sfondo.jpeg");
+    background-image: image("@../images/sfondo.jpeg");
 }
 
-#tavolo {
-    -fx-background-color: yellow;
-    background-color: yellow; 
+BorderPane{
+    background-color: #1f1204;
+    -fx-background-color: #1f1204;
+    color: wheat;
+    -fx-color-fill: wheat;
+
 }
 
-.text-flow {
-    -fx-background-color: green;
-    background-color: green;
+VBox{
+    background-color: linear-gradient(#2c1803,rgb(84, 53, 36));
+    -fx-background-color:  linear-gradient(#2c1803,rgb(84, 53, 36));    
+
+}
+Text{
+    color: wheat;
+    -fx-fill: wheat;
 }
 
-.player-pane {
-    -fx-background-color: lightgray;
-    background-color: lightgray; 
-}
-
-.text-style {
-    font-family: "Droid Sans Bold";
-    font-size: medium;
-    -fx-font-family: "Droid Sans Bold";
-    -fx-font-size: 20.0;
-}
-
-.image-view {
-    cursor: pointer;
+TextField{
+    background-color: wheat;
+    -fx-background-color:  wheat;   
+    color: #2c1803;
+    -fx-fill: #2c1803;
 }
