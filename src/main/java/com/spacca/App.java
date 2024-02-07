@@ -1,11 +1,18 @@
 package com.spacca;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.spacca.asset.match.Partita;
+import com.spacca.asset.utente.Amministratore;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.controller.TavoloController;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -18,10 +25,25 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
 
         try {
-            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.jpg"));
+
+            // Amministratore admin = new Amministratore();
+            // AbstractGiocatore yoshi = admin.caricaUtente("yoshi");
+            // AbstractGiocatore koopa = admin.caricaUtente("koopa") ;
+
+            // List<String> listaGiocatori = new ArrayList<>();
+            // listaGiocatori.add(yoshi.getUsername());
+            // listaGiocatori.add(koopa.getUsername());
+            // Partita partita = admin.creaPartita(listaGiocatori);
+            // FXMLLoader loader = new
+            // FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
+            // Parent root = loader.load();
+            // TavoloController tavolo = loader.getController();
+            // loader.setController(tavolo);
+            // tavolo.initController(partita, false, yoshi);
+
             scene = new Scene(loadFXML("login"), 600, 500);
-            stage.setTitle("Login APP");
-            stage.getIcons().add(icon);
+            // stage.setTitle(partita.getCodice());
+            // stage.setScene(new Scene(root));
             stage.setScene(scene);
             stage.show();
 

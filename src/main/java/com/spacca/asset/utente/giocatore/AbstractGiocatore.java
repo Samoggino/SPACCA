@@ -178,7 +178,6 @@ public class AbstractGiocatore extends Object {
     }
 
     public void scarta(Partita partita, Carta cartaScartata) {
-        System.out.println("Giocatore corrente " + username + "\tScarta: " + cartaScartata);
 
         partita.getManoDellUtente(this.username).rimuoviCartaDalMazzo(cartaScartata);
         partita.getCarteSulTavolo().aggiungiCarteAlMazzo(cartaScartata);
@@ -198,5 +197,20 @@ public class AbstractGiocatore extends Object {
         partita.getCarteSulTavolo().getCarteNelMazzo().clear();
         partita.setUltimoGiocatoreCheHapreso(this.username);
         partita.salvaPartita();
+    }
+
+    /**
+     * Se il giocatore è una SmartCPU o una StupidCPU ritorna true, altrimenti
+     * false.
+     * 
+     * @return
+     */
+    public boolean isCPU() {
+
+        if (this.type.equals("SmartCPU") || this.type.equals("StupidCPU")) {
+            return true;
+        }
+
+        return false;
     }
 }

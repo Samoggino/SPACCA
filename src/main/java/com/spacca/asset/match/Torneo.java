@@ -1,13 +1,19 @@
 package com.spacca.asset.match;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
+import com.spacca.App;
 import com.spacca.asset.utente.Amministratore;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.controller.TavoloController;
 import com.spacca.database.GiocatoreHandler;
 import com.spacca.database.PartitaHandler;
 import com.spacca.database.TorneoHandler;
+
+import javafx.fxml.FXMLLoader;
 
 public class Torneo extends Object {
 
@@ -17,32 +23,42 @@ public class Torneo extends Object {
     @SerializedName("codiciPartite")
     List<String> codiciPartite = new ArrayList<>();
 
+    @SerializedName("giocatori rimasti")
+    List<String> giocatoriRimasti = new ArrayList<>();
+
     @SerializedName("partecipanti")
     List<String> partecipanti = new ArrayList<>();
 
     transient List<Partita> partite = new ArrayList<>();
 
+    @SerializedName("leaderboard")
+    String leaderboard = "";
+
+    @SerializedName("vincitore")
+    String vincitore;
+
     public Torneo(String codice, List<String> partecipanti) {
+
         this.codice = codice;
-
-        // i partecipanti devono essere fare parte della curva esponenziale 2^n
-        // quindi 2, 4, 8, 16...        
-
+        this.giocatoriRimasti = partecipanti;
         this.partecipanti = partecipanti;
 
         new TorneoHandler().mkdir(codice);
     }
 
-    public List<String> getPartecipanti() {
-        return this.partecipanti;
+    public List<String> getGiocatoriRimasti() {
+        return this.giocatoriRimasti;
     }
 
-    public void setPartecipanti(List<String> partecipanti) {
-        this.partecipanti = partecipanti;
+    public void setGiocatoriRimasti(List<String> partecipanti) {
+        this.giocatoriRimasti = partecipanti;
         // salvaToreno();
     }
 
     public List<Partita> getPartite() {
+        if (this.partite == null) {
+            this.partite = new ArrayList<>();
+        }
         if (getCodiciPartite().size() > 0) {
             for (String codicePartita : getCodiciPartite()) {
                 this.partite.add(new PartitaHandler().carica(codicePartita));
@@ -53,20 +69,6 @@ public class Torneo extends Object {
 
     public List<String> getCodiciPartite() {
         return this.codiciPartite;
-    }
-
-    // risultato partite
-    public List<String> getLeaderboard() {
-
-        /**
-         * //FIXME: probabilmente la leaderboard non è una stringa, ma un oggetto
-         * che contiene i risultati delle partite e i giocatori che hanno partecipato
-         */
-        List<String> leaderboard = new ArrayList<>();
-        for (Partita partita : partite) {
-            leaderboard.addAll(partita.getListaDeiGiocatori());
-        }
-        return leaderboard;
     }
 
     public String getCodice() {
@@ -98,6 +100,21 @@ public class Torneo extends Object {
         this.partite = partite;
     }
 
+    public String aggiornaLeaderboard() {
+
+        String dettaglio = "";
+        if (giocatoriRimasti.size() == 1) {
+            dettaglio = "\t\t\tIl vincitore";
+        } else if (giocatoriRimasti.size() == partecipanti.size()) {
+            dettaglio = "\tPartecipanti";
+        }
+
+        return this.leaderboard = this.giocatoriRimasti + dettaglio + "\n" + this.leaderboard;
+    }
+
+    public String getLeaderboard() {
+        return this.leaderboard;
+    }
     // public List<String> addGiocatoreAlTorneo(String username) {
     // if (this.partecipanti == null) {
     // this.partecipanti = new ArrayList<>();
@@ -114,6 +131,8 @@ public class Torneo extends Object {
 
     public boolean possoPassareAlTurnoSuccessivo() {
         // TUTTE le partite devono avere un vincitore
+
+        simulaPartiteCPU();
 
         for (String codice : this.codiciPartite) {
             Partita partita = new PartitaHandler().carica(codice);
@@ -133,45 +152,74 @@ public class Torneo extends Object {
         salvaToreno();
     }
 
+    public Partita getPartitaDelGiocatore(String username) {
+
+        for (Partita partita : getPartite()) {
+            if (partita.getListaDeiGiocatori().contains(username)) {
+                return partita;
+            }
+        }
+        return null;
+    }
+
+    public Partita getPartitaDelGiocatore(AbstractGiocatore giocatore) {
+        return getPartitaDelGiocatore(giocatore.getUsername());
+    }
+
     public Torneo nuovoTurnoDelTorneo() {
         // un nuovo turno del torneo consiste nel calcolare i vincitori di ogni partita
         // e metterli in una lista,
         // e cancellare i perdenti dalla lista dei partecipanti e le vecchie partite.
 
-        // poi si creano nuove partite con i vincitori e si aggiungono al torneo
-        // e si salva il torneo
+        try {
 
-        // poi si restituisce il torneo
+            // poi si creano nuove partite con i vincitori e si aggiungono al torneo
+            // e si salva il torneo
 
-        // se non posso passare al turno successivo, restituisco il torneo stesso
-        if (!possoPassareAlTurnoSuccessivo()) {
-            return this;
-        }
-        if (this.partecipanti.size() == 1) {
-            System.out.println("Il vincitore del torneo è: " + partecipanti);
-            return this;
-        }
+            // poi si restituisce il torneo
 
-        // altrimenti calcolo i vincitori e creo nuove partite
-        List<String> vincitori = new ArrayList<>();
+            // se non posso passare al turno successivo, restituisco il torneo stesso
 
-        for (String codicePartita : this.codiciPartite) {
-            Partita partita = new PartitaHandler().carica(codicePartita);
-            vincitori.add(partita.getVincitore());
-            new PartitaHandler().elimina(partita.getCodice());
-        }
+            aggiornaLeaderboard();
 
-        for (String username : this.partecipanti) {
-            new GiocatoreHandler().carica(username).removeCodiceTorneo(this.codice);
-        }
+            if (this.vincitore != null) {
+                return this;
+            }
 
-        this.partecipanti = vincitori;
+            if (!possoPassareAlTurnoSuccessivo()) {
+                return this;
+            }
 
-        this.codiciPartite = new ArrayList<>();
+            // altrimenti calcolo i vincitori e creo nuove partite
+            List<String> vincitori = new ArrayList<>();
 
-        if (vincitori.size() > 1) {
-            System.out.println("Passano al turno successivo: " + vincitori);
-            CreatoreDiTorneo.strutturaTorneo(codice, vincitori, this, new Amministratore());
+            for (String codicePartita : this.codiciPartite) {
+                Partita partita = new PartitaHandler().carica(codicePartita);
+                vincitori.add(partita.getVincitore());
+                new PartitaHandler().elimina(partita.getCodice());
+            }
+
+            for (String username : this.giocatoriRimasti) {
+                new GiocatoreHandler().carica(username).removeCodiceTorneo(this.codice);
+            }
+
+            this.giocatoriRimasti = vincitori;
+
+            this.codiciPartite = new ArrayList<>();
+
+            if (vincitori.size() > 1) {
+                System.out.println("Passano al turno successivo: " + vincitori);
+                CreatoreDiTorneo.strutturaTorneo(codice, vincitori, this, new Amministratore());
+            }
+
+            if (this.giocatoriRimasti.size() == 1) {
+                System.out.println("Il vincitore del torneo è: " + giocatoriRimasti);
+                this.vincitore = giocatoriRimasti.get(0);
+            }
+
+        } catch (Exception e) {
+            System.err.println("Errore nel nuovo turno del torneo: " + e.getMessage());
+            e.printStackTrace();
         }
 
         // creo nuove partite
@@ -179,13 +227,48 @@ public class Torneo extends Object {
 
     }
 
+    public void simulaPartiteCPU() {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
+
+            loader.load();
+
+            TavoloController tavolo = loader.getController();
+            loader.setController(tavolo);
+
+            for (String codicePartita : getCodiciPartite()) {
+                Partita partita = new PartitaHandler().carica(codicePartita);
+                boolean containsRealPlayer = false;
+                for (String username : partita.getListaDeiGiocatori()) {
+                    if (!new GiocatoreHandler().carica(username).isCPU()) {
+                        containsRealPlayer = true;
+                        break;
+                    }
+                }
+
+                if (!containsRealPlayer) {
+                    if (!partita.hasWinner()) {
+                        tavolo.initController(partita, true, null);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Errore nella simulazione delle partite: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     public String stampa() {
-        return "Torneo: " + this.codice + " partecipanti: " + this.partecipanti + " partite: " + this.codiciPartite;
+        return "Torneo: " + this.codice + " partecipanti: " + this.giocatoriRimasti + " partite: " + this.codiciPartite;
     }
 
     @Override
     public String toString() {
         return stampa();
+    }
+
+    public List<String> getPartecipanti() {
+        return this.partecipanti;
     }
 
 }

@@ -65,7 +65,7 @@ public class Partita extends Object {
         return this.giocatoreCorrente;
     }
 
-    public void setGiocatoreCorrente(String giocatoreCorrente) {
+    private void setGiocatoreCorrente(String giocatoreCorrente) {
         this.giocatoreCorrente = giocatoreCorrente;
         salvaPartita();
     }
@@ -113,7 +113,7 @@ public class Partita extends Object {
     }
 
     public void fine() throws FileNotFoundException {
-        this.handlerPartita.elimina(this.codice);
+        new PartitaHandler().elimina(this.codice);
     }
 
     public Map<String, Integer> getClassifica() {
@@ -202,6 +202,7 @@ public class Partita extends Object {
 
             getCarteSulTavolo().getCarteNelMazzo().clear();
 
+            getVincitore();
         }
         salvaPartita();
     }
@@ -385,7 +386,6 @@ public class Partita extends Object {
         }
 
         if (tuttiStupidi) {
-            System.out.println("Tutti i giocatori sono stupidi, quindi il vincitore è un giocatore a caso");
             Random random = new Random();
             return listaDeiGiocatori.get(random.nextInt(listaDeiGiocatori.size()));
         }

@@ -1,9 +1,11 @@
 package com.spacca.controller;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.spacca.App;
 import com.spacca.asset.carte.Carta;
 import com.spacca.asset.carte.Nome;
 import com.spacca.asset.match.Partita;
@@ -12,10 +14,16 @@ import com.spacca.asset.utente.giocatore.SmartCPU;
 import com.spacca.asset.utente.giocatore.StupidCPU;
 import com.spacca.database.GiocatoreHandler;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -28,6 +36,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class TavoloController {
 
@@ -47,20 +57,24 @@ public class TavoloController {
     public Button eliminaPartitaButton = new Button("Elimina partita");
 
     @FXML
+    public Button goToMenuButton = new Button("Torna al menù");
+
+    @FXML
     public Text andTheWinnerIs, risultatoOverlay;
 
     private Partita partita;
     private Carta cartaDelTavolo, cartaDellaMano;
     List<AbstractGiocatore> giocatori = new ArrayList<>();
     String userCorrente;
-    AbstractGiocatore giocatoreCorrente;
+    AbstractGiocatore giocatoreCorrente, giocatoreLoggato;
     boolean isTorneo;
     int preventLoop = 0;
 
-    public void initController(Partita partita, boolean isTorneo) {
+    public void initController(Partita partita, boolean isTorneo, AbstractGiocatore giocatoreLoggato) {
         try {
             this.isTorneo = isTorneo;
             this.partita = partita;
+            this.giocatoreLoggato = giocatoreLoggato;
 
             buildView();
 
@@ -89,7 +103,6 @@ public class TavoloController {
                     default:
                         break;
                 }
-            System.out.println("preventLoop: " + preventLoop);
         } catch (Exception e) {
             System.err.println("ERRORE (checkCPU):\t\t " + e.getMessage());
             e.printStackTrace();
@@ -97,35 +110,56 @@ public class TavoloController {
     }
 
     void buildView() {
-        giocatoreCorrente = new GiocatoreHandler().carica(partita.getGiocatoreCorrente());
-        userCorrente = giocatoreCorrente.getUsername();
 
-        overlay.setVisible(false);
-        try {
-            if (partita.giocatoriNonHannoCarteInMano()) {
-                partita.nuovoTurno();
+        if (!partita.hasWinner()) {
+
+            giocatoreCorrente = new GiocatoreHandler().carica(partita.getGiocatoreCorrente());
+            userCorrente = giocatoreCorrente.getUsername();
+
+            overlay.setVisible(false);
+            try {
+                if (partita.giocatoriNonHannoCarteInMano()) {
+                    partita.nuovoTurno();
+                }
+
+                if (partita.getCarteSulTavolo().size() == 40) {
+                    partita.getVincitore();
+                    attesaEventoHandler();
+                    return;
+                } else {
+                    checkCPU();
+                }
+
+                buildGiocatore();
+                buildMano();
+                buildTavolo();
+                buildClassifica();
+
+                buildOverlay();
+
+            } catch (Exception e) {
+                System.err.println("ERRORE (buildView):\t\t " + e.getMessage());
+                e.printStackTrace();
             }
-
-            if (partita.getCarteSulTavolo().size() == 40) {
-                partita.fine();
-                System.out.println("Partita finita");
-                return;
-            } else {
-                checkCPU();
-            }
-
-            buildGiocatore();
-            buildMano();
-            buildTavolo();
-            buildClassifica();
-
-            buildOverlay();
-
-        } catch (Exception e) {
-            System.err.println("ERRORE (buildView):\t\t " + e.getMessage());
-            e.printStackTrace();
         }
 
+    }
+
+    /**
+     * Questo metodo serve per evitare un loop infinito nelle chiamate della CPU
+     */
+    void attesaEventoHandler() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+            // Questo è l'evento che viene eseguito dopo 5 secondi
+            // Non esegue nulla qui, solo perde del tempo
+        }));
+
+        // Impostazione del ciclo dell'animazione a INDEFINITE per far sì che l'evento
+        // si ripeta all'infinito
+        timeline.setCycleCount(Animation.INDEFINITE);
+
+        // Avvio dell'animazione
+        timeline.play();
     }
 
     void buildMano() {
@@ -260,7 +294,6 @@ public class TavoloController {
                 }
                 preventLoop = 100;
 
-                // partita.fine
             }
 
         } catch (Exception e) {
@@ -273,6 +306,30 @@ public class TavoloController {
     public void eliminaPartita() throws FileNotFoundException {
         partita.fine();
         eliminaPartitaButton.setVisible(false);
+    }
+
+    @FXML
+    public void goToMenu() {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/modpartita.fxml"));
+            Parent root = loader.load();
+            ModPartitaController menu = new ModPartitaController();
+            menu = loader.getController();
+            loader.setController(menu);
+            menu.initController(giocatoreLoggato);
+
+            Scene currentScene = piatto.getScene();
+
+            // Ottieni lo Stage dalla scena corrente
+            Stage currentStage = (Stage) currentScene.getWindow();
+
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+
+        } catch (IOException e) {
+            System.err.println("ERRORE (goToMenu):\t\t " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     void iniziaTrascinamento(Carta cartaDellaMano, ImageView cartaView) {
