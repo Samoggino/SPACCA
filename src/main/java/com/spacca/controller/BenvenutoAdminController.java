@@ -48,7 +48,7 @@ public class BenvenutoAdminController {
         try {
             System.out.println("Siamo in Elimina partita" + amministratore);
             PartitaHandler partitaHandler = new PartitaHandler();
-            if (partitaHandler.getAllPartite().isEmpty()) {
+            if (partitaHandler.mostraTutteLePartite().isEmpty()) {
                 showAlert(Alert.AlertType.INFORMATION, "Non ci sono partite da selezionare",
                         "Di conseguenza, non è possibile eliminare alcuna partita");
             } else {

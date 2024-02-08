@@ -19,7 +19,6 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonWriter;
-import com.spacca.asset.match.Partita;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.asset.utente.giocatore.SmartCPU;
@@ -109,45 +108,30 @@ public class GiocatoreHandler implements Handler {
 
             File file = new File(path);
 
-            Giocatore giocatoreEliminato = (Giocatore) this.carica(username);
+            AbstractGiocatore giocatoreEliminato = this.carica(username);
 
-            List<String> listaCodici = giocatoreEliminato.getListaCodiciPartite();
+            if (verificaEsistenzaFile(username)) {
 
-            if (file.exists() && file.isFile()) {
                 if (file.delete()) {
 
-                    for (String codice : listaCodici) {
-                        Handler handlerPartita = new PartitaHandler();
-                        // carico la partita con il codice presente nella lista per eliminare il
-                        // giocatore
-                        Partita partita = (Partita) handlerPartita.carica(codice);
-                        // rimuovo il giocatore nella lista dei giocatori della partita
-                        int posizioneVecchioUtente = partita.getListaDeiGiocatori().indexOf(username);
+                    if (!giocatoreEliminato.getListaCodiciPartite().isEmpty() ||
+                            !giocatoreEliminato.getListaCodiciTornei().isEmpty()) {
 
-                        // creo un nuovo giocatore stupido e lo sostituisco con un giocatore robot
-                        // stupido
-                        GiocatoreHandler handlerGiocatore = new GiocatoreHandler();
-                        String usernameStupid = "RS-" + username;
-                        AbstractGiocatore giocatoreSostituto = new StupidCPU(usernameStupid);
+                        // Creo un giocatore SmartCPU e trasferisco le partite e i tornei
+                        AbstractGiocatore giocatoreSostituto = new AbstractGiocatore(username, "SmartCPU");
+                        giocatoreSostituto.setListaCodiciPartite(giocatoreEliminato.getListaCodiciPartite());
+                        giocatoreSostituto.setListaCodiciTornei(giocatoreEliminato.getListaCodiciTornei());
+                        new GiocatoreHandler().salva(giocatoreSostituto, username);
 
-                        partita.getListaDeiGiocatori().set(posizioneVecchioUtente, usernameStupid);
-                        // salvo su file il nuovo giocatore stupido
-                        handlerGiocatore.salva(giocatoreSostituto, usernameStupid);
-
-                        // salvo la partita modificata
-                        handlerPartita.salva(partita, codice);
                     }
+
                     return true;
-                } else {
-                    System.err.println("Errore durante l'eliminazione del giocatore  " + username);
                 }
-            } else {
-                System.err.println("Il giocatore con username " + username + " non esiste o non è un file.");
             }
-        } catch (IOException e) {
-            System.err.println("Errore di I/O durante l'operazione di eliminazione per il giocatore " + username + ": "
-                    + e.getMessage());
-        } catch (NullPointerException e) {
+
+        } catch (
+
+        NullPointerException e) {
             System.err.println("Eccezione di puntatore nullo durante l'operazione di eliminazione per il giocatore "
                     + username + ": " + e.getMessage());
         } catch (ClassCastException e) {
@@ -164,7 +148,7 @@ public class GiocatoreHandler implements Handler {
     }
 
     @Override
-    public Boolean VerificaEsistenzaFile(String username) {
+    public Boolean verificaEsistenzaFile(String username) {
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
         try {
             File userFile = new File(path);

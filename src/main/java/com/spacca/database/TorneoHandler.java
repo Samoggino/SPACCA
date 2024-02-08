@@ -104,7 +104,7 @@ public class TorneoHandler implements Handler {
             }
             String path = "src/main/resources/com/spacca/database/tornei/" + codice;
 
-            if (VerificaEsistenzaFile(codice)) {
+            if (verificaEsistenzaFile(codice)) {
 
                 Torneo torneo = (Torneo) carica(codice);
                 for (String codicePartita : torneo.getCodiciPartite()) {
@@ -135,7 +135,7 @@ public class TorneoHandler implements Handler {
     }
 
     @Override
-    public Boolean VerificaEsistenzaFile(String codice) {
+    public Boolean verificaEsistenzaFile(String codice) {
         String path = "src/main/resources/com/spacca/database/tornei/" + codice + "/" + codice + ".json";
         try {
             if (codice == null) {

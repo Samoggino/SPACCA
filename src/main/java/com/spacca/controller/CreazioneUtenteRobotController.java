@@ -104,7 +104,7 @@ public class CreazioneUtenteRobotController implements Initializable {
                 GiocatoreHandler file = new GiocatoreHandler();
 
                 // Verifica se il file esiste
-                if (file.VerificaEsistenzaFile(username)) {
+                if (file.verificaEsistenzaFile(username)) {
 
                     AbstractGiocatore utente = file.carica(username);
                     System.out.println("GIOCATORE" + utente);

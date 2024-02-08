@@ -594,7 +594,6 @@ public class TavoloController {
 
     public void partitaDiUnTorneo() {
         eliminaPartitaButton.setVisible(false);
-        torneo.simulaPartiteCPU();
         torneo.nuovoTurnoDelTorneo();
 
         if (torneo.hasWinner()) {

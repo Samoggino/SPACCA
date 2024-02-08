@@ -52,7 +52,7 @@ public class Amministratore extends AbstractGiocatore {
         // Genera un numero casuale compreso tra 1000 e 9999
         String numero = "P" + String.valueOf(random.nextInt(9000) + 1000);
 
-        if (!partitaHandler.VerificaEsistenzaFile(numero)) {
+        if (!partitaHandler.verificaEsistenzaFile(numero)) {
             return numero;
         } else {
             return generaNumeroCasualePartita();
@@ -65,7 +65,7 @@ public class Amministratore extends AbstractGiocatore {
         // Genera un numero casuale compreso tra 1000 e 9999
         String numero = "T" + String.valueOf(random.nextInt(9000) + 1000);
 
-        if (!torneoHandler.VerificaEsistenzaFile(numero)) {
+        if (!torneoHandler.verificaEsistenzaFile(numero)) {
             return numero;
         } else {
             return generaNumeroCasualeTorneo();
@@ -130,8 +130,6 @@ public class Amministratore extends AbstractGiocatore {
                 break;
         }
 
-        // System.out.println("Classe del giocatore: " +
-        // giocatore.getClass().getName());
         new GiocatoreHandler().salva(giocatore, username);
         return new GiocatoreHandler().carica(username);
     }

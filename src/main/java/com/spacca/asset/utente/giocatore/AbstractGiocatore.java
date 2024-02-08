@@ -213,4 +213,12 @@ public class AbstractGiocatore extends Object {
 
         return false;
     }
+
+    public void setListaCodiciPartite(List<String> listaCodici) {
+        this.listaCodiciPartite = listaCodici;
+    }
+
+    public void setListaCodiciTornei(List<String> listaCodiciTornei) {
+        this.listaCodiciTornei = listaCodiciTornei;
+    }
 }

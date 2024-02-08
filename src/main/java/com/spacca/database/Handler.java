@@ -10,7 +10,7 @@ public interface Handler {
 
     Object carica(String codice) throws FileNotFoundException;
 
-    Boolean VerificaEsistenzaFile(String codice);
+    Boolean verificaEsistenzaFile(String codice);
 
     void modifica(String oldFileName, Object newObject) throws FileNotFoundException;
 

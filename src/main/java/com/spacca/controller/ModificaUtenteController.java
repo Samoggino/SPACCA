@@ -109,7 +109,7 @@ public class ModificaUtenteController {
             } else {
 
                 // Verifica se il file esiste
-                if (handler.VerificaEsistenzaFile(username)) {
+                if (handler.verificaEsistenzaFile(username)) {
                     System.out.println("il file esiste già");
                     Giocatore utente = (Giocatore) handler.carica(username);
 

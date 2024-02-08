@@ -182,7 +182,7 @@ public class RegistrazioneController implements Initializable {
         } else {
             try {
                 // Verifica se il file esiste
-                if (file.VerificaEsistenzaFile(username)) {
+                if (file.verificaEsistenzaFile(username)) {
 
                     Giocatore utente = (Giocatore) file.carica(username);
 
