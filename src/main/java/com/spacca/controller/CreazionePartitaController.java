@@ -209,7 +209,7 @@ public class CreazionePartitaController implements Initializable {
 
                 // codice = "P" + codice;
                 // Verifica se il file esiste
-                if (partitafile.VerificaEsistenzaFile(codice)) {
+                if (partitafile.verificaEsistenzaFile(codice)) {
 
                     Partita partita = partitafile.carica(codice);
                     System.out.println("PARTITA" + codice);

@@ -98,9 +98,9 @@ public class CreazioneUtenteController implements Initializable {
         } else {
             try {
                 GiocatoreHandler file = new GiocatoreHandler();
-                System.out.println("VERIFICA ESISTENZA FILE " + file.VerificaEsistenzaFile(username));
+                System.out.println("VERIFICA ESISTENZA FILE " + file.verificaEsistenzaFile(username));
                 // Verifica se il file esiste
-                if (file.VerificaEsistenzaFile(username)) {
+                if (file.verificaEsistenzaFile(username)) {
 
                     Giocatore utente = (Giocatore) file.carica(username);
                     System.out.println("USERNAME: " + username);

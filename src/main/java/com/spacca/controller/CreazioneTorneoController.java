@@ -215,7 +215,7 @@ public class CreazioneTorneoController implements Initializable {
                 TorneoHandler torneoFile = new TorneoHandler();
                 codice = "T" + codice;
                 // Verifica se il file esiste
-                if (torneoFile.VerificaEsistenzaFile(codice)) {
+                if (torneoFile.verificaEsistenzaFile(codice)) {
 
                     Torneo torneo = (Torneo) torneoFile.carica(codice);
                     System.out.println("TORNEO" + codice);

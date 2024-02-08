@@ -1,6 +1,15 @@
 package com.spacca;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.spacca.asset.match.Partita;
+import com.spacca.asset.match.Torneo;
+import com.spacca.asset.utente.Amministratore;
+import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.controller.TavoloController;
+import com.spacca.database.GiocatoreHandler;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,30 +28,44 @@ public class App extends Application {
 
         try {
 
-            // Amministratore admin = new Amministratore();
-            // AbstractGiocatore yoshi = admin.caricaUtente("yoshi");
-            // AbstractGiocatore koopa = admin.caricaUtente("koopa") ;
-
+            // Amministratore amministratore = new Amministratore();
+            // AbstractGiocatore admin = amministratore.caricaUtente("admin");
+            // AbstractGiocatore yoshi = amministratore.caricaUtente("yoshi");
+            // AbstractGiocatore peach = amministratore.caricaUtente("peach");
+            // AbstractGiocatore mamma = amministratore.caricaUtente("mamma");
             // List<String> listaGiocatori = new ArrayList<>();
+            // listaGiocatori.add(admin.getUsername());
             // listaGiocatori.add(yoshi.getUsername());
-            // listaGiocatori.add(koopa.getUsername());
-            // Partita partita = admin.creaPartita(listaGiocatori);
+            // listaGiocatori.add(peach.getUsername());
+            // listaGiocatori.add(mamma.getUsername());
+
+            // Torneo torneo = amministratore.creaTorneo(listaGiocatori);
+
+            // Partita partita =
+            // amministratore.caricaPartita(torneo.getCodiciPartite().get(0));
+
+            // new GiocatoreHandler().elimina(mamma.getUsername());
+
+            // partita = amministratore.caricaPartita(partita.getCodice());
+
+            // Amministratore admin = new Amministratore();
+            // Partita partita = admin.caricaPartita("tornei/T7094/TP3497");
+
             // FXMLLoader loader = new
             // FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
             // Parent root = loader.load();
             // TavoloController tavolo = loader.getController();
             // loader.setController(tavolo);
-            // tavolo.initController(partita, false, yoshi);
-
+            // tavolo.initController(partita, false, amministratore);
             scene = new Scene(loadFXML("login"), 600, 500);
             // stage.setTitle(partita.getCodice());
             // stage.setScene(new Scene(root));
             stage.setScene(scene);
             stage.show();
 
-        } catch (IOException e) {
-            System.err.println("ERRORE (app IO exception):\t\t " + e.getMessage());
-            e.printStackTrace();
+            // } catch (IOException e) {
+            // System.err.println("ERRORE (app IO exception):\t\t " + e.getMessage());
+            // e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

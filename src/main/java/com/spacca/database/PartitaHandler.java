@@ -131,7 +131,7 @@ public class PartitaHandler implements Handler {
             File file = new File(path);
             List<String> listaDeiGiocatori = partita.getListaDeiGiocatori();
 
-            if (VerificaEsistenzaFile(codice)) {
+            if (verificaEsistenzaFile(codice)) {
                 if (file.delete()) {
 
                     for (String username : listaDeiGiocatori) {
@@ -207,7 +207,7 @@ public class PartitaHandler implements Handler {
     }
 
     @Override
-    public Boolean VerificaEsistenzaFile(String codice) {
+    public Boolean verificaEsistenzaFile(String codice) {
         try {
             String path = "src/main/resources/com/spacca/database/partite/" + codice + ".json";
 

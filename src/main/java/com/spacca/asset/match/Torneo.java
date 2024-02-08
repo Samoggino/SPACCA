@@ -111,6 +111,7 @@ public class Torneo extends Object {
     }
 
     public String getLeaderboard() {
+
         if (this.leaderboard.equals("")) {
             aggiornaLeaderboard();
         }
@@ -181,8 +182,6 @@ public class Torneo extends Object {
 
             // se non posso passare al turno successivo, restituisco il torneo stesso
 
-            aggiornaLeaderboard();
-
             if (this.vincitore != null) {
                 return this;
             }
@@ -190,6 +189,8 @@ public class Torneo extends Object {
             if (!possoPassareAlTurnoSuccessivo()) {
                 return this;
             }
+
+            aggiornaLeaderboard();
 
             // altrimenti calcolo i vincitori e creo nuove partite
             List<String> vincitori = new ArrayList<>();
@@ -228,10 +229,9 @@ public class Torneo extends Object {
 
     }
 
-    public void simulaPartiteCPU() {
+    private void simulaPartiteCPU() {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
-
             loader.load();
 
             TavoloController tavolo = loader.getController();
