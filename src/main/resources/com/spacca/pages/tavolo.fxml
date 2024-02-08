@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -18,7 +17,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<StackPane stylesheets="@../style/styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.TavoloController">
+<StackPane stylesheets="@../style/styles.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="com.spacca.controller.TavoloController">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1290.0">
          <center>
@@ -40,7 +39,7 @@
                <children>
                   <VBox fx:id="playerOnTopPane" alignment="CENTER" prefHeight="176.0" prefWidth="507.0" translateX="228.0">
                      <children>
-                        <Text boundsType="VISUAL" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.0" text="Text" textAlignment="CENTER" textOrigin="CENTER" translateY="20.0" wrappingWidth="74.791015625" VBox.vgrow="ALWAYS">
+                        <Text boundsType="VISUAL" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.0" textAlignment="CENTER" textOrigin="CENTER" translateY="20.0" wrappingWidth="74.791015625" VBox.vgrow="ALWAYS">
                            <font>
                               <Font name="Droid Sans Bold" size="20.0" />
                            </font>
@@ -49,10 +48,6 @@
                            </VBox.margin>
                         </Text>
                         <ImageView fx:id="playerOnTopImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
-                           <image>
-                              <!-- src/main/resources/com/spacca/images/Retro.jpeg -->
-                              <Image url="@../images/retro.png" />
-                           </image>
                            <cursor>
                               <Cursor fx:constant="OPEN_HAND" />
                            </cursor>
@@ -67,7 +62,7 @@
                <children>
                   <VBox fx:id="currentPlayerPane" alignment="CENTER" prefHeight="176.0" prefWidth="286.0" translateX="228.0">
                      <children>
-                        <Text boundsType="VISUAL" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.0" text="Text" textAlignment="CENTER" textOrigin="CENTER" translateY="20.0" wrappingWidth="83.791015625" VBox.vgrow="ALWAYS">
+                        <Text boundsType="VISUAL" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.0" textAlignment="CENTER" textOrigin="CENTER" translateY="20.0" wrappingWidth="83.791015625" VBox.vgrow="ALWAYS">
                            <font>
                               <Font name="Droid Sans Bold" size="20.0" />
                            </font>
@@ -76,9 +71,6 @@
                            </VBox.margin>
                         </Text>
                         <ImageView fx:id="playerOnTopImage1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
-                           <image>
-                              <Image url="@../images/retro.png" />
-                           </image>
                            <cursor>
                               <Cursor fx:constant="OPEN_HAND" />
                            </cursor>
@@ -97,7 +89,7 @@
                         <Cursor fx:constant="OPEN_HAND" />
                      </cursor>
                      <children>
-                        <Text boundsType="VISUAL" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.0" text="Text" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="83.791015625">
+                        <Text boundsType="VISUAL" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.0" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="83.791015625">
                            <font>
                               <Font name="Droid Sans Bold" size="20.0" />
                            </font>
@@ -106,9 +98,6 @@
                            </VBox.margin>
                         </Text>
                         <ImageView fx:id="playerOnLeftImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/retro.png" />
-                           </image>
                            <cursor>
                               <Cursor fx:constant="OPEN_HAND" />
                            </cursor>
@@ -126,7 +115,7 @@
                         <Cursor fx:constant="OPEN_HAND" />
                      </cursor>
                      <children>
-                        <Text boundsType="VISUAL" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.0" text="Text" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="83.791015625">
+                        <Text boundsType="VISUAL" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.0" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="83.791015625">
                            <font>
                               <Font name="Droid Sans Bold" size="20.0" />
                            </font>
@@ -135,9 +124,6 @@
                            </VBox.margin>
                         </Text>
                         <ImageView fx:id="playerOnRightImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/retro.png" />
-                           </image>
                            <cursor>
                               <Cursor fx:constant="OPEN_HAND" />
                            </cursor>

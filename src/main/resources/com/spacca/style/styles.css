@@ -32,12 +32,12 @@ Button{
 }
 Text{
     color: wheat;
-    -fx-fill: wheat;
+    -fx-color-fill: wheat;
 }
 
 TextField{
     background-color: wheat;
     -fx-background-color:  wheat;   
     color: #2c1803;
-    -fx-fill: #2c1803;
+    -fx-color-fills: #2c1803;
 }
