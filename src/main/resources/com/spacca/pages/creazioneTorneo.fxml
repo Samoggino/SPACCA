@@ -6,14 +6,15 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.CreazioneTorneoController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="643.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.CreazioneTorneoController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-9.0" layoutY="28.0" prefHeight="58.0" prefWidth="715.0" text="Creazione Torneo: " textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-7.0" layoutY="20.0" prefHeight="58.0" prefWidth="715.0" text="Creazione Torneo: " textAlignment="CENTER">
          <font>
             <Font size="22.0" />
          </font>
@@ -31,22 +32,22 @@
             <Font size="13.0" />
          </font>
       </Label>
-      <Label fx:id="label1" layoutX="88.0" layoutY="272.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Uno : ">
+      <Label fx:id="label1" layoutX="85.0" layoutY="326.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Uno : ">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label fx:id="label3" layoutX="88.0" layoutY="359.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Tre: ">
+      <Label fx:id="label3" layoutX="85.0" layoutY="413.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Tre: ">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label fx:id="label2" layoutX="390.0" layoutY="272.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Due: ">
+      <Label fx:id="label2" layoutX="390.0" layoutY="322.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Due: ">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label fx:id="label4" layoutX="390.0" layoutY="359.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Quattro: ">
+      <Label fx:id="label4" layoutX="390.0" layoutY="409.0" prefHeight="19.0" prefWidth="185.0" text="Giocatore Quattro: ">
          <font>
             <Font size="13.0" />
          </font>
@@ -57,10 +58,10 @@
          </font>
       </Label>
       <TextField fx:id="codiceField" layoutX="80.0" layoutY="119.0" prefHeight="25.0" prefWidth="228.0" />
-      <Button fx:id="indietroButton" layoutX="238.0" layoutY="461.0" mnemonicParsing="false" onMouseClicked="#handleIndietro" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: orange;" text="Indeitro" />
-      <Button fx:id="creaButton" layoutX="384.0" layoutY="461.0" mnemonicParsing="false" onMouseClicked="#handleCrea" style="-fx-background-color: orange;" text="Crea Torneo" />
-      <Button fx:id="procButton" layoutX="314.0" layoutY="199.0" mnemonicParsing="false" onMouseClicked="#handleMostra" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: orange;" text="Procedi" />
-      <Line endX="603.0" layoutX="98.0" layoutY="250.0" startX="-100.0" strokeWidth="3.0">
+      <Button fx:id="indietroButton" layoutX="237.0" layoutY="560.0" mnemonicParsing="false" onMouseClicked="#handleIndietro" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: orange;" text="Indeitro" />
+      <Button fx:id="creaButton" layoutX="383.0" layoutY="560.0" mnemonicParsing="false" onMouseClicked="#handleCrea" style="-fx-background-color: orange;" text="Crea Torneo" />
+      <Button fx:id="procButton" layoutX="315.0" layoutY="230.0" mnemonicParsing="false" onMouseClicked="#handleMostra" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: orange;" text="Procedi" />
+      <Line endX="603.0" layoutX="98.0" layoutY="286.0" startX="-100.0" strokeWidth="3.0">
          <stroke>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -70,10 +71,10 @@
             </LinearGradient>
          </stroke>
       </Line>
-      <ComboBox fx:id="sceltaGiocatore1" layoutX="88.0" layoutY="294.0" prefHeight="25.0" prefWidth="228.0" />
-      <ComboBox fx:id="sceltaGiocatore4" layoutX="390.0" layoutY="386.0" prefHeight="25.0" prefWidth="228.0" />
-      <ComboBox fx:id="sceltaGiocatore2" layoutX="390.0" layoutY="294.0" prefHeight="25.0" prefWidth="228.0" />
-      <ComboBox fx:id="sceltaGiocatore3" layoutX="88.0" layoutY="386.0" prefHeight="25.0" prefWidth="228.0" />
+      <ComboBox fx:id="sceltaGiocatore1" layoutX="85.0" layoutY="348.0" prefHeight="25.0" prefWidth="228.0" />
+      <ComboBox fx:id="sceltaGiocatore4" layoutX="390.0" layoutY="436.0" prefHeight="25.0" prefWidth="228.0" />
+      <ComboBox fx:id="sceltaGiocatore2" layoutX="390.0" layoutY="344.0" prefHeight="25.0" prefWidth="228.0" />
+      <ComboBox fx:id="sceltaGiocatore3" layoutX="85.0" layoutY="440.0" prefHeight="25.0" prefWidth="228.0" />
       <Label fx:id="labelCodice" layoutX="80.0" layoutY="144.0" prefHeight="17.0" prefWidth="228.0">
          <font>
             <Font size="9.0" />
@@ -86,7 +87,21 @@
             <Font size="11.0" />
          </font>
       </Label>
-      <RadioButton fx:id="modDueGiocatori" contentDisplay="CENTER" layoutX="390.0" layoutY="123.0" mnemonicParsing="false" onMouseClicked="#handleCheckBoxAction" text="Due Giocatori" />
-      <RadioButton fx:id="modQuattroGiocatori" contentDisplay="CENTER" layoutX="509.0" layoutY="123.0" mnemonicParsing="false" onMouseClicked="#handleCheckBoxAction" text="Quattro Giocatori" />
-   </children>
+      <VBox alignment="CENTER" layoutX="415.0" layoutY="116.0" prefHeight="91.0" prefWidth="100.0" spacing="10">
+        <RadioButton fx:id="radioButton2" contentDisplay="CENTER" onMouseClicked="#handleCheckBoxAction" prefHeight="58.0" prefWidth="100.0" text="2 giocatori" />
+        <RadioButton fx:id="radioButton4" contentDisplay="CENTER" onMouseClicked="#handleCheckBoxAction" prefHeight="55.0" prefWidth="100.0" text="4 giocatori" />
+    </VBox>
+      <Label layoutX="85.0" layoutY="495.0" prefHeight="49.0" prefWidth="531.0" text="Specifico che non è importante inserire dei giocatore, in quanto alla mancata scelta di un giocatore esso verrà reato in maniera causale. " textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+     <RadioButton fx:id="radioButton32" contentDisplay="CENTER" layoutX="461.0" layoutY="217.0" prefHeight="27.0" prefWidth="108.0" text="32 giocatori" />
+      <VBox alignment="CENTER" layoutX="532.0" layoutY="116.0" prefHeight="91.0" prefWidth="100.0" spacing="10">
+         <children>
+            <RadioButton fx:id="radioButton8" contentDisplay="CENTER" onMouseClicked="#handleCheckBoxAction" prefHeight="58.0" prefWidth="100.0" text=" 8 giocatori" />
+            <RadioButton fx:id="radioButton16" contentDisplay="CENTER" onMouseClicked="#handleCheckBoxAction" prefHeight="55.0" prefWidth="100.0" text="16 giocatori" />
+         </children>
+      </VBox>
+    </children>
 </Pane>

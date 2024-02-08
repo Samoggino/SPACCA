@@ -97,7 +97,7 @@ public class TavoloController {
                 buildView();
                 Platform.runLater(() -> {
                     // mostro le regole del gioco
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Regole del gioco Spacca");
                     alert.setHeaderText("Benvenuto a Spacca!");
 
