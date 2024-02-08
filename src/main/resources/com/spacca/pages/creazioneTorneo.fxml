@@ -88,8 +88,8 @@
          </font>
       </Label>
       <VBox alignment="CENTER" layoutX="415.0" layoutY="116.0" prefHeight="91.0" prefWidth="100.0" spacing="10">
-        <RadioButton fx:id="radioButton2" contentDisplay="CENTER" onMouseClicked="#handleCheckBoxAction" prefHeight="58.0" prefWidth="100.0" text="2 giocatori" />
-        <RadioButton fx:id="radioButton4" contentDisplay="CENTER" onMouseClicked="#handleCheckBoxAction" prefHeight="55.0" prefWidth="100.0" text="4 giocatori" />
+        <RadioButton fx:id="radioButton2" contentDisplay="CENTER" prefHeight="58.0" prefWidth="100.0" text="2 giocatori" />
+        <RadioButton fx:id="radioButton4" contentDisplay="CENTER" prefHeight="55.0" prefWidth="100.0" text="4 giocatori" />
     </VBox>
       <Label layoutX="85.0" layoutY="495.0" prefHeight="49.0" prefWidth="531.0" text="Specifico che non è importante inserire dei giocatore, in quanto alla mancata scelta di un giocatore esso verrà reato in maniera causale. " textAlignment="CENTER" wrapText="true">
          <font>
@@ -99,8 +99,8 @@
      <RadioButton fx:id="radioButton32" contentDisplay="CENTER" layoutX="461.0" layoutY="217.0" prefHeight="27.0" prefWidth="108.0" text="32 giocatori" />
       <VBox alignment="CENTER" layoutX="532.0" layoutY="116.0" prefHeight="91.0" prefWidth="100.0" spacing="10">
          <children>
-            <RadioButton fx:id="radioButton8" contentDisplay="CENTER" onMouseClicked="#handleCheckBoxAction" prefHeight="58.0" prefWidth="100.0" text=" 8 giocatori" />
-            <RadioButton fx:id="radioButton16" contentDisplay="CENTER" onMouseClicked="#handleCheckBoxAction" prefHeight="55.0" prefWidth="100.0" text="16 giocatori" />
+            <RadioButton fx:id="radioButton8" contentDisplay="CENTER"  prefHeight="58.0" prefWidth="100.0" text=" 8 giocatori" />
+            <RadioButton fx:id="radioButton16" contentDisplay="CENTER" prefHeight="55.0" prefWidth="100.0" text="16 giocatori" />
          </children>
       </VBox>
     </children>
