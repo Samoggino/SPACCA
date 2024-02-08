@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
-import java.util.stream.Collectors;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
@@ -277,35 +277,6 @@ public class PartitaHandler implements Handler {
             System.err.println("Errore generico durante l'operazione di modifica della partita: " + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    public List<String> getAllPartite() {
-        String folderPath = "/com/spacca/database/partite/";
-        List<String> fileNames = new ArrayList<>();
-        try {
-            // Ottieni il percorso completo della cartella delle risorse
-            Path resourceFolder = Paths.get(getClass().getResource(folderPath).toURI());
-
-            // Ottieni la lista dei nomi dei file JSON presenti nella cartella
-            fileNames = Files.walk(resourceFolder, 1)
-                    .filter(path -> !path.getFileName().toString().equals("template-partita.json"))
-                    .filter(path -> path.toString().endsWith(".json") && Files.isRegularFile(path))
-                    .map(path -> path.getFileName().toString())
-                    .collect(Collectors.toList());
-            return fileNames;
-
-        } catch (NullPointerException e) {
-            System.err.println("Caricamento nullo " + e.getMessage());
-            e.printStackTrace();
-        } catch (IOException e) {
-            System.err.println("IOException " + e.getMessage());
-            e.printStackTrace();
-        } catch (Exception e) {
-            System.err.println("IOException " + e.getMessage());
-            e.printStackTrace();
-
-        }
-        return fileNames;
     }
 
     public List<String> mostraTutteLePartite() {
