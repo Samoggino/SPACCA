@@ -21,10 +21,14 @@ BorderPane{
 
 }
 
-VBox{
+VBox, #playerHand{
     background-color: linear-gradient(#2c1803,rgb(84, 53, 36));
     -fx-background-color:  linear-gradient(#2c1803,rgb(84, 53, 36));    
+}
 
+Button{
+    background-color:wheat;
+    -fx-background-color: wheat;
 }
 Text{
     color: wheat;
