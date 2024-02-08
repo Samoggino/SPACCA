@@ -87,8 +87,7 @@ public class CreazioneTorneoController implements Initializable {
     private void handleMostra() {
         System.out.println("SIAMO IN MOSTRA TORNEO ");
 
-        String codice = codiceField.getText().trim();
-        codice = "T" + codice;
+        String codice = "T" + codiceField.getText().trim();
 
         // se il codice non è stato inserito correttamente e/o il radio botton
         // selezionato

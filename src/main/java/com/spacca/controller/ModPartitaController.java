@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import com.spacca.App;
 import com.spacca.asset.match.Partita;
+import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.database.GiocatoreHandler;
@@ -169,9 +170,14 @@ public class ModPartitaController implements Initializable {
     @FXML
     private void handleIndietroButton() {
         try {
-            changeSceneUtente(("Benvenuto " + giocatoreCorrente.getUsername() + " !"),
-                    "/com/spacca/pages/benvenutoUtente.fxml",
-                    giocatoreCorrente);
+            if (giocatoreCorrente.getUsername().equals("admin")) {
+                Amministratore admin = new Amministratore();
+                admin.ritornaBenvenutoAdmin(indietroButton.getScene());
+            } else {
+                changeSceneUtente(("Benvenuto " + giocatoreCorrente.getUsername() + " !"),
+                        "/com/spacca/pages/benvenutoUtente.fxml",
+                        giocatoreCorrente);
+            }
 
         } catch (NullPointerException e) {
             System.out.println("Erorre nel passaggio del giocatore ! " + e.getLocalizedMessage());

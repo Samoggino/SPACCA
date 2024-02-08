@@ -1,0 +1,43 @@
+/* styles.css */
+#tavolo{
+    -fx-alignment: center;
+    background-size: cover;
+    -fx-background-size: cover;
+    background-position: center ;
+    -fx-background-position: center; 
+    -fx-alignment: center;
+    align-content:center;
+    background-repeat: no-repeat;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url("../images/sfondo.jpeg");
+    background-image: image("@../images/sfondo.jpeg");
+}
+
+BorderPane{
+    background-color: #1f1204;
+    -fx-background-color: #1f1204;
+    color: wheat;
+    -fx-color-fill: wheat;
+
+}
+
+VBox, #playerHand{
+    background-color: linear-gradient(#2c1803,rgb(84, 53, 36));
+    -fx-background-color:  linear-gradient(#2c1803,rgb(84, 53, 36));    
+}
+
+Button{
+    background-color:wheat;
+    -fx-background-color: wheat;
+}
+Text{
+    color: wheat;
+    -fx-fill: wheat;
+}
+
+TextField{
+    background-color: wheat;
+    -fx-background-color:  wheat;   
+    color: #2c1803;
+    -fx-fill: #2c1803;
+}
