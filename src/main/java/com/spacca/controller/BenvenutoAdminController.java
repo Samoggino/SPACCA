@@ -5,6 +5,8 @@ import java.io.IOException;
 import com.spacca.App;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.database.GiocatoreHandler;
+import com.spacca.database.PartitaHandler;
+import com.spacca.database.TorneoHandler;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,21 +39,41 @@ public class BenvenutoAdminController {
     private void handleModificaUtente() {
         System.out.println("Siamo in Modifica utente");
         String titlePages = "Modifica utente ";
+        // non mando un alert perchè c'è sempre almeno un giocatore (l'admin)
         changeSceneModificaUtente("/com/spacca/pages/selezionaUtente.fxml", titlePages);
     }
 
     @FXML
-    private void handleElimnaPartita() {
-        System.out.println("Siamo in Elimina partita" + amministratore);
-        String titlePages = "Elimina partita ";
-        changeSceneEliminaPartita("/com/spacca/pages/eliminaPartita.fxml", titlePages);
+    private void handleElimnaPartita() throws IOException, ClassNotFoundException {
+        try {
+            System.out.println("Siamo in Elimina partita" + amministratore);
+            PartitaHandler partitaHandler = new PartitaHandler();
+            if (partitaHandler.getAllPartite().isEmpty()) {
+                showAlert(Alert.AlertType.INFORMATION, "Non ci sono partite da selezionare",
+                        "Di conseguenza, non è possibile eliminare alcuna partita");
+            } else {
+                String titlePages = "Elimina partita ";
+                changeSceneEliminaPartita("/com/spacca/pages/eliminaPartita.fxml", titlePages);
+            }
+        } catch (NullPointerException e) {
+            System.err.println("Eccezione NullPointerException: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Eccezione generica: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void handleElimnaTorneo() {
         System.out.println("Siamo in Elimina Torneo" + amministratore);
         String titlePages = "Elimina Torneo ";
-        changeSceneEliminaTorneo("/com/spacca/pages/eliminaTorneo.fxml", titlePages);
+        TorneoHandler torneoHandler = new TorneoHandler();
+        if (torneoHandler.mostraTuttiITornei().isEmpty()) {
+            showAlert(Alert.AlertType.INFORMATION, "Non ci sono tornei da selezionare",
+                    "Di conseguenza, non è possibile eliminare alcun torneo");
+        } else {
+            changeSceneEliminaTorneo("/com/spacca/pages/eliminaTorneo.fxml", titlePages);
+        }
     }
 
     private void changeSceneEliminaTorneo(String fxmlPath, String titlePages) {
@@ -270,5 +292,13 @@ public class BenvenutoAdminController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void showAlert(AlertType tipo, String titolo, String contenuto) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titolo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenuto);
+        alert.showAndWait();
     }
 }

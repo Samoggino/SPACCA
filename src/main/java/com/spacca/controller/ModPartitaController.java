@@ -85,7 +85,7 @@ public class ModPartitaController implements Initializable {
                 avvioButton.setDisable(true);
                 if (listaCodici.getItems().isEmpty()) {
                     showAlert(Alert.AlertType.ERROR, "Non ci sono partite da selezionare",
-                            "Ci dispiaca, ma non possiedi alcun codice per giocare !");
+                            "Ci dispiace, ma non possiedi alcun codice per giocare !");
                 } else {
                     showAlert(Alert.AlertType.ERROR, "Errore",
                             "Non hai selezionato alcun codice");
