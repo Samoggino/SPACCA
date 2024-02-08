@@ -412,11 +412,13 @@ public class Partita extends Object {
             for (String giocatore : getListaDeiGiocatori()) {
                 if (!giocatore.equals(this.ultimoGiocatoreCheHapreso)) {
                     this.vincitore = giocatore;
+                    salvaPartita();
                     return this.vincitore;
                 }
             }
         }
 
+        salvaPartita();
         return this.vincitore;
     }
 

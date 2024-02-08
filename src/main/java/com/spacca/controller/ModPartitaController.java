@@ -140,7 +140,7 @@ public class ModPartitaController implements Initializable {
             Parent root = loader.load();
             TavoloController tavolo = loader.getController();
             loader.setController(tavolo);
-            tavolo.initController(partita, tipoPartita, giocatoreCorrente);
+            tavolo.initController(new PartitaHandler().carica(partita.getCodice()), tipoPartita, giocatoreCorrente);
 
             // Ottieni la scena corrente
             Scene currentScene = indietroButton.getScene();

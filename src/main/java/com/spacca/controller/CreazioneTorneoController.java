@@ -88,8 +88,9 @@ public class CreazioneTorneoController implements Initializable {
         System.out.println("SIAMO IN MOSTRA TORNEO ");
 
         String codice = codiceField.getText().trim();
+        codice = "T" + codice;
 
-        // se il codice non è stato inserito correttamente e/0 il radio botton
+        // se il codice non è stato inserito correttamente e/o il radio botton
         // selezionato
         if (generaCodiceRadioButton.isSelected() && controllaSelezione()) {
             comboBoxes = inizializeComboBoxandLayout();

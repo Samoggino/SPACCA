@@ -89,7 +89,12 @@ public class TavoloController {
                 System.out.println("Leaderboard: " + torneo.getLeaderboard());
             }
 
-            buildView();
+            if (!partita.hasWinner()) {
+                buildView();
+            } else {
+                System.out.println("La partita è già finita");
+                buildOverlay();
+            }
 
         } catch (Exception e) {
             System.err.println("ERRORE (initController):\t\t " + e.getMessage());
@@ -147,13 +152,13 @@ public class TavoloController {
                 buildMano();
                 buildTavolo();
                 buildClassifica();
+                buildOverlay();
 
             } catch (Exception e) {
                 System.err.println("ERRORE (buildView):\t\t " + e.getMessage());
                 e.printStackTrace();
             }
         }
-        buildOverlay();
 
     }
 
@@ -288,11 +293,9 @@ public class TavoloController {
 
     void buildOverlay() {
         try {
-            if (partita.hasWinner()
-            // partita.getCarteSulTavolo().size() == 0
-            // && partita.getMazzoDiGioco().size() == 0
-            // && partita.giocatoriNonHannoCarteInMano()
-            ) {
+            if (partita.getCarteSulTavolo().size() == 0
+                    && partita.getMazzoDiGioco().size() == 0
+                    && partita.giocatoriNonHannoCarteInMano()) {
                 overlay.setVisible(true);
                 andTheWinnerIs.setText(partita.getVincitore());
 
@@ -303,24 +306,11 @@ public class TavoloController {
                 risultatoOverlay.setText(classifica);
                 risultatoOverlay.setTextAlignment(TextAlignment.CENTER);
 
-                if (isTorneo) {
-                    eliminaPartitaButton.setVisible(false);
-                    torneo.simulaPartiteCPU();
-                    torneo.nuovoTurnoDelTorneo();
-
-                    if (torneo.possoPassareAlTurnoSuccessivo()) {
-                        System.out.println("Dovrei elimnare la partita e passare al turno successivo");
-                    }
-
-                    if (torneo.hasWinner()) {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Fine torneo");
-                        alert.setHeaderText("Il vincitore del torneo è: " + torneo.getVincitore());
-                        alert.showAndWait();
-                    }
-
-                }
                 preventLoop = 100;
+
+                if (isTorneo) {
+                    partitaDiUnTorneo();
+                }
 
             }
 
@@ -352,7 +342,7 @@ public class TavoloController {
             ModPartitaController menu = new ModPartitaController();
             menu = loader.getController();
             loader.setController(menu);
-            menu.initController(giocatoreLoggato);
+            menu.initController(new GiocatoreHandler().carica(giocatoreLoggato.getUsername()));
 
             Scene currentScene = piatto.getScene();
 
@@ -557,5 +547,24 @@ public class TavoloController {
                 .map(node -> (Text) node)
                 .findFirst()
                 .orElse(new Text());
+    }
+
+    public void partitaDiUnTorneo() {
+        eliminaPartitaButton.setVisible(false);
+        torneo.simulaPartiteCPU();
+        torneo.nuovoTurnoDelTorneo();
+
+        if (torneo.hasWinner()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Fine torneo");
+            alert.setHeaderText("Il vincitore del torneo è: " + torneo.getVincitore());
+            alert.showAndWait();
+            return;
+        }
+
+        if (torneo.possoPassareAlTurnoSuccessivo()) {
+            System.out.println("Dovrei elimnare la partita e passare al turno successivo");
+        }
+
     }
 }
