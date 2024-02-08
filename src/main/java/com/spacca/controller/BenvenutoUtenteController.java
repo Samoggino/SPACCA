@@ -11,6 +11,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
@@ -27,7 +29,20 @@ public class BenvenutoUtenteController {
     private void handleGiocaButton() {
         // Mostra lo stage del popup
         try {
-            changeScene("Modalità partita", "/com/spacca/pages/modpartita.fxml");
+            if (giocatoreCorrente.getListaCodiciPartite().isEmpty()
+                    && giocatoreCorrente.getListaCodiciTornei().isEmpty()) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setContentText(
+                        "\n Siamo spiacenti, ma non sei stato inserito in alcuna partita. \n Pertanto, non hai la possibilità di giocare in questo momento \n");
+                alert.showAndWait();
+            } else {
+                System.out.println("Siamo in creazione singola");
+                changeScene("Modalità partita", "/com/spacca/pages/modpartita.fxml");
+
+            }
+        } catch (NullPointerException e) {
+            System.err.println("Giocatore caricato null: " + e.getLocalizedMessage() + e.getMessage());
+            e.printStackTrace();
         } catch (Exception e) {
             System.err.println("Errore durante il caricamento di modpartita.fxml: " + e.getMessage());
             e.printStackTrace();
