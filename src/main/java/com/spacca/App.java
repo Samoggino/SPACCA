@@ -19,24 +19,8 @@ public class App extends Application {
 
         try {
 
-            // Amministratore admin = new Amministratore();
-            // AbstractGiocatore yoshi = admin.caricaUtente("yoshi");
-            // AbstractGiocatore koopa = admin.caricaUtente("koopa") ;
-
-            // List<String> listaGiocatori = new ArrayList<>();
-            // listaGiocatori.add(yoshi.getUsername());
-            // listaGiocatori.add(koopa.getUsername());
-            // Partita partita = admin.creaPartita(listaGiocatori);
-            // FXMLLoader loader = new
-            // FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
-            // Parent root = loader.load();
-            // TavoloController tavolo = loader.getController();
-            // loader.setController(tavolo);
-            // tavolo.initController(partita, false, yoshi);
-
             scene = new Scene(loadFXML("login"), 600, 500);
-            // stage.setTitle(partita.getCodice());
-            // stage.setScene(new Scene(root));
+            stage.setTitle("Login");
             stage.setScene(scene);
             stage.show();
 

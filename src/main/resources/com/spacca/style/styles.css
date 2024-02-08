@@ -10,7 +10,8 @@
     background-repeat: no-repeat;
     -fx-background-repeat: no-repeat;
     -fx-background-image: url("../images/sfondo.jpeg");
-    background-image: image("@../images/sfondo.jpeg");
+    background-image: url("../images/sfondo.jpeg");
+
 }
 
 BorderPane{
