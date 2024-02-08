@@ -19,6 +19,7 @@ import com.spacca.database.TorneoHandler;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -28,6 +29,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -91,6 +95,45 @@ public class TavoloController {
 
             if (!partita.hasWinner()) {
                 buildView();
+                Platform.runLater(() -> {
+                    // mostro le regole del gioco
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Regole del gioco Spacca");
+                    alert.setHeaderText("Benvenuto a Spacca!");
+
+                    String testo = "In questo gioco chiamato Spacca, l'obiettivo è guadagnare almeno due punti per vincere.\n\n"
+                            +
+                            "Le regole di base sono le seguenti:\n" +
+                            "- Sul tavolo sono presenti 4 carte, al centro.\n" +
+                            "- Ogni giocatore pesca tre carte per turno e si giocano alternati una carta alla volta.\n\n"
+                            +
+                            "Durante il proprio turno, il giocatore può effettuare una delle seguenti azioni:\n"
+                            +
+                            "- Scartare: mettere al centro del tavolo una carta.\n" +
+                            "- Pescare: raccogliendo la carta dello stesso numero oppure pescando tutte le carte sul tavolo con l'asso.\n"
+                            +
+                            "- Rubare il mazzo: in base al sette si ha la possibilità di pescare metà mazzo o l'intero mazzo di un avversario.\n\n"
+                            +
+                            "Per quanto riguarda il punteggio, i possibili punti sono:\n" +
+                            "- Il giocatore che ha alla fine del gioco il due di bastoni prende un punto.\n" +
+                            "- Si somma il punteggio totale dei punti: le carte dal 2 al 6 valgono 5 punti, le carte dal 8 al 10 valgono 10 punti, l'asso e il sette valgono 15 punti.\n"
+                            +
+                            "- Si conta chi ha più carte nel proprio mazzo.\n\n" +
+                            "Buona fortuna e buon divertimento!";
+
+                    TextArea textArea = new TextArea(testo);
+                    textArea.setEditable(false);
+                    textArea.setWrapText(true);
+
+                    ScrollPane scrollPane = new ScrollPane(textArea);
+                    scrollPane.setFitToWidth(true);
+                    scrollPane.setFitToHeight(true);
+
+                    // Imposta il contenuto personalizzato nella finestra di dialogo
+                    alert.getDialogPane().setContent(scrollPane);
+                    alert.showAndWait();
+
+                });
             } else {
                 System.out.println("La partita è già finita");
                 buildOverlay();
