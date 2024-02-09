@@ -212,48 +212,13 @@ public class GiocatoreHandler implements Handler {
         }
     }
 
-    public List<String> getAllGiocatori() {
-        List<String> modifiedFileNames = null;
-        try {
-            String folderPath = "/com/spacca/database/giocatori/";
-
-            // Ottieni il percorso completo della cartella delle risorse
-            Path resourceFolder = Paths.get(getClass().getResource(folderPath).toURI());
-
-            // Ottieni la lista dei nomi dei file JSON presenti nella cartella
-            // escludo gli amministratori e gli utenti robot
-            List<String> fileNames = Files.list(resourceFolder)
-                    .filter(path -> path.toString().endsWith(".json") && Files.isRegularFile(path))
-                    .map(path -> path.getFileName().toString())
-                    .collect(Collectors.toList());
-
-            // Rimuovi "user-" e ".json" dai nomi dei file
-            modifiedFileNames = fileNames.stream()
-                    .map(fileName -> fileName.replace("user-", "").replace(".json", ""))
-                    .collect(Collectors.toList());
-
-        } catch (NullPointerException e) {
-            System.err
-                    .println("Eccezione durante l'operazione di ottenimento del percorso della cartella delle risorse: "
-                            + e.getMessage());
-        } catch (IOException e) {
-            System.err.println(
-                    "Eccezione di I/O durante l'operazione di lettura della cartella delle risorse: " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println(
-                    "Errore generico durante l'operazione di ottenimento dei nomi dei file: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return modifiedFileNames;
-    }
-
     // trasformo la lista di username in giocatori per filtrare in base al tipo
     // ritorno la lista di stringhe filtrate
     public List<String> filtraListaGiocatori(String typeString) {
         List<String> giocatori = new ArrayList<>();
         List<String> appoggio = new ArrayList<>();
         try {
-            appoggio = getAllGiocatori();
+            appoggio = mostraTutteGliUtenti();
             if (appoggio != null) {
                 for (String username : appoggio) {
                     try {
