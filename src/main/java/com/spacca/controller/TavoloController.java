@@ -87,10 +87,7 @@ public class TavoloController {
             if (isTorneo) {
                 // il codice è fatto tornei/T1234/TP1234
                 String codiceTorneo = partita.getCodice().split("/")[1];
-                System.out.println("Codice torneo: " + codiceTorneo);
                 this.torneo = new TorneoHandler().carica(codiceTorneo);
-                System.out.println("Torneo: " + torneo);
-                System.out.println("Leaderboard: " + torneo.getLeaderboard());
             }
 
             if (!partita.hasWinner()) {
@@ -135,7 +132,6 @@ public class TavoloController {
 
                 });
             } else {
-                System.out.println("La partita è già finita");
                 buildOverlay();
             }
 
@@ -602,10 +598,6 @@ public class TavoloController {
             alert.setHeaderText("Il vincitore del torneo è: " + torneo.getVincitore());
             alert.showAndWait();
             return;
-        }
-
-        if (torneo.possoPassareAlTurnoSuccessivo()) {
-            System.out.println("Dovrei elimnare la partita e passare al turno successivo");
         }
 
     }
