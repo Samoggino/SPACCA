@@ -8,15 +8,12 @@ import com.spacca.asset.match.Partita;
 import com.spacca.asset.match.Torneo;
 import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.controller.TavoloController;
-import com.spacca.database.GiocatoreHandler;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -30,43 +27,47 @@ public class App extends Application {
 
         try {
 
-            Amministratore amministratore = new Amministratore();
-            AbstractGiocatore admin = amministratore.creaGiocatore("admin", "Giocatore");
-            AbstractGiocatore yoshi = amministratore.creaGiocatore("yoshi", "SmartCPU");
-            AbstractGiocatore peach = amministratore.creaGiocatore("peach", "SmartCPU");
-            AbstractGiocatore mamma = amministratore.creaGiocatore("mamma", "SmartCPU");
-            List<String> listaGiocatori = new ArrayList<>();
-            listaGiocatori.add(admin.getUsername());
-            listaGiocatori.add(yoshi.getUsername());
-            listaGiocatori.add(peach.getUsername());
-            listaGiocatori.add(mamma.getUsername());
+            // Amministratore amministratore = new Amministratore();
+            // AbstractGiocatore admin = amministratore.caricaUtente("admin");
+            // AbstractGiocatore yoshi = amministratore.caricaUtente("yoshi");
+            // AbstractGiocatore peach = amministratore.caricaUtente("peach");
+            // AbstractGiocatore toad = amministratore.caricaUtente("toad");
+            // List<String> listaGiocatori = new ArrayList<>();
+            // listaGiocatori.add(admin.getUsername());
+            // listaGiocatori.add(yoshi.getUsername());
+            // listaGiocatori.add(peach.getUsername());
+            // listaGiocatori.add(toad.getUsername());
 
-            int numeroGiocatoriScelto = 8;
-            System.out.println("Numero selezionato: " + numeroGiocatoriScelto);
-            System.out.println("Nuemro giocatori inseriti " + listaGiocatori.size());
-            Torneo torneo = amministratore.creaTorneo(listaGiocatori, numeroGiocatoriScelto);
+            // int numeroGiocatoriScelto = 8;
+            // System.out.println("Numero selezionato: " + numeroGiocatoriScelto);
+            // System.out.println("Nuemro giocatori inseriti " + listaGiocatori.size());
+            // Torneo torneo = amministratore.creaTorneo(listaGiocatori,
+            // numeroGiocatoriScelto);
 
-            System.out.println("Torneo creato con questi partecipanti: " + torneo.getPartecipanti() + "\t"
-                    + torneo.getPartecipanti().size());
+            // System.out.println("Torneo creato con questi partecipanti: " +
+            // torneo.getPartecipanti() + "\t"
+            // + torneo.getPartecipanti().size());
 
-            Partita partita = amministratore.caricaPartita(torneo.getCodiciPartite().get(0));
+            // Partita partita =
+            // amministratore.caricaPartita(torneo.getCodiciPartite().get(0));
 
-            // new GiocatoreHandler().elimina(mamma.getUsername());
+            // new GiocatoreHandler().elimina(toad.getUsername());
 
-            partita = amministratore.caricaPartita(partita.getCodice());
+            // partita = amministratore.caricaPartita(partita.getCodice());
 
             // Amministratore admin = new Amministratore();
             // Partita partita = admin.caricaPartita("tornei/T7094/TP3497");
 
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
-            Parent root = loader.load();
-            TavoloController tavolo = loader.getController();
-            loader.setController(tavolo);
-            tavolo.initController(partita, false, amministratore);
-            // scene = new Scene(loadFXML("login"), 600, 500);
-            stage.setTitle(partita.getCodice());
-            stage.setScene(new Scene(root));
-            // stage.setScene(scene);
+            // FXMLLoader loader = new
+            // FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
+            // Parent root = loader.load();
+            // TavoloController tavolo = loader.getController();
+            // loader.setController(tavolo);
+            // tavolo.initController(partita, false, amministratore);
+            scene = new Scene(loadFXML("login"), 600, 500);
+            // stage.setTitle(partita.getCodice());
+            // stage.setScene(new Scene(root));
+            stage.setScene(scene);
             stage.show();
 
         } catch (IOException e) {

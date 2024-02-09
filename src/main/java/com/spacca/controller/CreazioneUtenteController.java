@@ -208,7 +208,4 @@ public class CreazioneUtenteController implements Initializable {
         }
     }
 
-    public void initController() {
-    }
-
 }

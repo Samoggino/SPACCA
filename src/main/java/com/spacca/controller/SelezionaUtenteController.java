@@ -33,10 +33,6 @@ public class SelezionaUtenteController implements Initializable {
     @FXML
     private String username;
 
-    @FXML
-    public void initController() {
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 

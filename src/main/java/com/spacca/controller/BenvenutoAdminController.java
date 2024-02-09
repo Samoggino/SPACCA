@@ -21,7 +21,7 @@ public class BenvenutoAdminController {
 
     @FXML
     private Button bottoneCreaSingola, bottoneCreaTorneo, bottoneCreaUtente, bottoneEliminaSingola,
-            bottoneModificaUtente, bottoneEliminaTorneo, bottoneModPartita;
+            bottoneModificaUtente, bottoneEliminaTorneo, bottoneModPartita, bottoneEliminaGiocatore;
 
     @FXML
     public AbstractGiocatore amministratore;
@@ -30,9 +30,6 @@ public class BenvenutoAdminController {
     private void initialize() throws IOException {
         GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
         amministratore = giocatoreHandler.carica("admin");
-    }
-
-    public void initController() {
     }
 
     @FXML
@@ -44,7 +41,7 @@ public class BenvenutoAdminController {
     }
 
     @FXML
-    private void handleElimnaPartita() throws IOException, ClassNotFoundException {
+    private void handleEliminaPartita() throws IOException, ClassNotFoundException {
         try {
             System.out.println("Siamo in Elimina partita" + amministratore);
             PartitaHandler partitaHandler = new PartitaHandler();
@@ -64,7 +61,7 @@ public class BenvenutoAdminController {
     }
 
     @FXML
-    private void handleElimnaTorneo() {
+    private void handleEliminaTorneo() {
         System.out.println("Siamo in Elimina Torneo" + amministratore);
         String titlePages = "Elimina Torneo ";
         TorneoHandler torneoHandler = new TorneoHandler();
@@ -73,6 +70,39 @@ public class BenvenutoAdminController {
                     "Di conseguenza, non è possibile eliminare alcun torneo");
         } else {
             changeSceneEliminaTorneo("/com/spacca/pages/eliminaTorneo.fxml", titlePages);
+        }
+    }
+
+    @FXML
+    private void handleEliminaGicoatore() {
+        System.out.println("Siamo in Elimina Giocatore");
+        changeSceneEliminaGiocatore();
+    }
+
+    private void changeSceneEliminaGiocatore() {
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/eliminaGiocatore.fxml"));
+            Parent root = loader.load();
+
+            Scene currentScene = bottoneModificaUtente.getScene();
+
+            EliminaGiocatoreController selezionaUenteController = loader.getController();
+            loader.setController(selezionaUenteController);
+
+            // Ottieni lo Stage dalla scena corrente
+            Stage currentStage = (Stage) currentScene.getWindow();
+            currentStage.setTitle("Elimina Giocatore");
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+
+        } catch (NullPointerException e) {
+            System.out.println("Elimina partita nullpointerexception! " + e);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("IO Errore (Benvenuto Admin controller per elimina partita): \n" + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore (Benvenuto Admin controller elimina partita): \n" + e.getMessage());
+            e.printStackTrace();
         }
     }
 

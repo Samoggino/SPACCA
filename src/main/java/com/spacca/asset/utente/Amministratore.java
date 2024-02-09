@@ -43,6 +43,10 @@ public class Amministratore extends AbstractGiocatore {
         torneoHandler.elimina(codice);
     }
 
+    public void eliminaGiocatore(String username) {
+        giocatoreHandler.elimina(username);
+    }
+
     public void modificaProfiloGiocatore(String oldGiocatore, Object newGiocatore) throws FileNotFoundException {
         giocatoreHandler.modifica(oldGiocatore, newGiocatore);
     }
@@ -194,4 +198,5 @@ public class Amministratore extends AbstractGiocatore {
     public Torneo caricaTorneo(String codiceTorneo) {
         return (Torneo) new TorneoHandler().carica(codiceTorneo);
     }
+
 }

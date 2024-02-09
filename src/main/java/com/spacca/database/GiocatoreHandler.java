@@ -101,7 +101,7 @@ public class GiocatoreHandler implements Handler {
     }
 
     @Override
-    public boolean elimina(String username) throws FileNotFoundException {
+    public boolean elimina(String username) {
         String path = "src/main/resources/com/spacca/database/giocatori/user-" + username + ".json";
         try {
 

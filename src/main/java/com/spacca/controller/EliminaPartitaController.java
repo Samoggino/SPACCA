@@ -34,11 +34,6 @@ public class EliminaPartitaController implements Initializable {
 
     transient private Amministratore admin = new Amministratore();
 
-    @FXML
-    public void initController() {
-
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {

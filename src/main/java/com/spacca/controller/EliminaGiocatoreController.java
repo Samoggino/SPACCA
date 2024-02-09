@@ -7,8 +7,7 @@ import java.util.ResourceBundle;
 
 import com.spacca.App;
 import com.spacca.asset.utente.Amministratore;
-import com.spacca.asset.utente.giocatore.AbstractGiocatore;
-import com.spacca.database.TorneoHandler;
+import com.spacca.database.GiocatoreHandler;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,56 +15,44 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
-public class EliminaTorneoController implements Initializable {
+public class EliminaGiocatoreController implements Initializable {
 
-    @FXML
-    private AbstractGiocatore giocatoreCorrente;
     @FXML
     private ComboBox<String> listaUtenti;
 
     @FXML
-    private Button indietro;
+    private Button indietro, procedi;
 
     @FXML
-    private Button procedi;
+    private String nomeFileGiocatoreScelto;
 
-    @FXML
-    private String nomeFileTorneoScelto;
-
-    private Amministratore admin = new Amministratore();
+    transient private Amministratore admin = new Amministratore();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            // Ottieni la lista dei nomi dei file JSON presenti nella cartella
-            List<String> fileNames = new TorneoHandler().mostraTuttiITornei();
 
-            // Rimuovi "user-" e ".json" dai nomi dei file
-            List<String> modifiedFileNames = fileNames;
-            // fileNames.stream()
-            // .map(fileName -> fileName.replace(".json", ""))
-            // .collect(Collectors.toList());
-
+            List<String> fileNames = new GiocatoreHandler().mostraTutteGliUtenti();
             // Popola il ComboBox con la lista dei nomi dei file
-            listaUtenti.getItems().addAll(modifiedFileNames);
+            listaUtenti.getItems().addAll(fileNames);
 
             listaUtenti.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                System.out.println("Torneo selezionato: " + newValue);
                 // Salva il valore selezionato nella variabile globale
-                this.nomeFileTorneoScelto = newValue;
+                this.nomeFileGiocatoreScelto = newValue;
             });
 
-            if (modifiedFileNames.isEmpty()) {
+            if (fileNames.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("");
-                alert.setHeaderText("Al momento non sono presenti partite.");
-                alert.setContentText("Non puoi eliminare alcuna partita.");
+                alert.setHeaderText("Al momento non sono presenti giocatori.");
+                alert.setContentText("Non puoi eliminare alcun giocatore.");
                 alert.showAndWait();
                 App.setRoot("benvenutoAdmin");
             }
-
             listaUtenti.setVisibleRowCount(3);
 
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
@@ -78,24 +65,28 @@ public class EliminaTorneoController implements Initializable {
     }
 
     public void handleProcedi() throws IOException {
-        System.out.println("Siamo in procedi all'eliminazione della partita " + nomeFileTorneoScelto);
-        if (nomeFileTorneoScelto == null) {
+        if (nomeFileGiocatoreScelto == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("");
             alert.setHeaderText("");
-            alert.setContentText("Non puoi procedere alla modifica \n se non selezioni alcuna partita ! ");
+            alert.setContentText("Non puoi procedere alla modifica \n se non selezioni alcun giocatore! ");
             alert.showAndWait();
         } else {
-            System.out.println("Torneo selezionato " + nomeFileTorneoScelto);
-
-            System.out.print("nomeFileTorneoScelto" + nomeFileTorneoScelto);
-
-            admin.eliminaTorneo(nomeFileTorneoScelto);
+            try {
+                admin.eliminaGiocatore(nomeFileGiocatoreScelto);
+            } catch (NullPointerException e) {
+                // Gestione specifica per la NullPointerException
+                System.err.println("NullPointerException: " + e.getMessage());
+                e.printStackTrace();
+            } catch (Exception e) {
+                System.err.println("Exception: " + e.getMessage());
+                e.printStackTrace();
+            }
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("");
             alert.setHeaderText("");
-            alert.setContentText("Torneo " + nomeFileTorneoScelto + " eliminato correttamente ! ");
+            alert.setContentText("Giocatore " + nomeFileGiocatoreScelto + " eliminata correttamente! ");
             alert.showAndWait();
             handleIndietro();
         }
