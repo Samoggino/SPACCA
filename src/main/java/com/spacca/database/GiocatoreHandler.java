@@ -284,4 +284,30 @@ public class GiocatoreHandler implements Handler {
         }
         return giocatori;
     }
+
+    public List<String> mostraTutteGliUtenti() {
+        String path = "src/main/resources/com/spacca/database/giocatori/";
+        List<String> listaTornei = new ArrayList<>();
+        try {
+            File dir = new File(path);
+            String[] files = dir.list();
+
+            for (String file : files) {
+                if (file.startsWith("user-")) {
+                    file = file.replace("user-", "");
+                    file = file.replace(".json", "");
+                    listaTornei.add(file);
+                    System.out.println("Giocatore: " + file);
+                }
+            }
+
+        } catch (NullPointerException e) {
+            System.err.println("Errore: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.err.println("Argomento non valido: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore generico: " + e.getMessage());
+        }
+        return listaTornei;
+    }
 }

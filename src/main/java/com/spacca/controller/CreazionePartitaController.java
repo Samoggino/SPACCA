@@ -116,7 +116,7 @@ public class CreazionePartitaController implements Initializable {
 
         // Inizializza tutte le ComboBox con l'elenco completo dei giocatori
         for (ComboBox<String> comboBox : comboBoxes) {
-            comboBox.getItems().addAll(handler.getAllGiocatori());
+            comboBox.getItems().addAll(handler.mostraTutteGliUtenti());
             comboBox.setVisibleRowCount(3);
 
             // Aggiungi un listener per la selezione di ogni ComboBox
