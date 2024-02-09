@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<StackPane stylesheets="@../style/styles.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="com.spacca.controller.TavoloController">
+<StackPane stylesheets="@../style/styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.TavoloController">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1290.0">
          <center>
@@ -26,7 +26,7 @@
                <children>
                   <ScrollPane id="scrollabile" fx:id="scrollabile" hbarPolicy="NEVER" layoutX="-2.0" layoutY="-2.0" prefHeight="448.0" prefWidth="892.0" styleClass="scrollabile" stylesheets="@../style/styles.css">
                      <content>
-                        <GridPane fx:id="piatto" prefHeight="441.0" prefWidth="889.0" styleClass="scrollabile">
+                        <GridPane fx:id="piatto" alignment="CENTER" prefHeight="441.0" prefWidth="889.0" styleClass="scrollabile">
                         </GridPane>
                      </content>
                   </ScrollPane>

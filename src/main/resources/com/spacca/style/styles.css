@@ -1,5 +1,5 @@
 /* styles.css */
-Pane#tavolo {
+#tavolo {
     -fx-alignment: center;
     background-size: cover;
     -fx-background-size: cover;
@@ -8,15 +8,19 @@ Pane#tavolo {
     -fx-alignment: center;
     align-content: center;
     background-repeat: no-repeat;
-    -fx-background-repeat: no-repeat;
-    -fx-background-color: linear-gradient(#131312,#53a30d,#a1cd49,#53a30d #131312);
-    background-color: linear-gradient(#131312,#53a30d,#a1cd49,#53a30d #131312);
+    -fx-background-repeat: no-repeat;    
+}
+
+#piatto{
+    -fx-background-color: linear-gradient(rgba(22, 83, 7, 0.925), #4e9510cf, #8bb636, #589f1a, rgb(19, 82, 4));
+    background-color: linear-gradient(rgba(22, 83, 7, 0.925), #4e9510cf, #8bb636, #589f1a, rgb(19, 82, 4));
+    
 }
 
 #scrollabile {
     -fx-alignment: center;
-    -fx-background-color: red;
-    background-color: red;
+    -fx-background-color: rgb(22, 83, 7);
+    background-color: rgb(22, 83, 7);
     -fx-color-fill: wheat;
     color: wheat;
 }
