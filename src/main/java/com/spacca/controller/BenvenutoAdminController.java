@@ -296,8 +296,12 @@ public class BenvenutoAdminController {
 
     private void showAlert(AlertType tipo, String titolo, String contenuto) {
         Alert alert = new Alert(tipo);
-        alert.setTitle(titolo);
-        alert.setHeaderText(null);
+        if (tipo == AlertType.INFORMATION) {
+            alert.setTitle("Informazione");
+        } else if (tipo == AlertType.ERROR) {
+            alert.setTitle("Errore");
+        }
+        alert.setHeaderText(titolo);
         alert.setContentText(contenuto);
         alert.showAndWait();
     }
