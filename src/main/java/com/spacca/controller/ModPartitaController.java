@@ -67,6 +67,7 @@ public class ModPartitaController implements Initializable {
             labelSelezione.setVisible(false);
             listaCodici.setVisible(false);
             avvioButton.setDisable(true);
+
         } catch (NullPointerException e) {
             System.out.println("Elementi grafici null " + e);
             e.printStackTrace();
@@ -300,7 +301,6 @@ public class ModPartitaController implements Initializable {
                          * "Ci dispiace, ma non possiedi alcun codice del torneo per giocare !");
                          */
                         torneoScelta.setDisable(true);
-
                     } else if (new GiocatoreHandler().carica(giocatoreCorrente.getUsername())
                             .getListaCodiciPartite().isEmpty()) {
                         // se l'utente corrente non ha partite

@@ -557,7 +557,7 @@ public class TavoloController {
                 // serve per evitare che l'immagine della carta rimanga in cache e venga
                 // visualizzata per tutti i giocatori successivi
                 getImmagineCorrente(containerPane)
-                        .setImage(new Image("file:src/main/resources/com/spacca/images/retro.png"));
+                        .setImage(new Image("file:src/main/resources/com/spacca/images/RetroConLogo.png"));
             }
 
         } catch (Exception e) {

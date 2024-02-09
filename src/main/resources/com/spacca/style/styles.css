@@ -1,5 +1,5 @@
 /* styles.css */
-#tavolo {
+Pane#tavolo {
     -fx-alignment: center;
     background-size: cover;
     -fx-background-size: cover;
@@ -9,9 +9,8 @@
     align-content: center;
     background-repeat: no-repeat;
     -fx-background-repeat: no-repeat;
-    -fx-background-image: url("../images/sfondo.jpeg");
-    background-image: url("../images/sfondo.jpeg");
-
+    -fx-background-color: linear-gradient(#131312,#53a30d,#a1cd49,#53a30d #131312);
+    background-color: linear-gradient(#131312,#53a30d,#a1cd49,#53a30d #131312);
 }
 
 #scrollabile {
