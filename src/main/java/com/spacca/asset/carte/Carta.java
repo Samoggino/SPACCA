@@ -11,7 +11,7 @@ public class Carta {
     final static int PUNTI_ASSO = 15;
     final static int PUNTI_FIGURA = 10;
     final static int PUNTI_CARTA = 5;
-    final static int PUNTI_MATTA = PUNTI_CARTA;
+    final static int PUNTI_MATTA = 7;
     // per ora una matta vale come una carta normale, ma potrebbe essere modificato
 
     @SerializedName("nome")
@@ -101,7 +101,7 @@ public class Carta {
             case SEI:
                 punteggioCarta = PUNTI_CARTA;
                 break;
-            case SETTE:
+            case MATTA:
                 punteggioCarta = PUNTI_MATTA;
                 break;
             default:

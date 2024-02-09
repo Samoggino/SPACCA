@@ -542,7 +542,7 @@ public class TavoloController {
 
     public void rubaUnMazzoHandler(String scammato, Carta cartaCheRuba, Carta cartaInCima) {
 
-        if (cartaCheRuba.getNome().equals(Nome.SETTE)) {
+        if (cartaCheRuba.getNome().equals(Nome.MATTA)) {
             trascinoUnSette(scammato, cartaCheRuba);
             cambiaTurno();
         } else if (cartaCheRuba.getNome().equals(cartaInCima.getNome()) && userCorrente != scammato) {

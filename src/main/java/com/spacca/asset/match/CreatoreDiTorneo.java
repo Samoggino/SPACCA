@@ -3,6 +3,7 @@ package com.spacca.asset.match;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.spacca.asset.utente.Amministratore;
 import com.spacca.database.GiocatoreHandler;
@@ -37,28 +38,32 @@ public class CreatoreDiTorneo {
      * @param listaGiocatori
      * @return listaGiocatori con eventuali giocatori finti aggiunti
      */
-    public static List<String> controllaNumeroGiocatori(List<String> listaGiocatori) {
+    public static List<String> controllaNumeroGiocatori(List<String> listaGiocatori, int numeroGiocatoriScelto)
+            throws IllegalArgumentException {
         Amministratore admin = new Amministratore();
-        if (listaGiocatori.size() < 2) {
+
+        // if (listaGiocatori.size() < 2) {
+        // throw new IllegalArgumentException("Non è possibile creare un torneo con meno
+        // di due giocatori");
+        // }
+        if (numeroGiocatoriScelto < 2) {
             throw new IllegalArgumentException("Non è possibile creare un torneo con meno di due giocatori");
         }
 
-        if (((listaGiocatori.size() & (listaGiocatori.size() - 1)) == 0) == false) {
-            // se il numero di listaGiocatori non è una potenza di 2 allora non è
-            // possibile
-            /// creare un torneo (molto carino questo controllo, non lo conoscevo)
-            // se non è una potenza di due, aggiungi giocatori finti per arrivare alla
-            // potenza di due successiva
-            int potenzaDiDue = 1;
-            while (potenzaDiDue < listaGiocatori.size()) {
-                potenzaDiDue *= 2;
-            }
-            int giocatoriFinti = potenzaDiDue - listaGiocatori.size();
-            for (int i = 0; i < giocatoriFinti; i++) {
-                listaGiocatori
-                        .add(admin.creaGiocatore("CPU" + i, i % 2 == 0 ? "SmartCPU" : "StupidCPU").getUsername());
+        // se listaGiocatori.size() è minore di numeroGiocatori allora vanno aggiunti
+        // giocatori fino a numeroGiocatoriScelto
+
+        while (listaGiocatori.size() < numeroGiocatoriScelto) {
+            Random random = new Random();
+            int numeroCasuale = random.nextInt(1000);
+            String nomeCPU = "CPU-" + numeroCasuale;
+            // Verifica se il nome è già presente nella lista
+            if (!listaGiocatori.contains(nomeCPU)) {
+                listaGiocatori.add(
+                        admin.creaGiocatore(nomeCPU, numeroCasuale % 2 == 0 ? "SmartCPU" : "StupidCPU").getUsername());
             }
         }
+
         return listaGiocatori;
     }
 

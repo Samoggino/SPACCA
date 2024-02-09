@@ -143,9 +143,10 @@ public class Amministratore extends AbstractGiocatore {
         return giocatoreHandler.carica(username);
     }
 
-    public Torneo creaTorneo(String codiceTorneo, List<String> partecipanti) {
+    public Torneo creaTorneo(String codiceTorneo, List<String> partecipanti, int numeroGiocatori) {
 
-        Torneo torneo = new Torneo(codiceTorneo, CreatoreDiTorneo.controllaNumeroGiocatori(partecipanti));
+        Torneo torneo = new Torneo(codiceTorneo,
+                CreatoreDiTorneo.controllaNumeroGiocatori(partecipanti, numeroGiocatori));
 
         // crei partecipanti/2 partite e le aggiungi al torneo
         // Creazione delle partite
@@ -163,8 +164,8 @@ public class Amministratore extends AbstractGiocatore {
                 .getCodice();
     }
 
-    public Torneo creaTorneo(List<String> partecipanti) {
-        return creaTorneo(generaNumeroCasualeTorneo(), partecipanti);
+    public Torneo creaTorneo(List<String> partecipanti, int numeroGiocatori) {
+        return creaTorneo(generaNumeroCasualeTorneo(), partecipanti, numeroGiocatori);
     }
 
     public void ritornaBenvenutoAdmin(Scene currentScene) {

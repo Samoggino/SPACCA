@@ -8,6 +8,7 @@ import com.spacca.asset.match.Partita;
 import com.spacca.asset.match.Torneo;
 import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
+import com.spacca.asset.utente.giocatore.Giocatore;
 import com.spacca.controller.TavoloController;
 import com.spacca.database.GiocatoreHandler;
 
@@ -29,17 +30,23 @@ public class App extends Application {
         try {
 
             Amministratore amministratore = new Amministratore();
-            AbstractGiocatore admin = amministratore.caricaUtente("admin");
-            AbstractGiocatore yoshi = amministratore.caricaUtente("yoshi");
-            AbstractGiocatore peach = amministratore.caricaUtente("peach");
-            AbstractGiocatore mamma = amministratore.caricaUtente("mamma");
+            AbstractGiocatore admin = amministratore.creaGiocatore("admin", "Giocatore");
+            AbstractGiocatore yoshi = amministratore.creaGiocatore("yoshi", "SmartCPU");
+            AbstractGiocatore peach = amministratore.creaGiocatore("peach", "SmartCPU");
+            AbstractGiocatore mamma = amministratore.creaGiocatore("mamma", "SmartCPU");
             List<String> listaGiocatori = new ArrayList<>();
             listaGiocatori.add(admin.getUsername());
             listaGiocatori.add(yoshi.getUsername());
             listaGiocatori.add(peach.getUsername());
             listaGiocatori.add(mamma.getUsername());
 
-            Torneo torneo = amministratore.creaTorneo(listaGiocatori);
+            int numeroGiocatoriScelto = 8;
+            System.out.println("Numero selezionato: " + numeroGiocatoriScelto);
+            System.out.println("Nuemro giocatori inseriti " + listaGiocatori.size());
+            Torneo torneo = amministratore.creaTorneo(listaGiocatori, numeroGiocatoriScelto);
+
+            System.out.println("Torneo creato con questi partecipanti: " + torneo.getPartecipanti() + "\t"
+                    + torneo.getPartecipanti().size());
 
             Partita partita = amministratore.caricaPartita(torneo.getCodiciPartite().get(0));
 

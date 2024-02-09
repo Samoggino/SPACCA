@@ -258,7 +258,7 @@ public class CreazioneTorneoController implements Initializable {
             System.out.println("GIOCATORI SCELTI : " + giocatoriScelti);
             System.out.println("CODICE : " + codiceTorneo);
 
-            admin.creaTorneo(codiceTorneo, giocatoriScelti);
+            admin.creaTorneo(codiceTorneo, giocatoriScelti, giocatoriScelti.size());
 
             showAlert("Creazione del torneo andato a buon fine", "Torneo " + codiceTorneo + " creato",
                     AlertType.INFORMATION);

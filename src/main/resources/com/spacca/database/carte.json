@@ -56,11 +56,11 @@
     {
         "ID": "7B",
         "seme": "BASTONI",
-        "nome": "SETTE",
-        "descrizione": "Sette di Bastoni",
-        "punti": 5,
+        "nome": "MATTA",
+        "descrizione": "Matta nera",
+        "punti": 7,
         "valore": 7,
-        "immagine": "src/main/resources/com/spacca/images/carte/bastoni/SetteBastoni.png"
+        "immagine": "src/main/resources/com/spacca/images/carte/bastoni/MattaNera.png"
     },
     {
         "ID": "8B",
@@ -146,11 +146,11 @@
     {
         "ID": "7C",
         "seme": "COPPE",
-        "nome": "SETTE",
-        "descrizione": "Sette di Coppe",
-        "punti": 5,
+        "nome": "MATTA",
+        "descrizione": "Matta nera",
+        "punti": 7,
         "valore": 7,
-        "immagine": "src/main/resources/com/spacca/images/carte/coppe/SetteCoppe.png"
+        "immagine": "src/main/resources/com/spacca/images/carte/coppe/MattaNera.png"
     },
     {
         "ID": "8C",
@@ -236,11 +236,11 @@
     {
         "ID": "7D",
         "seme": "DENARA",
-        "nome": "SETTE",
-        "descrizione": "Sette di Denara",
-        "punti": 5,
+        "nome": "MATTA",
+        "descrizione": "Matta rossa",
+        "punti": 7,
         "valore": 7,
-        "immagine": "src/main/resources/com/spacca/images/carte/denara/SetteDenara.png"
+        "immagine": "src/main/resources/com/spacca/images/carte/denara/MattaRossa.png"
     },
     {
         "ID": "8D",
@@ -326,11 +326,11 @@
     {
         "ID": "7S",
         "seme": "SPADE",
-        "nome": "SETTE",
-        "descrizione": "Sette di Spade",
-        "punti": 5,
+        "nome": "MATTA",
+        "descrizione": "Matta rossa",
+        "punti": 7,
         "valore": 7,
-        "immagine": "src/main/resources/com/spacca/images/carte/spade/SetteSpade.png"
+        "immagine": "src/main/resources/com/spacca/images/carte/spade/MattaRossa.png"
     },
     {
         "ID": "8S",

@@ -1,7 +1,7 @@
 package com.spacca.asset.carte;
 
 public enum Nome {
-    ASSO, DUE, TRE, QUATTRO, CINQUE, SEI, SETTE, FANTE, CAVALLO, RE;
+    ASSO, DUE, TRE, QUATTRO, CINQUE, SEI, MATTA, FANTE, CAVALLO, RE;
 
     public static Nome caseInsensitiveValueOf(String value) {
 
