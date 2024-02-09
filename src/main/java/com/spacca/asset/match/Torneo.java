@@ -29,6 +29,9 @@ public class Torneo extends Object {
     @SerializedName("partecipanti")
     List<String> partecipanti = new ArrayList<>();
 
+    @SerializedName("provaClassifica")
+    List<String> provaClassifica;
+
     transient List<Partita> partite = new ArrayList<>();
 
     @SerializedName("leaderboard")
@@ -46,6 +49,10 @@ public class Torneo extends Object {
         this.codice = codice;
         this.giocatoriRimasti = partecipanti;
         this.partecipanti = partecipanti;
+
+        provaClassifica = new ArrayList<>(partecipanti.size() + 1);
+
+        aggiornaLeaderboard();
 
         new TorneoHandler().mkdir(codice);
     }
@@ -97,24 +104,29 @@ public class Torneo extends Object {
     }
 
     public String aggiornaLeaderboard() {
+        if (!provaClassifica.contains(giocatoriRimasti.toString() + "\n")) {
+            provaClassifica.add(0, giocatoriRimasti.toString() + "\n");
 
-        String dettaglio = "";
-        if (giocatoriRimasti.size() == 1) {
-            dettaglio = "\t\t\tIl vincitore";
-        } else if (giocatoriRimasti.size() == partecipanti.size()) {
-            dettaglio = "\tPartecipanti";
+            // Genera la leaderboard in forma di piramide
+            StringBuilder provaClassificaString = new StringBuilder();
+            int numSpaces = provaClassifica.size() - 1;
+            for (String s : provaClassifica) {
+                // Aggiungi spazi prima di ciascuna riga
+                provaClassificaString.append("\t".repeat(numSpaces)).append(s);
+                numSpaces--;
+            }
+            this.leaderboard = provaClassificaString.toString();
+
+            salvaToreno();
+        } else {
+            System.out.println("Leaderboard già aggiornata");
         }
-        this.leaderboard = this.giocatoriRimasti + dettaglio + "\n" + this.leaderboard;
-        salvaToreno();
 
         return this.leaderboard;
     }
 
     public String getLeaderboard() {
 
-        if (this.leaderboard.equals("")) {
-            aggiornaLeaderboard();
-        }
         return this.leaderboard;
     }
 
@@ -168,6 +180,9 @@ public class Torneo extends Object {
 
             // se non posso passare al turno successivo, restituisco il torneo stesso
 
+            if (giocatoriRimasti.size() == 1) {
+                aggiornaLeaderboard();
+            }
             if (this.vincitore != null) {
                 return this;
             }
@@ -176,8 +191,6 @@ public class Torneo extends Object {
                 simulaPartiteCPU();
                 return this;
             }
-
-            aggiornaLeaderboard();
 
             // altrimenti calcolo i vincitori e creo nuove partite
             List<String> vincitori = new ArrayList<>();
@@ -198,11 +211,13 @@ public class Torneo extends Object {
 
             if (vincitori.size() > 1) {
                 System.out.println("Passano al turno successivo: " + vincitori);
+                aggiornaLeaderboard();
                 CreatoreDiTorneo.strutturaTorneo(codice, vincitori, this, new Amministratore());
             }
 
             if (this.giocatoriRimasti.size() == 1) {
                 System.out.println("Il vincitore del torneo è: " + giocatoriRimasti);
+                aggiornaLeaderboard();
                 this.vincitore = giocatoriRimasti.get(0);
             }
 

@@ -260,7 +260,7 @@ public class CreazioneTorneoController implements Initializable {
         if (giocatoriScelti.size() >= 2) {
             // FIXME, la grandezza dev'essere passata dopo esser stata scelta, non
             // dev'essere il size della lista necessariamente
-            admin.creaTorneo(codiceTorneo, giocatoriScelti, 8);
+            admin.creaTorneo(codiceTorneo, giocatoriScelti, 4);
             showAlert("Creazione del torneo andato a buon fine", "Torneo " + codiceTorneo + " creato",
                     AlertType.INFORMATION);
             handleIndietro();

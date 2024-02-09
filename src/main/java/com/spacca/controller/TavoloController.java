@@ -63,6 +63,9 @@ public class TavoloController {
     public Button goToMenuButton = new Button("Torna al menù");
 
     @FXML
+    public Button nuovoTurnoTorneoButton = new Button("Nuovo turno torneo");
+
+    @FXML
     public Button classificaTorneoButton = new Button("Classifica torneo");
 
     @FXML
@@ -87,7 +90,6 @@ public class TavoloController {
 
             if (isTorneo) {
                 classificaTorneoButton.setVisible(true);
-                // il codice è fatto tornei/T1234/TP1234
                 String codiceTorneo = partita.getCodice().split("/")[1];
                 this.torneo = new TorneoHandler().carica(codiceTorneo);
                 torneo.nuovoTurnoDelTorneo();
@@ -369,6 +371,7 @@ public class TavoloController {
                 if (partita.hasWinner()) {
                     System.out.println("Partita ha già un vincitore");
                     andTheWinnerIs.setText("Il vincitore è: " + partita.vincitore);
+                    nuovoTurnoTorneoButton.setVisible(true);
                 } else {
                     System.out.println("Partita non ha un vincitore e quindi lo calcolo");
                     andTheWinnerIs.setText(partita.getVincitore());
@@ -384,8 +387,7 @@ public class TavoloController {
                 preventLoop = 100;
 
                 if (isTorneo) {
-                    System.out.println("Partita ha un vincitore? " + partita.hasWinner());
-                    partitaDiUnTorneo();
+                    torneo.aggiornaLeaderboard();
                 }
 
             }
@@ -625,18 +627,33 @@ public class TavoloController {
                 .orElse(new Text());
     }
 
-    public void partitaDiUnTorneo() {
+    @FXML
+    public void passaTurnoDelTorneo() {
         System.out.println("Partita di un torneo");
         eliminaPartitaButton.setVisible(false);
         if (!torneo.hasWinner()) {
+            torneo.aggiornaLeaderboard();
             torneo.nuovoTurnoDelTorneo();
+            torneo.aggiornaLeaderboard();
+        } else {
+            // il torneo ha un vincitore e lo mostro con un alert
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Vincitore del torneo");
+            alert.setHeaderText("Il vincitore del torneo è: " + torneo.getVincitore());
+            alert.showAndWait();
         }
+        System.out.println("leaderboard\n\n\n" + torneo.getLeaderboard());
 
     }
 
     @FXML
     public void mostraClassificaTorneo() {
-        System.out.println("hai cliccato sul bottone classifica torneo");
-        
+        System.out.println(new TorneoHandler().carica(torneo.getCodice()).getLeaderboard());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Classifica del torneo");
+        alert.setHeaderText("Classifica del torneo");
+        alert.setContentText(torneo.getLeaderboard());
+        alert.showAndWait();
+
     }
 }
