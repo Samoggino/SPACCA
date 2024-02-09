@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -19,7 +20,9 @@ public class App extends Application {
 
         try {
 
-            
+            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.png"));
+            // Imposta l'icona dell'applicazione
+            stage.getIcons().add(icon);
             scene = new Scene(loadFXML("login"), 600, 500);
             stage.setTitle("Login");
             stage.setScene(scene);
