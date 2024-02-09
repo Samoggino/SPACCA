@@ -32,11 +32,11 @@ public class BenvenutoUtenteController {
             if (giocatoreCorrente.getListaCodiciPartite().isEmpty()
                     && giocatoreCorrente.getListaCodiciTornei().isEmpty()) {
                 Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setHeaderText("Al momento non hai alcuna partita da giocare.");
                 alert.setContentText(
-                        "\n Siamo spiacenti, ma non sei stato inserito in alcuna partita. \n Pertanto, non hai la possibilità di giocare in questo momento \n");
+                        "\n Siamo spiacenti, ma non sei stato inserito in alcuna partita. \n Pertanto, non hai la possibilità di giocare.  \n");
                 alert.showAndWait();
             } else {
-                System.out.println("Siamo in creazione singola");
                 changeScene("Modalità partita", "/com/spacca/pages/modpartita.fxml");
 
             }

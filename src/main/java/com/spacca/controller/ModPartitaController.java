@@ -295,15 +295,20 @@ public class ModPartitaController implements Initializable {
                     if (new GiocatoreHandler().carica(giocatoreCorrente.getUsername())
                             .getListaCodiciTornei().isEmpty()) {
                         // se l'utente corrente non ha tornei
-                        showAlert(Alert.AlertType.ERROR, "Non ci sono tornei da selezionare",
-                                "Ci dispiace, ma non possiedi alcun codice del torneo per giocare !");
+                        /*
+                         * showAlert(Alert.AlertType.ERROR, "Non ci sono tornei da selezionare",
+                         * "Ci dispiace, ma non possiedi alcun codice del torneo per giocare !");
+                         */
                         torneoScelta.setDisable(true);
 
                     } else if (new GiocatoreHandler().carica(giocatoreCorrente.getUsername())
                             .getListaCodiciPartite().isEmpty()) {
                         // se l'utente corrente non ha partite
-                        showAlert(Alert.AlertType.ERROR, "Non ci sono partite da selezionare",
-                                "Ci dispiace, ma non possiedi alcun codice di una partita per giocare !");
+                        /*
+                         * showAlert(Alert.AlertType.ERROR, "Non ci sono partite da selezionare",
+                         * "Ci dispiace, ma non possiedi alcun codice di una partita per giocare !");
+                         * 
+                         */
                         singolaScelta.setDisable(true);
                     }
                 } catch (NullPointerException e) {
