@@ -48,7 +48,7 @@ public class BenvenutoAdminController {
         try {
             System.out.println("Siamo in Elimina partita" + amministratore);
             PartitaHandler partitaHandler = new PartitaHandler();
-            if (partitaHandler.getAllPartite().isEmpty()) {
+            if (partitaHandler.mostraTutteLePartite().isEmpty()) {
                 showAlert(Alert.AlertType.INFORMATION, "Non ci sono partite da selezionare",
                         "Di conseguenza, non è possibile eliminare alcuna partita");
             } else {
@@ -162,7 +162,7 @@ public class BenvenutoAdminController {
 
             Stage currentStage = (Stage) currentScene.getWindow();
             currentStage.setTitle(titlePages);
-            Scene scene = new Scene(root, 700, 550);
+            Scene scene = new Scene(root);
             currentStage.setScene(scene);
             currentStage.show();
         } catch (NullPointerException e) {
@@ -296,8 +296,12 @@ public class BenvenutoAdminController {
 
     private void showAlert(AlertType tipo, String titolo, String contenuto) {
         Alert alert = new Alert(tipo);
-        alert.setTitle(titolo);
-        alert.setHeaderText(null);
+        if (tipo == AlertType.INFORMATION) {
+            alert.setTitle("Informazione");
+        } else if (tipo == AlertType.ERROR) {
+            alert.setTitle("Errore");
+        }
+        alert.setHeaderText(titolo);
         alert.setContentText(contenuto);
         alert.showAndWait();
     }

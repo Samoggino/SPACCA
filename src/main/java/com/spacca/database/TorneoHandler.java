@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -122,9 +123,18 @@ public class TorneoHandler implements Handler {
                 return true;
             }
         } catch (IllegalArgumentException e) {
-            System.err.println("ERRORE (elimina): Il codice del torneo non può essere nullo.");
+            System.err.println("ERRORE (elimina): Il codice del torneo non può essere nullo." + e.getLocalizedMessage()
+                    + e.getMessage());
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            System.err.println("Elemento null " + e.getLocalizedMessage() + e.getMessage());
+            e.printStackTrace();
+        } catch (ConcurrentModificationException e) {
+            System.err.println("Problema con il prefisso della Torneo perchè file non trovato" + e.getLocalizedMessage()
+                    + e.getMessage());
+            e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("ERRORE (elimina): " + e.getMessage());
+            System.err.println("ERRORE (elimina): " + e.getLocalizedMessage() + e.getMessage());
             e.printStackTrace();
         }
         return false;

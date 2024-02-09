@@ -18,14 +18,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
 public class CreazioneTorneoController implements Initializable {
-    @FXML
-    private RadioButton modDueGiocatori, modQuattroGiocatori;
     @FXML
     private ComboBox<String> sceltaGiocatore1, sceltaGiocatore2, sceltaGiocatore3, sceltaGiocatore4;
     @FXML
@@ -40,8 +38,12 @@ public class CreazioneTorneoController implements Initializable {
     private TextField codiceField;
     @FXML
     private RadioButton generaCodiceRadioButton;
+    @FXML
+    private RadioButton radioButton2, radioButton4, radioButton8, radioButton16, radioButton32;
 
     private String codiceTorneo;
+
+    private ToggleGroup toggleGroup = new ToggleGroup();
 
     private transient Amministratore admin = new Amministratore();
     private List<ComboBox<String>> comboBoxes = new ArrayList<>();
@@ -52,10 +54,17 @@ public class CreazioneTorneoController implements Initializable {
         sceltaGiocatore2.setVisible(false);
         sceltaGiocatore3.setVisible(false);
         sceltaGiocatore4.setVisible(false);
+
         label1.setVisible(false);
         label2.setVisible(false);
         label3.setVisible(false);
         label4.setVisible(false);
+
+        radioButton2.setToggleGroup(toggleGroup);
+        radioButton4.setToggleGroup(toggleGroup);
+        radioButton16.setToggleGroup(toggleGroup);
+        radioButton32.setToggleGroup(toggleGroup);
+        radioButton8.setToggleGroup(toggleGroup);
 
         // per far inserire solo numeri interi nel codice della partita
         TextFormatter<Integer> textFormatter = new TextFormatter<>(change -> {
@@ -87,21 +96,25 @@ public class CreazioneTorneoController implements Initializable {
     private void handleMostra() {
         System.out.println("SIAMO IN MOSTRA TORNEO ");
 
-        String codice = "T" + codiceField.getText().trim();
+        String codice = codiceField.getText().trim();
 
         // se il codice non è stato inserito correttamente e/o il radio botton
         // selezionato
-        if (generaCodiceRadioButton.isSelected() && controllaSelezione()) {
+        RadioButton selectedRadioButton = (RadioButton) toggleGroup.getSelectedToggle();
+
+        if (generaCodiceRadioButton.isSelected() && selectedRadioButton != null) {
             comboBoxes = inizializeComboBoxandLayout();
             popola();
             creaButton.setDisable(false);
 
         } else if (!generaCodiceRadioButton.isSelected()) {
-            if (controllaCodice(codice) && controllaSelezione()) {
+            if (controllaCodice(codice) && selectedRadioButton != null) {
                 this.codiceTorneo = codice;
                 comboBoxes = inizializeComboBoxandLayout();
                 popola();
                 creaButton.setDisable(false); // Abilita il bottone
+            } else {
+                creaButton.setDisable(true);
             }
         } else {
             showAlert("Per procedere devi compilare correttamente tutti i campi", "Mancato inserimento di un campo",
@@ -116,7 +129,7 @@ public class CreazioneTorneoController implements Initializable {
 
         // Inizializza tutte le ComboBox con l'elenco completo dei giocatori
         for (ComboBox<String> comboBox : comboBoxes) {
-            comboBox.getItems().addAll(handler.getAllGiocatori());
+            comboBox.getItems().addAll(handler.mostraTutteGliUtenti());
             comboBox.setVisibleRowCount(3);
 
             // Aggiungi un listener per la selezione di ogni ComboBox
@@ -147,24 +160,11 @@ public class CreazioneTorneoController implements Initializable {
         }
     }
 
-    private Boolean controllaSelezione() {
-        System.out.println("CONTROLLA SELEZIONE");
-        if (modDueGiocatori.isSelected()) {
-            System.out.println("modDueGiocatori SELEZIONE");
-            return true;
-        } else if (modQuattroGiocatori.isSelected()) {
-            System.out.println("modQuattroGiocatori SELEZIONE");
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     private List<ComboBox<String>> inizializeComboBoxandLayout() throws NullPointerException {
         comboBoxes.clear();
         // imposto i valori di default ovvero spinner = 2
 
-        if (modDueGiocatori.isSelected()) {
+        if (radioButton2.isSelected()) {
             label1.setVisible(true);
             label2.setVisible(true);
             label3.setVisible(false);
@@ -177,7 +177,11 @@ public class CreazioneTorneoController implements Initializable {
 
             comboBoxes.add(sceltaGiocatore1);
             comboBoxes.add(sceltaGiocatore2);
-        } else if (modQuattroGiocatori.isSelected()) {
+        } else if (radioButton4.isSelected() ||
+                radioButton8.isSelected() ||
+                radioButton16.isSelected() ||
+                radioButton32.isSelected()) {
+
             label1.setVisible(true);
             label2.setVisible(true);
             label3.setVisible(true);
@@ -253,20 +257,14 @@ public class CreazioneTorneoController implements Initializable {
             }
         }
 
-        if (giocatoriScelti.size() == comboBoxes.size()) {
-
-            System.out.println("GIOCATORI SCELTI : " + giocatoriScelti);
-            System.out.println("CODICE : " + codiceTorneo);
-
+        if (giocatoriScelti.size() >= 2) {
             admin.creaTorneo(codiceTorneo, giocatoriScelti, giocatoriScelti.size());
-
             showAlert("Creazione del torneo andato a buon fine", "Torneo " + codiceTorneo + " creato",
                     AlertType.INFORMATION);
-
             handleIndietro();
-
         } else {
-            showAlert("Non hai scelto tutti i giocatori", "Mancata scelta di un giocatore", AlertType.ERROR);
+            showAlert("Mancato scelta di almeno due giocatori", "Per procedere seleziona almeno due giocatori",
+                    AlertType.INFORMATION);
         }
     }
 
@@ -280,19 +278,5 @@ public class CreazioneTorneoController implements Initializable {
     @FXML
     public void handleIndietro() {
         admin.ritornaBenvenutoAdmin(procButton.getScene());
-    }
-
-    @FXML
-    private void handleCheckBoxAction(MouseEvent event) {
-        if (event.getSource() instanceof RadioButton) {
-            RadioButton clickedRadioButton = (RadioButton) event.getSource();
-            if (clickedRadioButton.isSelected()) {
-                if (clickedRadioButton == modDueGiocatori) {
-                    modQuattroGiocatori.setSelected(false);
-                } else if (clickedRadioButton == modQuattroGiocatori) {
-                    modDueGiocatori.setSelected(false);
-                }
-            }
-        }
     }
 }

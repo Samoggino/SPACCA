@@ -86,39 +86,39 @@ public class TavoloController {
             if (isTorneo) {
                 // il codice è fatto tornei/T1234/TP1234
                 String codiceTorneo = partita.getCodice().split("/")[1];
-                System.out.println("Codice torneo: " + codiceTorneo);
                 this.torneo = new TorneoHandler().carica(codiceTorneo);
-                System.out.println("Torneo: " + torneo);
-                System.out.println("Leaderboard: " + torneo.getLeaderboard());
             }
 
             if (!partita.hasWinner()) {
                 buildView();
                 Platform.runLater(() -> {
                     // mostro le regole del gioco
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Regole del gioco Spacca");
                     alert.setHeaderText("Benvenuto a Spacca!");
 
-                    String testo = "In questo gioco chiamato Spacca, l'obiettivo è guadagnare almeno due punti per vincere.\n\n"
-                            +
-                            "Le regole di base sono le seguenti:\n" +
-                            "- Sul tavolo sono presenti 4 carte, al centro.\n" +
-                            "- Ogni giocatore pesca tre carte per turno e si giocano alternati una carta alla volta.\n\n"
-                            +
-                            "Durante il proprio turno, il giocatore può effettuare una delle seguenti azioni:\n"
-                            +
-                            "- Scartare: mettere al centro del tavolo una carta.\n" +
-                            "- Pescare: raccogliendo la carta dello stesso numero oppure pescando tutte le carte sul tavolo con l'asso.\n"
-                            +
-                            "- Rubare il mazzo: in base al sette si ha la possibilità di pescare metà mazzo o l'intero mazzo di un avversario.\n\n"
-                            +
-                            "Per quanto riguarda il punteggio, i possibili punti sono:\n" +
-                            "- Il giocatore che ha alla fine del gioco il due di bastoni prende un punto.\n" +
-                            "- Si somma il punteggio totale dei punti: le carte dal 2 al 6 valgono 5 punti, le carte dal 8 al 10 valgono 10 punti, l'asso e il sette valgono 15 punti.\n"
-                            +
-                            "- Si conta chi ha più carte nel proprio mazzo.\n\n" +
-                            "Buona fortuna e buon divertimento!";
+                    String testo = "Il gioco chiamato \"Spacca\" è un gioco di carte in cui l'obiettivo principale è guadagnare almeno due punti per vincere.\n\n"
+                            + "Per giocare a questo gioco utilizziamo 40 carte con 4 semi differenti: Denari, Spade, Coppe e Bastoni.\n"
+                            + "All'interno di queste 40 carte abbiamo 4 carte impreviste, due per ogni tipo.\n"
+                            + "Le carte impreviste sono rappresentate da una matta rossa o da una matta nera.\n"
+                            + "La matta nera ti permette di pescare tutto il mazzo, mentre la matta rossa ti permette di pescare metà mazzo dell'avversario.\n\n"
+                            + "Le regole di base del gioco sono le seguenti:\n\n"
+                            + "- Sul tavolo sono disposte quattro carte, posizionate al centro del tavolo.\n"
+                            + "- Ogni giocatore, a turno, pesca tre carte e le gioca alternando una carta alla volta.\n\n"
+                            + "Durante il proprio turno, il giocatore ha la possibilità di compiere una delle seguenti azioni:\n\n"
+                            + "- Scartare: mettere al centro del tavolo una carta.\n"
+                            + "- Prendere: raccogliere la carta dello stesso numero oppure pescare tutte le carte presenti sul tavolo se vi è un asso.\n"
+                            + "- Rubare il mazzo: è possibile rubare il mazzo avendo una carta corrispondente a quella in cima, oppure avendo una carta imprevista.\n"
+                            + "  La matta rossa permette di pescare metà mazzo dell'avversario, mentre la matta nera permette di pescare l'intero mazzo dell'avversario.\n\n"
+                            + "Per effettuare queste operazioni basterà trascinare la carta nel posto desiderato, ovvero sul tavolo o sul mazzo dell'avversario.\n"
+                            + "Nel caso in cui si abbia in mano un asso, qualora si volessero prendere tutte le carte, basterà cliccare sulla medesima carta\n"
+                            + "e le carte sul tavolo finiranno all'interno del tuo mazzo.\n\n"
+                            + "Per quanto riguarda il punteggio, i punti possono essere ottenuti come segue:\n\n"
+                            + "- Il giocatore che alla fine del gioco possiede il due di bastoni guadagna un punto.\n"
+                            + "- Si sommano i punti totali delle carte: le carte dal 2 al 6 valgono 5 punti, le carte dall'8 al 10 valgono 10 punti,\n"
+                            + "  la matta vale 7 e l'asso vale 15 punti.\n"
+                            + "- Viene conteggiato il numero di carte nel mazzo di ciascun giocatore.\n\n"
+                            + "Buona fortuna e buon divertimento!";
 
                     TextArea textArea = new TextArea(testo);
                     textArea.setEditable(false);
@@ -134,7 +134,6 @@ public class TavoloController {
 
                 });
             } else {
-                System.out.println("La partita è già finita");
                 buildOverlay();
             }
 
@@ -601,10 +600,6 @@ public class TavoloController {
             alert.setHeaderText("Il vincitore del torneo è: " + torneo.getVincitore());
             alert.showAndWait();
             return;
-        }
-
-        if (torneo.possoPassareAlTurnoSuccessivo()) {
-            System.out.println("Dovrei elimnare la partita e passare al turno successivo");
         }
 
     }

@@ -30,12 +30,13 @@ public class CreatoreDiTorneo {
         return torneo;
     }
 
-    /**
+    /*
      * Controlla che il numero di giocatori passato sia una potenza di 2, se non lo
      * è aggiunge giocatori finti per arrivare alla potenza di 2 successiva, in modo
      * da creare un torneo ad eliminazione in modo corretto
      * 
      * @param listaGiocatori
+     * 
      * @return listaGiocatori con eventuali giocatori finti aggiunti
      */
     public static List<String> controllaNumeroGiocatori(List<String> listaGiocatori, int numeroGiocatoriScelto)
