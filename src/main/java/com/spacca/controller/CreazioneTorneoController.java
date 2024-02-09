@@ -130,7 +130,7 @@ public class CreazioneTorneoController implements Initializable {
         // Inizializza tutte le ComboBox con l'elenco completo dei giocatori
         for (ComboBox<String> comboBox : comboBoxes) {
             comboBox.getItems().addAll(handler.mostraTutteGliUtenti());
-            comboBox.setVisibleRowCount(3);
+            comboBox.setVisibleRowCount(5);
 
             // Aggiungi un listener per la selezione di ogni ComboBox
             comboBox.getSelectionModel().selectedItemProperty().addListener((observable,
@@ -258,7 +258,9 @@ public class CreazioneTorneoController implements Initializable {
         }
 
         if (giocatoriScelti.size() >= 2) {
-            admin.creaTorneo(codiceTorneo, giocatoriScelti, giocatoriScelti.size());
+            // FIXME, la grandezza dev'essere passata dopo esser stata scelta, non
+            // dev'essere il size della lista necessariamente
+            admin.creaTorneo(codiceTorneo, giocatoriScelti, 8);
             showAlert("Creazione del torneo andato a buon fine", "Torneo " + codiceTorneo + " creato",
                     AlertType.INFORMATION);
             handleIndietro();

@@ -117,14 +117,6 @@ public class Torneo extends Object {
         }
         return this.leaderboard;
     }
-    // public List<String> addGiocatoreAlTorneo(String username) {
-    // if (this.partecipanti == null) {
-    // this.partecipanti = new ArrayList<>();
-    // }
-    // this.partecipanti.add(username);
-    // salvaToreno();
-    // return this.partecipanti;
-    // }
 
     private Torneo salvaToreno() {
         new TorneoHandler().salva(this, this.codice);
@@ -133,8 +125,6 @@ public class Torneo extends Object {
 
     public boolean possoPassareAlTurnoSuccessivo() {
         // TUTTE le partite devono avere un vincitore
-
-        simulaPartiteCPU();
 
         for (String codice : this.codiciPartite) {
             Partita partita = new PartitaHandler().carica(codice);
@@ -169,10 +159,6 @@ public class Torneo extends Object {
     }
 
     public Torneo nuovoTurnoDelTorneo() {
-        // un nuovo turno del torneo consiste nel calcolare i vincitori di ogni partita
-        // e metterli in una lista,
-        // e cancellare i perdenti dalla lista dei partecipanti e le vecchie partite.
-
         try {
 
             // poi si creano nuove partite con i vincitori e si aggiungono al torneo
@@ -187,6 +173,7 @@ public class Torneo extends Object {
             }
 
             if (!possoPassareAlTurnoSuccessivo()) {
+                simulaPartiteCPU();
                 return this;
             }
 
@@ -196,9 +183,9 @@ public class Torneo extends Object {
             List<String> vincitori = new ArrayList<>();
 
             for (String codicePartita : this.codiciPartite) {
-                Partita partita = new PartitaHandler().carica(codicePartita);
-                vincitori.add(partita.getVincitore());
-                new PartitaHandler().elimina(partita.getCodice());
+                vincitori.add(new PartitaHandler().carica(codicePartita).vincitore);
+                new PartitaHandler().elimina(new PartitaHandler().carica(codicePartita).getCodice());
+                System.out.println("Eliminata la partita: " + codicePartita);
             }
 
             for (String username : this.giocatoriRimasti) {
@@ -249,7 +236,8 @@ public class Torneo extends Object {
 
                 if (!containsRealPlayer) {
                     if (!partita.hasWinner()) {
-                        tavolo.initController(partita, true, null);
+                        System.out.println("Simulo la partita: " + partita.getCodice());
+                        tavolo.initController(partita, false, null);
                     }
                 }
             }

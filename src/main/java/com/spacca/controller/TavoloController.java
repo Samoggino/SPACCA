@@ -19,7 +19,6 @@ import com.spacca.database.TorneoHandler;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -29,9 +28,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -67,6 +63,9 @@ public class TavoloController {
     public Button goToMenuButton = new Button("Torna al menù");
 
     @FXML
+    public Button classificaTorneoButton = new Button("Classifica torneo");
+
+    @FXML
     public Text andTheWinnerIs, risultatoOverlay;
 
     private Partita partita;
@@ -84,56 +83,20 @@ public class TavoloController {
             this.partita = partita;
             this.giocatoreLoggato = giocatoreLoggato;
 
+            System.out.println("costruttore TavoloController");
+
             if (isTorneo) {
+                classificaTorneoButton.setVisible(true);
                 // il codice è fatto tornei/T1234/TP1234
                 String codiceTorneo = partita.getCodice().split("/")[1];
                 this.torneo = new TorneoHandler().carica(codiceTorneo);
+                torneo.nuovoTurnoDelTorneo();
+                System.out.println("Nuovo turno");
             }
 
             if (!partita.hasWinner()) {
                 buildView();
-                Platform.runLater(() -> {
-                    // mostro le regole del gioco
-                    Alert alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Regole del gioco Spacca");
-                    alert.setHeaderText("Benvenuto a Spacca!");
-
-                    String testo = "Il gioco chiamato \"Spacca\" è un gioco di carte in cui l'obiettivo principale è guadagnare almeno due punti per vincere.\n\n"
-                            + "Per giocare a questo gioco utilizziamo 40 carte con 4 semi differenti: Denari, Spade, Coppe e Bastoni.\n"
-                            + "All'interno di queste 40 carte abbiamo 4 carte impreviste, due per ogni tipo.\n"
-                            + "Le carte impreviste sono rappresentate da una matta rossa o da una matta nera.\n"
-                            + "La matta nera ti permette di pescare tutto il mazzo, mentre la matta rossa ti permette di pescare metà mazzo dell'avversario.\n\n"
-                            + "Le regole di base del gioco sono le seguenti:\n\n"
-                            + "- Sul tavolo sono disposte quattro carte, posizionate al centro del tavolo.\n"
-                            + "- Ogni giocatore, a turno, pesca tre carte e le gioca alternando una carta alla volta.\n\n"
-                            + "Durante il proprio turno, il giocatore ha la possibilità di compiere una delle seguenti azioni:\n\n"
-                            + "- Scartare: mettere al centro del tavolo una carta.\n"
-                            + "- Prendere: raccogliere la carta dello stesso numero oppure pescare tutte le carte presenti sul tavolo se vi è un asso.\n"
-                            + "- Rubare il mazzo: è possibile rubare il mazzo avendo una carta corrispondente a quella in cima, oppure avendo una carta imprevista.\n"
-                            + "  La matta rossa permette di pescare metà mazzo dell'avversario, mentre la matta nera permette di pescare l'intero mazzo dell'avversario.\n\n"
-                            + "Per effettuare queste operazioni basterà trascinare la carta nel posto desiderato, ovvero sul tavolo o sul mazzo dell'avversario.\n"
-                            + "Nel caso in cui si abbia in mano un asso, qualora si volessero prendere tutte le carte, basterà cliccare sulla medesima carta\n"
-                            + "e le carte sul tavolo finiranno all'interno del tuo mazzo.\n\n"
-                            + "Per quanto riguarda il punteggio, i punti possono essere ottenuti come segue:\n\n"
-                            + "- Il giocatore che alla fine del gioco possiede il due di bastoni guadagna un punto.\n"
-                            + "- Si sommano i punti totali delle carte: le carte dal 2 al 6 valgono 5 punti, le carte dall'8 al 10 valgono 10 punti,\n"
-                            + "  la matta vale 7 e l'asso vale 15 punti.\n"
-                            + "- Viene conteggiato il numero di carte nel mazzo di ciascun giocatore.\n\n"
-                            + "Buona fortuna e buon divertimento!";
-
-                    TextArea textArea = new TextArea(testo);
-                    textArea.setEditable(false);
-                    textArea.setWrapText(true);
-
-                    ScrollPane scrollPane = new ScrollPane(textArea);
-                    scrollPane.setFitToWidth(true);
-                    scrollPane.setFitToHeight(true);
-
-                    // Imposta il contenuto personalizzato nella finestra di dialogo
-                    alert.getDialogPane().setContent(scrollPane);
-                    alert.showAndWait();
-
-                });
+                // mostraRegolamento();
             } else {
                 buildOverlay();
             }
@@ -143,6 +106,70 @@ public class TavoloController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * private void mostraRegolamento() {
+     * Platform.runLater(() -> {
+     * // mostro le regole del gioco
+     * Alert alert = new Alert(AlertType.INFORMATION);
+     * alert.setTitle("Regole del gioco Spacca");
+     * alert.setHeaderText("Benvenuto a Spacca!");
+     * 
+     * String testo = "Il gioco chiamato \"Spacca\" è un gioco di carte in cui
+     * l'obiettivo principale è guadagnare almeno due punti per vincere.\n\n"
+     * + "Per giocare a questo gioco utilizziamo 40 carte con 4 semi differenti:
+     * Denari, Spade, Coppe e Bastoni.\n"
+     * + "All'interno di queste 40 carte abbiamo 4 carte impreviste, due per ogni
+     * tipo.\n"
+     * + "Le carte impreviste sono rappresentate da una matta rossa o da una matta
+     * nera.\n"
+     * + "La matta nera ti permette di pescare tutto il mazzo, mentre la matta rossa
+     * ti permette di pescare metà mazzo dell'avversario.\n\n"
+     * + "Le regole di base del gioco sono le seguenti:\n\n"
+     * + "- Sul tavolo sono disposte quattro carte, posizionate al centro del
+     * tavolo.\n"
+     * + "- Ogni giocatore, a turno, pesca tre carte e le gioca alternando una carta
+     * alla volta.\n\n"
+     * + "Durante il proprio turno, il giocatore ha la possibilità di compiere una
+     * delle seguenti azioni:\n\n"
+     * + "- Scartare: mettere al centro del tavolo una carta.\n"
+     * + "- Prendere: raccogliere la carta dello stesso numero oppure pescare tutte
+     * le carte presenti sul tavolo se vi è un asso.\n"
+     * + "- Rubare il mazzo: è possibile rubare il mazzo avendo una carta
+     * corrispondente a quella in cima, oppure avendo una carta imprevista.\n"
+     * + " La matta rossa permette di pescare metà mazzo dell'avversario, mentre la
+     * matta nera permette di pescare l'intero mazzo dell'avversario.\n\n"
+     * + "Per effettuare queste operazioni basterà trascinare la carta nel posto
+     * desiderato, ovvero sul tavolo o sul mazzo dell'avversario.\n"
+     * + "Nel caso in cui si abbia in mano un asso, qualora si volessero prendere
+     * tutte le carte, basterà cliccare sulla medesima carta\n"
+     * + "e le carte sul tavolo finiranno all'interno del tuo mazzo.\n\n"
+     * + "Per quanto riguarda il punteggio, i punti possono essere ottenuti come
+     * segue:\n\n"
+     * + "- Il giocatore che alla fine del gioco possiede il due di bastoni guadagna
+     * un punto.\n"
+     * + "- Si sommano i punti totali delle carte: le carte dal 2 al 6 valgono 5
+     * punti, le carte dall'8 al 10 valgono 10 punti,\n"
+     * + " la matta vale 7 e l'asso vale 15 punti.\n"
+     * + "- Viene conteggiato il numero di carte nel mazzo di ciascun
+     * giocatore.\n\n"
+     * + "Buona fortuna e buon divertimento!";
+     * 
+     * TextArea textArea = new TextArea(testo);
+     * textArea.setEditable(false);
+     * textArea.setWrapText(true);
+     * 
+     * ScrollPane scrollPane = new ScrollPane(textArea);
+     * scrollPane.setFitToWidth(true);
+     * scrollPane.setFitToHeight(true);
+     * 
+     * // Imposta il contenuto personalizzato nella finestra di dialogo
+     * alert.getDialogPane().setContent(scrollPane);
+     * alert.showAndWait();
+     * 
+     * });
+     * }
+     */
 
     private void checkCPU() {
 
@@ -172,7 +199,6 @@ public class TavoloController {
     void buildView() {
 
         if (!partita.hasWinner()) {
-
             giocatoreCorrente = new GiocatoreHandler().carica(partita.getGiocatoreCorrente());
             userCorrente = giocatoreCorrente.getUsername();
 
@@ -339,7 +365,14 @@ public class TavoloController {
                     && partita.getMazzoDiGioco().size() == 0
                     && partita.giocatoriNonHannoCarteInMano()) {
                 overlay.setVisible(true);
-                andTheWinnerIs.setText(partita.getVincitore());
+
+                if (partita.hasWinner()) {
+                    System.out.println("Partita ha già un vincitore");
+                    andTheWinnerIs.setText("Il vincitore è: " + partita.vincitore);
+                } else {
+                    System.out.println("Partita non ha un vincitore e quindi lo calcolo");
+                    andTheWinnerIs.setText(partita.getVincitore());
+                }
 
                 String classifica = partita.classifica.toString();
 
@@ -351,6 +384,7 @@ public class TavoloController {
                 preventLoop = 100;
 
                 if (isTorneo) {
+                    System.out.println("Partita ha un vincitore? " + partita.hasWinner());
                     partitaDiUnTorneo();
                 }
 
@@ -592,16 +626,17 @@ public class TavoloController {
     }
 
     public void partitaDiUnTorneo() {
+        System.out.println("Partita di un torneo");
         eliminaPartitaButton.setVisible(false);
-        torneo.nuovoTurnoDelTorneo();
-
-        if (torneo.hasWinner()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Fine torneo");
-            alert.setHeaderText("Il vincitore del torneo è: " + torneo.getVincitore());
-            alert.showAndWait();
-            return;
+        if (!torneo.hasWinner()) {
+            torneo.nuovoTurnoDelTorneo();
         }
 
+    }
+
+    @FXML
+    public void mostraClassificaTorneo() {
+        System.out.println("hai cliccato sul bottone classifica torneo");
+        
     }
 }

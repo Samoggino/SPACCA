@@ -47,7 +47,8 @@ public class Partita extends Object {
     private String giocatoreCorrente = "nessuno";
 
     @SerializedName("vincitore")
-    private String vincitore = null;
+    public
+    String vincitore = null;
 
     @SerializedName("ultimo giocatore che ha preso")
     private String ultimoGiocatoreCheHapreso = "";

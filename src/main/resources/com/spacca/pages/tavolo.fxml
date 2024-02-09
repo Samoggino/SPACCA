@@ -58,6 +58,7 @@
                         </ImageView>
                      </children>
                   </VBox>
+                  <Button fx:id="classificaTorneoButton" mnemonicParsing="false" onAction="#mostraClassificaTorneo" text="Classifica torneo" translateX="430.0" translateY="80.0" visible="false" />
                </children>
             </HBox>
          </top>

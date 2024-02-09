@@ -9,6 +9,7 @@ import com.spacca.asset.match.Torneo;
 import com.spacca.asset.utente.Amministratore;
 import com.spacca.asset.utente.giocatore.AbstractGiocatore;
 import com.spacca.controller.TavoloController;
+import com.spacca.database.GiocatoreHandler;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -28,17 +29,23 @@ public class App extends Application {
         try {
 
             // Amministratore amministratore = new Amministratore();
-            // AbstractGiocatore admin = amministratore.caricaUtente("admin");
-            // AbstractGiocatore yoshi = amministratore.caricaUtente("yoshi");
-            // AbstractGiocatore peach = amministratore.caricaUtente("peach");
-            // AbstractGiocatore toad = amministratore.caricaUtente("toad");
+            // // AbstractGiocatore admin = amministratore.caricaUtente("admin");
+            // // AbstractGiocatore yoshi = amministratore.caricaUtente("yoshi");
+            // // AbstractGiocatore peach = amministratore.caricaUtente("peach");
+            // // AbstractGiocatore toad = amministratore.caricaUtente("toad");
+
+            // AbstractGiocatore mario = amministratore.creaGiocatore("mario", "SmartCPU");
+            // AbstractGiocatore yoshi = amministratore.creaGiocatore("yoshi", "SmartCPU");
+            // AbstractGiocatore peach = amministratore.creaGiocatore("peach", "SmartCPU");
+            // AbstractGiocatore toad = amministratore.creaGiocatore("toad", "Giocatore");
+
             // List<String> listaGiocatori = new ArrayList<>();
-            // listaGiocatori.add(admin.getUsername());
+            // listaGiocatori.add(mario.getUsername());
             // listaGiocatori.add(yoshi.getUsername());
             // listaGiocatori.add(peach.getUsername());
             // listaGiocatori.add(toad.getUsername());
 
-            // int numeroGiocatoriScelto = 8;
+            // int numeroGiocatoriScelto = 4;
             // System.out.println("Numero selezionato: " + numeroGiocatoriScelto);
             // System.out.println("Nuemro giocatori inseriti " + listaGiocatori.size());
             // Torneo torneo = amministratore.creaTorneo(listaGiocatori,
@@ -51,19 +58,14 @@ public class App extends Application {
             // Partita partita =
             // amministratore.caricaPartita(torneo.getCodiciPartite().get(0));
 
-            // new GiocatoreHandler().elimina(toad.getUsername());
-
-            // partita = amministratore.caricaPartita(partita.getCodice());
-
-            // Amministratore admin = new Amministratore();
-            // Partita partita = admin.caricaPartita("tornei/T7094/TP3497");
+            // // new GiocatoreHandler().elimina(toad.getUsername());
 
             // FXMLLoader loader = new
             // FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
             // Parent root = loader.load();
             // TavoloController tavolo = loader.getController();
             // loader.setController(tavolo);
-            // tavolo.initController(partita, false, amministratore);
+            // tavolo.initController(partita, true, amministratore);
             scene = new Scene(loadFXML("login"), 600, 500);
             // stage.setTitle(partita.getCodice());
             // stage.setScene(new Scene(root));
