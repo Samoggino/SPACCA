@@ -14,6 +14,14 @@
 
 }
 
+#scrollabile {
+    -fx-alignment: center;
+    -fx-background-color: red;
+    background-color: red;
+    -fx-color-fill: wheat;
+    color: wheat;
+}
+
 BorderPane {
     background-color: #1f1204;
     -fx-background-color: #1f1204;

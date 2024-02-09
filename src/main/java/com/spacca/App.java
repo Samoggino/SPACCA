@@ -27,14 +27,43 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
 
         try {
-            scene = new Scene(loadFXML("login"), 600, 500);
-            stage.setTitle("Login");
-            stage.setScene(scene);
+
+            Amministratore amministratore = new Amministratore();
+            AbstractGiocatore admin = amministratore.caricaUtente("admin");
+            AbstractGiocatore yoshi = amministratore.caricaUtente("yoshi");
+            AbstractGiocatore peach = amministratore.caricaUtente("peach");
+            AbstractGiocatore mamma = amministratore.caricaUtente("mamma");
+            List<String> listaGiocatori = new ArrayList<>();
+            listaGiocatori.add(admin.getUsername());
+            listaGiocatori.add(yoshi.getUsername());
+            listaGiocatori.add(peach.getUsername());
+            listaGiocatori.add(mamma.getUsername());
+
+            Torneo torneo = amministratore.creaTorneo(listaGiocatori);
+
+            Partita partita = amministratore.caricaPartita(torneo.getCodiciPartite().get(0));
+
+            // new GiocatoreHandler().elimina(mamma.getUsername());
+
+            partita = amministratore.caricaPartita(partita.getCodice());
+
+            // Amministratore admin = new Amministratore();
+            // Partita partita = admin.caricaPartita("tornei/T7094/TP3497");
+
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/tavolo.fxml"));
+            Parent root = loader.load();
+            TavoloController tavolo = loader.getController();
+            loader.setController(tavolo);
+            tavolo.initController(partita, false, amministratore);
+            // scene = new Scene(loadFXML("login"), 600, 500);
+            stage.setTitle(partita.getCodice());
+            stage.setScene(new Scene(root));
+            // stage.setScene(scene);
             stage.show();
 
-            // } catch (IOException e) {
-            // System.err.println("ERRORE (app IO exception):\t\t " + e.getMessage());
-            // e.printStackTrace();
+        } catch (IOException e) {
+            System.err.println("ERRORE (app IO exception):\t\t " + e.getMessage());
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
