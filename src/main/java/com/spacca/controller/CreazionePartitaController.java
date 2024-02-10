@@ -91,13 +91,16 @@ public class CreazionePartitaController implements Initializable {
     @FXML
     private void handleMostra() {
         System.out.println("SIAMO IN MOSTRA PARTITA ");
+        int num = numeroGiocatoriSpinner.getValue();
+        GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
 
-        if (generaCodiceRadioButton.isSelected()) {
+        if (generaCodiceRadioButton.isSelected() && num <= giocatoreHandler.mostraTutteGliUtenti().size()) {
             comboBoxes = inizializeComboBoxandLayout();
             popola();
             creaButton.setDisable(false);
         } else if (!generaCodiceRadioButton.isSelected()) {
-            if (controllaCodice(codiceField.getText().trim())) {
+            if (controllaCodice(codiceField.getText().trim())
+                    && num <= giocatoreHandler.mostraTutteGliUtenti().size()) {
                 // Inizializza le liste delle ComboBox
                 this.codicePartita = "P" + codiceField.getText().trim();
                 comboBoxes = inizializeComboBoxandLayout();
@@ -107,6 +110,7 @@ public class CreazionePartitaController implements Initializable {
         } else {
             showAlert("Per procedere devi compilare correttamente tutti i campi", "Mancato inserimento",
                     AlertType.ERROR);
+            creaButton.setDisable(true);
         }
     }
 
@@ -155,37 +159,46 @@ public class CreazionePartitaController implements Initializable {
         int num = numeroGiocatoriSpinner.getValue();
         System.out.println("NUM = " + num);
 
-        // imposto i valori di default ovvero spinner = 2
+        GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
 
-        label1.setVisible(true);
-        label2.setVisible(true);
-        label3.setVisible(false);
-        label4.setVisible(false);
+        if (num > giocatoreHandler.mostraTutteGliUtenti().size()) {
+            showAlert("Non sono presenti abbastanza giocatori !",
+                    " A causa della presenza di " + giocatoreHandler.mostraTutteGliUtenti().size() + " giocatori \n"
+                            + " è possibile creare una partita con un numero \n inferiore o uguale al medesimo",
+                    AlertType.ERROR);
+        } else {
+            // imposto i valori di default ovvero spinner = 2
 
-        sceltaGiocatore1.setVisible(true);
-        sceltaGiocatore2.setVisible(true);
-        sceltaGiocatore3.setVisible(false);
-        sceltaGiocatore4.setVisible(false);
-
-        comboBoxes.add(sceltaGiocatore1);
-        comboBoxes.add(sceltaGiocatore2);
-
-        if (num == 3) {
-            sceltaGiocatore3.setVisible(true);
-            sceltaGiocatore4.setVisible(false);
-
-            label3.setVisible(true);
+            label1.setVisible(true);
+            label2.setVisible(true);
+            label3.setVisible(false);
             label4.setVisible(false);
 
-            comboBoxes.add(sceltaGiocatore3);
-        } else if (num == 4) {
-            sceltaGiocatore3.setVisible(true);
-            sceltaGiocatore4.setVisible(true);
-            label3.setVisible(true);
-            label4.setVisible(true);
+            sceltaGiocatore1.setVisible(true);
+            sceltaGiocatore2.setVisible(true);
+            sceltaGiocatore3.setVisible(false);
+            sceltaGiocatore4.setVisible(false);
 
-            comboBoxes.add(sceltaGiocatore3);
-            comboBoxes.add(sceltaGiocatore4);
+            comboBoxes.add(sceltaGiocatore1);
+            comboBoxes.add(sceltaGiocatore2);
+
+            if (num == 3) {
+                sceltaGiocatore3.setVisible(true);
+                sceltaGiocatore4.setVisible(false);
+
+                label3.setVisible(true);
+                label4.setVisible(false);
+
+                comboBoxes.add(sceltaGiocatore3);
+            } else if (num == 4) {
+                sceltaGiocatore3.setVisible(true);
+                sceltaGiocatore4.setVisible(true);
+                label3.setVisible(true);
+                label4.setVisible(true);
+
+                comboBoxes.add(sceltaGiocatore3);
+                comboBoxes.add(sceltaGiocatore4);
+            }
         }
 
         return comboBoxes;

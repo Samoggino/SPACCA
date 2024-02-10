@@ -186,8 +186,17 @@ public class BenvenutoAdminController {
     private void handleCreazionePartita() {
         System.out.println("Siamo in creazione partita");
         String titlePages = "Creazione nuova partita ";
-        changeSceneCreazionePartita("/com/spacca/pages/creazionePartita.fxml", titlePages);
+        GiocatoreHandler giocatoreHandler = new GiocatoreHandler();
 
+        if (giocatoreHandler.mostraTutteGliUtenti().size() >= 2) {
+            changeSceneCreazionePartita("/com/spacca/pages/creazionePartita.fxml", titlePages);
+        } else {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setContentText("Non sono presenti abbastanza giocatori !");
+            alert.setHeaderText(" Al momento sei l'unico giocatore registrato. \n " +
+                    "Ti consiglio di creare nuovi giocatori per poter giocare");
+            alert.showAndWait();
+        }
     }
 
     @FXML
