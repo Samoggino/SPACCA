@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="643.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.CreazioneTorneoController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="643.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="com.spacca.controller.CreazioneTorneoController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-7.0" layoutY="20.0" prefHeight="58.0" prefWidth="715.0" text="Creazione Torneo: " textAlignment="CENTER">
          <font>
@@ -58,8 +58,8 @@
          </font>
       </Label>
       <TextField fx:id="codiceField" layoutX="80.0" layoutY="119.0" prefHeight="25.0" prefWidth="228.0" />
-      <Button fx:id="indietroButton" layoutX="237.0" layoutY="560.0" mnemonicParsing="false" onMouseClicked="#handleIndietro" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: orange;" text="Indeitro" />
-      <Button fx:id="creaButton" layoutX="383.0" layoutY="560.0" mnemonicParsing="false" onMouseClicked="#handleCrea" style="-fx-background-color: orange;" text="Crea Torneo" />
+      <Button fx:id="indietroButton" layoutX="190.0" layoutY="560.0" mnemonicParsing="false" onMouseClicked="#handleIndietro" prefHeight="25.0" prefWidth="77.0" style="-fx-background-color: orange;" text="Indietro" />
+      <Button fx:id="creaButton" layoutX="304.0" layoutY="560.0" mnemonicParsing="false" onMouseClicked="#handleCrea" style="-fx-background-color: orange;" text="Crea Torneo" />
       <Button fx:id="procButton" layoutX="315.0" layoutY="230.0" mnemonicParsing="false" onMouseClicked="#handleMostra" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: orange;" text="Procedi" />
       <Line endX="603.0" layoutX="98.0" layoutY="286.0" startX="-100.0" strokeWidth="3.0">
          <stroke>
@@ -99,9 +99,10 @@
      <RadioButton fx:id="radioButton32" contentDisplay="CENTER" layoutX="461.0" layoutY="217.0" prefHeight="27.0" prefWidth="108.0" text="32 giocatori" />
       <VBox alignment="CENTER" layoutX="532.0" layoutY="116.0" prefHeight="91.0" prefWidth="100.0" spacing="10">
          <children>
-            <RadioButton fx:id="radioButton8" contentDisplay="CENTER"  prefHeight="58.0" prefWidth="100.0" text=" 8 giocatori" />
+            <RadioButton fx:id="radioButton8" contentDisplay="CENTER" prefHeight="58.0" prefWidth="100.0" text=" 8 giocatori" />
             <RadioButton fx:id="radioButton16" contentDisplay="CENTER" prefHeight="55.0" prefWidth="100.0" text="16 giocatori" />
          </children>
       </VBox>
+      <Button fx:id="simulaButton" layoutX="421.0" layoutY="560.0" mnemonicParsing="false" onAction="#simulaTorneo" onMouseClicked="#handleCrea" style="-fx-background-color: orange;" text="Simula torneo con solo bot" />
     </children>
 </Pane>

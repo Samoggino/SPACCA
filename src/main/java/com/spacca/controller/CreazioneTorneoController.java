@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.spacca.asset.match.Partita;
 import com.spacca.asset.match.Torneo;
 import com.spacca.asset.utente.Amministratore;
 import com.spacca.database.GiocatoreHandler;
@@ -13,14 +14,14 @@ import com.spacca.database.TorneoHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
 public class CreazioneTorneoController implements Initializable {
@@ -29,11 +30,7 @@ public class CreazioneTorneoController implements Initializable {
     @FXML
     private Label label1, label2, label3, label4, labelCodice;
     @FXML
-    private Button indietroButton;
-    @FXML
-    private Button creaButton;
-    @FXML
-    private Button procButton;
+    private Button indietroButton, creaButton, procButton, simulaButton;
     @FXML
     private TextField codiceField;
     @FXML
@@ -42,6 +39,7 @@ public class CreazioneTorneoController implements Initializable {
     private RadioButton radioButton2, radioButton4, radioButton8, radioButton16, radioButton32;
 
     private String codiceTorneo;
+    private boolean simula = false;
 
     private ToggleGroup toggleGroup = new ToggleGroup();
 
@@ -75,6 +73,7 @@ public class CreazioneTorneoController implements Initializable {
         });
         codiceField.setTextFormatter(textFormatter); // Assicurati di usare lo stesso identificatore
         creaButton.setDisable(true); // Disabilita il bottone
+        simulaButton.setDisable(true);
     }
 
     @FXML
@@ -106,6 +105,7 @@ public class CreazioneTorneoController implements Initializable {
             comboBoxes = inizializeComboBoxandLayout();
             popola();
             creaButton.setDisable(false);
+            simulaButton.setDisable(false);
 
         } else if (!generaCodiceRadioButton.isSelected()) {
             if (controllaCodice(codice) && selectedRadioButton != null) {
@@ -269,15 +269,56 @@ public class CreazioneTorneoController implements Initializable {
         } else if (radioButton32.isSelected()) {
             value = 32;
         }
+        if (simula) {
+            List<String> listaGiocatori = new ArrayList<>();
+            Torneo torneoSimulato = admin.creaTorneo(codiceTorneo, listaGiocatori, value);
 
-        if (giocatoriScelti.size() >= 2) {
-            admin.creaTorneo(codiceTorneo, giocatoriScelti, value);
-            showAlert("Creazione del torneo andato a buon fine", "Torneo " + codiceTorneo + " creato",
+            showAlert("Simulazione del torneo andata a buon fine", "Torneo " + codiceTorneo + " creato",
                     AlertType.INFORMATION);
-            handleIndietro();
+
+            simulaTorneoHandler(admin, torneoSimulato);
+
         } else {
-            showAlert("Mancato scelta di almeno due giocatori", "Per procedere seleziona almeno due giocatori",
-                    AlertType.INFORMATION);
+            if (giocatoriScelti.size() >= 2) {
+
+                admin.creaTorneo(codiceTorneo, giocatoriScelti, value);
+
+                showAlert("Creazione del torneo andato a buon fine", "Torneo " + codiceTorneo + " creato",
+                        AlertType.INFORMATION);
+                handleIndietro();
+            } else {
+                showAlert("Mancato scelta di almeno due giocatori", "Per procedere seleziona almeno due giocatori",
+                        AlertType.INFORMATION);
+            }
+        }
+    }
+
+    /**
+     * itero ricorsivamente per tutti i turni del torneo, fino a quando non ho un
+     * vincitore
+     */
+    private void simulaTorneoHandler(Amministratore amministratore, Torneo torneo) {
+        try {
+            if (torneo.hasWinner()) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setContentText("Il vincitore del torneo è: " + torneo.getVincitore());
+                alert.setHeaderText("Vincitore del torneo");
+                alert.showAndWait();
+                System.out.println("Il vincitore del torneo è: " + torneo.getVincitore());
+                return;
+            }
+            for (String codicePartita : torneo.getCodiciPartite()) {
+                Partita partita = admin.caricaPartita(codicePartita);
+                TavoloController tavolo = new TavoloController();
+                tavolo.initController(partita, false, amministratore);
+
+            }
+            if (torneo.getGiocatoriRimasti().size() > 1) {
+                simulaTorneoHandler(admin, admin.caricaTorneo(torneo.getCodice()).nuovoTurnoDelTorneo());
+            }
+        } catch (Exception e) {
+            System.err.println("Errore (simulaTorneoHandler): \n" + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -291,5 +332,10 @@ public class CreazioneTorneoController implements Initializable {
     @FXML
     public void handleIndietro() {
         admin.ritornaBenvenutoAdmin(procButton.getScene());
+    }
+
+    @FXML
+    public void simulaTorneo() {
+        simula = true;
     }
 }

@@ -47,9 +47,6 @@ public class CreatoreDiTorneo {
         // throw new IllegalArgumentException("Non è possibile creare un torneo con meno
         // di due giocatori");
         // }
-        if (numeroGiocatoriScelto < 2) {
-            throw new IllegalArgumentException("Non è possibile creare un torneo con meno di due giocatori");
-        }
 
         // se listaGiocatori.size() è minore di numeroGiocatori allora vanno aggiunti
         // giocatori fino a numeroGiocatoriScelto

@@ -48,7 +48,8 @@ import javafx.util.Duration;
 public class TavoloController {
 
     @FXML
-    private Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane, overlay, tavolo;
+    private Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane,
+            playerOnRightPane, overlay, tavolo;
 
     @FXML
     private TextFlow classificaFlowPane;
@@ -82,6 +83,10 @@ public class TavoloController {
             this.partita = partita;
             this.giocatoreLoggato = giocatoreLoggato;
 
+            if (overlay == null) {
+                istanziaPerSimulazione();
+            }
+
             System.out.println("costruttore TavoloController");
 
             if (isTorneo) {
@@ -102,6 +107,26 @@ public class TavoloController {
             System.err.println("ERRORE (initController):\t\t " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private void istanziaPerSimulazione() {
+
+        overlay = new Pane();
+        currentPlayerPane = new Pane();
+        playerOnTopPane = new Pane();
+        playerOnLeftPane = new Pane();
+        playerOnRightPane = new Pane();
+        piatto = new GridPane();
+        playerHand = new FlowPane();
+        classificaFlowPane = new TextFlow();
+        tavolo = new Pane();
+        eliminaPartitaButton = new Button("Elimina partita");
+        goToMenuButton = new Button("Torna al menù");
+        nuovoTurnoTorneoButton = new Button("Nuovo turno torneo");
+        classificaTorneoButton = new Button("Classifica torneo");
+        andTheWinnerIs = new Text();
+        risultatoOverlay = new Text();
+
     }
 
     @FXML
@@ -180,7 +205,10 @@ public class TavoloController {
             giocatoreCorrente = new GiocatoreHandler().carica(partita.getGiocatoreCorrente());
             userCorrente = giocatoreCorrente.getUsername();
 
-            overlay.setVisible(false);
+            if (overlay != null) {
+                overlay.setVisible(false);
+            }
+
             try {
                 if (partita.giocatoriNonHannoCarteInMano()) {
                     partita.nuovoTurno();
@@ -342,6 +370,7 @@ public class TavoloController {
             if (partita.getCarteSulTavolo().size() == 0
                     && partita.getMazzoDiGioco().size() == 0
                     && partita.giocatoriNonHannoCarteInMano()) {
+
                 overlay.setVisible(true);
 
                 if (partita.hasWinner()) {
