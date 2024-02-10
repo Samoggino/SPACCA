@@ -94,7 +94,6 @@ public class TavoloController {
 
             if (!partita.hasWinner()) {
                 buildView();
-                mostraRegolamento();
             } else {
                 buildOverlay();
             }

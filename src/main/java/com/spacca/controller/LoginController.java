@@ -40,8 +40,8 @@ public class LoginController {
     private void handleLogin() {
         try {
             statusLabel.setTextFill(Color.BLACK);
-            usernameField.setStyle("-fx-border-color: whitegrey");
-            passwordField.setStyle("-fx-border-color: whitegrey");
+            usernameField.setStyle("-fx-border-color: lightgrey");
+            passwordField.setStyle("-fx-border-color: lightgrey");
             statusLabel.setTextFill(Color.DARKORANGE);
 
             String username = usernameField.getText();

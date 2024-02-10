@@ -4,54 +4,55 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.RegistrazioneController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="479.0" prefWidth="600" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.RegistrazioneController">
    <children>
-      <Button fx:id="save" alignment="CENTER" layoutX="318.0" layoutY="338.0" mnemonicParsing="false" onMouseClicked="#handleLogin" prefHeight="25" prefWidth="72.0" style="-fx-background-color: orange;" text="Salva" textAlignment="CENTER" />
-      <Button fx:id="indietro" alignment="CENTER" layoutX="229.0" layoutY="338.0" mnemonicParsing="false" onMouseClicked="#tornaIndietro" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: orange;" text="Indietro" textAlignment="CENTER" />
-      <Label layoutX="80" layoutY="70" prefHeight="17" prefWidth="149" text="Username" />
-      <Label fx:id="labelUsername" layoutX="82" layoutY="129" prefHeight="15" prefWidth="149">
+      <Button fx:id="save" alignment="CENTER" layoutX="329.0" layoutY="414.0" mnemonicParsing="false" onMouseClicked="#handleLogin" prefHeight="25" prefWidth="72.0" style="-fx-background-color: orange;" text="Salva" textAlignment="CENTER" />
+      <Button fx:id="indietro" alignment="CENTER" layoutX="229.0" layoutY="414.0" mnemonicParsing="false" onMouseClicked="#tornaIndietro" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: orange;" text="Indietro" textAlignment="CENTER" />
+      <Label layoutX="80.0" layoutY="91.0" prefHeight="17" prefWidth="149" text="Username" />
+      <Label fx:id="labelUsername" layoutX="82.0" layoutY="150.0" prefHeight="15" prefWidth="149">
          <font>
             <Font size="10" />
          </font>
       </Label>
-      <TextField fx:id="usernameField" layoutX="80" layoutY="95" prefHeight="25" prefWidth="149" promptText="Inserisci il Nome Utente" />
-      <Label layoutX="81" layoutY="165" prefHeight="17" prefWidth="149" text="Email" />
-      <Label fx:id="labelEmail" layoutX="83" layoutY="224" prefHeight="15" prefWidth="149">
+      <TextField fx:id="usernameField" layoutX="80.0" layoutY="116.0" prefHeight="25" prefWidth="149" promptText="Inserisci il Nome Utente" />
+      <Label layoutX="81.0" layoutY="194.0" prefHeight="17" prefWidth="149" text="Email" />
+      <Label fx:id="labelEmail" layoutX="83.0" layoutY="253.0" prefHeight="15" prefWidth="149">
          <font>
             <Font size="10" />
          </font>
       </Label>
-      <TextField fx:id="emailField" layoutX="81" layoutY="190" promptText="Inserisci la tua E-mail" />
-      <PasswordField fx:id="passwordField" layoutX="366" layoutY="94" prefHeight="25" prefWidth="149" promptText="Inserisci la Password" />
-      <PasswordField fx:id="confermaPasswordField" layoutX="366" layoutY="189" prefHeight="25" prefWidth="149" promptText="Conferma la Password" />
-      <Label layoutX="365" layoutY="70" prefHeight="17" prefWidth="149" text="Password" />
-      <Label fx:id="labelPassword" layoutX="368" layoutY="223" prefHeight="15" prefWidth="149">
+      <TextField fx:id="emailField" layoutX="81.0" layoutY="219.0" promptText="Inserisci la tua E-mail" />
+      <PasswordField fx:id="passwordField" layoutX="368.0" layoutY="115.0" prefHeight="25" prefWidth="149" promptText="Inserisci la Password" />
+      <PasswordField fx:id="confermaPasswordField" layoutX="365.0" layoutY="219.0" prefHeight="25" prefWidth="149" promptText="Conferma la Password" />
+      <Label layoutX="368.0" layoutY="91.0" prefHeight="17" prefWidth="149" text="Password" />
+      <Label fx:id="labelPassword" layoutX="368.0" layoutY="149.0" prefHeight="15" prefWidth="149">
          <font>
             <Font size="10" />
          </font>
       </Label>
-      <Label layoutX="366" layoutY="164" prefHeight="17" prefWidth="149" text="Conferma Password" />
-      <Label fx:id="labelConfermaPassword" layoutX="368" layoutY="223" prefHeight="15" prefWidth="149">
+      <Label layoutX="367.0" layoutY="195.0" prefHeight="17" prefWidth="149" text="Conferma Password" />
+      <Label fx:id="labelConfermaPassword" layoutX="369.0" layoutY="254.0" prefHeight="15" prefWidth="149">
          <font>
             <Font size="10" />
          </font>
       </Label>
-      <DatePicker fx:id="data" layoutX="80" layoutY="283" prefHeight="25" prefWidth="149" promptText="Seleziona la Data" />
-      <Label layoutX="81" layoutY="257" prefHeight="17" prefWidth="149" text="Data di nascita" />
-      <Label fx:id="labelData" layoutX="83" layoutY="316" prefHeight="15" prefWidth="149">
+      <DatePicker fx:id="data" layoutX="81.0" layoutY="336.0" prefHeight="25" prefWidth="149" promptText="Seleziona la Data" />
+      <Label layoutX="82.0" layoutY="310.0" prefHeight="17" prefWidth="149" text="Data di nascita" />
+      <Label fx:id="labelData" layoutX="84.0" layoutY="369.0" prefHeight="15" prefWidth="149">
          <font>
             <Font size="10" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="217.0" layoutY="20.0" prefHeight="50.0" prefWidth="188.0" text="Registrati : " textAlignment="CENTER">
+      <Label alignment="CENTER" layoutX="34.0" layoutY="20.0" prefHeight="59.0" prefWidth="529.0" text="Registrati : " textAlignment="CENTER">
          <font>
-            <Font size="22.0" />
+            <Font size="24.0" />
          </font>
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
@@ -62,10 +63,10 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <Label fx:id="labelPassword" layoutX="365" layoutY="129" prefHeight="15" prefWidth="149">
+      <Label fx:id="labelPassword" layoutX="369.0" layoutY="149.0" prefHeight="15" prefWidth="149">
          <font>
             <Font size="10" />
          </font>
       </Label>
-   </children>
+</children>
 </Pane>

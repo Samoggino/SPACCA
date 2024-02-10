@@ -271,7 +271,6 @@ public class CreazioneTorneoController implements Initializable {
         }
 
         if (giocatoriScelti.size() >= 2) {
-            System.out.println("Creo un torneo ");
             admin.creaTorneo(codiceTorneo, giocatoriScelti, value);
             showAlert("Creazione del torneo andato a buon fine", "Torneo " + codiceTorneo + " creato",
                     AlertType.INFORMATION);
