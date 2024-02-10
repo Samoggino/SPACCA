@@ -12,7 +12,6 @@ import com.spacca.database.GiocatoreHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
@@ -55,10 +54,16 @@ public class EliminaGiocatoreController implements Initializable {
             listaUtenti.setVisibleRowCount(3);
 
         } catch (NullPointerException e) {
+            e.getLocalizedMessage();
+            e.getMessage();
             e.printStackTrace();
         } catch (IOException e) {
+            e.getLocalizedMessage();
+            e.getMessage();
             e.printStackTrace();
         } catch (Exception e) {
+            e.getLocalizedMessage();
+            e.getMessage();
             e.printStackTrace();
         }
     }
