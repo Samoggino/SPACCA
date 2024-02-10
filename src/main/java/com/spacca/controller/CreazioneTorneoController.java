@@ -257,10 +257,23 @@ public class CreazioneTorneoController implements Initializable {
             }
         }
 
+        int value = 0 ;
+        if(radioButton2.isSelected()){
+value=2;
+        }else if(radioButton4.isSelected()){
+value=4;
+        }else if(radioButton8.isSelected()){
+            value=8;
+                    }else if(radioButton16.isSelected()){
+                        value=16;
+                                }else if(radioButton32.isSelected()){
+                                    value=32;
+                                            }
+
         if (giocatoriScelti.size() >= 2) {
             // FIXME, la grandezza dev'essere passata dopo esser stata scelta, non
             // dev'essere il size della lista necessariamente
-            admin.creaTorneo(codiceTorneo, giocatoriScelti, 4);
+            admin.creaTorneo(codiceTorneo, giocatoriScelti, value);
             showAlert("Creazione del torneo andato a buon fine", "Torneo " + codiceTorneo + " creato",
                     AlertType.INFORMATION);
             handleIndietro();
