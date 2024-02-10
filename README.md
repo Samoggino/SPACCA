@@ -1,6 +1,6 @@
 # SPACCA
 
-## Obiettivo: vince chi ha più carte
+## Obiettivo: vince chi ha più punti
 
 ## Regole generali: 
 	- 4 carte sul tavolo
