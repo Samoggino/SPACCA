@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class BenvenutoUtenteController {
@@ -25,6 +26,9 @@ public class BenvenutoUtenteController {
 
     @FXML
     private Button gioca;
+
+    @FXML
+    public ImageView logout;
 
     @FXML
     private void handleGiocaButton() {
@@ -46,6 +50,36 @@ public class BenvenutoUtenteController {
             e.printStackTrace();
         } catch (Exception e) {
             System.err.println("Errore durante il caricamento di modpartita.fxml: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleLogout() throws IOException {
+        System.out.println("Logout");
+        try {
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/spacca/pages/login.fxml"));
+            Parent root = loader.load();
+
+            Scene currentScene = logout.getScene();
+
+            // Ottieni lo Stage dalla scena corrente
+            Stage currentStage = (Stage) currentScene.getWindow();
+            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.png"), 100, 100, true,
+                    true);
+            // Imposta l'icona dell'applicazione
+            currentStage.getIcons().add(icon);
+            currentStage.setTitle("Login");
+            currentStage.setScene(new Scene(root));
+            currentStage.show();
+
+        } catch (NullPointerException e) {
+            System.out.println("Logout nullpointerexception! " + e);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("IO Errore (Benvenuto utente controller per logout): \n" + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Errore (Benvenuto utente controller logout): \n" + e.getMessage());
             e.printStackTrace();
         }
     }

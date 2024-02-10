@@ -10,21 +10,14 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<Pane  fx:id="benvenutoPane"  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-   prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;"
-   xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-   fx:controller="com.spacca.controller.BenvenutoUtenteController">
+<Pane fx:id="benvenutoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.BenvenutoUtenteController">
    <children>
-      <Button fx:id="gioca" layoutX="252.0" layoutY="188.0" mnemonicParsing="false" prefHeight="51.0"
-         prefWidth="87.0" style="-fx-background-color: #edab05;" text="Gioca"
-         onAction="#handleGiocaButton">
+      <Button fx:id="gioca" layoutX="257.0" layoutY="175.0" mnemonicParsing="false" onAction="#handleGiocaButton" prefHeight="51.0" prefWidth="87.0" style="-fx-background-color: #edab05;" text="Gioca">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Label layoutX="51.0" layoutY="283.0" prefHeight="103.0" prefWidth="488.0"
-         text="Sei Pronto A Combattere Contro i tuoi Avversari ? " textAlignment="CENTER"
-         wrapText="true">
+      <Label layoutX="57.0" layoutY="283.0" prefHeight="103.0" prefWidth="488.0" text="Sei Pronto A Combattere Contro i tuoi Avversari ? " textAlignment="CENTER" wrapText="true">
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -38,24 +31,21 @@
             <Font size="25.0" />
          </font>
       </Label>
-      <ImageView fitHeight="105.0" fitWidth="206.0" layoutX="104.0" layoutY="28.0"
-         pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="32.0" fitWidth="122.0" layoutX="344.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/icone/logo.jpg" />
+            <Image url="@../images/logo/logo.png" />
          </image>
          <cursor>
             <Cursor fx:constant="S_RESIZE" />
          </cursor>
       </ImageView>
-      <Label alignment="CENTER" blendMode="SRC_ATOP" contentDisplay="CENTER" layoutX="56.0"
-         layoutY="28.0" prefHeight="89.0" prefWidth="488.0" text="Benvenuto in "
-         textAlignment="CENTER" wrapText="true">
+      <Label alignment="CENTER" blendMode="SRC_ATOP" contentDisplay="CENTER" layoutY="33.0" prefHeight="84.0" prefWidth="600.0" text="Benvenuto in             ! " textAlignment="CENTER" wrapText="true">
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
                   <Stop color="BLACK" />
-                  <Stop color="darkorange" offset="0.5211912943871707" />
-                  <Stop color="darkorange" offset="1.0" />
+                  <Stop color="DARKORANGE" offset="0.5211912943871707" />
+                  <Stop color="ORANGE" offset="1.0" />
                </stops>
             </LinearGradient>
          </textFill>
@@ -63,5 +53,10 @@
             <Font size="36.0" />
          </font>
       </Label>
+      <ImageView fx:id="logout" fitHeight="32.0" fitWidth="30.0" layoutX="545.0" layoutY="17.0" onMouseClicked="#handleLogout">
+         <image>
+            <Image url="@../images/logout.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
