@@ -68,6 +68,7 @@
                <children>
                   <VBox fx:id="currentPlayerPane" alignment="CENTER" prefHeight="176.0" prefWidth="286.0" translateX="228.0">
                      <children>
+                        <Button mnemonicParsing="false" onAction="#mostraRegolamento" text="Regolamento" translateX="-440.0" translateY="30.0" />
                         <Text boundsType="VISUAL" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="0.0" textAlignment="CENTER" textOrigin="CENTER" translateY="20.0" wrappingWidth="83.791015625" VBox.vgrow="ALWAYS">
                            <font>
                               <Font name="Droid Sans Bold" size="20.0" />

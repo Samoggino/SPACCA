@@ -1,0 +1,30 @@
+Il gioco chiamato "Spacca" è un gioco di carte in cui l'obiettivo principale è guadagnare almeno due punti per vincere.
+Per giocare a questo gioco utilizziamo 40 carte con 4 semi differenti:
+- Denari
+- Spade
+- Coppe
+- Bastoni.
+
+All'interno di queste 40 carte abbiamo 4 carte impreviste, due per ogni tipo. Le carte impreviste sono rappresentate da una matta rossa o da una matta nera.
+La matta nera ti permette di pescare tutto il mazzo, mentre la matta rossa ti permette di pescare metà mazzo dell'avversario.
+
+Le regole di base del gioco sono le seguenti:
+- Sul tavolo sono disposte quattro carte, posizionate al centro del tavolo.
+- Ogni giocatore, a turno, pesca tre carte e le gioca alternando una carta alla volta.
+
+Durante il proprio turno, il giocatore ha la possibilità di compiere una
+delle seguenti azioni:
+- Scartare: mettere al centro del tavolo una carta.
+- Prendere: raccogliere la carta dello stesso numero oppure pescare tutte le carte presenti sul tavolo se vi è un asso.
+- Rubare il mazzo: è possibile rubare il mazzo avendo una carta corrispondente a quella in cima, oppure avendo una carta imprevista.
+
+La matta rossa permette di pescare metà mazzo dell'avversario, mentre la matta nera permette di pescare l'intero mazzo dell'avversario.
+Per effettuare queste operazioni basterà trascinare la carta nel posto desiderato, ovvero sul tavolo o sul mazzo dell'avversario.
+Nel caso in cui si abbia in mano un asso, qualora si volessero prendere tutte le carte, basterà cliccare sulla medesima carta
+e le carte sul tavolo finiranno all'interno del tuo mazzo.
+
+Per quanto riguarda il punteggio, i punti possono essere ottenuti come segue:
+- Il giocatore che alla fine del gioco possiede il due di bastoni guadagna un punto.
+- Si sommano i punti totali delle carte: le carte dal 2 al 6 valgono 5 punti, le carte dall'8 al 10 valgono 10 punti, la matta vale 7 e l'asso vale 15 punti.
+- Viene conteggiato il numero di carte nel mazzo di ciascun giocatore.
+Buona fortuna e buon divertimento!
