@@ -1,13 +1,9 @@
 package com.spacca.controller;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.Authenticator;
-import java.net.PasswordAuthentication;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 import com.spacca.App;
@@ -24,9 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -58,8 +52,6 @@ public class RegistrazioneController implements Initializable {
     private PasswordField passwordField;
     @FXML
     private DatePicker data;
-    @FXML
-    private RadioButton inviamail;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -105,9 +97,6 @@ public class RegistrazioneController implements Initializable {
             // Fai qualcosa se tutte le condizioni sono vere
             if (controlloData & controlloEmail & controlloPassword & controlloUsername) {
                 giocatoreHandler.salva(utente, utente.getUsername());
-                if (inviamail.isSelected()) {
-                    sendMail(utente);
-                }
                 if (username.equals("admin")) {
                     App.setRoot("benvenutoAdmin");
                 } else {
@@ -119,71 +108,6 @@ public class RegistrazioneController implements Initializable {
             System.out.println("Errore (Login controller): \n" + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    private void sendMail(Giocatore utente) {
-        // invio mail all'utente
-private void sendMail(Giocatore utenteRegistrato) {
-        // Configura le proprietà per la connessione al server SMTP di Gmail
-        Properties properties = new Properties();
-        properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.port", "587");
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
-
-        // Autenticazione con il server SMTP di Gmail
-        Authenticator authenticator = new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("tuo_indirizzo_gmail@gmail.com", "tua_password_gmail");
-            }
-        };
-
-        // Creazione di una sessione per l'invio della mail
-        Session session = Session.getInstance(properties, authenticator);
-
-        try {
-            // Creazione del messaggio
-            String oggetto = "Benvenuto " + utenteRegistrato.getUsername() + "! \n";
-
-            // Creazione del corpo del messaggio
-            MimeMultipart contenutoMultipart = new MimeMultipart("related");
-
-            // Testo del messaggio
-            MimeBodyPart testoParte = new MimeBodyPart();
-            String testoMessaggio = "Grazie per esserti registrato in spacca. \n\nBuon divertimento e spacca!\n\nUn saluto cordiale;\nIlaria e Simone";
-            testoParte.setText(testoMessaggio);
-            contenutoMultipart.addBodyPart(testoParte);
-
-            // Immagine del logo
-            MimeBodyPart immagineParte = new MimeBodyPart();
-
-            Image logoImage = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.png"), 100, 100, true,
-            true);;
-            
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            javax.imageio.ImageIO.write(SwingFXUtils.fromFXImage(logoImage, null), "png", byteArrayOutputStream);
-            byte[] imageData = byteArrayOutputStream.toByteArray();
-            immagineParte.setDataHandler(new DataHandler(new ByteArrayDataSource(imageData, "image/png")));
-            immagineParte.setHeader("Content-ID", "<logo>");
-            immagineParte.setDisposition(MimeBodyPart.INLINE);
-            contenutoMultipart.addBodyPart(immagineParte);
-
-            // Composizione del messaggio
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("tuo_indirizzo_gmail@gmail.com"));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(utenteRegistrato.getEmail()));
-            message.setSubject(oggetto);
-            message.setContent(contenutoMultipart);
-
-            // Invio del messaggio
-            Transport.send(message);
-
-            System.out.println("Email inviata con successo.");
-        } catch (Exception e) {
-            System.err.println("Errore durante l'invio dell'email: " + e.getMessage());
-        }
-    }
     }
 
     public static void changeSceneUtente(String fxmlPath, Object controllerData) {

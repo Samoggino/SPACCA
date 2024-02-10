@@ -68,7 +68,5 @@
             <Font size="10" />
          </font>
       </Label>
-      <RadioButton fx:id="inviamail" layoutX="369.0" layoutY="332.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Invia mail " />
-      <Label layoutX="365.0" layoutY="310.0" prefHeight="17" prefWidth="149" text="Invia mail di conferma " />
-   </children>
+</children>
 </Pane>
