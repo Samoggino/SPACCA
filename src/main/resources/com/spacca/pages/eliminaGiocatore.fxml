@@ -8,7 +8,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="com.spacca.controller.EliminaGiocatoreController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spacca.controller.EliminaGiocatoreController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="105.0" layoutY="48.0" prefHeight="17.0" prefWidth="400.0" textAlignment="CENTER">
          <font>
@@ -26,10 +26,23 @@
       <Button fx:id="indietro" layoutX="191.0" layoutY="306.0" mnemonicParsing="false" onMouseClicked="#handleIndietro" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: orange;" text="Indietro" />
       <Button fx:id="procedi" layoutX="347.0" layoutY="306.0" mnemonicParsing="false" onMouseClicked="#handleProcedi" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: orange;" text="Procedi" />
       <ComboBox fx:id="listaUtenti" layoutX="191.0" layoutY="188.0" prefHeight="25.0" prefWidth="228.0" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="191.0" layoutY="139.0" prefHeight="36.0" prefWidth="228.0" text="Seleziona l'utente da modificare ">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="191.0" layoutY="139.0" prefHeight="36.0" prefWidth="228.0" text="Seleziona l'utente da eliminare">
          <font>
             <Font size="15.0" />
          </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="57.0" prefHeight="17.0" prefWidth="400.0" text="Eliminazione Utente :" textAlignment="CENTER">
+         <font>
+            <Font size="22.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="ORANGE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
       </Label>
    </children>
 </Pane>

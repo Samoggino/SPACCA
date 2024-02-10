@@ -12,6 +12,7 @@ import com.spacca.database.GiocatoreHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
@@ -35,6 +36,7 @@ public class EliminaGiocatoreController implements Initializable {
             List<String> fileNames = new GiocatoreHandler().mostraTutteGliUtenti();
             // Popola il ComboBox con la lista dei nomi dei file
             listaUtenti.getItems().addAll(fileNames);
+            listaUtenti.getItems().remove("admin");
 
             listaUtenti.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 // Salva il valore selezionato nella variabile globale
@@ -45,7 +47,8 @@ public class EliminaGiocatoreController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("");
                 alert.setHeaderText("Al momento non sono presenti giocatori.");
-                alert.setContentText("Non puoi eliminare alcun giocatore.");
+                alert.setContentText(
+                        "Al momento non sono presenti giocatori di conseguenza, \n non è possibile eliminare alcun giocatore.");
                 alert.showAndWait();
                 App.setRoot("benvenutoAdmin");
             }
