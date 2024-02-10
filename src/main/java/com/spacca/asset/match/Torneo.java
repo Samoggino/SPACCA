@@ -52,7 +52,7 @@ public class Torneo extends Object {
 
         provaClassifica = new ArrayList<>(partecipanti.size() + 1);
 
-        aggiornaLeaderboard();
+        // aggiornaLeaderboard();
 
         new TorneoHandler().mkdir(codice);
     }
@@ -127,6 +127,9 @@ public class Torneo extends Object {
 
     public String getLeaderboard() {
 
+        if (leaderboard == null || leaderboard.equals("")) {
+            aggiornaLeaderboard();
+        }
         return this.leaderboard;
     }
 
@@ -256,6 +259,7 @@ public class Torneo extends Object {
                     }
                 }
             }
+
         } catch (IOException e) {
             System.err.println("Errore nella simulazione delle partite: " + e.getMessage());
             e.printStackTrace();

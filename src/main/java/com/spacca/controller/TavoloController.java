@@ -2,8 +2,6 @@ package com.spacca.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.spacca.App;
 import com.spacca.asset.carte.Carta;
@@ -45,40 +43,33 @@ import javafx.util.Duration;
 public class TavoloController {
 
     @FXML
-    public Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane, overlay, tavolo;
+    private Pane currentPlayerPane, playerOnTopPane, playerOnLeftPane, playerOnRightPane, overlay, tavolo;
 
     @FXML
-    TextFlow classificaFlowPane;
+    private TextFlow classificaFlowPane;
 
     @FXML
-    public GridPane piatto;
+    private GridPane piatto;
 
     @FXML
-    public FlowPane playerHand;
+    private FlowPane playerHand;
 
     @FXML
-    public Button eliminaPartitaButton = new Button("Elimina partita");
+    private Button eliminaPartitaButton = new Button("Elimina partita"),
+            goToMenuButton = new Button("Torna al menù"),
+            nuovoTurnoTorneoButton = new Button("Nuovo turno torneo"),
+            classificaTorneoButton = new Button("Classifica torneo");
 
     @FXML
-    public Button goToMenuButton = new Button("Torna al menù");
-
-    @FXML
-    public Button nuovoTurnoTorneoButton = new Button("Nuovo turno torneo");
-
-    @FXML
-    public Button classificaTorneoButton = new Button("Classifica torneo");
-
-    @FXML
-    public Text andTheWinnerIs, risultatoOverlay;
+    private Text andTheWinnerIs, risultatoOverlay;
 
     private Partita partita;
     private Carta cartaDelTavolo, cartaDellaMano;
-    List<AbstractGiocatore> giocatori = new ArrayList<>();
-    String userCorrente;
-    AbstractGiocatore giocatoreCorrente, giocatoreLoggato;
-    boolean isTorneo;
-    int preventLoop = 0;
-    Torneo torneo;
+    private String userCorrente;
+    private AbstractGiocatore giocatoreCorrente, giocatoreLoggato;
+    private boolean isTorneo;
+    private int preventLoop = 0;
+    private Torneo torneo;
 
     public void initController(Partita partita, boolean isTorneo, AbstractGiocatore giocatoreLoggato) {
         try {
@@ -371,7 +362,11 @@ public class TavoloController {
                 if (partita.hasWinner()) {
                     System.out.println("Partita ha già un vincitore");
                     andTheWinnerIs.setText("Il vincitore è: " + partita.vincitore);
-                    nuovoTurnoTorneoButton.setVisible(true);
+                    if (isTorneo) {
+                        nuovoTurnoTorneoButton.setVisible(true);
+                    } else {
+                        eliminaPartitaButton.setVisible(true);
+                    }
                 } else {
                     System.out.println("Partita non ha un vincitore e quindi lo calcolo");
                     andTheWinnerIs.setText(partita.getVincitore());
@@ -407,8 +402,6 @@ public class TavoloController {
             alert.setTitle("Errore");
             alert.setHeaderText("Errore nell'eliminazione della partita");
             alert.setContentText("La partita è già stata eliminata");
-        } finally {
-            eliminaPartitaButton.setVisible(false);
         }
     }
 
@@ -630,11 +623,17 @@ public class TavoloController {
     @FXML
     public void passaTurnoDelTorneo() {
         System.out.println("Partita di un torneo");
-        eliminaPartitaButton.setVisible(false);
         if (!torneo.hasWinner()) {
-            torneo.aggiornaLeaderboard();
+
+            // for (int i = 0; i < torneo.getGiocatoriRimasti().size() / 8 - 1; i++) {
+            // torneo.nuovoTurnoDelTorneo();
+            // }
+
+            // if (torneo.getGiocatoriRimasti().size() < 8) {
+            // torneo.nuovoTurnoDelTorneo();
+            // }
             torneo.nuovoTurnoDelTorneo();
-            torneo.aggiornaLeaderboard();
+
         } else {
             // il torneo ha un vincitore e lo mostro con un alert
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
