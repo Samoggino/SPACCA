@@ -29,7 +29,10 @@ public class App extends Application {
             stage.show();
 
         } catch (IOException e) {
-            System.err.println("ERRORE (app IO exception):\t\t " + e.getMessage());
+            System.err.println("ERRORE IO exception:\t\t " + e.getMessage());
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            System.err.println("ERRORE NullPointerException:\t\t " + e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();

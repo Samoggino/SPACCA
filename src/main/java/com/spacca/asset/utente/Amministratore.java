@@ -21,6 +21,7 @@ import com.spacca.database.TorneoHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -181,6 +182,10 @@ public class Amministratore extends AbstractGiocatore {
 
             Stage currentStage = (Stage) currentScene.getWindow();
 
+            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.png"), 100, 100, true,
+                    true);
+            // Imposta l'icona dell'applicazione
+            currentStage.getIcons().add(icon);
             currentStage.setTitle("Benvenuto Admin ! ");
             currentStage.setScene(new Scene(root));
             currentStage.show();

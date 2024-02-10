@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class BenvenutoUtenteController {
@@ -69,6 +70,10 @@ public class BenvenutoUtenteController {
             Stage currentStage = (Stage) currentScene.getWindow();
             currentStage.setTitle(title);
             currentStage.setScene(new Scene(root));
+            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.png"), 100, 100, true,
+                    true);
+            // Imposta l'icona dell'applicazione
+            currentStage.getIcons().add(icon);
             currentStage.show();
 
         } catch (IOException e) {

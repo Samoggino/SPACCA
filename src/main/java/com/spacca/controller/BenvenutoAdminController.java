@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
@@ -91,6 +92,10 @@ public class BenvenutoAdminController {
 
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
+            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.png"), 100, 100, true,
+                    true);
+            // Imposta l'icona dell'applicazione
+            currentStage.getIcons().add(icon);
             currentStage.setTitle("Elimina Giocatore");
             currentStage.setScene(new Scene(root));
             currentStage.show();
@@ -118,6 +123,10 @@ public class BenvenutoAdminController {
 
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
+            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.png"), 100, 100, true,
+                    true);
+            // Imposta l'icona dell'applicazione
+            currentStage.getIcons().add(icon);
             currentStage.setTitle(titlePages);
             currentStage.setScene(new Scene(root));
             currentStage.show();
@@ -192,6 +201,10 @@ public class BenvenutoAdminController {
 
             Stage currentStage = (Stage) currentScene.getWindow();
             currentStage.setTitle(titlePages);
+            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.png"), 100, 100, true,
+                    true);
+            // Imposta l'icona dell'applicazione
+            currentStage.getIcons().add(icon);
             Scene scene = new Scene(root);
             currentStage.setScene(scene);
             currentStage.show();
@@ -219,6 +232,10 @@ public class BenvenutoAdminController {
 
             Stage currentStage = (Stage) currentScene.getWindow();
             currentStage.setTitle(titlePages);
+            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.png"), 100, 100, true,
+                    true);
+            // Imposta l'icona dell'applicazione
+            currentStage.getIcons().add(icon);
             Scene scene = new Scene(root, 700, 550);
             currentStage.setScene(scene);
             currentStage.show();
@@ -245,6 +262,10 @@ public class BenvenutoAdminController {
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
             currentStage.setTitle(titlePages);
+            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.png"), 100, 100, true,
+                    true);
+            // Imposta l'icona dell'applicazione
+            currentStage.getIcons().add(icon);
             currentStage.setScene(new Scene(root));
             currentStage.show();
 
@@ -270,6 +291,10 @@ public class BenvenutoAdminController {
 
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
+            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.png"), 100, 100, true,
+                    true);
+            // Imposta l'icona dell'applicazione
+            currentStage.getIcons().add(icon);
             currentStage.setTitle(titlePages);
             currentStage.setScene(new Scene(root));
             currentStage.show();
@@ -294,6 +319,10 @@ public class BenvenutoAdminController {
             // Ottieni lo Stage dalla scena corrente
             Stage currentStage = (Stage) currentScene.getWindow();
             currentStage.setTitle(titlePages);
+            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.png"), 100, 100, true,
+                    true);
+            // Imposta l'icona dell'applicazione
+            currentStage.getIcons().add(icon);
             currentStage.setScene(new Scene(root));
             currentStage.show();
 
@@ -315,9 +344,14 @@ public class BenvenutoAdminController {
             ModPartitaController controller = loader.getController();
             loader.setController(controller);
             controller.initController(amministratore);
+
             Stage currentStage = (Stage) currentScene.getWindow();
             currentStage.setTitle("Gioca");
             currentStage.setScene(new Scene(root));
+            Image icon = new Image(getClass().getResourceAsStream("/com/spacca/images/logo/logo.png"), 100, 100, true,
+                    true);
+            // Imposta l'icona dell'applicazione
+            currentStage.getIcons().add(icon);
             currentStage.show();
         } catch (IOException e) {
             e.printStackTrace();
