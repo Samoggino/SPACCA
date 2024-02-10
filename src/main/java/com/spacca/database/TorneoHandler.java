@@ -42,8 +42,6 @@ public class TorneoHandler implements Handler {
             codiceTorneo = "src/main/resources/com/spacca/database/tornei/" + codiceTorneo + "/" + codiceTorneo
                     + ".json";
 
-            /* Implementare creazione partite anche? */
-
             try (JsonWriter writer = new JsonWriter(new FileWriter(codiceTorneo))) {
                 Gson gson = new Gson();
                 gson.toJson(torneo, Torneo.class, writer);
@@ -53,6 +51,7 @@ public class TorneoHandler implements Handler {
                         this.getClass().getName() + "\n" + e.getMessage());
             } catch (FileNotFoundException e) {
                 System.err.println("ERRORE: File non trovato in\n" + "\n" + e.getMessage());
+                e.printStackTrace();
             } catch (IOException e) {
                 System.err.println("ERRORE: Errore durante la scrittura del file JSON in\n" +
                         this.getClass().getName() + "\n" + e.getMessage());
